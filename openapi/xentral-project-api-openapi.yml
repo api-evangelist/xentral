@@ -1,0 +1,930 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Project API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Project
+  description: Project resource.
+paths:
+  /api/v1/projects:
+    get:
+      tags:
+      - Project
+      operationId: Project.list
+      summary: List projects
+      description: Returns a collection of projects
+      parameters:
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - search
+                - id
+                - name
+                - keyName
+                - description
+                - currency
+                - normalTaxRate
+                - reducedTaxRate
+                - storageProcess
+                - pickingProcess
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - exactlyIn
+                - allIn
+                - allNotIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - is
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - name
+                - keyName
+                - description
+                - currency
+                - normalTaxRate
+                - reducedTaxRate
+                - storageProcess
+                - pickingProcess
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        name:
+                          x-description-missing: true
+                          type: string
+                          example: Berlin Project
+                        keyName:
+                          x-description-missing: true
+                          type: string
+                          example: BER_PROJ_001
+                        description:
+                          x-description-missing: true
+                          type: string
+                          example: A project based in Berlin focusing on software development and integration.
+                        currency:
+                          x-description-missing: true
+                          type: string
+                          example: EUR
+                        normalTaxRate:
+                          x-description-missing: true
+                          type: number
+                          format: float
+                          example: 13.3
+                        reducedTaxRate:
+                          x-description-missing: true
+                          type: number
+                          format: float
+                          example: 13.3
+                        storageProcess:
+                          x-description-missing: true
+                          type: string
+                          enum:
+                          - none
+                          - order
+                          - orderPointOfSale
+                          example: order
+                        pickingProcess:
+                          x-description-missing: true
+                          type: string
+                          enum:
+                          - invoiceMail
+                          - shipmentNote
+                          - shipmentNoteScan
+                          - shipmentNoteWarehouse
+                          - shipmentNoteWarehouseScan
+                          - twoLevel
+                          example: invoiceMail
+                        defaultCustomerPaymentMethod:
+                          type: object
+                          nullable: true
+                          description: Default payment method used for customers in this project
+                          example:
+                            id: '13'
+                            type: paypal
+                            designation: Paypal
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            type:
+                              type: string
+                              description: Type of the payment method
+                              example: paypal
+                            designation:
+                              type: string
+                              description: Name of the payment method
+                              example: Paypal
+                        defaultSupplierPaymentMethod:
+                          type: object
+                          nullable: true
+                          description: Default payment method used for suppliers in this project
+                          example:
+                            id: '13'
+                            type: paypal
+                            designation: Paypal
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            type:
+                              type: string
+                              description: Type of the payment method
+                              example: paypal
+                            designation:
+                              type: string
+                              description: Name of the payment method
+                              example: Paypal
+                        defaultShippingMethod:
+                          type: object
+                          nullable: true
+                          description: Default shipping method used for this project
+                          example:
+                            id: '10'
+                            type: Go
+                            designation: GO!
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            type:
+                              type: string
+                              description: Type of the shipping method
+                              example: Go
+                            designation:
+                              type: string
+                              description: Name of the shipping method
+                              example: GO!
+                        freeFields:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - id
+                            - value
+                          example:
+                          - id: '1'
+                            value: test
+                          - id: '2'
+                            value: test1
+                          - id: '3'
+                            value: ''
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              example:
+                data:
+                - id: '91'
+                  name: Standard - 1
+                  keyName: STANDARD1
+                  description: This is a standard project
+                  currency: EUR
+                  normalTaxRate: 19
+                  reducedTaxRate: 7
+                  storageProcess: none
+                  pickingProcess: twoLevel
+                  defaultCustomerPaymentMethod:
+                    id: '13'
+                    type: paypal
+                    designation: Paypal
+                  defaultSupplierPaymentMethod:
+                    id: '13'
+                    type: paypal
+                    designation: Paypal
+                  defaultShippingMethod:
+                    id: '10'
+                    type: Go
+                    designation: GO!
+                  freeFields:
+                  - id: '1'
+                    value: test
+                  - id: '2'
+                    value: test1
+                  - id: '3'
+                    value: ''
+                  - id: '4'
+                    value: ''
+                  - id: '5'
+                    value: ''
+                  - id: '6'
+                    value: ''
+                  - id: '7'
+                    value: test7
+                  - id: '8'
+                    value: ''
+                  - id: '9'
+                    value: ''
+                  - id: '10'
+                    value: ''
+                - id: '92'
+                  name: Standard - 2
+                  keyName: STANDARD2
+                  description: This is a standard project
+                  currency: CH
+                  normalTaxRate: 20
+                  reducedTaxRate: 10
+                  storageProcess: order
+                  pickingProcess: shipmentNote
+                  defaultCustomerPaymentMethod:
+                    id: '13'
+                    type: paypal
+                    designation: Paypal
+                  defaultSupplierPaymentMethod:
+                    id: '13'
+                    type: paypal
+                    designation: Paypal
+                  defaultShippingMethod:
+                    id: '10'
+                    type: Go
+                    designation: GO!
+                  freeFields:
+                  - id: '1'
+                    value: test
+                  - id: '2'
+                    value: test1
+                  - id: '3'
+                    value: ''
+                  - id: '4'
+                    value: ''
+                  - id: '5'
+                    value: ''
+                  - id: '6'
+                    value: ''
+                  - id: '7'
+                    value: test7
+                  - id: '8'
+                    value: ''
+                  - id: '9'
+                    value: ''
+                  - id: '10'
+                    value: ''
+                extra:
+                  totalCount: 2
+                  page:
+                    number: 1
+                    size: 10
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/projects/{id}/posSettings:
+    get:
+      tags:
+      - Project
+      operationId: Project.posSettings
+      summary: List POS settings for project
+      description: Returns a list of POS settings of a project
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      storageProcess:
+                        x-description-missing: true
+                        type: string
+                        example: Automated Storage
+                      adapterBoxId:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      warehouse:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      priceGroup:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      cashRegister:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      defaultCustomer:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      allowAllCustomers:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      allowOnlyProjectItems:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      sumItems:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      discountItems:
+                        x-description-missing: true
+                        type: integer
+                        example: 1
+                      createDeliveryNote:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      label1:
+                        x-description-missing: true
+                        type: string
+                        example: Shipping Label
+                      label2:
+                        x-description-missing: true
+                        type: string
+                        example: Return Label
+                      applyItemDescriptionToReceipts:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      displayNet:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      allowMultipleOrdersPerCashier:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      journalPdfDetailedView:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      hideIndividualBookings:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      monthlyReportsWithoutIndividualDays:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      hideCountingLog:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      hideSignatureBlock:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentBar:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentBarPaid:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentEc:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentEcPaid:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentCreditCard:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentCreditCardPaid:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentTransfer:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonPaymentTransferPaid:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonInvoice:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonReceipt:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonDiscountPercent:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonDiscountEuro:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonWithdrawal:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonDeposit:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonTipping:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonTippingCredit:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonOpenDrawer:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonLoadReceipts:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      buttonCancellation:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      cashierAutologout:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      cashierAutologoutAfterPaymenet:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      extendedAddressFields:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      compulsorySelectionPaymentMethod:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      preselectionOfSalutation:
+                        x-description-missing: true
+                        type: string
+                        example: Mr.
+                      printerReceiptAfterCompletion:
+                        x-description-missing: true
+                        type: string
+                        example: Print receipt after transaction completion
+                      printerId:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerNumberOfDeliveryNotes:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerNumberOfInvoices:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerNumberOfCreditNotes:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerNumberOfDeliveryNoteDuplicates:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerPrintReceiptWithInvoice:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      printerPrintQr:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      printerReceiptActive:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      printerReceiptCount:
+                        x-description-missing: true
+                        type: integer
+                        example: 5
+                      printerReceiptLine1:
+                        x-description-missing: true
+                        type: string
+                        example: Thank you for your purchase!
+                      printerReceiptLine2:
+                        x-description-missing: true
+                        type: string
+                        example: Please come again.
+                      printerReceiptLine3:
+                        x-description-missing: true
+                        type: string
+                        example: Please come again.
+                      printerReceiptFreeField:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      printerReceiptQr:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      ownVatId:
+                        x-description-missing: true
+                        type: string
+                        format: float
+                        nullable: true
+                        example: VAT12345678
+                    example:
+                      storageProcess: Automated Storage
+                      adapterBoxId: 5
+                      warehouse: 5
+                      priceGroup: 5
+                      cashRegister: 5
+                      defaultCustomer: 5
+                      allowAllCustomers: true
+                      allowOnlyProjectItems: true
+                      sumItems: true
+                      discountItems: 1
+                      createDeliveryNote: true
+                      label1: Shipping Label
+                      label2: Return Label
+                      applyItemDescriptionToReceipts: true
+                      displayNet: true
+                      allowMultipleOrdersPerCashier: true
+                      journalPdfDetailedView: true
+                      hideIndividualBookings: true
+                      monthlyReportsWithoutIndividualDays: true
+                      hideCountingLog: true
+                      hideSignatureBlock: true
+                      buttonPaymentBar: true
+                      buttonPaymentBarPaid: true
+                      buttonPaymentEc: true
+                      buttonPaymentEcPaid: true
+                      buttonPaymentCreditCard: true
+                      buttonPaymentCreditCardPaid: true
+                      buttonPaymentTransfer: true
+                      buttonPaymentTransferPaid: true
+                      buttonInvoice: true
+                      buttonReceipt: true
+                      buttonDiscountPercent: true
+                      buttonDiscountEuro: true
+                      buttonWithdrawal: true
+                      buttonDeposit: true
+                      buttonTipping: true
+                      buttonTippingCredit: true
+                      buttonOpenDrawer: true
+                      buttonLoadReceipts: true
+                      buttonCancellation: true
+                      cashierAutologout: 5
+                      cashierAutologoutAfterPaymenet: 5
+                      extendedAddressFields: true
+                      compulsorySelectionPaymentMethod: true
+                      preselectionOfSalutation: Mr.
+                      printerReceiptAfterCompletion: Print receipt after transaction completion
+                      printerId: 5
+                      printerNumberOfDeliveryNotes: 5
+                      printerNumberOfInvoices: 5
+                      printerNumberOfCreditNotes: 5
+                      printerNumberOfDeliveryNoteDuplicates: 5
+                      printerPrintReceiptWithInvoice: true
+                      printerPrintQr: true
+                      printerReceiptActive: true
+                      printerReceiptCount: 5
+                      printerReceiptLine1: Thank you for your purchase!
+                      printerReceiptLine2: Please come again.
+                      printerReceiptLine3: Please come again.
+                      printerReceiptFreeField: true
+                      printerReceiptQr: true
+                      ownVatId: VAT12345678
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

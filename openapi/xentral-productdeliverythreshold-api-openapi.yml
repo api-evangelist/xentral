@@ -1,0 +1,179 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account ProductDeliveryThreshold API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: ProductDeliveryThreshold
+  description: ProductDeliveryThreshold
+paths:
+  /api/v3/products/{productId}/deliveryThresholds:
+    post:
+      tags:
+      - ProductDeliveryThreshold
+      summary: Create product delivery threshold V3
+      description: 'This endpoint requires the following scopes: `deliveryThreshold:create`.
+
+
+        Create a product delivery threshold.'
+      operationId: POST::api-v3-products-productid-deliverythresholds
+      parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Data for creating a new product delivery threshold
+              required:
+              - recipientCountry
+              - taxRate
+              properties:
+                recipientCountry:
+                  description: Recipient country code in ISO 3166-1 alpha-2 format (uppercase)
+                  type: string
+                  maxLength: 2
+                  pattern: ^[A-Z]{2}$
+                  example: AT
+                taxRate:
+                  description: Tax rate to be applied for this product and country
+                  type: number
+                  format: float
+                  minimum: 0
+                  example: 7.02
+                comment:
+                  description: Optional comment or note about the threshold
+                  type: string
+                  maxLength: 255
+                  example: Special tax rate for Austria
+                revenueAccount:
+                  description: Optional revenue account code to be used for this threshold
+                  type: string
+                  maxLength: 11
+                  example: ABC123
+                active:
+                  description: Whether the threshold is active. Defaults to false.
+                  type: boolean
+                  default: false
+                  example: true
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          description: Create a product delivery threshold.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Product delivery threshold rule
+                    required:
+                    - id
+                    - recipientCountry
+                    - taxRate
+                    - active
+                    properties:
+                      id:
+                        description: The unique identifier of the product delivery threshold rule
+                        type: string
+                        example: '1'
+                      recipientCountry:
+                        description: Recipient country code in ISO 3166-1 alpha-2 format
+                        type: string
+                        example: AT
+                      taxRate:
+                        description: Tax rate for this product and country combination
+                        type: number
+                        format: float
+                        example: 7.02
+                      comment:
+                        description: Optional comment about the threshold rule
+                        type:
+                        - string
+                        - 'null'
+                        example: Special tax rate for Austria
+                      revenueAccount:
+                        description: Optional revenue account code
+                        type:
+                        - string
+                        - 'null'
+                        example: ABC123
+                      active:
+                        description: Whether the threshold rule is active
+                        type: boolean
+                        example: true
+                    type: object
+                    additionalProperties: false
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      recipientCountry:
+                      - The recipient country field is required.
+                      taxRate:
+                      - The tax rate field is required.
+                      comment:
+                      - The comment field must be a string.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - deliveryThreshold:create
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

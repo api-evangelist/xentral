@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account ServiceOrder API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: ServiceOrder
+  description: ServiceOrder
+paths:
+  /api/v3/serviceOrders/{id}/files:
+    post:
+      tags:
+      - ServiceOrder
+      summary: Attach file to service order V3
+      description: 'This endpoint requires the following scopes: `serviceOrder:update`.
+
+
+        Attach a file to a service order.'
+      operationId: POST::api-v3-serviceorders-id-files
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - keyword
+              - fileName
+              - fileContent
+              properties:
+                title:
+                  description: Title of the file
+                  type: string
+                  example: Supporting document
+                description:
+                  description: Description of the file
+                  type: string
+                  example: Additional documentation
+                keyword:
+                  description: Document keyword/type
+                  type: string
+                  enum:
+                  - otherFile
+                  - coverPage
+                  - attachment
+                  - eInvoice
+                  - receipt
+                  - paymentReceipt
+                  example: otherFile
+                fileName:
+                  description: Name of the file
+                  type: string
+                  example: document.txt
+                fileContent:
+                  description: Base64 encoded file content
+                  type: string
+                  example: c2FtcGxlIGNvbnRlbnQ=
+              type: object
+      responses:
+        '201':
+          description: Attach a file to a service order.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: File attached to a business object
+                    properties:
+                      id:
+                        description: File ID
+                        type: integer
+                        example: 123
+                    type: object
+                    example:
+                      id: 123
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      title:
+                      - The title field must be a string.
+                      description:
+                      - The description field must be a string.
+                      keyword:
+                      - The keyword field is required.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - serviceOrder:update
+  /api/v3/serviceOrders/{id}/files/{fileId}:
+    delete:
+      tags:
+      - ServiceOrder
+      summary: Delete file from service order V3
+      description: 'This endpoint requires the following scopes: `serviceOrder:update`.
+
+
+        Delete a file attached to a service order.'
+      operationId: DELETE::api-v3-serviceorders-id-files-fileid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - serviceOrder:update
+    patch:
+      tags:
+      - ServiceOrder
+      summary: Update file on service order V3
+      description: 'This endpoint requires the following scopes: `serviceOrder:update`.
+
+
+        Update a file attached to a service order.'
+      operationId: PATCH::api-v3-serviceorders-id-files-fileid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  description: Title of the file
+                  type: string
+                  example: Supporting document
+                description:
+                  description: Description of the file
+                  type: string
+                  example: Additional documentation
+                keyword:
+                  description: Document keyword/type
+                  type: string
+                  enum:
+                  - otherFile
+                  - coverPage
+                  - attachment
+                  - eInvoice
+                  - receipt
+                  - paymentReceipt
+                  example: otherFile
+                sort:
+                  description: Sorting of the file
+                  type: integer
+                  example: 1
+              type: object
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      title:
+                      - The title field must be a string.
+                      description:
+                      - The description field must be a string.
+                      keyword:
+                      - The selected keyword is invalid.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - serviceOrder:update
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

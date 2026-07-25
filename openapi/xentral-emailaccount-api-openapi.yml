@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account EmailAccount API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: EmailAccount
+  description: EmailAccount
+paths:
+  /api/v3/emailAccounts/{id}/actions/sendEmail:
+    patch:
+      tags:
+      - EmailAccount
+      summary: Send email via email account V3
+      description: 'This endpoint requires the following scopes: `mailAcct:sendEmail`.
+
+
+        Send an email using an existing email account. Attachments are base64-encoded with a max size of 10MB each (25MB total).'
+      operationId: PATCH::api-v3-emailaccounts-id-actions-sendemail
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - to
+              - subject
+              - body
+              properties:
+                to:
+                  description: Recipient email address.
+                  type: string
+                  example: recipient@example.com
+                name:
+                  description: Recipient name.
+                  type: string
+                  example: John Doe
+                cc:
+                  description: List of CC email addresses.
+                  type: array
+                  items:
+                    type: string
+                bcc:
+                  description: List of BCC email addresses.
+                  type: array
+                  items:
+                    type: string
+                subject:
+                  description: Subject of the email.
+                  type: string
+                  example: Hello from Xentral
+                body:
+                  description: Email body content. Can contain HTML.
+                  type: string
+                addSignature:
+                  description: Whether to automatically append the signature from email account, project settings, or company settings.
+                  type: boolean
+                  example: false
+                attachments:
+                  description: List of file attachments. Each attachment is base64-encoded. Max 10MB per attachment, 25MB total.
+                  type: array
+                  items:
+                    required:
+                    - fileName
+                    - fileContent
+                    properties:
+                      fileName:
+                        description: File name of the attachment.
+                        type: string
+                        example: document.pdf
+                      fileContent:
+                        description: Base64-encoded file content. Max 10MB after decoding.
+                        type: string
+                    type: object
+                    additionalProperties: false
+              type: object
+              additionalProperties: false
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      to:
+                      - The to field is required.
+                      name:
+                      - The name field must be a string.
+                      cc:
+                      - The cc field must be an array.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - mailAcct:sendEmail
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

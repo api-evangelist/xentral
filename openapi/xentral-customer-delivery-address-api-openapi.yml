@@ -1,0 +1,1445 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Customer Delivery Address API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Customer Delivery Address
+  description: Customer Delivery Address
+paths:
+  /api/v3/customers/{customerId}/deliveryAddresses:
+    get:
+      tags:
+      - Customer Delivery Address
+      summary: 🔒 Paginated list of delivery addresses for a customer V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `customer:read`.
+
+
+        Paginated list of delivery addresses for a customer.'
+      operationId: GET::api-v3-customers-customerid-deliveryaddresses
+      parameters:
+      - name: filter
+        in: query
+        description: "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+        required: false
+        style: deepObject
+        schema:
+          type: array
+          items:
+            properties:
+              key:
+                type: string
+                enum:
+                - deliveryAddress.name
+                - deliveryAddress.title
+                - deliveryAddress.contactPerson
+                - deliveryAddress.department
+                - deliveryAddress.subDepartment
+                - deliveryAddress.addressSupplement
+                - deliveryAddress.street
+                - deliveryAddress.zipCode
+                - deliveryAddress.city
+                - deliveryAddress.state
+                - deliveryAddress.country
+                - deliveryAddress.gln
+                - deliveryAddress.email
+                - deliveryAddress.phone
+                - deliveryAddress.fax
+                - taxType
+                - defaultDeliveryAddress
+                - termsOfDelivery
+                - vatId
+                - remark
+                - note
+                - id
+              op:
+                description: operator
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+              value:
+                description: The property value.
+                oneOf:
+                - title: String
+                  type: string
+                - title: Array
+                  type: array
+                  items:
+                    type: string
+            type: object
+            additionalProperties: false
+      - name: sort
+        in: query
+        description: Sort via id, -id, name, -name, city, -city, country, -country, zipCode and -zipCode. Default sort is -created_at
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - id
+            - -id
+            - name
+            - -name
+            - city
+            - -city
+            - country
+            - -country
+            - zipCode
+            - -zipCode
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: perPage
+        in: query
+        description: 'Number of items per page. Default: 15, Max: 100'
+        required: false
+        schema:
+          type: integer
+          example: 15
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        '200':
+          description: Paginated list of delivery addresses for a customer.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: Delivery address entity
+                      required:
+                      - id
+                      - type
+                      - name
+                      - street
+                      - zipCode
+                      - city
+                      - country
+                      - deliveryDetails
+                      properties:
+                        id:
+                          description: Unique identifier for the delivery address
+                          type: string
+                          example: '1'
+                        type:
+                          description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - company
+                          - mrs
+                          - mr
+                          - other
+                          example: company
+                        name:
+                          description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                          type: string
+                          example: Acme Logistics Hub Berlin
+                        title:
+                          description: Title of the contact person.
+                          type:
+                          - string
+                          - 'null'
+                          example: Dr.
+                        contactPerson:
+                          description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                          type:
+                          - string
+                          - 'null'
+                          example: Marco Schmidt
+                        salutation:
+                          description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                          type:
+                          - string
+                          - 'null'
+                          example: Hallo Logistics Team
+                        department:
+                          description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                          type:
+                          - string
+                          - 'null'
+                          example: Logistics
+                        subDepartment:
+                          description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                          type:
+                          - string
+                          - 'null'
+                          example: Distribution Center
+                        addressSupplement:
+                          description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                          type:
+                          - string
+                          - 'null'
+                          example: Hall B
+                        street:
+                          description: Street name and house number of the delivery address
+                          type: string
+                          example: Lagerweg 22
+                        zipCode:
+                          description: Postal code (ZIP code) of the delivery address
+                          type: string
+                          example: '10437'
+                        city:
+                          description: City name of the delivery address
+                          type: string
+                          example: Berlin
+                        state:
+                          description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                          type:
+                          - string
+                          - 'null'
+                          example: BE
+                        country:
+                          description: Country code in ISO 3166-1 alpha-2 format
+                          type: string
+                          example: DE
+                        gln:
+                          description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                          type:
+                          - string
+                          - 'null'
+                          pattern: ^[0-9]{13}$
+                          example: '4012345000300'
+                        phone:
+                          description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                          type:
+                          - string
+                          - 'null'
+                          example: '+491231234567'
+                        mobile:
+                          description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                          type:
+                          - string
+                          - 'null'
+                          example: '+49170123456'
+                        fax:
+                          description: Fax number for the delivery address. Still used by some organizations for official communications.
+                          type:
+                          - string
+                          - 'null'
+                          example: +491231234567-1
+                        email:
+                          description: Email address for delivery notifications and communication
+                          type:
+                          - string
+                          - 'null'
+                          format: email
+                          example: name@provider.com
+                        deliveryDetails:
+                          description: Delivery-specific settings and information for the address
+                          properties:
+                            taxType:
+                              description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                              type: string
+                              enum:
+                              - domestic
+                              - eu
+                              - export
+                              - exempt
+                              example: domestic
+                            defaultDeliveryAddress:
+                              description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                              type: boolean
+                              example: true
+                            termsOfDelivery:
+                              description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                              type:
+                              - string
+                              - 'null'
+                              example: EXW
+                            vatId:
+                              description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                              type:
+                              - string
+                              - 'null'
+                              example: DE123456789
+                            remark:
+                              description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                              type:
+                              - string
+                              - 'null'
+                              example: Main Berlin hub open 06:00 to 22:00
+                            note:
+                              description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                              type:
+                              - string
+                              - 'null'
+                              example: Deliveries after 10am only
+                          type: object
+                          example:
+                            taxType: domestic
+                            defaultDeliveryAddress: true
+                            termsOfDelivery: EXW
+                            vatId: DE123456789
+                            remark: Main Berlin hub open 06:00 to 22:00
+                            note: Deliveries after 10am only
+                      type: object
+                      x-example-ignore: true
+                    x-description-ignore: true
+                    x-example-ignore: true
+                  meta:
+                    description: Pagination meta data
+                    properties:
+                      currentPage:
+                        description: The current page number
+                        type: integer
+                        example: 1
+                      from:
+                        description: The first item being returned in the current page
+                        type: integer
+                        example: 1
+                        nullable: true
+                      path:
+                        description: The base path for the paginated results
+                        type: string
+                        example: https://api.example.com/items
+                      perPage:
+                        description: The number of items shown per page
+                        type: integer
+                        example: 15
+                      to:
+                        description: The last item being returned in the current page
+                        type: integer
+                        example: 15
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                  links:
+                    description: Pagination links
+                    properties:
+                      first:
+                        description: URL to the first page
+                        type: string
+                        example: https://api.example.com/items?page=1
+                        nullable: true
+                      last:
+                        description: URL to the last page
+                        type: string
+                        example: null
+                        nullable: true
+                      prev:
+                        description: URL to the previous page
+                        type: string
+                        example: null
+                        nullable: true
+                      next:
+                        description: URL to the next page
+                        type: string
+                        example: https://api.example.com/items?page=17
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - customer:read
+    post:
+      tags:
+      - Customer Delivery Address
+      summary: 🔒 Create delivery address V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `customer:update`.
+
+
+        Create a new delivery address for a customer.'
+      operationId: POST::api-v3-customers-customerid-deliveryaddresses
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Data for creating a new delivery address
+              required:
+              - name
+              - street
+              - zipCode
+              - city
+              - country
+              properties:
+                type:
+                  description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                  type: string
+                  enum:
+                  - mrs
+                  - mr
+                  - company
+                  - other
+                  example: company
+                name:
+                  description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                  type: string
+                  example: Acme Logistics Hub Berlin
+                title:
+                  description: Title of the contact person.
+                  type: string
+                  example: Dr.
+                contactPerson:
+                  description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                  type: string
+                  example: Marco Schmidt
+                salutation:
+                  description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                  type: string
+                  example: Hallo Logistics Team
+                department:
+                  description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                  type: string
+                  example: Logistics
+                subDepartment:
+                  description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                  type: string
+                  example: Distribution Center
+                street:
+                  description: Street name and house number of the delivery address
+                  type: string
+                  example: Lagerweg 22
+                addressSupplement:
+                  description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                  type: string
+                  example: Hall B
+                zipCode:
+                  description: Postal code (ZIP code) of the delivery address
+                  type: string
+                  example: '10437'
+                city:
+                  description: City name of the delivery address
+                  type: string
+                  example: Berlin
+                state:
+                  description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                  type: string
+                  example: BE
+                country:
+                  description: Country code in ISO 3166-1 alpha-2 format
+                  type: string
+                  example: DE
+                gln:
+                  description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                  type: string
+                  pattern: ^[0-9]{13}$
+                  example: '4012345000300'
+                phone:
+                  description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                  type: string
+                  example: '+491231234567'
+                mobile:
+                  description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                  type: string
+                  example: '+49170123456'
+                fax:
+                  description: Fax number for the delivery address. Still used by some organizations for official communications.
+                  type: string
+                  example: +491231234567-1
+                email:
+                  description: Email address for delivery notifications and communication
+                  type: string
+                  format: email
+                  example: name@provider.com
+                deliveryDetails:
+                  description: Delivery-specific settings and information for the address
+                  properties:
+                    taxType:
+                      description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                      type: string
+                      default: domestic
+                      enum:
+                      - domestic
+                      - eu
+                      - export
+                      - exempt
+                      example: domestic
+                    defaultDeliveryAddress:
+                      description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                      type: boolean
+                      example: false
+                    termsOfDelivery:
+                      description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                      type:
+                      - string
+                      - 'null'
+                      example: EXW
+                    vatId:
+                      description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                      type:
+                      - string
+                      - 'null'
+                      example: DE123456789
+                    remark:
+                      description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                      type:
+                      - string
+                      - 'null'
+                      example: Main Berlin hub open 06:00 to 22:00
+                    note:
+                      description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                      type:
+                      - string
+                      - 'null'
+                      example: Deliveries after 10am only
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          description: Create a new delivery address for a customer.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Delivery address entity
+                    required:
+                    - id
+                    - type
+                    - name
+                    - street
+                    - zipCode
+                    - city
+                    - country
+                    - deliveryDetails
+                    properties:
+                      id:
+                        description: Unique identifier for the delivery address
+                        type: string
+                        example: '1'
+                      type:
+                        description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                        type:
+                        - string
+                        - 'null'
+                        enum:
+                        - company
+                        - mrs
+                        - mr
+                        - other
+                        example: company
+                      name:
+                        description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                        type: string
+                        example: Acme Logistics Hub Berlin
+                      title:
+                        description: Title of the contact person.
+                        type:
+                        - string
+                        - 'null'
+                        example: Dr.
+                      contactPerson:
+                        description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                        type:
+                        - string
+                        - 'null'
+                        example: Marco Schmidt
+                      salutation:
+                        description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: Hallo Logistics Team
+                      department:
+                        description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Logistics
+                      subDepartment:
+                        description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Distribution Center
+                      addressSupplement:
+                        description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                        type:
+                        - string
+                        - 'null'
+                        example: Hall B
+                      street:
+                        description: Street name and house number of the delivery address
+                        type: string
+                        example: Lagerweg 22
+                      zipCode:
+                        description: Postal code (ZIP code) of the delivery address
+                        type: string
+                        example: '10437'
+                      city:
+                        description: City name of the delivery address
+                        type: string
+                        example: Berlin
+                      state:
+                        description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                        type:
+                        - string
+                        - 'null'
+                        example: BE
+                      country:
+                        description: Country code in ISO 3166-1 alpha-2 format
+                        type: string
+                        example: DE
+                      gln:
+                        description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^[0-9]{13}$
+                        example: '4012345000300'
+                      phone:
+                        description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+491231234567'
+                      mobile:
+                        description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+49170123456'
+                      fax:
+                        description: Fax number for the delivery address. Still used by some organizations for official communications.
+                        type:
+                        - string
+                        - 'null'
+                        example: +491231234567-1
+                      email:
+                        description: Email address for delivery notifications and communication
+                        type:
+                        - string
+                        - 'null'
+                        format: email
+                        example: name@provider.com
+                      deliveryDetails:
+                        description: Delivery-specific settings and information for the address
+                        properties:
+                          taxType:
+                            description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                            type: string
+                            enum:
+                            - domestic
+                            - eu
+                            - export
+                            - exempt
+                            example: domestic
+                          defaultDeliveryAddress:
+                            description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                            type: boolean
+                            example: true
+                          termsOfDelivery:
+                            description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                            type:
+                            - string
+                            - 'null'
+                            example: EXW
+                          vatId:
+                            description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                            type:
+                            - string
+                            - 'null'
+                            example: DE123456789
+                          remark:
+                            description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                            type:
+                            - string
+                            - 'null'
+                            example: Main Berlin hub open 06:00 to 22:00
+                          note:
+                            description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                            type:
+                            - string
+                            - 'null'
+                            example: Deliveries after 10am only
+                        type: object
+                        example:
+                          taxType: domestic
+                          defaultDeliveryAddress: true
+                          termsOfDelivery: EXW
+                          vatId: DE123456789
+                          remark: Main Berlin hub open 06:00 to 22:00
+                          note: Deliveries after 10am only
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      type:
+                      - The selected type is invalid.
+                      name:
+                      - The name field is required.
+                      title:
+                      - The title field must be a string.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - customer:update
+  /api/v3/customers/{customerId}/deliveryAddresses/{deliveryAddressId}:
+    get:
+      tags:
+      - Customer Delivery Address
+      summary: 🔒 View delivery address V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `customer:read`.
+
+
+        View a single delivery address for a customer.'
+      operationId: GET::api-v3-customers-customerid-deliveryaddresses-deliveryaddressid
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deliveryAddressId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: View a single delivery address for a customer.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Delivery address entity
+                    required:
+                    - id
+                    - type
+                    - name
+                    - street
+                    - zipCode
+                    - city
+                    - country
+                    - deliveryDetails
+                    properties:
+                      id:
+                        description: Unique identifier for the delivery address
+                        type: string
+                        example: '1'
+                      type:
+                        description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                        type:
+                        - string
+                        - 'null'
+                        enum:
+                        - company
+                        - mrs
+                        - mr
+                        - other
+                        example: company
+                      name:
+                        description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                        type: string
+                        example: Acme Logistics Hub Berlin
+                      title:
+                        description: Title of the contact person.
+                        type:
+                        - string
+                        - 'null'
+                        example: Dr.
+                      contactPerson:
+                        description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                        type:
+                        - string
+                        - 'null'
+                        example: Marco Schmidt
+                      salutation:
+                        description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: Hallo Logistics Team
+                      department:
+                        description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Logistics
+                      subDepartment:
+                        description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Distribution Center
+                      addressSupplement:
+                        description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                        type:
+                        - string
+                        - 'null'
+                        example: Hall B
+                      street:
+                        description: Street name and house number of the delivery address
+                        type: string
+                        example: Lagerweg 22
+                      zipCode:
+                        description: Postal code (ZIP code) of the delivery address
+                        type: string
+                        example: '10437'
+                      city:
+                        description: City name of the delivery address
+                        type: string
+                        example: Berlin
+                      state:
+                        description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                        type:
+                        - string
+                        - 'null'
+                        example: BE
+                      country:
+                        description: Country code in ISO 3166-1 alpha-2 format
+                        type: string
+                        example: DE
+                      gln:
+                        description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^[0-9]{13}$
+                        example: '4012345000300'
+                      phone:
+                        description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+491231234567'
+                      mobile:
+                        description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+49170123456'
+                      fax:
+                        description: Fax number for the delivery address. Still used by some organizations for official communications.
+                        type:
+                        - string
+                        - 'null'
+                        example: +491231234567-1
+                      email:
+                        description: Email address for delivery notifications and communication
+                        type:
+                        - string
+                        - 'null'
+                        format: email
+                        example: name@provider.com
+                      deliveryDetails:
+                        description: Delivery-specific settings and information for the address
+                        properties:
+                          taxType:
+                            description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                            type: string
+                            enum:
+                            - domestic
+                            - eu
+                            - export
+                            - exempt
+                            example: domestic
+                          defaultDeliveryAddress:
+                            description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                            type: boolean
+                            example: true
+                          termsOfDelivery:
+                            description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                            type:
+                            - string
+                            - 'null'
+                            example: EXW
+                          vatId:
+                            description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                            type:
+                            - string
+                            - 'null'
+                            example: DE123456789
+                          remark:
+                            description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                            type:
+                            - string
+                            - 'null'
+                            example: Main Berlin hub open 06:00 to 22:00
+                          note:
+                            description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                            type:
+                            - string
+                            - 'null'
+                            example: Deliveries after 10am only
+                        type: object
+                        example:
+                          taxType: domestic
+                          defaultDeliveryAddress: true
+                          termsOfDelivery: EXW
+                          vatId: DE123456789
+                          remark: Main Berlin hub open 06:00 to 22:00
+                          note: Deliveries after 10am only
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - customer:read
+    delete:
+      tags:
+      - Customer Delivery Address
+      summary: 🔒 Delete delivery address V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `customer:update`.
+
+
+        Delete a delivery address for a customer.'
+      operationId: DELETE::api-v3-customers-customerid-deliveryaddresses-deliveryaddressid
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deliveryAddressId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - customer:update
+    patch:
+      tags:
+      - Customer Delivery Address
+      summary: 🔒 Update delivery address V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `customer:update`.
+
+
+        Update an existing delivery address for a customer.'
+      operationId: PATCH::api-v3-customers-customerid-deliveryaddresses-deliveryaddressid
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: deliveryAddressId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Data for updating an existing delivery address
+              properties:
+                type:
+                  description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                  type: string
+                  enum:
+                  - mrs
+                  - mr
+                  - company
+                  - other
+                  example: company
+                name:
+                  description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                  type: string
+                  example: Acme Logistics Hub Berlin
+                title:
+                  description: Title of the contact person.
+                  type:
+                  - string
+                  - 'null'
+                  example: Dr.
+                contactPerson:
+                  description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                  type:
+                  - string
+                  - 'null'
+                  example: Marco Schmidt
+                salutation:
+                  description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                  type:
+                  - string
+                  - 'null'
+                  example: Hallo Logistics Team
+                department:
+                  description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                  type:
+                  - string
+                  - 'null'
+                  example: Logistics
+                subDepartment:
+                  description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                  type:
+                  - string
+                  - 'null'
+                  example: Distribution Center
+                street:
+                  description: Street name and house number of the delivery address
+                  type: string
+                  example: Lagerweg 22
+                addressSupplement:
+                  description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                  type:
+                  - string
+                  - 'null'
+                  example: Hall B
+                zipCode:
+                  description: Postal code (ZIP code) of the delivery address
+                  type: string
+                  example: '10437'
+                city:
+                  description: City name of the delivery address
+                  type: string
+                  example: Berlin
+                state:
+                  description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                  type:
+                  - string
+                  - 'null'
+                  example: BE
+                country:
+                  description: Country code in ISO 3166-1 alpha-2 format
+                  type: string
+                  example: DE
+                gln:
+                  description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                  type:
+                  - string
+                  - 'null'
+                  pattern: ^[0-9]{13}$
+                  example: '4012345000300'
+                phone:
+                  description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                  type:
+                  - string
+                  - 'null'
+                  example: '+491231234567'
+                mobile:
+                  description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                  type:
+                  - string
+                  - 'null'
+                  example: '+49170123456'
+                fax:
+                  description: Fax number for the delivery address. Still used by some organizations for official communications.
+                  type:
+                  - string
+                  - 'null'
+                  example: +491231234567-1
+                email:
+                  description: Email address for delivery notifications and communication
+                  type:
+                  - string
+                  - 'null'
+                  format: email
+                  example: name@provider.com
+                deliveryDetails:
+                  description: Delivery-specific settings and information for the address
+                  properties:
+                    taxType:
+                      description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                      type: string
+                      default: domestic
+                      enum:
+                      - domestic
+                      - eu
+                      - export
+                      - exempt
+                      example: domestic
+                    defaultDeliveryAddress:
+                      description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                      type: boolean
+                      example: false
+                    termsOfDelivery:
+                      description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                      type:
+                      - string
+                      - 'null'
+                      example: EXW
+                    vatId:
+                      description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                      type:
+                      - string
+                      - 'null'
+                      example: DE123456789
+                    remark:
+                      description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                      type:
+                      - string
+                      - 'null'
+                      example: Main Berlin hub open 06:00 to 22:00
+                    note:
+                      description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                      type:
+                      - string
+                      - 'null'
+                      example: Deliveries after 10am only
+                  type: object
+                  additionalProperties: false
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          description: Update an existing delivery address for a customer.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Delivery address entity
+                    required:
+                    - id
+                    - type
+                    - name
+                    - street
+                    - zipCode
+                    - city
+                    - country
+                    - deliveryDetails
+                    properties:
+                      id:
+                        description: Unique identifier for the delivery address
+                        type: string
+                        example: '1'
+                      type:
+                        description: Type of the delivery address recipient. Use 'company' for business addresses, 'mrs' for female recipients, 'mr' for male recipients, and 'other' for other types.
+                        type:
+                        - string
+                        - 'null'
+                        enum:
+                        - company
+                        - mrs
+                        - mr
+                        - other
+                        example: company
+                      name:
+                        description: Full name of the delivery address recipient. For companies, this is the company name. For persons, this is the full name.
+                        type: string
+                        example: Acme Logistics Hub Berlin
+                      title:
+                        description: Title of the contact person.
+                        type:
+                        - string
+                        - 'null'
+                        example: Dr.
+                      contactPerson:
+                        description: Name of the contact person at this delivery address. This is typically used for company addresses to specify who should receive the delivery.
+                        type:
+                        - string
+                        - 'null'
+                        example: Marco Schmidt
+                      salutation:
+                        description: Salutation or greeting phrase for the delivery address. Can be used for personalized communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: Hallo Logistics Team
+                      department:
+                        description: Department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Logistics
+                      subDepartment:
+                        description: Sub department name at the delivery address. Useful for routing deliveries within larger organizations.
+                        type:
+                        - string
+                        - 'null'
+                        example: Distribution Center
+                      addressSupplement:
+                        description: Additional address information such as building name, floor, hall, or specific delivery instructions for the location
+                        type:
+                        - string
+                        - 'null'
+                        example: Hall B
+                      street:
+                        description: Street name and house number of the delivery address
+                        type: string
+                        example: Lagerweg 22
+                      zipCode:
+                        description: Postal code (ZIP code) of the delivery address
+                        type: string
+                        example: '10437'
+                      city:
+                        description: City name of the delivery address
+                        type: string
+                        example: Berlin
+                      state:
+                        description: State or region code in ISO 3166-2 format (without country prefix). Required for countries with states/provinces.
+                        type:
+                        - string
+                        - 'null'
+                        example: BE
+                      country:
+                        description: Country code in ISO 3166-1 alpha-2 format
+                        type: string
+                        example: DE
+                      gln:
+                        description: Global Location Number (GLN) - a 13-digit number used to uniquely identify physical locations or legal entities globally. Used in supply chain and logistics for automated identification.
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^[0-9]{13}$
+                        example: '4012345000300'
+                      phone:
+                        description: Primary phone number for the delivery address. Used for delivery coordination and communication.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+491231234567'
+                      mobile:
+                        description: Mobile phone number for the delivery address contact. Useful for urgent delivery notifications.
+                        type:
+                        - string
+                        - 'null'
+                        example: '+49170123456'
+                      fax:
+                        description: Fax number for the delivery address. Still used by some organizations for official communications.
+                        type:
+                        - string
+                        - 'null'
+                        example: +491231234567-1
+                      email:
+                        description: Email address for delivery notifications and communication
+                        type:
+                        - string
+                        - 'null'
+                        format: email
+                        example: name@provider.com
+                      deliveryDetails:
+                        description: Delivery-specific settings and information for the address
+                        properties:
+                          taxType:
+                            description: Tax classification for deliveries to this address. 'domestic' for same-country deliveries, 'eu' for EU cross-border, 'export' for non-EU international, 'exempt' for tax-exempt deliveries.
+                            type: string
+                            enum:
+                            - domestic
+                            - eu
+                            - export
+                            - exempt
+                            example: domestic
+                          defaultDeliveryAddress:
+                            description: Indicates whether this is the default delivery address. Only one delivery address per customer/supplier should be set as default.
+                            type: boolean
+                            example: true
+                          termsOfDelivery:
+                            description: Incoterms or delivery terms code (e.g., EXW, FOB, CIF, DAP). Defines the responsibilities and costs between buyer and seller during shipping.
+                            type:
+                            - string
+                            - 'null'
+                            example: EXW
+                          vatId:
+                            description: VAT identification number for this delivery address. May differ from the main VAT ID for multi-location businesses.
+                            type:
+                            - string
+                            - 'null'
+                            example: DE123456789
+                          remark:
+                            description: Internal notes about this delivery address. Not visible externally. Used for operational information like opening hours, special handling instructions, or access codes.
+                            type:
+                            - string
+                            - 'null'
+                            example: Main Berlin hub open 06:00 to 22:00
+                          note:
+                            description: Public notes or delivery instructions for this address. May be shared with carriers or printed on delivery documents.
+                            type:
+                            - string
+                            - 'null'
+                            example: Deliveries after 10am only
+                        type: object
+                        example:
+                          taxType: domestic
+                          defaultDeliveryAddress: true
+                          termsOfDelivery: EXW
+                          vatId: DE123456789
+                          remark: Main Berlin hub open 06:00 to 22:00
+                          note: Deliveries after 10am only
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      type:
+                      - The selected type is invalid.
+                      name:
+                      - The name field must be a string.
+                      title:
+                      - The title field must be a string.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - customer:update
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

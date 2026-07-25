@@ -1,0 +1,1497 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Tag API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Tag
+  description: Resource tags.
+paths:
+  /api/v2/tags:
+    get:
+      operationId: tag.list
+      tags:
+      - Tag
+      summary: List tags
+      description: Lists all tags
+      parameters:
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - title
+                - group
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - title
+                - type
+                - group
+                - createdAt
+                - updatedAt
+              op:
+                type: string
+                enum:
+                - greaterThan
+                - greaterThanOrEquals
+                - lessThan
+                - lessThanOrEquals
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Correct tag list response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        title:
+                          type: string
+                          description: The title of the tag
+                          example: Address wrong
+                        type:
+                          type: string
+                          description: The type of the tag
+                          example: address
+                        group:
+                          type: string
+                          nullable: true
+                          enum:
+                          - addresses
+                          - creditNotes
+                          - deliveryNotes
+                          - invoices
+                          - offers
+                          - priceInquiries
+                          - productions
+                          - products
+                          - projects
+                          - purchaseOrders
+                          - returns
+                          - salesOrders
+                          description: The group of the tag, which indicates the resource type it is associated with
+                          example: addresses
+                        color:
+                          type: string
+                          description: The color of the tag, represented as a hex code.
+                          example: '#FF5733'
+                        createdAt:
+                          description: a atom formatted date time
+                          type: string
+                          format: date-time
+                          example: '2023-08-13T14:45:36+02:00'
+                        updatedAt:
+                          description: a atom formatted date time
+                          type: string
+                          format: date-time
+                          example: '2023-08-13T14:45:36+02:00'
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    post:
+      operationId: tag.createAction
+      summary: Create a new tag
+      description: Creates a new tag.
+      tags:
+      - Tag
+      requestBody:
+        description: Tag data to create
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              - title
+              additionalProperties: false
+              properties:
+                type:
+                  type: string
+                  maxLength: 24
+                  pattern: ^[a-z0-9]+$
+                  description: Unique identifier for the tag (only lowercase letters and numbers)
+                  example: erledigt
+                title:
+                  type: string
+                  maxLength: 64
+                  description: Display name for the tag
+                  example: Erledigt
+                group:
+                  type: string
+                  enum:
+                  - addresses
+                  - creditNotes
+                  - deliveryNotes
+                  - invoices
+                  - offers
+                  - priceInquiries
+                  - productions
+                  - products
+                  - projects
+                  - purchaseOrders
+                  - returns
+                  - salesOrders
+                  description: The group of the tag, which indicates the resource type it is associated with
+                  example: addresses
+                color:
+                  type: string
+                  pattern: ^#[0-9A-Fa-f]{6}$
+                  default: '#000000'
+                  description: Hex color code for the tag
+                  example: '#ff6600'
+            examples:
+              minimal:
+                value:
+                  type: erledigt
+                  title: Erledigt
+              full:
+                value:
+                  type: erledigt
+                  title: Erledigt
+                  group: addresses
+                  color: '#ff6600'
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    delete:
+      operationId: tag.deleteMultiple
+      tags:
+      - Tag
+      summary: Delete tags
+      description: Deletes tags
+      requestBody:
+        description: List of tag-resource links
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                description: Reference to another resource
+                type: object
+                additionalProperties: false
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                example:
+                  id: '1337'
+            examples:
+              minimal:
+                value:
+                - id: '1337'
+                - id: '128'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    patch:
+      operationId: tag.updateMultiple
+      tags:
+      - Tag
+      summary: Update multiple tags
+      description: Update multiple tags
+      requestBody:
+        description: List of tags to update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  title:
+                    type: string
+                    description: The title of the tag
+                    example: Address wrong
+                  type:
+                    type: string
+                    description: The type of the tag
+                    example: address
+                  group:
+                    type: string
+                    nullable: true
+                    enum:
+                    - addresses
+                    - creditNotes
+                    - deliveryNotes
+                    - invoices
+                    - offers
+                    - priceInquiries
+                    - productions
+                    - products
+                    - projects
+                    - purchaseOrders
+                    - returns
+                    - salesOrders
+                    description: The group of the tag, which indicates the resource type it is associated with
+                    example: addresses
+                  color:
+                    type: string
+                    description: The color of the tag, represented as a hex code.
+                    example: '#FF5733'
+            examples:
+              minimal:
+                value:
+                - id: '1337'
+                  color: FF0000
+                - id: '128'
+                  name: Different
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v2/{resource}TagAssignments:
+    post:
+      operationId: tag.bulkAssign
+      tags:
+      - Tag
+      summary: Assign tags to multiple resources
+      description: Bulk assigns tags to multiple resources
+      parameters:
+      - in: path
+        name: resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - addresses
+          - creditNotes
+          - deliveryNotes
+          - invoices
+          - offers
+          - priceInquiries
+          - productions
+          - products
+          - projects
+          - purchaseOrders
+          - returns
+          - salesOrders
+      requestBody:
+        description: List of tag-resource links
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  tag:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+            examples:
+              minimal:
+                value:
+                - id: '1337'
+                  tag:
+                    id: '42'
+                - id: '128'
+                  tag:
+                    id: '256'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    delete:
+      operationId: tag.bulkRemove
+      tags:
+      - Tag
+      summary: Remove tags from multiple resources
+      description: Bulk removes tags from multiple resources
+      parameters:
+      - in: path
+        name: resource
+        required: true
+        schema:
+          type: string
+          enum:
+          - addresses
+          - creditNotes
+          - deliveryNotes
+          - invoices
+          - offers
+          - priceInquiries
+          - productions
+          - products
+          - projects
+          - purchaseOrders
+          - returns
+          - salesOrders
+      requestBody:
+        description: List of tag-resource links
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  tag:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+            examples:
+              minimal:
+                value:
+                - id: '1337'
+                  tag:
+                    id: '42'
+                - id: '128'
+                  tag:
+                    id: '256'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

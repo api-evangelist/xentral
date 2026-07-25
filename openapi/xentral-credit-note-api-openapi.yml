@@ -1,0 +1,2779 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Credit Note API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Credit Note
+  description: A credit note is a document you send to your customer to correct a mistake on an order or an invoice, or to refund an amount paid for products or services.
+paths:
+  /api/v1/creditNotes:
+    post:
+      tags:
+      - Credit Note
+      operationId: creditNote.create
+      summary: Create credit note
+      description: Creates a credit note
+      requestBody:
+        description: Create a credit note object
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - invoice
+              additionalProperties: false
+              properties:
+                invoice:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                documentNumber:
+                  type: string
+                  minLength: 1
+                  maxLength: 35
+            examples:
+              Create credit not from an invoice:
+                value:
+                  invoice:
+                    id: '1337'
+              Create credit not from an invoice with a document number:
+                value:
+                  invoice:
+                    id: '1337'
+                  documentNumber: '415263'
+          application/vnd.xentral.minimal+json:
+            schema:
+              type: object
+              required:
+              - invoice
+              additionalProperties: false
+              properties:
+                invoice:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                documentNumber:
+                  type: string
+                  minLength: 1
+                  maxLength: 35
+            examples:
+              Create credit not from an invoice:
+                value:
+                  invoice:
+                    id: '1337'
+              Create credit not from an invoice with a document number:
+                value:
+                  invoice:
+                    id: '1337'
+                  documentNumber: '415263'
+          application/vnd.xentral.fromreturn+json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                return:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                isApproved:
+                  type: boolean
+                  default: false
+                isPaid:
+                  type: boolean
+                  default: false
+            examples:
+              return:
+                value:
+                  return:
+                    id: '1337'
+                  isApproved: true
+                  isPaid: false
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Credit Note
+      operationId: creditNote.list
+      summary: List credit notes
+      description: Returns a collection with all credit notes.
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: array
+                items:
+                  type: string
+                  pattern: \d+
+                  example: '17'
+                  description: Resource identifier.
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - search
+                  - id
+                  - creditNote
+                  - date
+                  - status
+                  - customerName
+                  - customerNumber
+                  - country
+                  - projectId
+                  - projectName
+                  - projectAbbr
+                  - paymentMethod
+                  - paymentStatus
+                  - amount
+                  - currency
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                  - exactlyIn
+                  - allIn
+                  - allNotIn
+                  - contains
+                  - notContains
+                  - startsWith
+                  - endsWith
+                  - greaterThan
+                  - lessThan
+                  - is
+                  - lessThanOrEquals
+                  - greaterThanOrEquals
+                value:
+                  oneOf:
+                  - type: string
+                    description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                    title: String
+                  - type: array
+                    description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                    title: Array
+                    items:
+                      type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - creditNote
+                - date
+                - customerName
+                - customerNumber
+                - country
+                - project
+                - paymentMethod
+                - amount
+                - currency
+                - paymentStatus
+                - status
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/vnd.xentral.minimal+json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        number:
+                          description: The credit note document number
+                          type: string
+                          nullable: true
+                          example: 2024-900000
+                        date:
+                          description: The document date of the credit note
+                          type: string
+                          format: date
+                          example: '2024-05-29'
+                        status:
+                          description: The status of the credit note
+                          type: string
+                          enum:
+                          - approved
+                          - closed
+                          - completed
+                          - created
+                          - canceled
+                          - sent
+                          example: created
+                        amount:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: false
+                          required:
+                          - amount
+                          - currencyCode
+                          properties:
+                            amount:
+                              type: string
+                            currencyCode:
+                              type: string
+                          example:
+                            amount: '142.78'
+                            currencyCode: EUR
+                        invoice:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - number
+                          properties:
+                            number:
+                              type: string
+                          example:
+                            number: 2022-400085
+                        address:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          - name
+                          - customerNumber
+                          - country
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            name:
+                              type: string
+                            customerNumber:
+                              type: string
+                            country:
+                              type: string
+                          example:
+                            id: '18'
+                            name: Richard E.
+                            customerNumber: '10011'
+                            country: DE
+                        project:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          - name
+                          - abbreviation
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            name:
+                              type: string
+                            abbreviation:
+                              type: string
+                          example:
+                            id: '5'
+                            name: Amazon FBM
+                            abbreviation: FBM
+                        payment:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - method
+                          - status
+                          properties:
+                            method:
+                              type: string
+                            status:
+                              type: string
+                          example:
+                            method: shopify_payments
+                            status: offen
+                        paymentTransaction:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          - paymentStatus
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            paymentStatus:
+                              type: string
+                          example:
+                            id: '2'
+                            paymentStatus: recorded
+                        updatedBy:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        updatedAt:
+                          x-description-missing: true
+                          type: string
+                          format: date-time
+                          example: '2021-12-15T11:31:44+01:00'
+                        tags:
+                          description: A list of tags
+                          type: array
+                          items:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              id:
+                                description: The identifier of the tag
+                                type: string
+                                pattern: \d+
+                                example: '1337'
+                              name:
+                                description: The name of the tag
+                                type: string
+                                example: Active
+                              color:
+                                type: string
+                                pattern: '[a-fA-F0-9]{6}'
+                                example: ff0000
+                                description: 'Hexadecimal color value in 6-digit format without the leading # character.'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+            text/csv:
+              schema:
+                type: string
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/creditNotes/{id}:
+    get:
+      tags:
+      - Credit Note
+      operationId: creditNote.view
+      summary: View credit note
+      description: Returns details of a single credit note.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      number:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: '9000000'
+                      date:
+                        x-description-missing: true
+                        type: string
+                        format: date
+                        example: '2021-11-08'
+                      createdAt:
+                        x-description-missing: true
+                        type: string
+                        format: date-time
+                        example: '2021-12-09T10:16:07+01:00'
+                      createdBy:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - name
+                        nullable: true
+                        properties:
+                          name:
+                            type: string
+                        example:
+                          name: Administrator
+                      sentAt:
+                        x-description-missing: true
+                        type: string
+                        format: date-time
+                        nullable: true
+                        example: '2021-12-09T10:19:18+01:00'
+                      sentBy:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - name
+                        nullable: true
+                        properties:
+                          name:
+                            type: string
+                        example:
+                          name: Administrator
+                      updatedAt:
+                        x-description-missing: true
+                        type: string
+                        format: date-time
+                        example: '2023-01-13T10:43:58+01:00'
+                      grossValue:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      netValue:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      costCenter:
+                        x-description-missing: true
+                        type: string
+                        example: '41000'
+                      status:
+                        x-description-missing: true
+                        type: string
+                        enum:
+                        - approved
+                        - sent
+                        - created
+                        - closed
+                        - canceled
+                        example: sent
+                      project:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          name:
+                            type: string
+                        example:
+                          id: '2'
+                          name: B2C
+                      customer:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          name:
+                            type: string
+                        example:
+                          id: '1'
+                          name: John Doe
+                      tags:
+                        description: A list of tags
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              description: The identifier of the tag
+                              type: string
+                              pattern: \d+
+                              example: '1337'
+                            name:
+                              description: The name of the tag
+                              type: string
+                              example: Active
+                            color:
+                              type: string
+                              pattern: '[a-fA-F0-9]{6}'
+                              example: ff0000
+                              description: 'Hexadecimal color value in 6-digit format without the leading # character.'
+                      externalOrderReference:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: '1005'
+                      devCustomer:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: dev
+                      billingAddress:
+                        type: object
+                        description: Billing address of the customer.
+                        additionalProperties: false
+                        required:
+                        - name
+                        - contactPerson
+                        - department
+                        - subdivision
+                        - street
+                        - additionalDetails
+                        - city
+                        - zipCode
+                        - country
+                        nullable: true
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          name:
+                            type: string
+                          contactPerson:
+                            type: string
+                          department:
+                            type: string
+                            nullable: true
+                          subdivision:
+                            type: string
+                            nullable: true
+                          street:
+                            type: string
+                          additionalDetails:
+                            type: string
+                            nullable: true
+                          city:
+                            type: string
+                          zipCode:
+                            type: string
+                          country:
+                            type: string
+                            pattern: '[A-Z]{2}'
+                          email:
+                            type: string
+                            nullable: true
+                        example:
+                          id: '1'
+                          name: John Doe
+                          contactPerson: ''
+                          department: ''
+                          subdivision: ''
+                          street: Street 10
+                          additionalDetails: ''
+                          city: Berlin
+                          zipCode: '10101'
+                          country: DE
+                      paymentMethodName:
+                        x-description-missing: true
+                        type: string
+                        example: invoice
+                      paymentStatus:
+                        type: string
+                        description: Status of the payment. Value `unknown` is displayed when a status from database cannot be identified. Value `unknown` cannot be used when creating or updating statuses (POST or PATCH endpoints)
+                        enum:
+                        - pending
+                        - paid
+                        - partlyPaid
+                        - canceled
+                        - partialCancellation
+                        - badDebt
+                        - debited
+                        - unknown
+                        example: pending
+                      gln:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: '12345'
+                      taxation:
+                        x-description-missing: true
+                        type: number
+                        example: 0
+                      positions:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: number
+                            position:
+                              type: number
+                            salesOrderPosition:
+                              description: Nullable reference to another resource
+                              type: object
+                              additionalProperties: false
+                              nullable: true
+                              required:
+                              - id
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                              example:
+                                id: '1337'
+                            createdAt:
+                              type: string
+                              format: date-time
+                            productId:
+                              type: number
+                            productNumber:
+                              type: string
+                            description:
+                              type: string
+                            quantity:
+                              type: number
+                            price:
+                              description: Money object with amount and currency
+                              example:
+                                amount: '13.37'
+                                currency: EUR
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                amount:
+                                  description: A string representing the amount
+                                  type: string
+                                  format: float
+                                  example: '24.99'
+                                currency:
+                                  type: string
+                                  pattern: '[A-Z]{3}'
+                                  enum:
+                                  - EUR
+                                  - USD
+                                  - JPY
+                                  - BGN
+                                  - CZK
+                                  - DKK
+                                  - GBP
+                                  - HUF
+                                  - PLN
+                                  - RON
+                                  - SEK
+                                  - CHF
+                                  - ISK
+                                  - NOK
+                                  - HRK
+                                  - RUB
+                                  - TRY
+                                  - AUD
+                                  - BRL
+                                  - CAD
+                                  - CNY
+                                  - HKD
+                                  - IDR
+                                  - ILS
+                                  - INR
+                                  - KRW
+                                  - MXN
+                                  - MYR
+                                  - NZD
+                                  - PHP
+                                  - SGD
+                                  - THB
+                                  - ZAR
+                                  - ARS
+                                  - CLP
+                                  - SAR
+                                  - AED
+                                  - QAR
+                                  description: Currency matches one of currency values as specified in ISO-4217.
+                                  example: PLN
+                            vatCategory:
+                              type: string
+                            taxRate:
+                              type: number
+                              format: float
+                            discount:
+                              type: number
+                              format: float
+                              nullable: true
+                    example:
+                      id: '125'
+                      number: '9000110'
+                      date: '2022-02-03'
+                      createdAt: '2022-02-03T10:18:40+01:00'
+                      createdBy:
+                        name: John Doe
+                      sentAt: '2022-02-03T10:19:31+01:00'
+                      sentBy:
+                        name: John Doe
+                      updatedAt: '2022-02-03T10:19:34+01:00'
+                      grossValue:
+                        amount: '50.00'
+                        currency: EUR
+                      netValue:
+                        amount: '42.02'
+                        currency: EUR
+                      costCenter: ''
+                      status: sent
+                      tags: []
+                      project:
+                        id: '6'
+                        name: Shopware
+                      customer:
+                        id: '3632'
+                        name: John Doe
+                      externalOrderReference: '62720'
+                      devCustomer: ''
+                      billingAddress:
+                        id: '1'
+                        name: John Doe
+                        contactPerson: ''
+                        department: ''
+                        subdivision: ''
+                        street: Street 10
+                        additionalDetails: ''
+                        city: Berlin
+                        zipCode: '10101'
+                        country: DE
+                      paymentMethodName: invoice
+                      paymentStatus: pending
+                      gln: '12345'
+                      taxation: 0
+                      positions:
+                      - id: 418
+                        position: 1
+                        salesOrderPosition:
+                          id: '16216'
+                        createdAt: '2022-02-03T10:18:40+01:00'
+                        productId: 1689
+                        productNumber: FR5248977
+                        description: Article 1
+                        quantity: 1
+                        price:
+                          amount: '47.05'
+                          currency: EUR
+                        vatCategory: normal
+                        taxRate: 0
+                        discount: 0
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    patch:
+      tags:
+      - Credit Note
+      operationId: creditNote.update
+      summary: Update credit note
+      description: Update a single credit note
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Update single credit note
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - date
+              - costCenter
+              - project
+              - customer
+              - tags
+              - externalOrderReference
+              - devCustomer
+              - billingAddress
+              - paymentMethodName
+              - gln
+              - taxation
+              properties:
+                date:
+                  type: string
+                  format: date
+                costCenter:
+                  type: string
+                project:
+                  description: Nullable reference to another resource
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                customer:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                tags:
+                  type: array
+                  items:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+                externalOrderReference:
+                  type: string
+                  nullable: true
+                devCustomer:
+                  type: string
+                  nullable: true
+                billingAddress:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - name
+                  - contactPerson
+                  - department
+                  - subdivision
+                  - street
+                  - additionalDetails
+                  - city
+                  - zipCode
+                  - country
+                  nullable: true
+                  properties:
+                    name:
+                      type: string
+                    contactPerson:
+                      type: string
+                    department:
+                      type: string
+                      nullable: true
+                    subdivision:
+                      type: string
+                      nullable: true
+                    street:
+                      type: string
+                    additionalDetails:
+                      type: string
+                      nullable: true
+                    city:
+                      type: string
+                    zipCode:
+                      type: string
+                    country:
+                      type: string
+                      pattern: '[A-Z]{2}'
+                paymentMethodName:
+                  type: string
+                gln:
+                  type: string
+                  nullable: true
+                taxation:
+                  type: string
+                  pattern: \d+
+            examples:
+              update CreditNote:
+                value:
+                  date: '2023-01-01'
+                  costCenter: center
+                  project:
+                    id: '32'
+                  customer:
+                    id: '64'
+                  tags:
+                  - id: '128'
+                  externalOrderReference: ref
+                  devCustomer: dev
+                  billingAddress: null
+                  paymentMethodName: method
+                  gln: null
+                  taxation: '7'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/creditNotes/{id}/actions/send:
+    patch:
+      tags:
+      - Credit Note
+      operationId: creditNote.send
+      summary: Send credit note
+      description: Send credit note by email or to a printer. You can also mark the credit note as sent without actually sending it.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Send credit note
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                properties:
+                  email:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - to
+                    - subject
+                    - body
+                    properties:
+                      to:
+                        type: string
+                        format: email
+                      cc:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
+                          format: email
+                      bcc:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
+                          format: email
+                      subject:
+                        type: string
+                      body:
+                        type: string
+              - type: object
+                properties:
+                  printer:
+                    type: object
+                    additionalProperties: false
+                    oneOf:
+                    - type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+              - type: object
+                properties:
+                  markAsSend:
+                    type: boolean
+            examples:
+              Send credit note by email:
+                value:
+                  email:
+                    to: test@example.com
+                    subject: Your credit note
+                    body: Please find your credit note attached.
+              Send credit note to printer:
+                value:
+                  printer:
+                    id: '1'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/creditNotes/{id}/balance:
+    get:
+      tags:
+      - Credit Note
+      operationId: creditNote.balance
+      summary: View Credit Note Balance
+      description: Returns balance information (documents, payments) for a single credit note
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      documents:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          invoices:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                                amount:
+                                  description: Money object with amount and currency
+                                  example:
+                                    amount: '13.37'
+                                    currency: EUR
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    amount:
+                                      description: A string representing the amount
+                                      type: string
+                                      format: float
+                                      example: '24.99'
+                                    currency:
+                                      type: string
+                                      pattern: '[A-Z]{3}'
+                                      enum:
+                                      - EUR
+                                      - USD
+                                      - JPY
+                                      - BGN
+                                      - CZK
+                                      - DKK
+                                      - GBP
+                                      - HUF
+                                      - PLN
+                                      - RON
+                                      - SEK
+                                      - CHF
+                                      - ISK
+                                      - NOK
+                                      - HRK
+                                      - RUB
+                                      - TRY
+                                      - AUD
+                                      - BRL
+                                      - CAD
+                                      - CNY
+                                      - HKD
+                                      - IDR
+                                      - ILS
+                                      - INR
+                                      - KRW
+                                      - MXN
+                                      - MYR
+                                      - NZD
+                                      - PHP
+                                      - SGD
+                                      - THB
+                                      - ZAR
+                                      - ARS
+                                      - CLP
+                                      - SAR
+                                      - AED
+                                      - QAR
+                                      description: Currency matches one of currency values as specified in ISO-4217.
+                                      example: PLN
+                                date:
+                                  type: string
+                                  format: date-time
+                          creditNotes:
+                            type: array
+                            items:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                                amount:
+                                  description: Money object with amount and currency
+                                  example:
+                                    amount: '13.37'
+                                    currency: EUR
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    amount:
+                                      description: A string representing the amount
+                                      type: string
+                                      format: float
+                                      example: '24.99'
+                                    currency:
+                                      type: string
+                                      pattern: '[A-Z]{3}'
+                                      enum:
+                                      - EUR
+                                      - USD
+                                      - JPY
+                                      - BGN
+                                      - CZK
+                                      - DKK
+                                      - GBP
+                                      - HUF
+                                      - PLN
+                                      - RON
+                                      - SEK
+                                      - CHF
+                                      - ISK
+                                      - NOK
+                                      - HRK
+                                      - RUB
+                                      - TRY
+                                      - AUD
+                                      - BRL
+                                      - CAD
+                                      - CNY
+                                      - HKD
+                                      - IDR
+                                      - ILS
+                                      - INR
+                                      - KRW
+                                      - MXN
+                                      - MYR
+                                      - NZD
+                                      - PHP
+                                      - SGD
+                                      - THB
+                                      - ZAR
+                                      - ARS
+                                      - CLP
+                                      - SAR
+                                      - AED
+                                      - QAR
+                                      description: Currency matches one of currency values as specified in ISO-4217.
+                                      example: PLN
+                                date:
+                                  type: string
+                                  format: date-time
+                        example:
+                          invoices:
+                          - id: '1'
+                            amount:
+                              amount: '13.37'
+                              currency: EUR
+                            date: '2023-08-13T14:45:36+02:00'
+                          creditNotes:
+                          - id: '1'
+                            amount:
+                              amount: '13.37'
+                              currency: EUR
+                            date: '2023-08-13T14:45:36+02:00'
+                      payments:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            reference:
+                              type: object
+                              additionalProperties: false
+                              description: Only one of the actually referenced object.
+                              properties:
+                                invoice:
+                                  description: Nullable reference to another resource
+                                  type: object
+                                  additionalProperties: false
+                                  nullable: true
+                                  required:
+                                  - id
+                                  properties:
+                                    id:
+                                      type: string
+                                      pattern: \d+
+                                      example: '17'
+                                      description: Resource identifier.
+                                  example:
+                                    id: '1337'
+                                creditNote:
+                                  description: Nullable reference to another resource
+                                  type: object
+                                  additionalProperties: false
+                                  nullable: true
+                                  required:
+                                  - id
+                                  properties:
+                                    id:
+                                      type: string
+                                      pattern: \d+
+                                      example: '17'
+                                      description: Resource identifier.
+                                  example:
+                                    id: '1337'
+                            payment:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                                type:
+                                  type: string
+                                  enum:
+                                  - incoming
+                                  - outgoing
+                                  nullable: false
+                                statementId:
+                                  type: string
+                                accountName:
+                                  type: string
+                                amount:
+                                  description: Money object with amount and currency
+                                  example:
+                                    amount: '13.37'
+                                    currency: EUR
+                                  type: object
+                                  additionalProperties: false
+                                  properties:
+                                    amount:
+                                      description: A string representing the amount
+                                      type: string
+                                      format: float
+                                      example: '24.99'
+                                    currency:
+                                      type: string
+                                      pattern: '[A-Z]{3}'
+                                      enum:
+                                      - EUR
+                                      - USD
+                                      - JPY
+                                      - BGN
+                                      - CZK
+                                      - DKK
+                                      - GBP
+                                      - HUF
+                                      - PLN
+                                      - RON
+                                      - SEK
+                                      - CHF
+                                      - ISK
+                                      - NOK
+                                      - HRK
+                                      - RUB
+                                      - TRY
+                                      - AUD
+                                      - BRL
+                                      - CAD
+                                      - CNY
+                                      - HKD
+                                      - IDR
+                                      - ILS
+                                      - INR
+                                      - KRW
+                                      - MXN
+                                      - MYR
+                                      - NZD
+                                      - PHP
+                                      - SGD
+                                      - THB
+                                      - ZAR
+                                      - ARS
+                                      - CLP
+                                      - SAR
+                                      - AED
+                                      - QAR
+                                      description: Currency matches one of currency values as specified in ISO-4217.
+                                      example: PLN
+                                date:
+                                  type: string
+                                  format: date-time
+                    example:
+                      documents:
+                        invoices:
+                        - id: '87'
+                          amount:
+                            amount: '1483.63'
+                            currency: EUR
+                          date: '2024-03-08T00:00:00+01:00'
+                        creditNotes:
+                        - id: '2'
+                          amount:
+                            amount: '24.99'
+                            currency: EUR
+                          date: '2024-06-17T00:00:00+02:00'
+                      payments: []
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/creditNotes/{id}/documents:
+    get:
+      tags:
+      - Credit Note
+      operationId: creditNote.documents.view
+      summary: View related documents for credit note
+      description: Returns details for related documents of a single credit note.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      salesOrder:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            status:
+                              type: string
+                              enum:
+                              - created
+                              - released
+                              - sent
+                              - canceled
+                              - completed
+                              - unknown
+                            number:
+                              type: string
+                            url:
+                              type: string
+                            date:
+                              type: string
+                              format: date
+                      deliveryNotes:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            status:
+                              type: string
+                              enum:
+                              - created
+                              - released
+                              - sent
+                              - canceled
+                              - completed
+                              - unknown
+                            number:
+                              type: string
+                            url:
+                              type: string
+                            date:
+                              type: string
+                              format: date
+                      invoices:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            status:
+                              type: string
+                              enum:
+                              - created
+                              - released
+                              - sent
+                              - canceled
+                              - completed
+                              - unknown
+                            number:
+                              type: string
+                            url:
+                              type: string
+                            date:
+                              type: string
+                              format: date
+                      pdfArchives:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            url:
+                              type: string
+                            date:
+                              type: string
+                              format: datetime
+                            name:
+                              type: string
+                            createdBy:
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - name
+                              properties:
+                                name:
+                                  type: string
+                    example:
+                      salesOrder:
+                      - id: '1011'
+                        status: completed
+                        number: '200735'
+                        url: https://example.xentral.biz?module=auftrag&action=pdf&id=1011
+                        date: '2022-01-23'
+                      deliveryNotes:
+                      - id: '729'
+                        status: sent
+                        number: '300704'
+                        url: https://example.xentral.biz?module=lieferschein&action=pdf&id=729
+                        date: '2022-01-24'
+                      invoices:
+                      - id: '125'
+                        status: canceled
+                        number: '1200712'
+                        url: https://example.xentral.biz?module=rechnung&action=pdf&id=125
+                        date: '2022-01-24'
+                      pdfArchives:
+                      - id: '8571'
+                        name: 125_20220203_GS9000110.pdf
+                        createdBy:
+                          name: John Doe
+                        url: https://example.xentral.biz?module=gutschrift&action=pdffromarchive&id=8571
+                        date: '2022-02-03 10:19:27'
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account AuthPlatform API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: AuthPlatform
+  description: AuthPlatform represents the oauth login for Xentral
+paths:
+  /api/v1/auth-platform/token-exchange:
+    post:
+      summary: Exchange subject token for platform access token
+      description: Request body for token exchange
+      operationId: auth-platform.exchangeToken
+      tags:
+      - AuthPlatform
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                appId:
+                  type: string
+                  description: The App ID for which to exchange the token
+              required:
+              - appId
+            examples:
+              example1:
+                summary: Example request body
+                value:
+                  appId: your-app-id
+      responses:
+        '200':
+          description: Token exchange successful
+          headers:
+            X-TOKEN:
+              description: The exchanged access token
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Invalid request or exchange failed
+          headers:
+            error:
+              description: Error message
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                nullable: true
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

@@ -1,0 +1,270 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Product Label API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Product Label
+  description: Product labels management.
+paths:
+  /api/v1/products/{id}/printLabel:
+    post:
+      tags:
+      - Product Label
+      operationId: productLabel.print
+      summary: Print product label
+      description: Prints a product label for the given product.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Product label print
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                quantity:
+                  type: integer
+                printingLabel:
+                  type: string
+                  description: The name of the Label
+                printer:
+                  type: string
+                  description: The name of the printer
+            examples:
+              Print Labels:
+                value:
+                  quantity: 3
+                  printingLabel: EAN
+                  printer: Etikettendrucker
+      responses:
+        '200':
+          description: Print product label
+          content:
+            application/json:
+              schema:
+                type: string
+                format: string
+        '204':
+          description: Operation completed successfully, no response body
+        '403':
+          description: Unable to authorize the client
+    get:
+      tags:
+      - Product Label
+      operationId: productLabel.download
+      summary: Download product label as pdf
+      description: Downloads a product label for the given product as pdf.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Product label download
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                quantity:
+                  type: integer
+                printingLabel:
+                  type: string
+                  description: The name of the Label
+      responses:
+        '200':
+          description: Download product label
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: string
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '403':
+          description: Unable to authorize the client
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

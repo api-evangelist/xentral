@@ -1,0 +1,1530 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Storage Location API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Storage Location
+  description: Represents the spaces within a warehouse
+paths:
+  /api/v1/warehouses/{warehouseId}/storageLocations:
+    post:
+      tags:
+      - Storage Location
+      operationId: storageLocation.create
+      parameters:
+      - name: warehouseId
+        in: path
+        description: ID of warehouse
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      summary: Create storage location
+      description: Creates a new storage location
+      requestBody:
+        description: create a new storage location
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                designation:
+                  type: string
+                address:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                dimensions:
+                  type: object
+                  properties:
+                    length:
+                      type: number
+                      format: float
+                    width:
+                      type: number
+                      format: float
+                    height:
+                      type: number
+                      format: float
+                isReplenishmentLocation:
+                  type: boolean
+                isConsumptionLocation:
+                  type: boolean
+                isRestrictedLocation:
+                  type: boolean
+                isPosLocation:
+                  type: boolean
+                allowsProductionAccess:
+                  type: boolean
+                sort:
+                  type: integer
+                locationType:
+                  type: string
+                  enum:
+                  - pallet
+                  - shelf
+                abcCategory:
+                  type: string
+                  nullable: true
+                  enum:
+                  - A
+                  - B
+                  - C
+            examples:
+              create a new storage location:
+                value:
+                  designation: StorageLocation33
+                  address:
+                    id: '33'
+                  isReplenishmentLocation: false
+                  isConsumptionLocation: false
+                  isRestrictedLocation: false
+                  allowsProductionAccess: false
+                  isPosLocation: false
+                  dimensions:
+                    length: 13.22
+                    width: 12.01
+                    height: 19
+                  locationType: shelf
+                  sort: 12
+                  abcCategory: B
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Storage Location
+      operationId: storageLocation.list
+      parameters:
+      - name: warehouseId
+        in: path
+        description: ID of warehouse
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - storageLocationId
+                - designation
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - exactlyIn
+                - allIn
+                - allNotIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - is
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      summary: List storage locations
+      description: This endpoint is only available as beta version and will introduce breaking changes without further notice or versioning. Returns all storage locations for the specified warehouse.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    description: Representation of a list of Storage Locations
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - designation
+                      - warehouse
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        warehouse:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        designation:
+                          type: string
+                          description: Designation of the Storage location
+                          example: Main Storage Location 1
+                        description:
+                          type: string
+                          description: Description of the Storage location
+                          example: Primary storage location
+                        project:
+                          description: Nullable reference to another resource
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        sort:
+                          type: integer
+                          description: Sort order of the storage location
+                          example: 12
+                        isReplenishmentLocation:
+                          type: boolean
+                          description: Indicates if the location is for replenishment
+                          example: false
+                        isConsumptionLocation:
+                          type: boolean
+                          description: Indicates if the location is for consumption
+                          example: true
+                        isRestrictedLocation:
+                          type: boolean
+                          description: Indicates if the location is restricted
+                          example: false
+                        productionAccess:
+                          type: boolean
+                          description: Indicates if the location has production access
+                          example: true
+                        isPosLocation:
+                          type: boolean
+                          description: Indicates if the location is a point of sale location
+                          example: false
+                        abcCategory:
+                          type: string
+                          description: ABC category of the storage location
+                          example: A
+                        dimensions:
+                          type: object
+                          additionalProperties: false
+                          description: Dimensions of the storage location
+                          properties:
+                            length:
+                              type: number
+                              description: Length of the storage location
+                              example: 10.5
+                              format: float
+                            width:
+                              type: number
+                              description: Width of the storage location
+                              example: 100
+                              format: float
+                            height:
+                              type: number
+                              description: Height of the storage location
+                              format: float
+                              example: 100
+                          example:
+                            length: 10.5
+                            width: 100
+                            height: 100
+                    example:
+                    - id: '1'
+                      warehouse:
+                        id: '1'
+                      designation: StorageLocation1
+                      description: Storage Location Number 1
+                      project:
+                        id: '1'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/warehouses/{warehouseId}/storageLocations/{storageLocationId}:
+    patch:
+      tags:
+      - Storage Location
+      operationId: storageLocation.update
+      parameters:
+      - name: warehouseId
+        in: path
+        description: ID of warehouse
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: storageLocationId
+        in: path
+        description: ID of storage location
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Request body for updating a storage location.
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                designation:
+                  type: string
+                  description: Human-readable name or label for the storage location.
+                  example: Cold Storage Zone A
+                address:
+                  type: object
+                  nullable: true
+                  description: Reference to the address entity associated with this location.
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: string
+                      pattern: ^[0-9]+$
+                      description: ID of the address as a string containing digits.
+                      example: '1024'
+                isReplenishmentLocation:
+                  type: boolean
+                  description: Indicates if the location is used for replenishment.
+                  example: true
+                isConsumptionLocation:
+                  type: boolean
+                  description: Indicates if the location is used for material consumption.
+                  example: false
+                isRestrictedLocation:
+                  type: boolean
+                  description: Marks the location as restricted for access or usage.
+                  example: true
+                allowsProductionAccess:
+                  type: boolean
+                  description: Indicates if the location is accessible for production processes.
+                  example: true
+                isPosLocation:
+                  type: boolean
+                  description: Indicates if the location is used as POS location.
+                  example: false
+                dimensions:
+                  type: object
+                  nullable: true
+                  description: defines the dimensions of the storage location
+                  additionalProperties: false
+                  properties:
+                    length:
+                      type: number
+                      format: float
+                      description: Length of the location in meters, with up to 2 decimal places.
+                      example: 12.75
+                    width:
+                      type: number
+                      format: float
+                      description: Width of the location in meters, with up to 2 decimal places.
+                      example: 5.5
+                    height:
+                      type: number
+                      format: float
+                      description: Height of the location in meters, with up to 2 decimal places.
+                      example: 3.25
+                locationType:
+                  type: string
+                  nullable: true
+                  enum:
+                  - pallet
+                  - shelf
+                  description: Type of storage location, such as pallet or shelf.
+                  example: pallet
+                abcCategory:
+                  type: string
+                  nullable: true
+                  enum:
+                  - A
+                  - B
+                  - C
+                  description: Category classification for the location.
+                  example: B
+                sort:
+                  type: integer
+                  description: Sort order or priority index for the location.
+                  example: 10
+            examples:
+              Update Storage Location:
+                value:
+                  designation: FulfillmentWarehouse1
+                  address:
+                    id: '33'
+                  isReplenishmentLocation: false
+                  isConsumptionLocation: false
+                  isRestrictedLocation: false
+                  allowsProductionAccess: true
+                  isPosLocation: false
+                  dimensions:
+                    length: 13.22
+                    width: 12.01
+                    height: 19
+                  locationType: shelf
+                  abcCategory: B
+                  sort: 12
+      summary: Update storage location
+      description: Update a storage location for the specified warehouse.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+    delete:
+      tags:
+      - Storage Location
+      operationId: storageLocation.delete
+      parameters:
+      - name: warehouseId
+        in: path
+        description: ID of warehouse
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: storageLocationId
+        in: path
+        description: ID of storage location
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      summary: Delete storage location
+      description: Delete a storage location for the specified warehouse.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+  /api/v1/storageLocations/setTotalStock:
+    patch:
+      tags:
+      - Storage Location
+      operationId: storageLocations.setTotalStock
+      summary: Set total stock on storage locations
+      description: 'This endpoint sets the total stock for one or more storage locations.<br>The stock data provided in the payload, including quality control attributes (batch, best-before date, and serial number), will be taken over as the new stock for the specified storage location(s).<br><br><strong>CAUTION: Any stock that was previously present in the storage location and is not specified in the payload will be removed from the storage location. This also includes the quality control attributes.</strong>'
+      requestBody:
+        description: Overwrite stock for given products and storage Location
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      storageLocation:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      totalStock:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            product:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                            quantity:
+                              type: number
+                            qualityControlAttributes:
+                              type: object
+                              properties:
+                                batch:
+                                  type: string
+                                bestBeforeDate:
+                                  type: string
+                                serialNumbers:
+                                  type: array
+                                  items:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - number
+                                    properties:
+                                      number:
+                                        type: string
+            examples:
+              update total stock:
+                value:
+                  data:
+                  - storageLocation:
+                      id: '123'
+                    totalStock:
+                    - product:
+                        id: '123'
+                      quantity: 5
+              update total stock with quality control attributes:
+                value:
+                  data:
+                  - storageLocation:
+                      id: '123'
+                    totalStock:
+                    - product:
+                        id: '234'
+                      quantity: 5
+                      qualityControlAttributes:
+                        batch: L12345
+                        bestBefore: '2030-12-31'
+                        serialNumbers:
+                        - number: '10001'
+                        - number: '10002'
+                        - number: '10003'
+                        - number: '10004'
+                        - number: '10005'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

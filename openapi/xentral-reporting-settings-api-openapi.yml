@@ -1,0 +1,495 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Reporting Settings API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Reporting Settings
+  description: Settings for analytics reporting platform
+paths:
+  /api/v1/analytics/settings:
+    get:
+      tags:
+      - Reporting Settings
+      operationId: analytics.settings.get
+      summary: Get settings
+      description: Returns current settings or default settings if none exist
+      responses:
+        '200':
+          description: Report settings response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    nullable: true
+                    maxItems: 1
+                    items:
+                      type: object
+                      nullable: true
+                      additionalProperties: false
+                      properties:
+                        delimiter:
+                          type: string
+                          description: The delimiter character used for CSV or TXT exports
+                          example: ','
+                          minLength: 1
+                          maxLength: 1
+                        escapeSpecialCharacters:
+                          type: boolean
+                          description: Whether to escape special characters in TXT exports (e.g. quotes, newlines)
+                          example: true
+                          default: false
+                        disableQuotes:
+                          type: boolean
+                          description: Whether to disable enclosing all values with double quotes in TXT exports. This is useful for handling special characters or values that contain the delimiter character. It's problematic if values contain double quotes themselves.
+                          example: false
+                          default: false
+                        exportFormat:
+                          type: string
+                          description: Export format for reports
+                          example: txt
+                          enum:
+                          - csv
+                          - xlsx
+                          - json
+                          - txt
+                          - parquet
+                          - pdf
+                          default: txt
+                        numberFormattingMode:
+                          type: string
+                          description: Number formatting mode that should be applied when visualizing numbers (does not affect exports)
+                          example: locale
+                          enum:
+                          - locale
+                          - raw
+                          default: raw
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+    patch:
+      tags:
+      - Reporting Settings
+      operationId: analytics.settings.update
+      summary: Update reporting settings
+      description: Updates the current settings
+      requestBody:
+        description: Update settings request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - delimiter
+              - escapeSpecialCharacters
+              - disableQuotes
+              - exportFormat
+              - numberFormattingMode
+              properties:
+                delimiter:
+                  type: string
+                  description: The delimiter character used for CSV or TXT exports
+                  example: ','
+                  minLength: 1
+                  maxLength: 1
+                escapeSpecialCharacters:
+                  type: boolean
+                  description: Whether to escape special characters in TXT exports (e.g. quotes, newlines)
+                  example: true
+                  default: false
+                disableQuotes:
+                  type: boolean
+                  description: Whether to disable enclosing all values with double quotes in TXT exports. This is useful for handling special characters or values that contain the delimiter character. It's problematic if values contain double quotes themselves.
+                  example: false
+                  default: false
+                exportFormat:
+                  type: string
+                  description: Export format for reports
+                  example: txt
+                  enum:
+                  - csv
+                  - xlsx
+                  - json
+                  - txt
+                  - parquet
+                  - pdf
+                  default: txt
+                numberFormattingMode:
+                  type: string
+                  description: Number formatting mode that should be applied when visualizing numbers (does not affect exports)
+                  example: raw
+                  enum:
+                  - raw
+                  - locale
+                  default: raw
+            examples:
+              example:
+                summary: Example of updating settings
+                value:
+                  delimiter: ;
+                  escapeSpecialCharacters: true
+                  disableQuotes: false
+                  exportFormat: csv
+                  numberFormattingMode: raw
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

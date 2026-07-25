@@ -1,0 +1,3256 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Liability API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Liability
+  description: Returns a collection with all liabilities.
+paths:
+  /api/v1/liabilities:
+    post:
+      tags:
+      - Liability
+      operationId: liability.create
+      summary: Create liability
+      description: Creates a single new liability.
+      requestBody:
+        description: Create a liability object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - supplier
+              properties:
+                date:
+                  x-description-missing: true
+                  type: string
+                  format: date
+                  nullable: true
+                supplier:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  description: Supplier reference
+                supplierInvoiceNumber:
+                  type: string
+                  description: The invoice number issued by the supplier
+                receiptDate:
+                  description: The date when the supplier invoice was received by the recipient
+                  type: string
+                  format: date-time
+                  nullable: true
+                serviceDate:
+                  description: The date on which the service was provided
+                  type: string
+                  format: date
+                  nullable: true
+                status:
+                  description: Workflow status of the liability
+                  type: string
+                  nullable: false
+                  enum:
+                  - open
+                  - paid
+                  example: open
+                clarificationCase:
+                  type: boolean
+                  description: A boolean flag to mark the liability as a clarification case, e.g. to check the deferred account assignments or open questions
+                clarificationReason:
+                  type: string
+                  description: A string that specifies the reason or justification provided for the clarification case in the liability process.
+                release:
+                  type: boolean
+                  description: A boolean flag with which the goods delivery is confirmed as complete and the traffic light is switched to green.
+                invoiceRelease:
+                  type: boolean
+                  description: A boolean flag with which the accounting check of the incoming document is confirmed as complete and correct for tax purposes and the traffic light is switched to green.
+                internalComment:
+                  type: string
+                  description: A text field for adding internal comments or notes related to the liability, not visible to external parties.
+                financials:
+                  type: object
+                  additionalProperties: false
+                  description: financial information
+                  example:
+                    amountGross:
+                      amount: '100.0'
+                      currency: EUR
+                    amountNet:
+                      amount: '90.0'
+                      currency: EUR
+                    freightCharge: 10
+                    taxation: VAT
+                    taxes:
+                      normalTax:
+                        rate: 19
+                        amount: 19
+                      reducedTax:
+                        rate: 7
+                        amount: 7
+                      customTax1:
+                        rate: 8.1
+                        amount: 50.5
+                      customTax2:
+                        rate: 10
+                        amount: 50.5
+                    paymentTerms:
+                      dueDate: '2020-01-31'
+                      earlyPaymentDate: '2020-01-15'
+                      earlyPaymentDiscount: 2
+                      earlyPaymentDiscountAmount: 2
+                    bookingText: Liability booking text
+                    payment:
+                      methodName: Bank transfer
+                      paidAmount: 100
+                      paidOnDate: '2020-01-01'
+                      discountReceived: 2
+                    glAccount: '123456'
+                    costCenter: '123456'
+                  properties:
+                    amountGross:
+                      description: Money object with amount and currency
+                      example:
+                        amount: '13.37'
+                        currency: EUR
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        amount:
+                          description: A string representing the amount
+                          type: string
+                          format: float
+                          example: '24.99'
+                        currency:
+                          type: string
+                          pattern: '[A-Z]{3}'
+                          enum:
+                          - EUR
+                          - USD
+                          - JPY
+                          - BGN
+                          - CZK
+                          - DKK
+                          - GBP
+                          - HUF
+                          - PLN
+                          - RON
+                          - SEK
+                          - CHF
+                          - ISK
+                          - NOK
+                          - HRK
+                          - RUB
+                          - TRY
+                          - AUD
+                          - BRL
+                          - CAD
+                          - CNY
+                          - HKD
+                          - IDR
+                          - ILS
+                          - INR
+                          - KRW
+                          - MXN
+                          - MYR
+                          - NZD
+                          - PHP
+                          - SGD
+                          - THB
+                          - ZAR
+                          - ARS
+                          - CLP
+                          - SAR
+                          - AED
+                          - QAR
+                          description: Currency matches one of currency values as specified in ISO-4217.
+                          example: PLN
+                    amountNet:
+                      description: Money object with amount and currency
+                      example:
+                        amount: '13.37'
+                        currency: EUR
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        amount:
+                          description: A string representing the amount
+                          type: string
+                          format: float
+                          example: '24.99'
+                        currency:
+                          type: string
+                          pattern: '[A-Z]{3}'
+                          enum:
+                          - EUR
+                          - USD
+                          - JPY
+                          - BGN
+                          - CZK
+                          - DKK
+                          - GBP
+                          - HUF
+                          - PLN
+                          - RON
+                          - SEK
+                          - CHF
+                          - ISK
+                          - NOK
+                          - HRK
+                          - RUB
+                          - TRY
+                          - AUD
+                          - BRL
+                          - CAD
+                          - CNY
+                          - HKD
+                          - IDR
+                          - ILS
+                          - INR
+                          - KRW
+                          - MXN
+                          - MYR
+                          - NZD
+                          - PHP
+                          - SGD
+                          - THB
+                          - ZAR
+                          - ARS
+                          - CLP
+                          - SAR
+                          - AED
+                          - QAR
+                          description: Currency matches one of currency values as specified in ISO-4217.
+                          example: PLN
+                    freightCharge:
+                      type: number
+                      format: float
+                      description: Freight costs
+                    taxation:
+                      x-description-missing: true
+                      type: string
+                    taxes:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        normalTax:
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          properties:
+                            rate:
+                              type: number
+                              description: percentual rate
+                            amount:
+                              type: number
+                              format: float
+                              description: absolut amount
+                        reducedTax:
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          properties:
+                            rate:
+                              type: number
+                              description: percentual rate
+                            amount:
+                              type: number
+                              format: float
+                              description: absolut amount
+                        customTax1:
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          properties:
+                            rate:
+                              type: number
+                              description: percentual rate
+                            amount:
+                              type: number
+                              format: float
+                              description: absolut amount
+                        customTax2:
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          properties:
+                            rate:
+                              type: number
+                              description: percentual rate
+                            amount:
+                              type: number
+                              format: float
+                              description: absolut amount
+                    paymentTerms:
+                      x-description-missing: true
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        dueDate:
+                          type: string
+                          format: date
+                          nullable: true
+                        earlyPaymentDate:
+                          type: string
+                          format: date
+                          nullable: true
+                        earlyPaymentDiscount:
+                          type: number
+                          format: float
+                        earlyPaymentDiscountAmount:
+                          type: number
+                          format: float
+                    bookingText:
+                      description: header booking text
+                      type: string
+                    payment:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        methodName:
+                          x-description-missing: true
+                          type: string
+                        paidAmount:
+                          type: number
+                          format: float
+                        paidOnDate:
+                          type: string
+                          format: date
+                          nullable: true
+                        discountReceived:
+                          type: number
+                          format: float
+                      description: payment information
+                    glAccount:
+                      type: string
+                      nullable: true
+                      description: ledger account
+                    costCenter:
+                      type: string
+                      nullable: true
+                      description: cost center
+                assignedPurchaseOrders:
+                  x-description-missing: true
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    - project
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      number:
+                        type: string
+                      amountGross:
+                        type: number
+                        format: float
+                      amountNet:
+                        type: number
+                        format: float
+                      project:
+                        type: object
+                        additionalProperties: false
+                        description: related project ID
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      salesOrder:
+                        type: object
+                        nullable: true
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      costCenter:
+                        type: string
+                bookingText:
+                  description: header booking text
+                  type: string
+                project:
+                  type: object
+                  additionalProperties: false
+                  description: related project ID
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                accounting:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      glAccount:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      bookingText:
+                        type: string
+                        description: 1st accounting entry text
+                      amount:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      tax:
+                        type: object
+                        description: percentual tax rate
+                        additionalProperties: false
+                        properties:
+                          rate:
+                            type: number
+                            format: float
+                      costCenter:
+                        type: string
+                paymentTerms:
+                  x-description-missing: true
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    dueDate:
+                      type: string
+                      format: date
+                      nullable: true
+                    earlyPaymentDate:
+                      type: string
+                      format: date
+                      nullable: true
+                    earlyPaymentDiscount:
+                      type: number
+                      format: float
+                payment:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    methodName:
+                      x-description-missing: true
+                      type: string
+                    paidAmount:
+                      type: number
+                      format: float
+                    paidOnDate:
+                      type: string
+                      format: date
+                      nullable: true
+                    discountReceived:
+                      type: number
+                      format: float
+                  description: payment information
+                positions:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - product
+                    - price
+                    - tax
+                    properties:
+                      sort:
+                        description: The position of the position in the list
+                        type: number
+                        minimum: 0
+                      number:
+                        type: string
+                      purchaseOrder:
+                        type: object
+                        additionalProperties: false
+                        nullable: true
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      product:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          supplierProductNumber:
+                            type: string
+                      deliveryDate:
+                        description: The date the position was delivered
+                        type: string
+                        format: date
+                        nullable: true
+                      quantity:
+                        description: The quantity of the position
+                        type: number
+                        minimum: 0
+                      unit:
+                        type: string
+                      packagingUnit:
+                        type: string
+                      price:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      costCenter:
+                        type: string
+                      tax:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - rate
+                        properties:
+                          vatCategory:
+                            description: The category of the value added tax
+                            type: string
+                          rate:
+                            description: Tax rate in percent
+                            type: number
+                            format: float
+                            minimum: 0
+                            nullable: false
+                          taxText:
+                            type: string
+                            nullable: true
+            examples:
+              create liability:
+                value:
+                  date: '2024-01-01'
+                  supplier:
+                    id: '123456'
+                  supplierInvoiceNumber: '123456'
+                  receiptDate: '2024-01-01T12:00:00Z'
+                  status: open
+                  clarificationCase: true
+                  clarificationReason: Awaiting customer confirmation on pricing details.
+                  release: true
+                  invoiceRelease: false
+                  internalComment: Priority customer. Expedite processing once clarification is received.
+                  financials:
+                    amountGross:
+                      amount: '100.0'
+                      currency: EUR
+                    freightCharge: 10
+                    taxation: VAT
+                    taxes:
+                      normalTax:
+                        rate: 19
+                        amount: 19
+                      reducedTax:
+                        rate: 7
+                        amount: 7
+                      customTax1:
+                        rate: 8.1
+                        amount: 50.5
+                      customTax2:
+                        rate: 10
+                        amount: 50.5
+                    paymentTerms:
+                      dueDate: '2020-01-31'
+                      earlyPaymentDate: '2020-01-15'
+                      earlyPaymentDiscount: 2
+                    bookingText: Liability booking text
+                    payment:
+                      methodName: Bank transfer
+                      paidAmount: 100
+                      paidOnDate: '2020-01-01'
+                      discountReceived: 2
+                    glAccount: '123456'
+                    costCenter: '123456'
+                  assignedPurchaseOrders:
+                  - id: '123456'
+                    number: '123456'
+                    amountGross: 100
+                    amountNet: 100
+                    project:
+                      id: '123456'
+                    salesOrder:
+                      id: '123456'
+                    costCenter: '123456'
+                  bookingText: Liability booking text
+                  project:
+                    id: '123456'
+                  accounting:
+                  - glAccount: '123456'
+                    bookingText: Liability booking text
+                    amount:
+                      amount: '100.0'
+                      currency: EUR
+                    tax:
+                      rate: 19
+                    costCenter: '123456'
+                  paymentTerms:
+                    dueDate: '2020-01-31'
+                    earlyPaymentDate: '2020-01-15'
+                  positions:
+                  - sort: 1
+                    number: '123456'
+                    purchaseOrder:
+                      id: '123456'
+                    product:
+                      id: '123456'
+                      supplierProductNumber: '123456'
+                    deliveryDate: '2024-01-01'
+                    quantity: 1
+                    unit: pcs
+                    packagingUnit: pcs
+                    price:
+                      amount: '100.0'
+                      currency: EUR
+                    costCenter: '123456'
+                    tax:
+                      vatCategory: 19%
+                      rate: 19
+                      taxText: VAT 19%
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Liability
+      operationId: liability.list
+      summary: List liabilities
+      description: Returns a collection with all Liabilities
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: array
+                items:
+                  type: string
+                  pattern: \d+
+                  example: '17'
+                  description: Resource identifier.
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - supplier
+                  - status
+                  - project
+                  - createdAt
+                  - dueDate
+                  - fromDate
+                  - missingPaymentApproval
+                  - goodsReceiptInspectionMissing
+                  - incomingInvoiceVerificationMissing
+                  - noAccountAssignment
+                  - missingPayment
+                  - paidLiability
+                  - canceledLiability
+                  - missingDocument
+                  - invoiceDateAndReceiptVariousMonths
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                  - allIn
+                  - allNotIn
+                  - greaterThan
+                  - lessThan
+                value:
+                  oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - documentNumber
+                - status
+                - project
+                - createdAt
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    description: A list of liabilities
+                    example:
+                    - id: '123456'
+                      documentNumber: LB-100001
+                      date: '2020-01-15'
+                      createdAt: '2020-01-01 12:00:00+02:00'
+                      createdBy:
+                        name: John Doe
+                      updatedAt: '2020-01-01 13:00:00+02:00'
+                      status: PENDING
+                      supplier:
+                        id: '123456'
+                        name: Test
+                        number: '123456'
+                      supplierInvoiceNumber: INV-23456
+                      receiptDate: '2020-01-01'
+                      financials:
+                        amountGross:
+                          amount: '100.0'
+                          currency: EUR
+                        freightCharge: 10
+                        taxation: VAT
+                        taxes:
+                          normalTax:
+                            rate: 19
+                            amount: 19
+                          reducedTax:
+                            rate: 7
+                            amount: 7
+                          customTax1:
+                            rate: 8.1
+                            amount: 50.5
+                          customTax2:
+                            rate: 10
+                            amount: 50.5
+                        paymentTerms:
+                          dueDate: '2020-01-31'
+                          earlyPaymentDate: '2020-01-15'
+                          earlyPaymentDiscount: 2
+                        bookingText: Liability booking text
+                        payment:
+                          methodName: Bank transfer
+                          paidAmount: 100
+                          paidOnDate: '2020-01-01'
+                          discountReceived: 2
+                        bank:
+                          iban: MK641692T03H5L89810
+                          bic: CNSXFR6D
+                        amountNet:
+                          amount: '14.5300'
+                          currency: EUR
+                        remainingSum:
+                          amount: '10.00'
+                          currency: EUR
+                        totalAmount:
+                          amount: '20.00'
+                          currency: EUR
+                      purchaseOrder:
+                        id: '123'
+                      project:
+                        id: '1'
+                      icons:
+                        goodsReceiptCheck: ok
+                        invoiceCheck: ok
+                        accountAssignment: ok
+                        paymentStatus: partially_paid
+                        accountLink: missing
+                      tags:
+                      - id: '1'
+                        name: Erledigt
+                        color: '339966'
+                      - id: '2'
+                        name: Zu klären
+                        color: ff0000
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        documentNumber:
+                          description: Incremental document number. Before the document is approved, there is no document number.
+                          type: string
+                          nullable: true
+                          example: LB-100001
+                        date:
+                          description: Date of the supplier's invoice
+                          type: string
+                          nullable: false
+                          format: date
+                          example: '2020-01-15'
+                        createdAt:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          format: date-time
+                          example: '2020-01-01 12:00:00+02:00'
+                        createdBy:
+                          description: The user that created the liability
+                          example:
+                            name: John Doe
+                          type: object
+                          nullable: true
+                          additionalProperties: false
+                          required:
+                          - name
+                          properties:
+                            name:
+                              type: string
+                              nullable: true
+                        updatedAt:
+                          x-description-missing: true
+                          type: string
+                          nullable: false
+                          format: date-time
+                          example: '2020-01-01 13:00:00+02:00'
+                        status:
+                          description: Workflow status of the liability
+                          type: string
+                          nullable: false
+                          enum:
+                          - PENDING
+                          - PAID
+                          - PARTIALLY_PAID
+                          - CANCELLED
+                          example: PENDING
+                        supplier:
+                          description: The supplier that issued the invoice
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            name:
+                              type: string
+                              nullable: true
+                              example: Test
+                            number:
+                              type: string
+                              nullable: true
+                              example: '123456'
+                          example:
+                            id: '123456'
+                        supplierInvoiceNumber:
+                          description: Document number and receipt Day of the invoice in the supplier's system
+                          type: string
+                          example: INV-23456
+                        receiptDate:
+                          description: Day when the invoice was received
+                          type: string
+                          nullable: true
+                          format: date
+                          example: '2020-01-01'
+                        financials:
+                          description: Financial information
+                          example:
+                            amountGross:
+                              amount: '100.0'
+                              currency: EUR
+                            freightCharge: 10
+                            taxation: VAT
+                            taxes:
+                              normalTax:
+                                rate: 19
+                                amount: 19
+                              reducedTax:
+                                rate: 7
+                                amount: 7
+                              customTax1:
+                                rate: 8.1
+                                amount: 50.5
+                              customTax2:
+                                rate: 10
+                                amount: 50.5
+                            paymentTerms:
+                              dueDate: '2020-01-31'
+                              earlyPaymentDate: '2020-01-15'
+                              earlyPaymentDiscount: 2
+                            bookingText: Liability booking text
+                            payment:
+                              methodName: Bank transfer
+                              paidAmount: 100
+                              paidOnDate: '2020-01-01'
+                              discountReceived: 2
+                            bank:
+                              iban: ABC
+                              bic: de4
+                            amountNet:
+                              amount: '0.0000'
+                              currency: EUR
+                            remainingSum:
+                              amount: '0.00'
+                              currency: EUR
+                            totalAmount:
+                              amount: '0.00'
+                              currency: EUR
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            amountGross:
+                              description: Gross value of the liability
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - amount
+                              - currency
+                              properties:
+                                amount:
+                                  type: string
+                                  nullable: false
+                                  format: float
+                                  example: '1234.56'
+                                  x-description-missing: true
+                                currency:
+                                  type: string
+                                  nullable: false
+                                  example: EUR
+                                  x-description-missing: true
+                            freightCharge:
+                              x-description-missing: true
+                              type: number
+                              nullable: true
+                              example: 9.3
+                            taxation:
+                              description: The taxation method
+                              type: string
+                              example: Domestic
+                              nullable: false
+                            taxes:
+                              x-description-missing: true
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - normalTax
+                              - reducedTax
+                              - customTax1
+                              - customTax2
+                              properties:
+                                normalTax:
+                                  description: The normal tax rate
+                                  type: object
+                                  nullable: true
+                                  additionalProperties: false
+                                  required:
+                                  - rate
+                                  - amount
+                                  properties:
+                                    rate:
+                                      description: The tax rate in percent
+                                      type: number
+                                      nullable: true
+                                      example: 19
+                                    amount:
+                                      description: The tax amount
+                                      type: number
+                                      nullable: true
+                                      example: 120.5
+                                reducedTax:
+                                  description: The reduced tax rate
+                                  type: object
+                                  nullable: true
+                                  additionalProperties: false
+                                  required:
+                                  - rate
+                                  - amount
+                                  properties:
+                                    rate:
+                                      description: The tax rate in percent
+                                      type: number
+                                      nullable: true
+                                      example: 7
+                                    amount:
+                                      description: The tax amount
+                                      type: number
+                                      nullable: true
+                                      example: 60.5
+                                customTax1:
+                                  description: The first custom tax rate
+                                  type: object
+                                  nullable: true
+                                  additionalProperties: false
+                                  required:
+                                  - rate
+                                  - amount
+                                  properties:
+                                    rate:
+                                      description: The tax rate in percent
+                                      type: number
+                                      nullable: true
+                                      example: 8.1
+                                    amount:
+                                      description: The tax amount
+                                      type: number
+                                      nullable: true
+                                      example: 50.5
+                                customTax2:
+                                  description: The second custom tax rate
+                                  type: object
+                                  nullable: true
+                                  additionalProperties: false
+                                  required:
+                                  - rate
+                                  - amount
+                                  properties:
+                                    rate:
+                                      description: The tax rate in percent
+                                      type: number
+                                      nullable: true
+                                      example: 10
+                                    amount:
+                                      description: The tax amount
+                                      type: number
+                                      nullable: true
+                                      example: 50.5
+                            bookingText:
+                              description: header booking text
+                              type: string
+                            paymentTerms:
+                              description: The payment terms
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - dueDate
+                              - earlyPaymentDate
+                              - earlyPaymentDiscount
+                              properties:
+                                dueDate:
+                                  description: The due date of the payment
+                                  type: string
+                                  nullable: true
+                                  example: '2020-01-15'
+                                earlyPaymentDate:
+                                  description: The date when the early payment discount is valid
+                                  type: string
+                                  nullable: true
+                                  example: '2020-01-10'
+                                earlyPaymentDiscount:
+                                  description: The discount for early payment
+                                  type: number
+                                  nullable: false
+                                  example: 2.5
+                            payment:
+                              description: Information about the payment
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - methodName
+                              - paidAmount
+                              - paidOnDate
+                              - discountReceived
+                              properties:
+                                methodName:
+                                  description: Name of the used payment method
+                                  type: string
+                                  nullable: false
+                                  example: invoice
+                                paidAmount:
+                                  description: The amount that was paid already
+                                  type: number
+                                  nullable: false
+                                  example: 1234.56
+                                paidOnDate:
+                                  description: The date when the latest payment was made
+                                  type: string
+                                  nullable: true
+                                  example: '2020-01-12'
+                                discountReceived:
+                                  description: The discount that was received from the supplier
+                                  type: number
+                                  nullable: false
+                                  example: 12.34
+                            bank:
+                              type: object
+                              properties:
+                                iban:
+                                  type: string
+                                  example: MK641692T03H5L89810
+                                bic:
+                                  type: string
+                                  example: CNSXFR6D
+                            amountNet:
+                              description: Net value of the liability
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - amount
+                              - currency
+                              properties:
+                                amount:
+                                  type: string
+                                  nullable: false
+                                  format: float
+                                  example: '14.56'
+                                  x-description-missing: true
+                                currency:
+                                  type: string
+                                  nullable: false
+                                  example: EUR
+                                  x-description-missing: true
+                            remainingSum:
+                              description: Remaining sum of the liability
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - amount
+                              - currency
+                              properties:
+                                amount:
+                                  type: string
+                                  nullable: false
+                                  format: float
+                                  example: '10.00'
+                                  x-description-missing: true
+                                currency:
+                                  type: string
+                                  nullable: false
+                                  example: EUR
+                                  x-description-missing: true
+                            totalAmount:
+                              description: Total amount of the liability
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - amount
+                              - currency
+                              properties:
+                                amount:
+                                  type: string
+                                  nullable: false
+                                  format: float
+                                  example: '20.00'
+                                  x-description-missing: true
+                                currency:
+                                  type: string
+                                  nullable: false
+                                  example: EUR
+                                  x-description-missing: true
+                        purchaseOrder:
+                          description: The purchase order associated with the liability
+                          example:
+                            id: '123'
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                        project:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          example:
+                            id: '1'
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                        icons:
+                          x-description-missing: true
+                          type: object
+                          properties:
+                            goodsReceiptCheck:
+                              type: string
+                            invoiceCheck:
+                              type: string
+                            accountAssignment:
+                              type: string
+                            paymentStatus:
+                              type: string
+                            accountLink:
+                              type: string
+                          example:
+                            goodsReceiptCheck: ok
+                            invoiceCheck: ok
+                            accountAssignment: ok
+                            paymentStatus: partially_paid
+                            accountLink: missing
+                        tags:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              color:
+                                type: string
+                          example:
+                          - id: '1'
+                            name: Erledigt
+                            color: '339966'
+                          - id: '2'
+                            name: Zu klären
+                            color: ff0000
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/liabilities-recurring:
+    post:
+      tags:
+      - Liability
+      operationId: liability.create.recurring
+      summary: Create recurring liability
+      description: Creates a single new recurring liability.
+      requestBody:
+        description: Create a RecurringLiability object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - creationType
+              - type
+              - active
+              properties:
+                creationType:
+                  type: string
+                  description: Type of RecurringLiability creation
+                type:
+                  type: string
+                  description: RecurringLiability type
+                active:
+                  type: boolean
+                  description: Indicates if the RecurringLiability is active
+                filter:
+                  type: string
+                  description: value is booking text for creationType=incoming_payment and day for creationType=date
+                debit:
+                  type: string
+                  description: value is debit for creationType=incoming_payment and amount for creationType=date
+                credit:
+                  type: string
+                  description: Credit amount
+                fee:
+                  type: string
+                  description: RecurringLiability fee
+                currency:
+                  type: string
+                  description: value is currency for creationType=incoming_payment,date
+                contraAccount:
+                  type: string
+                  description: Contra account description
+                invoiceNumber:
+                  type: string
+                  description: Invoice number related to the RecurringLiability
+                purpose:
+                  type: string
+                  description: Purpose of the RecurringLiability
+                costCenter:
+                  type: string
+                  description: Cost center description
+                paymentMethod:
+                  type: string
+                  description: Payment method used
+                approveGoodsReceiptInspection:
+                  type: boolean
+                  description: Approval for goods receipt inspection
+                approveIncomingInvoiceInspection:
+                  type: boolean
+                  description: Approval for incoming invoice inspection
+                liabilityAmount:
+                  type: string
+                  description: Liability amount for the RecurringLiability
+                liabilityCurrency:
+                  type: string
+                  description: Liability currency for the RecurringLiability
+                value:
+                  type: string
+                  description: value is supplier description for type=liability, contraAccount for type=chart_of_accounts, errorReason for type=import_error
+            examples:
+              Create Recurring Liability -- creationType - by incoming payment and type - liability:
+                value:
+                  creationType: incoming_payment
+                  type: liability
+                  active: true
+                  filter: filter is bookingText test
+                  debit: '12'
+                  credit: '11'
+                  fee: '1'
+                  currency: EUR
+                  value: 26171 Sandra Krämer (Dresden)
+                  contraAccount: account label
+                  invoiceNumber: INV-DE-UOSS-123456789-1234-567
+                  purpose: purpose test
+                  costCenter: 5049 CostCenter Description
+                  paymentMethod: Amazon
+                  approveGoodsReceiptInspection: true
+                  approveIncomingInvoiceInspection: true
+              Create Recurring Liability -- creationType - by incoming payment and type - chart of accounts:
+                value:
+                  creationType: incoming_payment
+                  type: chart_of_accounts
+                  active: true
+                  filter: filter is bookingText test
+                  debit: '12'
+                  credit: '11'
+                  fee: '1'
+                  currency: EUR
+                  contraAccount: account label
+                  value: account label
+              Create Recurring Liability -- creationType - by incoming payment and type - import error:
+                value:
+                  creationType: incoming_payment
+                  type: import_error
+                  active: true
+                  filter: filter is bookingText test
+                  debit: '12'
+                  credit: '11'
+                  fee: '1'
+                  currency: EUR
+                  value: Some error
+              Create Recurring Liability -- creationType - by date and type - liability:
+                value:
+                  creationType: date
+                  type: liability
+                  active: true
+                  filter: '1'
+                  value: 26171 Sandra Krämer (Dresden)
+                  contraAccount: account label
+                  invoiceNumber: INV-DE-UOSS-123456789-1234-567
+                  purpose: purpose test
+                  costCenter: 5049 CostCenter Description
+                  paymentMethod: Amazon
+                  approveGoodsReceiptInspection: true
+                  approveIncomingInvoiceInspection: true
+                  debit: '10'
+                  currency: EUR
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/liabilities/{id}:
+    get:
+      tags:
+      - Liability
+      operationId: liability.view
+      summary: View liability
+      description: Returns details of a single liability.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      documentNumber:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: LB-100001
+                      date:
+                        x-description-missing: true
+                        type: string
+                        format: date
+                        example: '2020-01-15'
+                      createdAt:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        format: date-time
+                        example: '2020-01-01 12:00:00+02:00'
+                      createdBy:
+                        x-description-missing: true
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - name
+                        nullable: true
+                        properties:
+                          name:
+                            type: string
+                        example:
+                          name: John Doe
+                      updatedAt:
+                        x-description-missing: true
+                        type: string
+                        nullable: false
+                        format: date-time
+                        example: '2020-01-01 13:00:00+02:00'
+                      supplierInvoice:
+                        type: string
+                        description: The invoice number issued by the supplier
+                        example: INV-12345
+                      receiptDate:
+                        description: The date when the supplier invoice was received by the recipient
+                        type: string
+                        format: date-time
+                        nullable: true
+                        example: '2020-01-01T12:00:00Z'
+                      serviceDate:
+                        description: The date on which the service was provided
+                        type: string
+                        format: date
+                        nullable: true
+                        example: '2020-01-01'
+                      deliveryDate:
+                        description: The date on which the goods where shipped or the services where rendered
+                        type: string
+                        format: date
+                        nullable: true
+                        example: '2020-01-01'
+                      status:
+                        type: string
+                        enum:
+                        - PENDING
+                        - PAID
+                        - PARTIALLY_PAID
+                        - CANCELLED
+                        description: Status of liability
+                        example: PENDING
+                      supplier:
+                        type: object
+                        additionalProperties: false
+                        nullable: true
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        description: Supplier reference
+                        example:
+                          id: '123456'
+                      supplierInvoiceNumber:
+                        type: string
+                        description: The invoice number issued by the supplier
+                        example: INV-12345
+                      financials:
+                        type: object
+                        additionalProperties: false
+                        description: financial information
+                        example:
+                          amountGross:
+                            amount: '100.0'
+                            currency: EUR
+                          amountNet:
+                            amount: '90.0'
+                            currency: EUR
+                          freightCharge: 10
+                          taxation: VAT
+                          taxes:
+                            normalTax:
+                              rate: 19
+                              amount: 19
+                            reducedTax:
+                              rate: 7
+                              amount: 7
+                            customTax1:
+                              rate: 8.1
+                              amount: 50.5
+                            customTax2:
+                              rate: 10
+                              amount: 50.5
+                          paymentTerms:
+                            dueDate: '2020-01-31'
+                            earlyPaymentDate: '2020-01-15'
+                            earlyPaymentDiscount: 2
+                            earlyPaymentDiscountAmount: 2
+                          bookingText: Liability booking text
+                          payment:
+                            methodName: Bank transfer
+                            paidAmount: 100
+                            paidOnDate: '2020-01-01'
+                            discountReceived: 2
+                          glAccount: '123456'
+                          costCenter: '123456'
+                        properties:
+                          amountGross:
+                            description: Money object with amount and currency
+                            example:
+                              amount: '13.37'
+                              currency: EUR
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              amount:
+                                description: A string representing the amount
+                                type: string
+                                format: float
+                                example: '24.99'
+                              currency:
+                                type: string
+                                pattern: '[A-Z]{3}'
+                                enum:
+                                - EUR
+                                - USD
+                                - JPY
+                                - BGN
+                                - CZK
+                                - DKK
+                                - GBP
+                                - HUF
+                                - PLN
+                                - RON
+                                - SEK
+                                - CHF
+                                - ISK
+                                - NOK
+                                - HRK
+                                - RUB
+                                - TRY
+                                - AUD
+                                - BRL
+                                - CAD
+                                - CNY
+                                - HKD
+                                - IDR
+                                - ILS
+                                - INR
+                                - KRW
+                                - MXN
+                                - MYR
+                                - NZD
+                                - PHP
+                                - SGD
+                                - THB
+                                - ZAR
+                                - ARS
+                                - CLP
+                                - SAR
+                                - AED
+                                - QAR
+                                description: Currency matches one of currency values as specified in ISO-4217.
+                                example: PLN
+                          amountNet:
+                            description: Money object with amount and currency
+                            example:
+                              amount: '13.37'
+                              currency: EUR
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              amount:
+                                description: A string representing the amount
+                                type: string
+                                format: float
+                                example: '24.99'
+                              currency:
+                                type: string
+                                pattern: '[A-Z]{3}'
+                                enum:
+                                - EUR
+                                - USD
+                                - JPY
+                                - BGN
+                                - CZK
+                                - DKK
+                                - GBP
+                                - HUF
+                                - PLN
+                                - RON
+                                - SEK
+                                - CHF
+                                - ISK
+                                - NOK
+                                - HRK
+                                - RUB
+                                - TRY
+                                - AUD
+                                - BRL
+                                - CAD
+                                - CNY
+                                - HKD
+                                - IDR
+                                - ILS
+                                - INR
+                                - KRW
+                                - MXN
+                                - MYR
+                                - NZD
+                                - PHP
+                                - SGD
+                                - THB
+                                - ZAR
+                                - ARS
+                                - CLP
+                                - SAR
+                                - AED
+                                - QAR
+                                description: Currency matches one of currency values as specified in ISO-4217.
+                                example: PLN
+                          freightCharge:
+                            type: number
+                            format: float
+                            description: Freight costs
+                          taxation:
+                            x-description-missing: true
+                            type: string
+                          taxes:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              normalTax:
+                                type: object
+                                additionalProperties: false
+                                nullable: true
+                                properties:
+                                  rate:
+                                    type: number
+                                    description: percentual rate
+                                  amount:
+                                    type: number
+                                    format: float
+                                    description: absolut amount
+                              reducedTax:
+                                type: object
+                                additionalProperties: false
+                                nullable: true
+                                properties:
+                                  rate:
+                                    type: number
+                                    description: percentual rate
+                                  amount:
+                                    type: number
+                                    format: float
+                                    description: absolut amount
+                              customTax1:
+                                type: object
+                                additionalProperties: false
+                                nullable: true
+                                properties:
+                                  rate:
+                                    type: number
+                                    description: percentual rate
+                                  amount:
+                                    type: number
+                                    format: float
+                                    description: absolut amount
+                              customTax2:
+                                type: object
+                                additionalProperties: false
+                                nullable: true
+                                properties:
+                                  rate:
+                                    type: number
+                                    description: percentual rate
+                                  amount:
+                                    type: number
+                                    format: float
+                                    description: absolut amount
+                          paymentTerms:
+                            x-description-missing: true
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              dueDate:
+                                type: string
+                                format: date
+                                nullable: true
+                              earlyPaymentDate:
+                                type: string
+                                format: date
+                                nullable: true
+                              earlyPaymentDiscount:
+                                type: number
+                                format: float
+                              earlyPaymentDiscountAmount:
+                                type: number
+                                format: float
+                          bookingText:
+                            description: header booking text
+                            type: string
+                          payment:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              methodName:
+                                x-description-missing: true
+                                type: string
+                              paidAmount:
+                                type: number
+                                format: float
+                              paidOnDate:
+                                type: string
+                                format: date
+                                nullable: true
+                              discountReceived:
+                                type: number
+                                format: float
+                            description: payment information
+                          glAccount:
+                            type: string
+                            nullable: true
+                            description: ledger account
+                          costCenter:
+                            type: string
+                            nullable: true
+                            description: cost center
+                      purchaseOrder:
+                        type: object
+                        additionalProperties: false
+                        nullable: true
+                        description: global connected purchase order
+                        example:
+                          id: '123456'
+                        properties:
+                          id:
+                            type: string
+                            description: related purchase order
+                      assignedPurchaseOrders:
+                        x-description-missing: true
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            number:
+                              type: string
+                            amountGross:
+                              type: number
+                              format: float
+                            amountNet:
+                              type: number
+                              format: float
+                            project:
+                              type: object
+                              additionalProperties: false
+                              description: related project ID
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                            salesOrder:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                            costCenter:
+                              type: string
+                            comment:
+                              type: string
+                      project:
+                        type: object
+                        additionalProperties: false
+                        description: related project ID
+                        example:
+                          id: '1'
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      accounting:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            glAccount:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            bookingText:
+                              type: string
+                              description: 1st accounting entry text
+                            amount:
+                              description: Money object with amount and currency
+                              example:
+                                amount: '13.37'
+                                currency: EUR
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                amount:
+                                  description: A string representing the amount
+                                  type: string
+                                  format: float
+                                  example: '24.99'
+                                currency:
+                                  type: string
+                                  pattern: '[A-Z]{3}'
+                                  enum:
+                                  - EUR
+                                  - USD
+                                  - JPY
+                                  - BGN
+                                  - CZK
+                                  - DKK
+                                  - GBP
+                                  - HUF
+                                  - PLN
+                                  - RON
+                                  - SEK
+                                  - CHF
+                                  - ISK
+                                  - NOK
+                                  - HRK
+                                  - RUB
+                                  - TRY
+                                  - AUD
+                                  - BRL
+                                  - CAD
+                                  - CNY
+                                  - HKD
+                                  - IDR
+                                  - ILS
+                                  - INR
+                                  - KRW
+                                  - MXN
+                                  - MYR
+                                  - NZD
+                                  - PHP
+                                  - SGD
+                                  - THB
+                                  - ZAR
+                                  - ARS
+                                  - CLP
+                                  - SAR
+                                  - AED
+                                  - QAR
+                                  description: Currency matches one of currency values as specified in ISO-4217.
+                                  example: PLN
+                            tax:
+                              type: object
+                              description: percentual tax rate
+                              additionalProperties: false
+                              properties:
+                                rate:
+                                  type: number
+                                  format: float
+                            costCenter:
+                              type: string
+                      positions:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            sort:
+                              description: The position of the position in the list
+                              type: number
+                            number:
+                              type: string
+                            purchaseOrder:
+                              type: object
+                              additionalProperties: false
+                              nullable: true
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                            product:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                                supplierProductNumber:
+                                  type: string
+                            deliveryDate:
+                              description: The date the position was delivered
+                              type: string
+                              format: date
+                              nullable: true
+                            quantity:
+                              description: The quantity of the position
+                              type: number
+                            unit:
+                              type: string
+                            packagingUnit:
+                              type: string
+                            price:
+                              description: Money object with amount and currency
+                              example:
+                                amount: '13.37'
+                                currency: EUR
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                amount:
+                                  description: A string representing the amount
+                                  type: string
+                                  format: float
+                                  example: '24.99'
+                                currency:
+                                  type: string
+                                  pattern: '[A-Z]{3}'
+                                  enum:
+                                  - EUR
+                                  - USD
+                                  - JPY
+                                  - BGN
+                                  - CZK
+                                  - DKK
+                                  - GBP
+                                  - HUF
+                                  - PLN
+                                  - RON
+                                  - SEK
+                                  - CHF
+                                  - ISK
+                                  - NOK
+                                  - HRK
+                                  - RUB
+                                  - TRY
+                                  - AUD
+                                  - BRL
+                                  - CAD
+                                  - CNY
+                                  - HKD
+                                  - IDR
+                                  - ILS
+                                  - INR
+                                  - KRW
+                                  - MXN
+                                  - MYR
+                                  - NZD
+                                  - PHP
+                                  - SGD
+                                  - THB
+                                  - ZAR
+                                  - ARS
+                                  - CLP
+                                  - SAR
+                                  - AED
+                                  - QAR
+                                  description: Currency matches one of currency values as specified in ISO-4217.
+                                  example: PLN
+                            costCenter:
+                              type: string
+                            tax:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                vatCategory:
+                                  description: The category of the value added tax
+                                  type: string
+                                rate:
+                                  description: Tax rate in percent
+                                  type: number
+                                  format: float
+                                  nullable: true
+                                taxText:
+                                  type: string
+                                  nullable: true
+                      purpose:
+                        type: string
+                        nullable: true
+                        description: The purpose
+                        example: Test purpose
+                    example:
+                      id: '123456'
+                      documentNumber: LB-100001
+                      date: '2020-01-15'
+                      createdAt: '2020-01-01 12:00:00+02:00'
+                      createdBy:
+                        name: John Doe
+                      updatedAt: '2020-01-01 13:00:00+02:00'
+                      supplierInvoice: INV-12345
+                      receiptDate: '2020-01-01T12:00:00Z'
+                      deliveryDate: '2020-01-01'
+                      status: PENDING
+                      supplier:
+                        id: '123456'
+                      supplierInvoiceNumber: INV-12345
+                      financials:
+                        amountGross:
+                          amount: '100.0'
+                          currency: EUR
+                        freightCharge: 10
+                        taxation: VAT
+                        taxes:
+                          normalTax:
+                            rate: 19
+                            amount: 19
+                          reducedTax:
+                            rate: 7
+                            amount: 7
+                          customTax1:
+                            rate: 8.1
+                            amount: 50.5
+                          customTax2:
+                            rate: 10
+                            amount: 50.5
+                        paymentTerms:
+                          dueDate: '2020-01-31'
+                          earlyPaymentDate: '2020-01-15'
+                          earlyPaymentDiscount: 2
+                        bookingText: Liability booking text
+                        payment:
+                          methodName: Bank transfer
+                          paidAmount: 100
+                          paidOnDate: '2020-01-01'
+                          discountReceived: 2
+                        glAccount: '123456'
+                        costCenter: '123456'
+                      purchaseOrder:
+                        id: '123456'
+                      assignedPurchaseOrders:
+                      - id: '123456'
+                        number: '123456'
+                        amountGross: 100
+                        amountNet: 100
+                        project:
+                          id: '123456'
+                        salesOrder:
+                          id: '123456'
+                        costCenter: '123456'
+                      project:
+                        id: '1'
+                      accounting:
+                      - glAccount: '123456'
+                        bookingText: Liability booking text
+                        amount:
+                          amount: '100.0'
+                          currency: EUR
+                        tax:
+                          rate: 19
+                        costCenter: '123456'
+                      purpose: test purpose
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/liabilities/{id}/actions/release:
+    patch:
+      tags:
+      - Liability
+      operationId: liability.actions.release
+      summary: Release liability
+      description: Releases the liability, setting its status to released and enabling write protection
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              enum:
+              - ''
+              nullable: true
+            examples:
+              example:
+                value: ''
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '429':
+          description: Too many API calls made.
+  /api/v1/liabilities/{id}/documents:
+    post:
+      tags:
+      - Liability
+      operationId: liability.document.upload
+      summary: Add file to liability
+      description: Upload a file and adds this file as document to given liability
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Liability document create request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - fileName
+              - fileContent
+              - keyword
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+                keyword:
+                  type: string
+                  enum:
+                  - other
+                  - receipt
+                  - aknowledgement
+                  - cover
+                  - attachment
+                fileName:
+                  type: string
+                fileContent:
+                  type: string
+                  description: Base64 encoded content document.
+            examples:
+              Create Liability Document - minimal payload:
+                value:
+                  keyword: other
+                  fileName: document.pdf
+                  fileContent: dGVzdA==
+              Create Liability Document - fully qualified payload:
+                value:
+                  title: Liability document
+                  description: This is a liability document
+                  keyword: other
+                  fileName: document.pdf
+                  fileContent: dGVzdA==
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

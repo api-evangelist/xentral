@@ -1,0 +1,1942 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Customer Address API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Customer Address
+  description: Represents the address associated with a specific customer, including details such as location, contact information, and address type.
+paths:
+  /api/v2/customers/{customerId}/addresses:
+    post:
+      tags:
+      - Customer Address
+      operationId: customer.address.create.v2
+      summary: Create address
+      description: Create new customer address
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: Customer's identifier
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Create customer address
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                additionalProperties: false
+                properties:
+                  type:
+                    type: string
+                    nullable: false
+                    enum:
+                    - masterdata
+                    example: masterdata
+                    description: Type of customer address, must be 'masterdata'
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + Housenumber of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: true
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                required:
+                - type
+                - street
+                - city
+                - country
+              - type: object
+                additionalProperties: false
+                properties:
+                  type:
+                    type: string
+                    nullable: false
+                    enum:
+                    - billingaddress
+                    example: billingaddress
+                    description: Type of customer address, must be 'billingaddress'
+                  name:
+                    type: string
+                    nullable: false
+                    example: Max Mustermann
+                    description: Full name for billing address
+                  salutation:
+                    type: string
+                    enum:
+                    - mr
+                    - mrs
+                    - company
+                    - other
+                    nullable: true
+                    example: mr
+                    description: Abbreviation for salutation
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + House number of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: true
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                  department:
+                    type: string
+                    nullable: true
+                    example: Sales
+                    description: Name of department
+                  subDepartment:
+                    type: string
+                    nullable: true
+                    example: Online Sales
+                    description: Name of sub-department
+                  contactDetails:
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    properties:
+                      phone:
+                        type: string
+                        nullable: true
+                        example: 0800 546372
+                        description: Phone number
+                      email:
+                        type: string
+                        nullable: true
+                        example: m.m@somedomain.tpl
+                        description: Email address
+                      gln:
+                        type: string
+                        format: number
+                        nullable: true
+                        minLength: 13
+                        maxLength: 13
+                        example: '1234567890123'
+                        description: Global Location Number - key to identify physical/digital location globally
+                required:
+                - type
+                - name
+                - street
+                - city
+                - country
+              - type: object
+                additionalProperties: false
+                properties:
+                  type:
+                    type: string
+                    nullable: false
+                    enum:
+                    - deliveryaddress
+                    example: deliveryaddress
+                    description: Type of customer address, must be 'deliveryaddress'
+                  name:
+                    type: string
+                    nullable: false
+                    example: Max Mustermann
+                    description: Full name for billing address
+                  salutation:
+                    type: string
+                    enum:
+                    - mr
+                    - mrs
+                    - company
+                    - other
+                    nullable: true
+                    example: mr
+                    description: Abbreviation for salutation
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + House number of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: true
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                  department:
+                    type: string
+                    nullable: true
+                    example: Sales
+                    description: Name of department
+                  subDepartment:
+                    type: string
+                    nullable: true
+                    example: Online Sales
+                    description: Name of sub-department
+                  contactDetails:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      phone:
+                        type: string
+                        nullable: true
+                        example: 0800 546372
+                        description: Phone number
+                      email:
+                        type: string
+                        nullable: true
+                        example: m.m@esomedomain.tpl
+                        description: Email address
+                      gln:
+                        type: string
+                        format: number
+                        nullable: true
+                        minLength: 13
+                        maxLength: 13
+                        example: '1234567890123'
+                        description: Global Location Number - key to identify physical/digital location globally
+                  deliveryDetails:
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    properties:
+                      defaultDeliveryAddress:
+                        type: boolean
+                        example: true
+                        description: Set TRUE makes this address to default delivery address
+                      termsOfDelivery:
+                        type: string
+                        nullable: true
+                        description: Terms of delivery associated with this address
+                        example: Some terms here
+                      vatId:
+                        type: string
+                        nullable: true
+                        example: DE124345-23445
+                        description: VAT Id if different from masterdata
+                      taxType:
+                        type: string
+                        enum:
+                        - domestic
+                        - eu-delivery
+                        - export
+                        - free
+                        nullable: false
+                        example: domestic
+                        description: Taxation type
+                      internalComment:
+                        type: string
+                        nullable: true
+                        example: some text
+                        description: Internal Comments
+                      note:
+                        type: string
+                        nullable: true
+                        example: more text
+                        description: General Notes
+                required:
+                - type
+                - name
+                - street
+                - city
+                - country
+            examples:
+              full-masterdata:
+                value:
+                  type: masterdata
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+              full-billingaddress:
+                value:
+                  type: billingaddress
+                  name: Kathleen Minority
+                  salutation: mrs
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+                  department: Finance
+                  subDepartment: Controlling
+                  contactDetails:
+                    phone: 0800 4526123
+                    email: k.m@ny.tld
+                    gln: '1234567890123'
+              full-deliveryaddress:
+                value:
+                  type: deliveryaddress
+                  name: Kathleen Minority
+                  salutation: mrs
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+                  department: Finance
+                  subDepartment: Controlling
+                  contactDetails:
+                    phone: 0800 4526123
+                    email: k.m@ny.tld
+                    gln: '1234567890123'
+                  deliveryDetails:
+                    defaultDeliveryAddress: true
+                    termsOfDelivery: '142'
+                    vatId: DE25-123455265
+                    taxType: domestic
+                    internalComment: internal notes
+                    note: some additional notes
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Customer Address
+      operationId: customer.address.list.v2
+      summary: List addresses
+      description: Fetches a list of addresses that belong to specified customer. The list includes the main address (type=masterdata), billing address (type=billingaddress) and all delivery addresses (type=deliveryaddress).
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - type
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                value:
+                  oneOf:
+                  - type: string
+                    enum:
+                    - masterdata
+                    - billingaddress
+                    - deliveryaddress
+      - name: page
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - number
+            - size
+            properties:
+              number:
+                type: string
+                pattern: \d+
+                description: Page number should be an integer greater than or equal to 1
+              size:
+                type: string
+                pattern: \d+
+                description: Page size should usually be an integer between 10 and 50.
+        description: Use either page-based or cursor-based pagination, but not both.
+      responses:
+        '200':
+          description: List of customer's addresses
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - extra
+                - links
+                properties:
+                  data:
+                    type: array
+                    minItems: 0
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^(masterdata|billingaddress|\d+)$
+                          example: masterdata
+                          description: Resource identifier. Can be 'masterdata', 'billingaddress', or a numeric id.
+                        type:
+                          type: string
+                          enum:
+                          - masterdata
+                          - billingaddress
+                          - deliveryaddress
+                          example: masterdata
+                          description: The type of the address. Can be 'masterdata', 'billingaddress', or 'deliveryaddress'.
+                        name:
+                          type: string
+                          example: John Doe
+                          description: The recipient's name.
+                        street:
+                          type: string
+                          example: 1234 street
+                          description: Street and house number.
+                        addressSupplement:
+                          type: string
+                          nullable: true
+                          example: 5th floor
+                          description: Optional second address line.
+                        department:
+                          type: string
+                          nullable: true
+                          example: Financial & Accounting
+                          description: Department.
+                        subDepartment:
+                          type: string
+                          nullable: true
+                          example: Purchase accounting
+                          description: Sub-department.
+                        zip:
+                          type: string
+                          example: '12345'
+                          description: Postal code.
+                        city:
+                          type: string
+                          example: Sampletown
+                          description: City.
+                        country:
+                          type: string
+                          example: DE
+                          description: Country code in ISO 3166-1 alpha-2 format.
+                        state:
+                          type: string
+                          example: BY
+                          description: State code in ISO 3166-2 format.
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+                  links:
+                    type: object
+                    additionalProperties: false
+                    description: Paths for list traversal and to access related resources.
+                    properties:
+                      self:
+                        type: string
+                        nullable: false
+                        description: The URI of the current page.
+                        example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=2&page%5Bsize%5D=10
+                      next:
+                        type: string
+                        nullable: true
+                        description: The path of the next page. If value is null, this is the last page.
+                        example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=3&page%5Bsize%5D=10
+                      prev:
+                        type: string
+                        nullable: true
+                        description: The path of the previous page. If value is null, this is the first page.
+                        example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=1&page%5Bsize%5D=10
+                      customer:
+                        type: string
+                        nullable: false
+                        description: The path of the customer resource.
+                        example: /api/v2/customers/1234
+                    example:
+                      self: /api/v2/customers/1234/addresses?page%5Bnumber%5D=2&page%5Bsize%5D=10
+                      next: /api/v2/customers/1234/addresses?page%5Bnumber%5D=3&page%5Bsize%5D=10
+                      prev: /api/v2/customers/1234/addresses?page%5Bnumber%5D=1&page%5Bsize%5D=10
+                      customer: /api/v2/customers/1234
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+  /api/v2/customers/{customerId}/addresses/{id}:
+    get:
+      tags:
+      - Customer Address
+      operationId: customer.address.view.v2
+      summary: View address
+      description: Returns details of a single customer address
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: id
+        in: path
+        required: true
+        description: The address identifier. Can be `masterdata`, `billingaddress`, or a numeric ID (which corresponds to a delivery address).
+        schema:
+          oneOf:
+          - type: string
+            enum:
+            - masterdata
+            - billingaddress
+          - type: string
+            pattern: \d+
+            example: '17'
+            description: Resource identifier.
+        example: masterdata
+      responses:
+        '200':
+          description: Customer address response object
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    - type
+                    - name
+                    - street
+                    - addressSupplement
+                    - zip
+                    - city
+                    - country
+                    - state
+                    - department
+                    - subDepartment
+                    - contactDetails
+                    description: Customer Address object
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      type:
+                        type: string
+                        enum:
+                        - masterdata
+                        - billingaddress
+                        - deliveryaddress
+                        example: masterdata
+                        description: Type of customer address
+                      name:
+                        type: string
+                        nullable: true
+                        example: Firstname Surname
+                        description: Full name of the customer
+                      street:
+                        type: string
+                        nullable: true
+                        example: 1234 Main Street
+                        description: Street name and house number
+                      addressSupplement:
+                        type: string
+                        nullable: true
+                        example: 6. floor
+                        description: Additional address information, such as floor or unit
+                      zip:
+                        type: string
+                        nullable: true
+                        example: '12345'
+                        description: Postal code for the address
+                      city:
+                        type: string
+                        nullable: true
+                        example: Sampletown
+                        description: City of the address
+                      country:
+                        type: string
+                        nullable: true
+                        example: DE
+                        description: Country code in ISO 3166-1 alpha-2 format
+                      state:
+                        type: string
+                        nullable: true
+                        example: BY
+                        description: State or region code in ISO format, if applicable
+                      department:
+                        type: string
+                        nullable: true
+                        example: HR department
+                        description: Department of customer if necessary and available
+                      subDepartment:
+                        type: string
+                        nullable: true
+                        example: Sub department
+                        description: Sub-Department of customer if necessary and available
+                      contactDetails:
+                        type: object
+                        additionalProperties: false
+                        description: Contact information of a customer
+                        properties:
+                          phone:
+                            type: string
+                            nullable: true
+                            description: Phone number of a customer
+                            example: +49(30)12093756
+                          email:
+                            type: string
+                            nullable: true
+                            description: Email address of a customer
+                            example: customer@domain.tpl
+                          gln:
+                            type: string
+                            nullable: true
+                            description: Global Location Number (GLN) of the company
+                            example: '1234567890123'
+                            pattern: ^[0-9]{13}$
+                        example:
+                          email: dev@xentral.com
+                          phone: +49(0) 174406668
+                          gln: '1234567890123'
+                      deliveryDetails:
+                        type: object
+                        nullable: true
+                        additionalProperties: false
+                        description: Details about the customer's delivery address
+                        properties:
+                          defaultDeliveryAddress:
+                            type: boolean
+                            description: Indicates whether this is the default delivery address. Only one delivery address can be set as default.
+                            example: true
+                          termsOfDelivery:
+                            type: string
+                            nullable: true
+                            description: Terms of delivery associated with this address
+                            example: Some terms here
+                          vatId:
+                            type: string
+                            nullable: true
+                            description: VAT ID associated with the delivery address. Can be empty.
+                            example: DE123456789
+                          taxType:
+                            type: string
+                            nullable: true
+                            enum:
+                            - domestic
+                            - eu-delivery
+                            - export
+                            - free
+                            description: 'Tax type associated with the delivery address. Can be one of: domestic, eu-delivery, export, free.'
+                            example: domestic
+                          internalComment:
+                            type: string
+                            nullable: true
+                            description: Internal comment about the delivery address
+                            example: Some internal remarks here
+                          note:
+                            type: string
+                            nullable: true
+                            description: Additional note regarding the delivery address
+                            example: Some additional notes here
+                        example:
+                          defaultDeliveryAddress: true
+                          termsOfDelivery: Delivered within 5 business days
+                          vatId: DE123456789
+                          taxType: domestic
+                          internalComment: 'Handle with care. Preferred delivery time: morning.'
+                          note: Leave package at the front desk if recipient is unavailable.
+                    example:
+                      id: '1'
+                      type: deliveryaddress
+                      name: Test delivery address
+                      street: '1'
+                      zip: '12345'
+                      city: Munich
+                      country: DE
+                      state: BY
+                      addressSupplement: '1'
+                      department: Department
+                      subDepartment: Subdepartment
+                      contactDetails:
+                        email: dev@xentral.com
+                        phone: +49(0) 174406668
+                        gln: '1234567890123'
+                      deliveryDetails:
+                        taxType: export
+                        defaultDeliveryAddress: false
+                        termsOfDelivery: ' Delivery term'
+                        vatId: '123213212'
+                        internalComment: my awesome delivery internal comment
+                        note: my awesome delivery notice
+                  links:
+                    type: object
+                    description: A collection of related links for the customer resource.
+                    properties:
+                      self:
+                        type: string
+                        description: A URL linking directly to this specific customer address resource.
+                        example: http://localhost/api/v2/customers/2/addresses/1
+                      customer:
+                        type: string
+                        description: A URL linking to the customer resource associated with this address.
+                        example: http://localhost/api/v2/customers/2
+                    example:
+                      links:
+                        self: http://localhost/api/v2/customers/2/addresses/1
+                        customer: http://localhost/api/v2/customers/2
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    patch:
+      tags:
+      - Customer Address
+      operationId: customer.address.update.v2
+      summary: Update address
+      description: Updates given fields for a given customer address
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: Customer's identifier
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: path
+        name: id
+        description: customers address identifier
+        required: true
+        schema:
+          oneOf:
+          - type: string
+            enum:
+            - masterdata
+            - billingaddress
+          - type: string
+            pattern: \d+
+            example: '17'
+            description: Resource identifier.
+      requestBody:
+        description: Update customer address
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                additionalProperties: false
+                properties:
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + Housenumber of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: false
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                  department:
+                    type: string
+                    nullable: true
+                    example: Sales
+                    description: Name of deptartment
+                  subDepartment:
+                    type: string
+                    nullable: true
+                    example: Online Sales
+                    description: Name of sub-department
+              - type: object
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+                    nullable: false
+                    example: Max Mustermann
+                    description: Full name for billing address
+                  salutation:
+                    type: string
+                    enum:
+                    - mr
+                    - mrs
+                    - company
+                    - other
+                    nullable: true
+                    example: mr
+                    description: Abbreviation for salutation
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + Housenumber of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: false
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                  department:
+                    type: string
+                    nullable: true
+                    example: Sales
+                    description: Name of deptartment
+                  subDepartment:
+                    type: string
+                    nullable: true
+                    example: Online Sales
+                    description: Name of sub-department
+                  contactDetails:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      phone:
+                        type: string
+                        nullable: true
+                        example: 0800 546372
+                        description: Phone number
+                      email:
+                        type: string
+                        nullable: true
+                        example: m.m@ somedomain.tpl
+                        description: Email address
+                      gln:
+                        type: string
+                        format: number
+                        nullable: true
+                        minLength: 13
+                        maxLength: 13
+                        example: '1234567890123'
+                        description: Global Location Number - key to identify physical/digital location globally
+              - type: object
+                additionalProperties: false
+                properties:
+                  name:
+                    type: string
+                    nullable: true
+                    example: Max Mustermann
+                    description: Full name for billing address
+                  salutation:
+                    type: string
+                    enum:
+                    - mr
+                    - mrs
+                    - company
+                    - other
+                    nullable: true
+                    example: mr
+                    description: Abbreviation for salutation
+                  street:
+                    type: string
+                    nullable: false
+                    example: 1234 main street
+                    description: Street name + Housenumber of the address
+                  addressSupplement:
+                    type: string
+                    nullable: true
+                    example: 6th floor
+                    description: Additional supplement for address
+                  zip:
+                    type: string
+                    nullable: false
+                    example: '12345'
+                    description: ZIP code of address
+                  city:
+                    type: string
+                    nullable: false
+                    example: sample town
+                    description: Name of city
+                  country:
+                    type: string
+                    nullable: false
+                    example: DE
+                    description: ISO code (ISO 3166-1 alpha-2) of country
+                  state:
+                    type: string
+                    nullable: true
+                    example: BY
+                    description: ISO code (ISO 3166-2 without country part) of state/province
+                  department:
+                    type: string
+                    nullable: true
+                    example: Sales
+                    description: Name of deptartment
+                  subDepartment:
+                    type: string
+                    nullable: true
+                    example: Online Sales
+                    description: Name of sub-department
+                  contactDetails:
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    properties:
+                      phone:
+                        type: string
+                        nullable: true
+                        example: 0800 546372
+                        description: Phone number
+                      email:
+                        type: string
+                        nullable: true
+                        example: m.m@ somedomain.tpl
+                        description: Email address
+                      gln:
+                        type: string
+                        format: number
+                        nullable: true
+                        minLength: 13
+                        maxLength: 13
+                        example: '1234567890123'
+                        description: Global Location Number - key to identify physical/digital location globally
+                  deliveryDetails:
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    properties:
+                      defaultDeliveryAddress:
+                        type: boolean
+                        example: true
+                        description: Set TRUE makes this address to default delivery address
+                      termsOfDelivery:
+                        type: string
+                        nullable: true
+                        example: free shipment
+                        description: Terms of delivery
+                      vatId:
+                        type: string
+                        nullable: true
+                        example: DE124345-23445
+                        description: VAT Id if different from masterdata
+                      taxType:
+                        type: string
+                        enum:
+                        - domestic
+                        - eu-delivery
+                        - export
+                        - free
+                        nullable: false
+                        example: domestic
+                        description: Taxation type
+                      internalComment:
+                        type: string
+                        nullable: true
+                        example: some text
+                        description: Internal Comments
+                      note:
+                        type: string
+                        nullable: true
+                        example: more text
+                        description: General Notes
+            examples:
+              full-masterdata:
+                value:
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+                  department: Finance
+                  subDepartment: Controlling
+              full-billingaddress:
+                value:
+                  name: Kathleen Minority
+                  salutation: mrs
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+                  department: Finance
+                  subDepartment: Controlling
+                  contactDetails:
+                    phone: 0800 4526123
+                    email: k.m@ny.tld
+                    gln: '1234567890123'
+              full-deliveryaddress:
+                value:
+                  name: Kathleen Minority
+                  salutation: mrs
+                  street: 11W 53rd St
+                  addressSupplement: 6. Floor
+                  zip: '10019'
+                  city: New York
+                  state: NY
+                  country: US
+                  department: Finance
+                  subDepartment: Controlling
+                  contactDetails:
+                    phone: 0800 4526123
+                    email: k.m@ny.tld
+                    gln: '1234567890123'
+                  deliveryDetails:
+                    defaultDeliveryAddress: true
+                    termsOfDelivery: some terms here
+                    vatId: DE25-123455265
+                    taxType: domestic
+                    internalComment: internal notes
+                    note: some additional notes
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+    delete:
+      tags:
+      - Customer Address
+      operationId: customer.address.delete.v2
+      summary: Delete address
+      description: Delete customer address which could be inside of master data, billing address or a delivery address of a customer
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: Customer's identifier
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: path
+        name: id
+        description: customers address identifier
+        required: true
+        schema:
+          oneOf:
+          - type: integer
+            format: int64
+            example: 4
+          - type: string
+            example: masterdata
+            enum:
+            - masterdata
+            - billingaddress
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

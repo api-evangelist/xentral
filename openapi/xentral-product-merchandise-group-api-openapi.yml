@@ -1,0 +1,1385 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Product Merchandise Group API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Product Merchandise Group
+  description: Product merchandise groups.
+paths:
+  /api/v1/productsMerchandiseGroups:
+    get:
+      tags:
+      - Product Merchandise Group
+      operationId: productMerchandiseGroup.list
+      summary: List product merchandise groups
+      description: Lists all available products merchandise groups.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        name:
+                          type: string
+                          description: Shows the name of the merchandise group.
+                          example: Merchandise
+                        project:
+                          description: An optional object with id and name
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          - name
+                          nullable: true
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            name:
+                              type: string
+                          example:
+                            id: '1337'
+                            name: Diamond
+                        lastUsedProductNumber:
+                          type: string
+                          description: Shows the last used product number used by the merchandise group.
+                          example: '1000'
+                        useMainProductNumberRange:
+                          type: boolean
+                          description: Shows if the product number is taken from the main product number range or not.
+                          example: true
+                        revenue:
+                          description: How products in this merchandise group are contributing to revenues on your chart of accounts.
+                          example:
+                            domesticStandard: '19'
+                            domesticReduced: '7'
+                            domesticFree: '0'
+                            intraCommunityEu: '0'
+                            intraCommunityEuTaxText: VAT free intra-community supply
+                            euStandard: '0'
+                            euReduced: '0'
+                            export: '0'
+                            exportTaxText: VAT free export
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            domesticStandard:
+                              type: string
+                              description: Shows the domestic standard tax rate of the Merchandise Group.
+                              example: '19'
+                            domesticReduced:
+                              type: string
+                              description: Shows the domestic reduced tax rate of the Merchandise Group.
+                              example: '7'
+                            domesticFree:
+                              type: string
+                              description: Shows the domestic free (tax free) tax rate of the Merchandise Group.
+                              example: '0'
+                            intraCommunityEu:
+                              type: string
+                              description: Shows the intra-community EU tax rate of the Merchandise Group.
+                              example: '21'
+                            intraCommunityEuTaxText:
+                              type: string
+                              description: A description for the intra-community EU tax rate of the Merchandise Group.
+                              example: Tax rate in the european union
+                            euStandard:
+                              type: string
+                              description: Shows the EU standard tax rate of the Merchandise Group.
+                              example: '19'
+                            euReduced:
+                              type: string
+                              description: Shows the EU reduced tax rate of the Merchandise Group.
+                              example: '7'
+                            export:
+                              type: string
+                              description: Shows the export tax rate of the Merchandise Group.
+                              example: '21'
+                            exportTaxText:
+                              type: string
+                              description: A description for the export tax rate of the Merchandise Group.
+                              example: Sales tax applied for export products
+                        expenses:
+                          description: How products in this merchandise group are contributing to expenses on your chart of accounts.
+                          example:
+                            domesticStandard: '19'
+                            domesticReduced: '7'
+                            domesticFree: '0'
+                            intraCommunityEu: '0'
+                            euStandard: '0'
+                            euReduced: '0'
+                            import: '0'
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            domesticStandard:
+                              type: string
+                              description: Shows the domestic standard tax rate of the Merchandise Group.
+                              example: '19'
+                            domesticReduced:
+                              type: string
+                              description: Shows the domestic reduced tax rate of the Merchandise Group.
+                              example: '7'
+                            domesticFree:
+                              type: string
+                              description: Shows the domestic free (tax free) tax rate of the Merchandise Group.
+                              example: '0'
+                            intraCommunityEu:
+                              type: string
+                              description: Shows the intra-community EU tax rate of the Merchandise Group.
+                              example: '21'
+                            euStandard:
+                              type: string
+                              description: Shows the EU standard tax rate of the Merchandise Group.
+                              example: '19'
+                            euReduced:
+                              type: string
+                              description: Shows the EU reduced tax rate of the Merchandise Group.
+                              example: '7'
+                            import:
+                              type: string
+                              description: Shows the import tax rate of the Merchandise Group.
+                              example: '21'
+              examples:
+                Lists all product merchandise groups:
+                  value:
+                    data:
+                    - id: '2'
+                      name: Dienstleistungen
+                      project:
+                        id: '1'
+                        name: Standard Projekt
+                      lastUsedProductNumber: ''
+                      useMainProductNumberRange: true
+                      revenue:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        intraCommunityEuTaxText: ''
+                        euStandard: ''
+                        euReduced: ''
+                        export: ''
+                        exportTaxText: ''
+                      expenses:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        euStandard: ''
+                        euReduced: ''
+                        import: ''
+                    - id: '5'
+                      name: Fremdleistung
+                      project: null
+                      lastUsedProductNumber: F1100
+                      useMainProductNumberRange: false
+                      revenue:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        intraCommunityEuTaxText: ''
+                        euStandard: ''
+                        euReduced: ''
+                        export: ''
+                        exportTaxText: ''
+                      expenses:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        euStandard: ''
+                        euReduced: ''
+                        import: ''
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    post:
+      tags:
+      - Product Merchandise Group
+      operationId: productMerchandiseGroup.create
+      summary: Create product merchandise group
+      description: Creates a new product merchandise group.
+      parameters: []
+      requestBody:
+        description: Product merchandise group create request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: Sets the name of the merchandise group.
+                project:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                lastUsedProductNumber:
+                  type: string
+                  description: Sets the last used product number by the merchandise group.
+                useMainProductNumberRange:
+                  type: boolean
+                  description: Determines if the product number should be taken from the main product number range or not.
+                revenue:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    domesticStandard:
+                      type: string
+                    domesticReduced:
+                      type: string
+                    domesticFree:
+                      type: string
+                    intraCommunityEu:
+                      type: string
+                    intraCommunityEuTaxText:
+                      type: string
+                    euStandard:
+                      type: string
+                    euReduced:
+                      type: string
+                    export:
+                      type: string
+                    exportTaxText:
+                      type: string
+                expenses:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    domesticStandard:
+                      type: string
+                    domesticReduced:
+                      type: string
+                    domesticFree:
+                      type: string
+                    intraCommunityEu:
+                      type: string
+                    euStandard:
+                      type: string
+                    euReduced:
+                      type: string
+                    import:
+                      type: string
+            examples:
+              Create product merchandise group:
+                value:
+                  name: My Merchandise Group
+                  project:
+                    id: '1'
+                  lastUsedProductNumber: '1000'
+                  useMainProductNumberRange: true
+                  revenue:
+                    domesticStandard: '19'
+                    domesticReduced: '7'
+                    domesticFree: '0'
+                    intraCommunityEu: '0'
+                    intraCommunityEuTaxText: VAT free intra-community supply
+                    euStandard: '0'
+                    euReduced: '0'
+                    export: '0'
+                    exportTaxText: VAT free export
+                  expenses:
+                    domesticStandard: '19'
+                    domesticReduced: '7'
+                    domesticFree: '0'
+                    intraCommunityEu: '0'
+                    euStandard: '0'
+                    euReduced: '0'
+                    import: '0'
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/productsMerchandiseGroups/{id}:
+    get:
+      tags:
+      - Product Merchandise Group
+      operationId: productMerchandiseGroup.view
+      summary: View product merchandise group
+      description: Returns details of a single product merchandise group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    example:
+                      id: '1'
+                      name: Handelsware (100000)
+                      project: null
+                      lastUsedProductNumber: '100000'
+                      useMainProductNumberRange: false
+                      revenue:
+                        domesticStandard: '21'
+                        domesticReduced: '7'
+                        domesticFree: '0'
+                        intraCommunityEu: '21'
+                        intraCommunityEuTaxText: Tax rate in the european union
+                        euStandard: '21'
+                        euReduced: '7'
+                        export: '21'
+                        exportTaxText: Sales tax applied for export products
+                      expenses:
+                        domesticStandard: '21'
+                        domesticReduced: '7'
+                        domesticFree: '0'
+                        intraCommunityEu: '21'
+                        euStandard: '21'
+                        euReduced: '7'
+                        import: '21'
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      name:
+                        type: string
+                        description: Shows the name of the merchandise group.
+                        example: Merchandise
+                      project:
+                        description: An optional object with id and name
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - name
+                        nullable: true
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          name:
+                            type: string
+                        example:
+                          id: '1337'
+                          name: Diamond
+                      lastUsedProductNumber:
+                        type: string
+                        description: Shows the last used product number by the merchandise group.
+                        example: '1000'
+                      useMainProductNumberRange:
+                        type: boolean
+                        description: Shows if the product number is taken from the main product number range or not.
+                        example: true
+                      revenue:
+                        description: How products in this merchandise group are contributing to revenues on your chart of accounts.
+                        example:
+                          domesticStandard: '19'
+                          domesticReduced: '7'
+                          domesticFree: '0'
+                          intraCommunityEu: '0'
+                          intraCommunityEuTaxText: VAT free intra-community supply
+                          euStandard: '0'
+                          euReduced: '0'
+                          export: '0'
+                          exportTaxText: VAT free export
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          domesticStandard:
+                            type: string
+                          domesticReduced:
+                            type: string
+                          domesticFree:
+                            type: string
+                          intraCommunityEu:
+                            type: string
+                          intraCommunityEuTaxText:
+                            type: string
+                          euStandard:
+                            type: string
+                          euReduced:
+                            type: string
+                          export:
+                            type: string
+                          exportTaxText:
+                            type: string
+                      expenses:
+                        description: How products in this merchandise group are contributing to expenses on your chart of accounts.
+                        example:
+                          domesticStandard: '19'
+                          domesticReduced: '7'
+                          domesticFree: '0'
+                          intraCommunityEu: '0'
+                          euStandard: '0'
+                          euReduced: '0'
+                          import: '0'
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          domesticStandard:
+                            type: string
+                          domesticReduced:
+                            type: string
+                          domesticFree:
+                            type: string
+                          intraCommunityEu:
+                            type: string
+                          euStandard:
+                            type: string
+                          euReduced:
+                            type: string
+                          import:
+                            type: string
+              examples:
+                Shows a single product merchandise group:
+                  value:
+                    data:
+                      id: '1'
+                      name: Handelsware (100000)
+                      project: null
+                      lastUsedProductNumber: '100000'
+                      useMainProductNumberRange: false
+                      revenue:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        intraCommunityEuTaxText: ''
+                        euStandard: ''
+                        euReduced: ''
+                        export: ''
+                        exportTaxText: ''
+                      expenses:
+                        domesticStandard: ''
+                        domesticReduced: ''
+                        domesticFree: ''
+                        intraCommunityEu: ''
+                        euStandard: ''
+                        euReduced: ''
+                        import: ''
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '429':
+          description: Too many API calls made.
+    patch:
+      tags:
+      - Product Merchandise Group
+      operationId: productMerchandiseGroup.update
+      summary: Update product merchandise group
+      description: Updates details of a single product merchandise group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Product merchandise group update request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                  description: Sets the name of the merchandise group.
+                project:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                lastUsedProductNumber:
+                  type: string
+                  description: Sets the last used product number by the merchandise group.
+                useMainProductNumberRange:
+                  type: boolean
+                  description: Determines if the product number should be taken from the main product number range or not.
+                revenue:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    domesticStandard:
+                      type: string
+                    domesticReduced:
+                      type: string
+                    domesticFree:
+                      type: string
+                    intraCommunityEu:
+                      type: string
+                    intraCommunityEuTaxText:
+                      type: string
+                    euStandard:
+                      type: string
+                    euReduced:
+                      type: string
+                    export:
+                      type: string
+                    exportTaxText:
+                      type: string
+                expenses:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    domesticStandard:
+                      type: string
+                    domesticReduced:
+                      type: string
+                    domesticFree:
+                      type: string
+                    intraCommunityEu:
+                      type: string
+                    euStandard:
+                      type: string
+                    euReduced:
+                      type: string
+                    import:
+                      type: string
+            examples:
+              Update product merchandise group:
+                value:
+                  name: My Merchandise Group
+                  project:
+                    id: '1'
+                  lastUsedProductNumber: '1000'
+                  useMainProductNumberRange: true
+                  revenue:
+                    domesticStandard: '19'
+                    domesticReduced: '7'
+                    domesticFree: '0'
+                    intraCommunityEu: '0'
+                    intraCommunityEuTaxText: VAT free intra-community supply
+                    euStandard: '0'
+                    euReduced: '0'
+                    export: '0'
+                    exportTaxText: VAT free export
+                  expenses:
+                    domesticStandard: '19'
+                    domesticReduced: '7'
+                    domesticFree: '0'
+                    intraCommunityEu: '0'
+                    euStandard: '0'
+                    euReduced: '0'
+                    import: '0'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '429':
+          description: Too many API calls made.
+    delete:
+      tags:
+      - Product Merchandise Group
+      operationId: productMerchandiseGroup.delete
+      summary: Delete product merchandise group
+      description: Deletes a single merchandise group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

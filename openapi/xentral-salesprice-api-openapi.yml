@@ -1,0 +1,953 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account SalesPrice API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: SalesPrice
+  description: SalesPrice
+paths:
+  /api/v3/salesPrices:
+    get:
+      tags:
+      - SalesPrice
+      summary: 🔒 List sales prices V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `salesPrice:read`.
+
+
+        Paginated list of SalesPrices.'
+      operationId: GET::api-v3-salesprices
+      parameters:
+      - name: filter
+        in: query
+        description: "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`id`: *equals*, *notEquals*, *in*, *notIn* \n\n`product.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`customer.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`group.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`currency`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`amount`: *equals*, *notEquals*, *in*, *notIn*, *greaterThan*, *lessThan* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`validFrom`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`expiresAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`createdAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`updatedAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals*"
+        required: false
+        style: deepObject
+        schema:
+          type: array
+          items:
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - product.id
+                - customer.id
+                - group.id
+                - currency
+                - amount
+                - remark
+                - validFrom
+                - expiresAt
+                - createdAt
+                - updatedAt
+              op:
+                description: operator
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                description: The property value.
+                oneOf:
+                - title: String
+                  type: string
+                - title: Array
+                  type: array
+                  items:
+                    type: string
+            type: object
+            additionalProperties: false
+      - name: sort
+        in: query
+        description: Sort via id, -id, amount, -amount, createdAt, -createdAt, updatedAt and -updatedAt. Default sort is -created_at
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - id
+            - -id
+            - amount
+            - -amount
+            - createdAt
+            - -createdAt
+            - updatedAt
+            - -updatedAt
+      - name: perPage
+        in: query
+        description: 'Number of items per page. Default: 15, Max: 100'
+        required: false
+        schema:
+          type: integer
+          example: 15
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        '200':
+          description: Paginated list of SalesPrices.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: SalesPrice view
+                      properties:
+                        id:
+                          description: SalesPrice ID
+                          type: string
+                          pattern: '[0-9]+'
+                          example: '1337'
+                        product:
+                          description: Product
+                          properties:
+                            id:
+                              description: Product ID
+                              type: string
+                              pattern: '[0-9]+'
+                          type: object
+                          example:
+                            id: '1337'
+                        customer:
+                          description: Customer
+                          properties:
+                            id:
+                              description: Customer ID
+                              type: string
+                              pattern: '[0-9]+'
+                          type:
+                          - object
+                          - 'null'
+                          example:
+                            id: '1337'
+                        customerGroup:
+                          description: Customer group
+                          properties:
+                            id:
+                              description: Customer group ID
+                              type: string
+                              pattern: '[0-9]+'
+                          type:
+                          - object
+                          - 'null'
+                          example:
+                            id: '1337'
+                        price:
+                          description: Money
+                          properties:
+                            amount:
+                              oneOf:
+                              - type: string
+                              - type: number
+                            currency:
+                              description: Currency
+                              type: string
+                              example: EUR
+                          type: object
+                          example:
+                            amount: '13.37'
+                            currency: EUR
+                          additionalProperties: false
+                        amount:
+                          description: Amount
+                          type: number
+                          format: float
+                          example: 13.37
+                        packageAmount:
+                          description: Package amount
+                          type:
+                          - number
+                          - 'null'
+                          format: float
+                          example: 13.37
+                        customerProductNumber:
+                          description: Customer product number
+                          type:
+                          - string
+                          - 'null'
+                          example: Number1
+                        isNotCalculatedFromExchangeTable:
+                          description: Whether is calculated from exchange table
+                          type: boolean
+                          example: true
+                        hideInBulkPriceListing:
+                          description: Whether to hide from bulk price listing
+                          type: boolean
+                          example: false
+                        remark:
+                          description: Remark
+                          type:
+                          - string
+                          - 'null'
+                          example: remark example
+                        validFrom:
+                          description: Valid from date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2025-01-01'
+                        expiresAt:
+                          description: Expires at date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2025-01-01'
+                      type: object
+                    x-description-ignore: true
+                    x-example-ignore: true
+                  meta:
+                    description: Pagination meta data
+                    properties:
+                      currentPage:
+                        description: The current page number
+                        type: integer
+                        example: 1
+                      from:
+                        description: The first item being returned in the current page
+                        type: integer
+                        example: 1
+                        nullable: true
+                      path:
+                        description: The base path for the paginated results
+                        type: string
+                        example: https://api.example.com/items
+                      perPage:
+                        description: The number of items shown per page
+                        type: integer
+                        example: 15
+                      to:
+                        description: The last item being returned in the current page
+                        type: integer
+                        example: 15
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                  links:
+                    description: Pagination links
+                    properties:
+                      first:
+                        description: URL to the first page
+                        type: string
+                        example: https://api.example.com/items?page=1
+                        nullable: true
+                      last:
+                        description: URL to the last page
+                        type: string
+                        example: null
+                        nullable: true
+                      prev:
+                        description: URL to the previous page
+                        type: string
+                        example: null
+                        nullable: true
+                      next:
+                        description: URL to the next page
+                        type: string
+                        example: https://api.example.com/items?page=17
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - salesPrice:read
+    post:
+      tags:
+      - SalesPrice
+      summary: 🔒 Create sales price V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `salesPrice:create`.
+
+
+        Create a new sales price.'
+      operationId: POST::api-v3-salesprices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: SalesPrice create payload
+              required:
+              - product
+              - price
+              - quantity
+              properties:
+                product:
+                  description: Product
+                  properties:
+                    id:
+                      description: Product ID
+                      type: string
+                      pattern: '[0-9]+'
+                      example: '42'
+                  type: object
+                  example:
+                    id: '1337'
+                customer:
+                  description: Customer (provide either customer or customerGroup, but not both)
+                  properties:
+                    id:
+                      description: Customer ID
+                      type: string
+                      pattern: '[0-9]+'
+                      example: '42'
+                  type:
+                  - object
+                  - 'null'
+                  example:
+                    id: '1337'
+                customerGroup:
+                  description: Customer group (provide either customer or customerGroup, but not both)
+                  properties:
+                    id:
+                      description: Customer group ID
+                      type: string
+                      pattern: '[0-9]+'
+                      example: '42'
+                  type:
+                  - object
+                  - 'null'
+                  example:
+                    id: '1337'
+                price:
+                  description: Money
+                  properties:
+                    amount:
+                      oneOf:
+                      - type: string
+                      - type: number
+                    currency:
+                      description: Currency
+                      type: string
+                      example: EUR
+                  type: object
+                  example:
+                    amount: '13.37'
+                    currency: EUR
+                  additionalProperties: false
+                quantity:
+                  description: Quantity
+                  type: number
+                  format: float
+                  minimum: 1.0e-05
+                  example: 13.37
+                packageAmount:
+                  description: Package amount
+                  type:
+                  - number
+                  - 'null'
+                  format: float
+                  example: 13.37
+                customerProductNumber:
+                  description: Customer product number
+                  type:
+                  - string
+                  - 'null'
+                  maxLength: 255
+                  example: Number1
+                isNotCalculatedFromExchangeTable:
+                  description: Whether the price is not calculated from exchange table
+                  type: boolean
+                  example: true
+                hideInBulkPriceListing:
+                  description: Whether to hide the price from bulk price listing
+                  type: boolean
+                  example: false
+                remark:
+                  description: Remark
+                  type: string
+                  example: remark example
+                validFrom:
+                  description: Valid from date
+                  type: string
+                  format: date
+                  example: '2025-01-01'
+                expiresAt:
+                  description: Expires at date
+                  type: string
+                  format: date
+                  example: '2025-01-01'
+              type: object
+      responses:
+        '201':
+          description: Create a new sales price.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: SalesPrice view
+                    properties:
+                      id:
+                        description: SalesPrice ID
+                        type: string
+                        pattern: '[0-9]+'
+                        example: '1337'
+                      product:
+                        description: Product
+                        properties:
+                          id:
+                            description: Product ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type: object
+                        example:
+                          id: '1337'
+                      customer:
+                        description: Customer
+                        properties:
+                          id:
+                            description: Customer ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1337'
+                      customerGroup:
+                        description: Customer group
+                        properties:
+                          id:
+                            description: Customer group ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1337'
+                      price:
+                        description: Money
+                        properties:
+                          amount:
+                            oneOf:
+                            - type: string
+                            - type: number
+                          currency:
+                            description: Currency
+                            type: string
+                            example: EUR
+                        type: object
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        additionalProperties: false
+                      amount:
+                        description: Amount
+                        type: number
+                        format: float
+                        example: 13.37
+                      packageAmount:
+                        description: Package amount
+                        type:
+                        - number
+                        - 'null'
+                        format: float
+                        example: 13.37
+                      customerProductNumber:
+                        description: Customer product number
+                        type:
+                        - string
+                        - 'null'
+                        example: Number1
+                      isNotCalculatedFromExchangeTable:
+                        description: Whether is calculated from exchange table
+                        type: boolean
+                        example: true
+                      hideInBulkPriceListing:
+                        description: Whether to hide from bulk price listing
+                        type: boolean
+                        example: false
+                      remark:
+                        description: Remark
+                        type:
+                        - string
+                        - 'null'
+                        example: remark example
+                      validFrom:
+                        description: Valid from date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2025-01-01'
+                      expiresAt:
+                        description: Expires at date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2025-01-01'
+                    type: object
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      product:
+                      - The product field is required.
+                      customer:
+                      - The customer field must be an array.
+                      price.amount:
+                      - The price.amount field is required.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - salesPrice:create
+    patch:
+      tags:
+      - SalesPrice
+      summary: 🔒 Update multiple sales prices V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `salesPrice:update`.
+
+
+        Update multiple sales prices.'
+      operationId: PATCH::api-v3-salesprices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: SalesPrice update multiple data
+              type: array
+              items:
+                description: SalesPrice view
+                properties:
+                  id:
+                    description: SalesPrice ID
+                    type: string
+                    pattern: '[0-9]+'
+                    example: '1337'
+                  product:
+                    description: Product
+                    properties:
+                      id:
+                        description: Product ID
+                        type: string
+                        pattern: '[0-9]+'
+                        example: '42'
+                    type: object
+                    example:
+                      id: '1337'
+                  customer:
+                    description: Customer
+                    properties:
+                      id:
+                        description: Customer ID
+                        type: string
+                        pattern: '[0-9]+'
+                        example: '42'
+                    type:
+                    - object
+                    - 'null'
+                    example:
+                      id: '1337'
+                  customerGroup:
+                    description: Customer group
+                    properties:
+                      id:
+                        description: Customer group ID
+                        type: string
+                        pattern: '[0-9]+'
+                        example: '42'
+                    type:
+                    - object
+                    - 'null'
+                    example:
+                      id: '1337'
+                  price:
+                    description: Money
+                    properties:
+                      amount:
+                        oneOf:
+                        - type: string
+                        - type: number
+                      currency:
+                        description: Currency
+                        type: string
+                        example: EUR
+                    type: object
+                    example:
+                      amount: '13.37'
+                      currency: EUR
+                    additionalProperties: false
+                  quantity:
+                    description: from quantity
+                    type: number
+                    format: float
+                    example: 13.37
+                  packageAmount:
+                    description: Package amount
+                    type:
+                    - number
+                    - 'null'
+                    format: float
+                    example: 13.37
+                  customerProductNumber:
+                    description: Customer product number
+                    type:
+                    - string
+                    - 'null'
+                    maxLength: 255
+                    example: Number1
+                  isNotCalculatedFromExchangeTable:
+                    description: Whether is calculated from exchange table
+                    type: boolean
+                    example: true
+                  hideInBulkPriceListing:
+                    description: Whether to hide from bulk price listing
+                    type: boolean
+                    example: false
+                  remark:
+                    description: Remark
+                    type: string
+                    example: remark example
+                  validFrom:
+                    description: Valid from date
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2025-01-01'
+                  expiresAt:
+                    description: Expires at date
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2025-01-01'
+                type: object
+                example:
+                  id: '1337'
+              example:
+              - id: '1337'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      ? ''
+                      : - The  field must be an array.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - salesPrice:update
+  /api/v3/salesPrices/{id}:
+    get:
+      tags:
+      - SalesPrice
+      summary: 🔒 View sales price V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `salesPrice:read`.
+
+
+        View a sales price.'
+      operationId: GET::api-v3-salesprices-id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: View a sales price.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: SalesPrice view
+                    properties:
+                      id:
+                        description: SalesPrice ID
+                        type: string
+                        pattern: '[0-9]+'
+                        example: '1337'
+                      product:
+                        description: Product
+                        properties:
+                          id:
+                            description: Product ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type: object
+                        example:
+                          id: '1337'
+                      customer:
+                        description: Customer
+                        properties:
+                          id:
+                            description: Customer ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1337'
+                      customerGroup:
+                        description: Customer group
+                        properties:
+                          id:
+                            description: Customer group ID
+                            type: string
+                            pattern: '[0-9]+'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1337'
+                      price:
+                        description: Money
+                        properties:
+                          amount:
+                            oneOf:
+                            - type: string
+                            - type: number
+                          currency:
+                            description: Currency
+                            type: string
+                            example: EUR
+                        type: object
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        additionalProperties: false
+                      amount:
+                        description: Amount
+                        type: number
+                        format: float
+                        example: 13.37
+                      packageAmount:
+                        description: Package amount
+                        type:
+                        - number
+                        - 'null'
+                        format: float
+                        example: 13.37
+                      customerProductNumber:
+                        description: Customer product number
+                        type:
+                        - string
+                        - 'null'
+                        example: Number1
+                      isNotCalculatedFromExchangeTable:
+                        description: Whether is calculated from exchange table
+                        type: boolean
+                        example: true
+                      hideInBulkPriceListing:
+                        description: Whether to hide from bulk price listing
+                        type: boolean
+                        example: false
+                      remark:
+                        description: Remark
+                        type:
+                        - string
+                        - 'null'
+                        example: remark example
+                      validFrom:
+                        description: Valid from date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2025-01-01'
+                      expiresAt:
+                        description: Expires at date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2025-01-01'
+                    type: object
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - salesPrice:read
+    delete:
+      tags:
+      - SalesPrice
+      summary: Delete sales price V3
+      description: 'This endpoint requires the following scopes: `salesPrice:delete`.
+
+
+        Delete a sales price.'
+      operationId: DELETE::api-v3-salesprices-id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - salesPrice:delete
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

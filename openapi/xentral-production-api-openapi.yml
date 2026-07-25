@@ -1,0 +1,3933 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Production API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Production
+  description: Production resource management
+paths:
+  /api/v1/productions:
+    get:
+      tags:
+      - Production
+      operationId: production.list
+      summary: List productions
+      description: List Productions
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: array
+                items:
+                  type: string
+                  pattern: \d+
+                  example: '17'
+                  description: Resource identifier.
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - id
+                  - date
+                  - createdAt
+                  - updatedAt
+                  - status
+                  - salesOrderId
+                  - projectId
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                  - allIn
+                  - allNotIn
+                  - contains
+                  - notContains
+                  - startsWith
+                  - endsWith
+                  - greaterThan
+                  - lessThan
+                value:
+                  oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - date
+                - createdAt
+                - updatedAt
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      responses:
+        '200':
+          description: Productions list
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - extra
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: An entity of production response
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - documentNumber
+                      - bodyOutroduction
+                      - date
+                      - dateDelivery
+                      - dateProvision
+                      - dateProduction
+                      - dateProductionEnd
+                      - status
+                      - customer
+                      - project
+                      - salesOrder
+                      - internalDesignation
+                      - preferredWarehouse
+                      - reservationType
+                      - retrievalType
+                      - explodeSublists
+                      - functionalTest
+                      - displayWorkingStepTexts
+                      - createSerialNumbers
+                      - captureComponentSerialnumbers
+                      - internalComment
+                      - completed
+                      - finalRemark
+                      - customerCheckOk
+                      - depletingOk
+                      - partialProductionNumber
+                      - partialProductionOf
+                      - stockingOk
+                      - stockOk
+                      - log
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        documentNumber:
+                          type: string
+                          description: documentNumber
+                          example: DOC-123456
+                        bodyOutroduction:
+                          type: string
+                          description: BodyOutroduction of the production
+                          example: This is the conclusion section of the production document.
+                        date:
+                          type: string
+                          format: date
+                          description: Production Date
+                          example: '2024-09-18'
+                        dateDelivery:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Production Delivery Date
+                          example: '2024-09-25'
+                        dateProvision:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Provision Date
+                          example: '2024-09-20'
+                        dateProduction:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Production Date
+                          example: '2024-09-21'
+                        dateProductionEnd:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Production End Date
+                          example: '2024-09-22'
+                        status:
+                          type: string
+                          description: Production Status
+                          example: In Progress
+                        customer:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          nullable: true
+                          description: Customer of the production
+                          example:
+                            id: '17'
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          nullable: true
+                          description: Project of the production
+                          example:
+                            id: '17'
+                        salesOrder:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          nullable: true
+                          description: Sales Order of the production
+                          example:
+                            id: '17'
+                        internalDesignation:
+                          type: string
+                          description: Internal Designation of the production
+                          example: Batch A-123
+                        preferredWarehouse:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          nullable: true
+                          description: Preferred Warehouse of the production
+                          example:
+                            id: '17'
+                        reservationType:
+                          type: string
+                          nullable: true
+                          description: Reservation Type of the production
+                          example: Standard
+                        retrievalType:
+                          type: string
+                          description: Retrieval Type of the production
+                          example: Automated
+                        explodeSublists:
+                          type: boolean
+                          description: Explode Sublists of the production
+                          example: true
+                        functionalTest:
+                          type: boolean
+                          description: Functional Test of the production
+                          example: true
+                        displayWorkingStepTexts:
+                          type: boolean
+                          description: Display Working Step Texts of the production
+                          example: true
+                        createSerialNumbers:
+                          type: boolean
+                          description: Create Serial Numbers of the production
+                          example: true
+                        captureComponentSerialnumbers:
+                          type: boolean
+                          description: Capture Component Serialnumbers of the production
+                          example: true
+                        internalComment:
+                          type: string
+                          description: Internal Comment of the production
+                          example: Process is completed
+                        completed:
+                          type: boolean
+                          description: Completed of the production
+                          example: true
+                        finalRemark:
+                          type: string
+                          description: Final Remark of the production
+                          example: Production is done
+                        customerCheckOk:
+                          type: boolean
+                          description: Customer Check Ok of the production
+                          example: true
+                        depletingOk:
+                          type: boolean
+                          description: Depleting Ok of the production
+                          example: true
+                        partialProductionNumber:
+                          type: integer
+                          description: Partial Production Number of the production
+                          example: 121
+                        partialProductionOf:
+                          type: integer
+                          description: Partial Production of the production
+                          example: 1
+                        stockingOk:
+                          type: boolean
+                          description: Stocking Ok of the production
+                          example: true
+                        stockOk:
+                          type: boolean
+                          description: Stock Ok of the production
+                          example: true
+                        log:
+                          type: object
+                          properties:
+                            createdAt:
+                              type: string
+                              format: date
+                              example: '2024-09-18'
+                            createdBy:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  example: USR123456
+                                name:
+                                  type: string
+                                  example: John Doe
+                          example:
+                            createdAt: '2024-09-18'
+                            createdBy:
+                              id: USR123456
+                              name: John Doe
+                          description: log of the production
+                      example:
+                        id: '17'
+                        documentNumber: DOC-123456
+                        bodyOutroduction: This is the conclusion section of the production document.
+                        date: '2024-09-18'
+                        dateDelivery: '2024-09-25'
+                        dateProvision: '2024-09-20'
+                        dateProduction: '2024-09-21'
+                        dateProductionEnd: '2024-09-22'
+                        status: In Progress
+                        customer:
+                          id: '17'
+                        project:
+                          id: '17'
+                        salesOrder:
+                          id: '17'
+                        internalDesignation: Batch A-123
+                        preferredWarehouse:
+                          id: '17'
+                        reservationType: Standard
+                        retrievalType: Automated
+                        explodeSublists: true
+                        functionalTest: true
+                        displayWorkingStepTexts: true
+                        createSerialNumbers: true
+                        captureComponentSerialnumbers: true
+                        internalComment: Process is completed
+                        completed: true
+                        finalRemark: Production is done
+                        customerCheckOk: true
+                        depletingOk: true
+                        partialProductionNumber: 121
+                        partialProductionOf: 1
+                        stockingOk: true
+                        stockOk: true
+                        log:
+                          createdAt: '2024-09-18'
+                          createdBy:
+                            id: USR123456
+                            name: John Doe
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+                example:
+                  data:
+                  - id: '1'
+                    documentNumber: ''
+                    bodyOutroduction: ''
+                    date: '2024-03-13'
+                    dateDelivery: null
+                    dateProvision: null
+                    dateProduction: null
+                    dateProductionEnd: null
+                    status: released
+                    customer: null
+                    project:
+                      id: '1'
+                    salesOrder: null
+                    internalDesignation: ''
+                    preferredWarehouse: null
+                    reservationType: abschluss
+                    retrievalType: sammel
+                    explodeSublists: true
+                    functionalTest: false
+                    displayWorkingStepTexts: true
+                    createSerialNumbers: true
+                    captureComponentSerialnumbers: false
+                    internalComment: ''
+                    completed: false
+                    finalRemark: ''
+                    customerCheckOk: true
+                    depletingOk: false
+                    partialProductionNumber: 0
+                    partialProductionOf: 0
+                    stockingOk: false
+                    stockOk: true
+                    log:
+                      createdAt: '2024-03-13'
+                      createdBy:
+                        id: '1'
+                        name: admin
+                  - id: '2'
+                    documentNumber: 2024-400000
+                    bodyOutroduction: bodyOutroduction
+                    date: '2024-03-14'
+                    dateDelivery: '2024-03-15'
+                    dateProvision: null
+                    dateProduction: null
+                    dateProductionEnd: null
+                    status: released
+                    customer:
+                      id: '2'
+                    project:
+                      id: '1'
+                    salesOrder:
+                      id: '2'
+                    internalDesignation: ''
+                    preferredWarehouse:
+                      id: '12'
+                    reservationType: abschluss
+                    retrievalType: sammel
+                    explodeSublists: true
+                    functionalTest: false
+                    displayWorkingStepTexts: true
+                    createSerialNumbers: true
+                    captureComponentSerialnumbers: false
+                    internalComment: 'This is internal comment '
+                    completed: false
+                    finalRemark: ''
+                    customerCheckOk: true
+                    depletingOk: false
+                    partialProductionNumber: 0
+                    partialProductionOf: 0
+                    stockingOk: false
+                    stockOk: true
+                    log:
+                      createdAt: '2024-03-14'
+                      createdBy:
+                        id: '1'
+                        name: admin
+                  extra:
+                    totalCount: 20
+                    page:
+                      number: 1
+                      size: 2
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/productions/{id}:
+    get:
+      tags:
+      - Production
+      operationId: production.view
+      summary: View production
+      description: View a production
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Productions view based on id
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    description: An entity of production response
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    - documentNumber
+                    - bodyOutroduction
+                    - date
+                    - dateDelivery
+                    - dateProvision
+                    - dateProduction
+                    - dateProductionEnd
+                    - status
+                    - customer
+                    - project
+                    - salesOrder
+                    - batch
+                    - internalDesignation
+                    - preferredWarehouse
+                    - reservationType
+                    - retrievalType
+                    - explodeSublists
+                    - functionalTest
+                    - displayWorkingStepTexts
+                    - createSerialNumbers
+                    - captureComponentSerialnumbers
+                    - internalComment
+                    - completed
+                    - finalRemark
+                    - customerCheckOk
+                    - depletingOk
+                    - positions
+                    - partialProductionNumber
+                    - partialProductionOf
+                    - stockingOk
+                    - stockOk
+                    - log
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      documentNumber:
+                        type: string
+                        description: documentNumber
+                        example: DOC-123456
+                      bodyOutroduction:
+                        type: string
+                        description: BodyOutroduction of the production
+                        example: This is the conclusion section of the production document.
+                      date:
+                        type: string
+                        format: date
+                        description: Production Date
+                        example: '2024-09-18'
+                      dateDelivery:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Production Delivery Date
+                        example: '2024-09-25'
+                      dateProvision:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Provision Date
+                        example: '2024-09-20'
+                      dateProduction:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Production Date
+                        example: '2024-09-21'
+                      dateProductionEnd:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Production End Date
+                        example: '2024-09-22'
+                      status:
+                        type: string
+                        description: Production Status
+                        example: In Progress
+                      customer:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        nullable: true
+                        description: Customer of the production
+                        example:
+                          id: '17'
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        nullable: true
+                        description: Project of the production
+                        example:
+                          id: '17'
+                      salesOrder:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        nullable: true
+                        description: Sales Order of the production
+                        example:
+                          id: '17'
+                      batch:
+                        type: string
+                        description: Batch of the production
+                        nullable: true
+                        example: BATCH-001
+                      internalDesignation:
+                        type: string
+                        description: Internal Designation of the production
+                        example: Batch A-123
+                      positions:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            sort:
+                              type: integer
+                              description: Sort order of the position
+                              example: 1
+                            quantity:
+                              type: number
+                              format: float
+                              description: Quantity of the position
+                              example: 10
+                            unit:
+                              type: string
+                              description: Unit of the position
+                              example: pcs
+                            product:
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                                number:
+                                  type: string
+                                  description: Product number
+                                  example: PROD-12345
+                                name:
+                                  type: string
+                                  description: Product name
+                                  example: Sample Product
+                                description:
+                                  type: string
+                                  description: Product description
+                                  example: This is a sample product.
+                                project:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      pattern: \d+
+                                      example: '17'
+                                      description: Resource identifier.
+                                freeFields:
+                                  type: array
+                                  items:
+                                    type: object
+                                    additionalProperties: false
+                                    properties:
+                                      id:
+                                        type: string
+                                        pattern: \d+
+                                        example: '17'
+                                        description: Resource identifier.
+                                      value:
+                                        type: string
+                                        description: Value of the free field
+                                        example: '12'
+                            remark:
+                              type: string
+                              description: Remark for the product
+                              example: test
+                            billOfMaterialLevel:
+                              type: integer
+                              nullable: true
+                              description: Bill of Material Level of the product
+                              example: 10
+                            hasChildren:
+                              type: boolean
+                              description: Indicates if the product has children
+                              example: false
+                            parent:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                              nullable: true
+                              description: Parent ID of the product
+                            createdAt:
+                              type: string
+                              format: date-time
+                              description: Time when the position was created
+                              example: '2025-05-05 00:00:00'
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              description: Time when the position was last updated
+                              example: '2025-06-06 00:00:00'
+                        description: Positions of the production
+                        example:
+                        - id: '1'
+                          sort: 2
+                          quantity: 10
+                          unit: pcs
+                          product:
+                            id: '1'
+                            number: PROD-12345
+                            name: Sample Product
+                            description: This is a sample product.
+                            project:
+                              id: '1'
+                            freeFields:
+                            - id: '1'
+                              value: '23'
+                            - id: '2'
+                              value: '31'
+                            - id: '3'
+                              value: ''
+                            - id: '4'
+                              value: ''
+                            - id: '5'
+                              value: ''
+                            - id: '6'
+                              value: ''
+                            - id: '7'
+                              value: ''
+                            - id: '8'
+                              value: ''
+                            - id: '9'
+                              value: ''
+                            - id: '10'
+                              value: ''
+                            - id: '11'
+                              value: ''
+                            - id: '12'
+                              value: ''
+                            - id: '13'
+                              value: ''
+                            - id: '14'
+                              value: ''
+                            - id: '15'
+                              value: ''
+                            - id: '16'
+                              value: ''
+                            - id: '17'
+                              value: ''
+                            - id: '18'
+                              value: ''
+                            - id: '19'
+                              value: ''
+                            - id: '20'
+                              value: ''
+                            - id: '21'
+                              value: ''
+                            - id: '22'
+                              value: ''
+                            - id: '23'
+                              value: ''
+                            - id: '24'
+                              value: ''
+                            - id: '25'
+                              value: ''
+                            - id: '26'
+                              value: ''
+                            - id: '27'
+                              value: ''
+                            - id: '28'
+                              value: ''
+                            - id: '29'
+                              value: ''
+                            - id: '30'
+                              value: ''
+                            - id: '31'
+                              value: ''
+                            - id: '32'
+                              value: ''
+                            - id: '33'
+                              value: ''
+                            - id: '34'
+                              value: ''
+                            - id: '35'
+                              value: ''
+                            - id: '36'
+                              value: ''
+                            - id: '37'
+                              value: ''
+                            - id: '38'
+                              value: ''
+                            - id: '39'
+                              value: ''
+                            - id: '40'
+                              value: '42'
+                          remark: ''
+                          billOfMaterialLevel: 1
+                          hasChildren: false
+                          parent:
+                            id: '7'
+                          createdAt: '2025-06-05 00:00:00'
+                          updatedAt: '2025-06-06 00:00:00'
+                      preferredWarehouse:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        nullable: true
+                        description: Preferred Warehouse of the production
+                        example:
+                          id: '17'
+                      reservationType:
+                        type: string
+                        description: Reservation Type of the production
+                        example: Standard
+                      retrievalType:
+                        type: string
+                        description: Retrieval Type of the production
+                        example: Automated
+                      explodeSublists:
+                        type: boolean
+                        description: Explode Sublists of the production
+                        example: true
+                      functionalTest:
+                        type: boolean
+                        description: Functional Test of the production
+                        example: true
+                      displayWorkingStepTexts:
+                        type: boolean
+                        description: Display Working Step Texts of the production
+                        example: true
+                      createSerialNumbers:
+                        type: boolean
+                        description: Create Serial Numbers of the production
+                        example: true
+                      captureComponentSerialnumbers:
+                        type: boolean
+                        description: Capture Component Serialnumbers of the production
+                        example: true
+                      internalComment:
+                        type: string
+                        description: Internal Comment of the production
+                        example: Process is completed
+                      completed:
+                        type: boolean
+                        description: Completed of the production
+                        example: true
+                      finalRemark:
+                        type: string
+                        description: Final Remark of the production
+                        example: Production is done
+                      customerCheckOk:
+                        type: boolean
+                        description: Customer Check Ok of the production
+                        example: true
+                      depletingOk:
+                        type: boolean
+                        description: Depleting Ok of the production
+                        example: true
+                      partialProductionNumber:
+                        type: integer
+                        description: Partial Production Number of the production
+                        example: 121
+                      partialProductionOf:
+                        type: integer
+                        description: Partial Production of the production
+                        example: 1
+                      stockingOk:
+                        type: boolean
+                        description: Stocking Ok of the production
+                        example: true
+                      stockOk:
+                        type: boolean
+                        description: Stock Ok of the production
+                        example: true
+                      log:
+                        type: object
+                        properties:
+                          createdAt:
+                            type: string
+                            format: date
+                            example: '2024-09-18'
+                          createdBy:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: USR123456
+                              name:
+                                type: string
+                                example: John Doe
+                        example:
+                          createdAt: '2024-09-18'
+                          createdBy:
+                            id: USR123456
+                            name: John Doe
+                        description: log of the production
+                    example:
+                      id: '17'
+                      documentNumber: DOC-123456
+                      bodyOutroduction: This is the conclusion section of the production document.
+                      date: '2024-09-18'
+                      dateDelivery: '2024-09-25'
+                      dateProvision: '2024-09-20'
+                      dateProduction: '2024-09-21'
+                      dateProductionEnd: '2024-09-22'
+                      status: In Progress
+                      customer:
+                        id: '17'
+                      project:
+                        id: '17'
+                      salesOrder:
+                        id: '17'
+                      batch: BATCH-001
+                      internalDesignation: Batch A-123
+                      preferredWarehouse:
+                        id: '17'
+                      positions:
+                      - id: '1'
+                        sort: 2
+                        quantity: 10
+                        unit: pcs
+                        product:
+                          id: '1'
+                          number: PROD-12345
+                          name: Sample Product
+                          description: This is a sample product.
+                          project:
+                            id: '1'
+                          freeFields:
+                          - id: '1'
+                            value: '23'
+                          - id: '2'
+                            value: '31'
+                          - id: '3'
+                            value: ''
+                          - id: '4'
+                            value: ''
+                          - id: '5'
+                            value: ''
+                          - id: '6'
+                            value: ''
+                          - id: '7'
+                            value: ''
+                          - id: '8'
+                            value: ''
+                          - id: '9'
+                            value: ''
+                          - id: '10'
+                            value: ''
+                          - id: '11'
+                            value: ''
+                          - id: '12'
+                            value: ''
+                          - id: '13'
+                            value: ''
+                          - id: '14'
+                            value: ''
+                          - id: '15'
+                            value: ''
+                          - id: '16'
+                            value: ''
+                          - id: '17'
+                            value: ''
+                          - id: '18'
+                            value: ''
+                          - id: '19'
+                            value: ''
+                          - id: '20'
+                            value: ''
+                          - id: '21'
+                            value: ''
+                          - id: '22'
+                            value: ''
+                          - id: '23'
+                            value: ''
+                          - id: '24'
+                            value: ''
+                          - id: '25'
+                            value: ''
+                          - id: '26'
+                            value: ''
+                          - id: '27'
+                            value: ''
+                          - id: '28'
+                            value: ''
+                          - id: '29'
+                            value: ''
+                          - id: '30'
+                            value: ''
+                          - id: '31'
+                            value: ''
+                          - id: '32'
+                            value: ''
+                          - id: '33'
+                            value: ''
+                          - id: '34'
+                            value: ''
+                          - id: '35'
+                            value: ''
+                          - id: '36'
+                            value: ''
+                          - id: '37'
+                            value: ''
+                          - id: '38'
+                            value: ''
+                          - id: '39'
+                            value: ''
+                          - id: '40'
+                            value: '42'
+                        remark: ''
+                        billOfMaterialLevel: 1
+                        hasChildren: false
+                        parent:
+                          id: '7'
+                        createdAt: '2025-06-05 00:00:00'
+                        updatedAt: '2025-06-06 00:00:00'
+                      reservationType: Standard
+                      retrievalType: Automated
+                      explodeSublists: true
+                      functionalTest: true
+                      displayWorkingStepTexts: true
+                      createSerialNumbers: true
+                      captureComponentSerialnumbers: true
+                      internalComment: Process is completed
+                      completed: true
+                      finalRemark: Production is done
+                      customerCheckOk: true
+                      depletingOk: true
+                      partialProductionNumber: 121
+                      partialProductionOf: 1
+                      stockingOk: true
+                      stockOk: true
+                      log:
+                        createdAt: '2024-09-18'
+                        createdBy:
+                          id: USR123456
+                          name: John Doe
+                example:
+                  data:
+                    id: '1'
+                    documentNumber: ''
+                    bodyOutroduction: ''
+                    date: '2024-03-13'
+                    dateDelivery: null
+                    dateProvision: null
+                    dateProduction: null
+                    dateProductionEnd: null
+                    status: created
+                    customer: null
+                    project:
+                      id: '1'
+                    salesOrder: null
+                    batch: null
+                    internalDesignation: ''
+                    positions:
+                    - id: '1'
+                      sort: 2
+                      quantity: 10
+                      unit: ''
+                      product:
+                        id: '1'
+                        number: ''
+                        name: ''
+                        description: ''
+                        project:
+                          id: '1'
+                        freeFields:
+                        - id: '1'
+                          value: '23'
+                        - id: '2'
+                          value: '31'
+                        - id: '3'
+                          value: ''
+                        - id: '4'
+                          value: '12'
+                        - id: '5'
+                          value: ''
+                        - id: '6'
+                          value: ''
+                        - id: '7'
+                          value: ''
+                        - id: '8'
+                          value: ''
+                        - id: '9'
+                          value: ''
+                        - id: '10'
+                          value: ''
+                        - id: '11'
+                          value: ''
+                        - id: '12'
+                          value: ''
+                        - id: '13'
+                          value: ''
+                        - id: '14'
+                          value: ''
+                        - id: '15'
+                          value: ''
+                        - id: '16'
+                          value: ''
+                        - id: '17'
+                          value: ''
+                        - id: '18'
+                          value: ''
+                        - id: '19'
+                          value: ''
+                        - id: '20'
+                          value: ''
+                        - id: '21'
+                          value: ''
+                        - id: '22'
+                          value: ''
+                        - id: '23'
+                          value: ''
+                        - id: '24'
+                          value: ''
+                        - id: '25'
+                          value: ''
+                        - id: '26'
+                          value: ''
+                        - id: '27'
+                          value: ''
+                        - id: '28'
+                          value: ''
+                        - id: '29'
+                          value: ''
+                        - id: '30'
+                          value: ''
+                        - id: '31'
+                          value: ''
+                        - id: '32'
+                          value: ''
+                        - id: '33'
+                          value: ''
+                        - id: '34'
+                          value: ''
+                        - id: '35'
+                          value: ''
+                        - id: '36'
+                          value: ''
+                        - id: '37'
+                          value: ''
+                        - id: '38'
+                          value: ''
+                        - id: '39'
+                          value: ''
+                        - id: '40'
+                          value: ''
+                      remark: ''
+                      billOfMaterialLevel: 1
+                      hasChildren: false
+                      parent:
+                        id: '7'
+                      createdAt: '2025-06-05 00:00:00'
+                      updatedAt: '2025-06-06 00:00:00'
+                    preferredWarehouse: null
+                    reservationType: abschluss
+                    retrievalType: sammel
+                    explodeSublists: true
+                    functionalTest: false
+                    displayWorkingStepTexts: true
+                    createSerialNumbers: true
+                    captureComponentSerialnumbers: false
+                    internalComment: ''
+                    completed: false
+                    finalRemark: ''
+                    customerCheckOk: true
+                    depletingOk: false
+                    partialProductionNumber: 0
+                    partialProductionOf: 0
+                    stockingOk: false
+                    stockOk: true
+                    log:
+                      createdAt: '2024-03-13'
+                      createdBy:
+                        id: '1'
+                        name: admin
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/productions/{id}/actions/release:
+    patch:
+      tags:
+      - Production
+      operationId: production.actions.release
+      summary: Release production
+      description: Releases the production
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '429':
+          description: Too many API calls made.
+  /api/v1/productions/{id}/actions/cancel:
+    patch:
+      tags:
+      - Production
+      operationId: production.actions.cancel
+      summary: Cancel production
+      description: Cancel the production
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '429':
+          description: Too many API calls made.
+  /api/v3/productions:
+    get:
+      tags:
+      - Production
+      summary: 🔒 List productions V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `production:read`.
+
+
+        Paginated list of productions.'
+      operationId: GET::api-v3-productions
+      parameters:
+      - name: filter
+        in: query
+        description: "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`id`: *equals*, *notEquals*, *in*, *notIn* \n\n`documentNumber`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`writeProtection`: *equals*, *notEquals* \n\n`address.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`project.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`tags`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`status`: *equals*, *notEquals*, *in*, *notIn* \n\n`internalComment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`internalDesignation`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`productionStartDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`productionEndDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`stockRetrievalDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`stockProvisioningDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`materialReservation`: *equals*, *notEquals*, *in*, *notIn* \n\n`materialRetrieval`: *equals*, *notEquals*, *in*, *notIn* \n\n`resolveMultiLevelBOM`: *equals*, *notEquals* \n\n`functionTest`: *equals*, *notEquals* \n\n`createSerialNumbers`: *equals*, *notEquals* \n\n`recordSubSerialNumbers`: *equals*, *notEquals* \n\n`printSettings.showTaskDescription`: *equals*, *notEquals* \n\n`bodyText`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`preferredWarehouse.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`salesOrder.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`createdAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`updatedAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals*"
+        required: false
+        style: deepObject
+        schema:
+          type: array
+          items:
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - documentNumber
+                - documentDate
+                - writeProtection
+                - address.id
+                - project.id
+                - tags
+                - status
+                - internalComment
+                - internalDesignation
+                - productionStartDate
+                - productionEndDate
+                - stockRetrievalDate
+                - stockProvisioningDate
+                - materialReservation
+                - materialRetrieval
+                - resolveMultiLevelBOM
+                - functionTest
+                - createSerialNumbers
+                - recordSubSerialNumbers
+                - printSettings.showTaskDescription
+                - bodyText
+                - preferredWarehouse.id
+                - salesOrder.id
+                - createdAt
+                - updatedAt
+              op:
+                description: operator
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - lessThan
+                - lessThanOrEquals
+                - greaterThan
+                - greaterThanOrEquals
+              value:
+                description: The property value.
+                oneOf:
+                - title: String
+                  type: string
+                - title: Array
+                  type: array
+                  items:
+                    type: string
+            type: object
+            additionalProperties: false
+        examples:
+          Filter by document number:
+            summary: ''
+            value:
+            - key: documentNumber
+              op: equals
+              value: PROD-12345
+      - name: sort
+        in: query
+        description: Sort via id, -id, documentNumber, -documentNumber, documentDate, -documentDate, createdAt, -createdAt, updatedAt and -updatedAt. Default sort is -created_at
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - id
+            - -id
+            - documentNumber
+            - -documentNumber
+            - documentDate
+            - -documentDate
+            - createdAt
+            - -createdAt
+            - updatedAt
+            - -updatedAt
+      - name: include
+        in: query
+        required: false
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - activity
+            - address
+            - materials
+            - materials.product
+            - project
+            - tags
+      - name: perPage
+        in: query
+        description: 'Number of items per page. Default: 15, Max: 100'
+        required: false
+        schema:
+          type: integer
+          example: 15
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      responses:
+        '200':
+          description: Paginated list of productions.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: Production document
+                      properties:
+                        id:
+                          description: ID of the production
+                          type: string
+                          example: '1'
+                        documentNumber:
+                          description: Production document number. For drafts, this will be null.
+                          type:
+                          - string
+                          - 'null'
+                          example: PROD-12345
+                        documentDate:
+                          description: Main date date of the production document
+                          type: string
+                          format: date
+                          example: '2024-01-15'
+                        status:
+                          description: Status of the production document
+                          type: string
+                          enum:
+                          - draft
+                          - started
+                          - released
+                          - completed
+                          - cancelled
+                          example: draft
+                        writeProtection:
+                          description: Indicates if the production is write protected
+                          type: boolean
+                          example: false
+                        address:
+                          description: Address entity of the production. By default, only the ID is returned. To get the full Address object, use the `include` parameter.
+                          example:
+                            id: '1'
+                          anyOf:
+                          - required:
+                            - id
+                            - createdAt
+                            - updatedAt
+                            properties:
+                              id:
+                                type: string
+                                example: '42'
+                              isDeleted:
+                                description: Flagged if the entry was deleted.
+                                type: boolean
+                                example: false
+                              createdAt:
+                                description: Creation timestamp
+                                type: string
+                                format: date-time
+                                example: '2025-03-15T09:27:00+01:00'
+                              updatedAt:
+                                description: Last update timestamp
+                                type: string
+                                format: date-time
+                                example: '2025-10-20T14:45:12+01:00'
+                            type: object
+                            additionalProperties: false
+                          - properties:
+                              id:
+                                type: string
+                            type: object
+                          - type: 'null'
+                        project:
+                          description: Project entity of the production. By default, only the ID is returned. To get the full Project object, use the `include` parameter.
+                          example:
+                            id: '1'
+                          anyOf:
+                          - required:
+                            - id
+                            - name
+                            - abbreviation
+                            properties:
+                              id:
+                                type: string
+                                example: '54'
+                              name:
+                                type: string
+                                example: Standard Project
+                              abbreviation:
+                                type: string
+                                example: STANDARD
+                            type: object
+                            additionalProperties: false
+                          - properties:
+                              id:
+                                type: string
+                            type: object
+                          - type: 'null'
+                        salesOrder:
+                          description: Sales order reference associated with the production
+                          properties:
+                            id:
+                              type: string
+                              example: '1'
+                          type:
+                          - object
+                          - 'null'
+                          example:
+                            id: '1'
+                        produceProduct:
+                          description: Product entity to be produced. By default, only the ID is returned. To get the full Product object, use the `include` parameter.
+                          example:
+                            id: '1'
+                          anyOf:
+                          - required:
+                            - id
+                            - number
+                            properties:
+                              id:
+                                type: string
+                              number:
+                                type:
+                                - string
+                                - 'null'
+                              createdAt:
+                                description: Creation timestamp
+                                type: string
+                                format: date-time
+                                example: '2025-03-15T09:27:00+01:00'
+                              updatedAt:
+                                description: Last update timestamp
+                                type: string
+                                format: date-time
+                                example: '2025-10-20T14:45:12+01:00'
+                            type: object
+                          - properties:
+                              id:
+                                type: string
+                            type: object
+                          - type: 'null'
+                        produceQuantity:
+                          description: Quantity of the product to be produced
+                          type:
+                          - number
+                          - 'null'
+                          format: float
+                          example: 10.5
+                        tags:
+                          description: Tags for categorizing the production
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: string
+                          example:
+                          - urgent
+                          - quality-check
+                        internalDesignation:
+                          description: Internal designation
+                          type:
+                          - string
+                          - 'null'
+                          example: FB-3860-L
+                        materials:
+                          description: Materials (line items) for the production. By default, this is not loaded. Use the `include` parameter to load.
+                          type: array
+                          items:
+                            properties:
+                              id:
+                                description: ID of the line item
+                                type: string
+                                example: '1'
+                              number:
+                                description: The Number of the material. Usually the product SKU, but can be adjusted if required.
+                                type:
+                                - string
+                                - 'null'
+                                example: 2462-SK-D
+                              name:
+                                description: The name of the material Usually the product name, but can be adjusted if required.
+                                type: string
+                                example: Strawberry Jam
+                              description:
+                                description: The description of the material. Usually the product description, but can be adjusted if required.
+                                type:
+                                - string
+                                - 'null'
+                                example: Delicious strawberry jam made from fresh strawberries.
+                              quantity:
+                                description: The quantity of the material
+                                type: number
+                                format: float
+                                example: 2
+                              product:
+                                description: The product of the line item
+                                type: object
+                              hasChildLineItems:
+                                description: Indicates if this line item has child line items (exploded line items)
+                                type: boolean
+                                example: false
+                              parentLineItem:
+                                description: If this line item is a child line item, this will contain the parent line item ID
+                                properties:
+                                  id:
+                                    type: string
+                                    example: '1'
+                                type:
+                                - object
+                                - 'null'
+                                example:
+                                  id: '1'
+                              sort:
+                                description: The sort order of the line item
+                                type: integer
+                                example: 1
+                              updatedAt:
+                                description: The date and time when the line item was last updated
+                                type: string
+                                format: date-time
+                                example: '2023-10-01T12:00:00Z'
+                              createdAt:
+                                description: The date and time when the line item was created
+                                type: string
+                                format: date-time
+                                example: '2023-10-01T12:00:00Z'
+                            type: object
+                        materialReservation:
+                          description: Material reservation method
+                          type: string
+                          example: on_release
+                        materialRetrieval:
+                          description: Material retrieval method
+                          type: string
+                          example: single
+                        resolveMultiLevelBOM:
+                          description: Whether to resolve multi-level bill of materials
+                          type: boolean
+                          example: false
+                        functionTest:
+                          description: Whether function testing is required
+                          type: boolean
+                          example: true
+                        createSerialNumbers:
+                          description: Whether to create serial numbers
+                          type: boolean
+                          example: false
+                        recordSubSerialNumbers:
+                          description: Whether to record sub-serial numbers
+                          type: boolean
+                          example: false
+                        stockRetrievalDate:
+                          description: Stock retrieval date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2024-01-25'
+                        stockProvisioningDate:
+                          description: Stock provisioning date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2024-01-20'
+                        productionStartDate:
+                          description: Production start date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2024-01-15'
+                        productionEndDate:
+                          description: Production end date
+                          type:
+                          - string
+                          - 'null'
+                          format: date
+                          example: '2024-01-20'
+                        bodyText:
+                          description: Body text for production notes
+                          type:
+                          - string
+                          - 'null'
+                          example: Additional production notes
+                        internalComment:
+                          description: Internal comment
+                          type:
+                          - string
+                          - 'null'
+                          example: Internal production comment
+                        printSettings:
+                          description: Print settings configuration
+                          properties:
+                            showTaskDescription:
+                              description: Whether to show task descriptions when printing
+                              type: boolean
+                              example: true
+                          type: object
+                          example:
+                            showTaskDescription: true
+                        preferredWarehouse:
+                          description: Preferred warehouse for the production. If set, only stock from this warehouse is considered for stock reservations, and the production cannot be started if the selected warehouse does not have sufficient stock.
+                          properties:
+                            id:
+                              type: string
+                              example: '1'
+                          type:
+                          - object
+                          - 'null'
+                          example:
+                            id: '1'
+                        activity:
+                          description: Activity log entries for the production. By default, this is not loaded. Use the `include` parameter to load.
+                          type: array
+                          items:
+                            required:
+                            - message
+                            - causer
+                            - causedAt
+                            properties:
+                              message:
+                                type: string
+                                example: Invoice released
+                              causer:
+                                type:
+                                - string
+                                - 'null'
+                                example: John Doe
+                              causedAt:
+                                type: string
+                                format: date-time
+                                example: '2023-01-01T00:00:00Z'
+                            type: object
+                            additionalProperties: false
+                          example: []
+                        updatedAt:
+                          description: Timestamp of the last update
+                          type: string
+                          format: date-time
+                          example: '2023-10-01T12:00:00Z'
+                        createdAt:
+                          description: Timestamp of creation
+                          type: string
+                          format: date-time
+                          example: '2023-10-01T12:00:00Z'
+                      type: object
+                      x-example-ignore: true
+                    x-description-ignore: true
+                    x-example-ignore: true
+                  meta:
+                    description: Pagination meta data
+                    properties:
+                      currentPage:
+                        description: The current page number
+                        type: integer
+                        example: 1
+                      from:
+                        description: The first item being returned in the current page
+                        type: integer
+                        example: 1
+                        nullable: true
+                      path:
+                        description: The base path for the paginated results
+                        type: string
+                        example: https://api.example.com/items
+                      perPage:
+                        description: The number of items shown per page
+                        type: integer
+                        example: 15
+                      to:
+                        description: The last item being returned in the current page
+                        type: integer
+                        example: 15
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                  links:
+                    description: Pagination links
+                    properties:
+                      first:
+                        description: URL to the first page
+                        type: string
+                        example: https://api.example.com/items?page=1
+                        nullable: true
+                      last:
+                        description: URL to the last page
+                        type: string
+                        example: null
+                        nullable: true
+                      prev:
+                        description: URL to the previous page
+                        type: string
+                        example: null
+                        nullable: true
+                      next:
+                        description: URL to the next page
+                        type: string
+                        example: https://api.example.com/items?page=17
+                        nullable: true
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - production:read
+    post:
+      tags:
+      - Production
+      summary: 🔒 Create production V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `production:create`.
+
+
+        Create a new production.'
+      operationId: POST::api-v3-productions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+              - properties:
+                  preferredWarehouse:
+                    description: The preferred warehouse.
+                    properties:
+                      id:
+                        description: Preferred warehouse ID
+                        type: string
+                        example: '42'
+                    type: object
+                type: object
+              - properties:
+                  address:
+                    required:
+                    - id
+                    properties:
+                      id:
+                        description: ID of the address
+                        type: string
+                        example: '13'
+                    type: object
+                  project:
+                    required:
+                    - id
+                    properties:
+                      id:
+                        description: ID of the project
+                        type: string
+                        example: '13'
+                    type: object
+                  salesOrder:
+                    required:
+                    - id
+                    properties:
+                      id:
+                        description: ID of the sales order
+                        type: string
+                        example: '13'
+                    type: object
+                  productionStartDate:
+                    description: Production start date
+                    type: string
+                    format: date
+                    example: '2024-01-15'
+                  productionEndDate:
+                    description: Production end date
+                    type: string
+                    format: date
+                    example: '2024-01-20'
+                  produceProduct:
+                    required:
+                    - id
+                    properties:
+                      id:
+                        description: ID of the product
+                        type: string
+                        example: '13'
+                    type: object
+                  produceQuantity:
+                    description: Quantity of the product to produce
+                    type: number
+                    format: float
+                    example: 100
+                  functionTest:
+                    description: Whether function testing is required
+                    type: boolean
+                    example: true
+                  createSerialNumbers:
+                    description: Whether to create serial numbers
+                    type: boolean
+                    example: false
+                  recordSubSerialNumbers:
+                    description: Whether to record sub-serial numbers
+                    type: boolean
+                    example: false
+                  materialReservation:
+                    description: Material reservation method
+                    type: string
+                    enum:
+                    - instant
+                    - onRelease
+                    - onStart
+                    example: onRelease
+                  materialRetrieval:
+                    description: Material retrieval method
+                    type: string
+                    enum:
+                    - single
+                    - collective
+                    example: collective
+                  documentDate:
+                    description: Document creation date
+                    type: string
+                    format: date
+                    example: '2024-01-10'
+                  stockRetrievalDate:
+                    description: Stock retrieval date
+                    type: string
+                    format: date
+                    example: '2024-01-25'
+                  stockProvisioningDate:
+                    description: Stock provisioning date
+                    type: string
+                    format: date
+                    example: '2024-01-20'
+                  bodyText:
+                    description: Body text for production notes
+                    type: string
+                    example: Additional production notes
+                  internalDesignation:
+                    description: Internal designation for production
+                    type: string
+                    example: Internal production reference
+                  internalComment:
+                    description: Internal comment for production
+                    type: string
+                    example: Internal production comment
+                  printSettings:
+                    description: Print settings for the production
+                    properties:
+                      showTaskDescription:
+                        description: Whether to show task descriptions when printing
+                        type: boolean
+                        example: true
+                    type: object
+                  resolveMultiLevelBOM:
+                    description: Whether to resolve multi-level bill of materials
+                    type: boolean
+                    example: false
+                  tags:
+                    description: Tags for categorizing the production
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - urgent
+                    - quality-check
+                type: object
+      responses:
+        '201':
+          description: Create a new production.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Production document
+                    properties:
+                      id:
+                        description: ID of the production
+                        type: string
+                        example: '1'
+                      documentNumber:
+                        description: Production document number. For drafts, this will be null.
+                        type:
+                        - string
+                        - 'null'
+                        example: PROD-12345
+                      documentDate:
+                        description: Main date date of the production document
+                        type: string
+                        format: date
+                        example: '2024-01-15'
+                      status:
+                        description: Status of the production document
+                        type: string
+                        enum:
+                        - draft
+                        - started
+                        - released
+                        - completed
+                        - cancelled
+                        example: draft
+                      writeProtection:
+                        description: Indicates if the production is write protected
+                        type: boolean
+                        example: false
+                      address:
+                        description: Address entity of the production. By default, only the ID is returned. To get the full Address object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - createdAt
+                          - updatedAt
+                          properties:
+                            id:
+                              type: string
+                              example: '42'
+                            isDeleted:
+                              description: Flagged if the entry was deleted.
+                              type: boolean
+                              example: false
+                            createdAt:
+                              description: Creation timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-03-15T09:27:00+01:00'
+                            updatedAt:
+                              description: Last update timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-10-20T14:45:12+01:00'
+                          type: object
+                          additionalProperties: false
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      project:
+                        description: Project entity of the production. By default, only the ID is returned. To get the full Project object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - name
+                          - abbreviation
+                          properties:
+                            id:
+                              type: string
+                              example: '54'
+                            name:
+                              type: string
+                              example: Standard Project
+                            abbreviation:
+                              type: string
+                              example: STANDARD
+                          type: object
+                          additionalProperties: false
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      salesOrder:
+                        description: Sales order reference associated with the production
+                        properties:
+                          id:
+                            type: string
+                            example: '1'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1'
+                      produceProduct:
+                        description: Product entity to be produced. By default, only the ID is returned. To get the full Product object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - number
+                          properties:
+                            id:
+                              type: string
+                            number:
+                              type:
+                              - string
+                              - 'null'
+                            createdAt:
+                              description: Creation timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-03-15T09:27:00+01:00'
+                            updatedAt:
+                              description: Last update timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-10-20T14:45:12+01:00'
+                          type: object
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      produceQuantity:
+                        description: Quantity of the product to be produced
+                        type:
+                        - number
+                        - 'null'
+                        format: float
+                        example: 10.5
+                      tags:
+                        description: Tags for categorizing the production
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                        example:
+                        - urgent
+                        - quality-check
+                      internalDesignation:
+                        description: Internal designation
+                        type:
+                        - string
+                        - 'null'
+                        example: FB-3860-L
+                      materials:
+                        description: Materials (line items) for the production. By default, this is not loaded. Use the `include` parameter to load.
+                        type: array
+                        items:
+                          properties:
+                            id:
+                              description: ID of the line item
+                              type: string
+                              example: '1'
+                            number:
+                              description: The Number of the material. Usually the product SKU, but can be adjusted if required.
+                              type:
+                              - string
+                              - 'null'
+                              example: 2462-SK-D
+                            name:
+                              description: The name of the material Usually the product name, but can be adjusted if required.
+                              type: string
+                              example: Strawberry Jam
+                            description:
+                              description: The description of the material. Usually the product description, but can be adjusted if required.
+                              type:
+                              - string
+                              - 'null'
+                              example: Delicious strawberry jam made from fresh strawberries.
+                            quantity:
+                              description: The quantity of the material
+                              type: number
+                              format: float
+                              example: 2
+                            product:
+                              description: The product of the line item
+                              type: object
+                            hasChildLineItems:
+                              description: Indicates if this line item has child line items (exploded line items)
+                              type: boolean
+                              example: false
+                            parentLineItem:
+                              description: If this line item is a child line item, this will contain the parent line item ID
+                              properties:
+                                id:
+                                  type: string
+                                  example: '1'
+                              type:
+                              - object
+                              - 'null'
+                              example:
+                                id: '1'
+                            sort:
+                              description: The sort order of the line item
+                              type: integer
+                              example: 1
+                            updatedAt:
+                              description: The date and time when the line item was last updated
+                              type: string
+                              format: date-time
+                              example: '2023-10-01T12:00:00Z'
+                            createdAt:
+                              description: The date and time when the line item was created
+                              type: string
+                              format: date-time
+                              example: '2023-10-01T12:00:00Z'
+                          type: object
+                      materialReservation:
+                        description: Material reservation method
+                        type: string
+                        example: on_release
+                      materialRetrieval:
+                        description: Material retrieval method
+                        type: string
+                        example: single
+                      resolveMultiLevelBOM:
+                        description: Whether to resolve multi-level bill of materials
+                        type: boolean
+                        example: false
+                      functionTest:
+                        description: Whether function testing is required
+                        type: boolean
+                        example: true
+                      createSerialNumbers:
+                        description: Whether to create serial numbers
+                        type: boolean
+                        example: false
+                      recordSubSerialNumbers:
+                        description: Whether to record sub-serial numbers
+                        type: boolean
+                        example: false
+                      stockRetrievalDate:
+                        description: Stock retrieval date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-25'
+                      stockProvisioningDate:
+                        description: Stock provisioning date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-20'
+                      productionStartDate:
+                        description: Production start date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-15'
+                      productionEndDate:
+                        description: Production end date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-20'
+                      bodyText:
+                        description: Body text for production notes
+                        type:
+                        - string
+                        - 'null'
+                        example: Additional production notes
+                      internalComment:
+                        description: Internal comment
+                        type:
+                        - string
+                        - 'null'
+                        example: Internal production comment
+                      printSettings:
+                        description: Print settings configuration
+                        properties:
+                          showTaskDescription:
+                            description: Whether to show task descriptions when printing
+                            type: boolean
+                            example: true
+                        type: object
+                        example:
+                          showTaskDescription: true
+                      preferredWarehouse:
+                        description: Preferred warehouse for the production. If set, only stock from this warehouse is considered for stock reservations, and the production cannot be started if the selected warehouse does not have sufficient stock.
+                        properties:
+                          id:
+                            type: string
+                            example: '1'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1'
+                      activity:
+                        description: Activity log entries for the production. By default, this is not loaded. Use the `include` parameter to load.
+                        type: array
+                        items:
+                          required:
+                          - message
+                          - causer
+                          - causedAt
+                          properties:
+                            message:
+                              type: string
+                              example: Invoice released
+                            causer:
+                              type:
+                              - string
+                              - 'null'
+                              example: John Doe
+                            causedAt:
+                              type: string
+                              format: date-time
+                              example: '2023-01-01T00:00:00Z'
+                          type: object
+                          additionalProperties: false
+                        example: []
+                      updatedAt:
+                        description: Timestamp of the last update
+                        type: string
+                        format: date-time
+                        example: '2023-10-01T12:00:00Z'
+                      createdAt:
+                        description: Timestamp of creation
+                        type: string
+                        format: date-time
+                        example: '2023-10-01T12:00:00Z'
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      address:
+                      - The address field is required.
+                      project:
+                      - The project field must be an array.
+                      salesOrder:
+                      - The sales order field must be an array.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - production:create
+  /api/v3/productions/{id}:
+    get:
+      tags:
+      - Production
+      summary: 🔒 View production V3
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        This endpoint requires the following scopes: `production:read`.
+
+
+        View a single production.'
+      operationId: GET::api-v3-productions-id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: include
+        in: query
+        required: false
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - activity
+            - address
+            - materials
+            - materials.product
+            - project
+            - tags
+      responses:
+        '200':
+          description: View a single production.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: Production document
+                    properties:
+                      id:
+                        description: ID of the production
+                        type: string
+                        example: '1'
+                      documentNumber:
+                        description: Production document number. For drafts, this will be null.
+                        type:
+                        - string
+                        - 'null'
+                        example: PROD-12345
+                      documentDate:
+                        description: Main date date of the production document
+                        type: string
+                        format: date
+                        example: '2024-01-15'
+                      status:
+                        description: Status of the production document
+                        type: string
+                        enum:
+                        - draft
+                        - started
+                        - released
+                        - completed
+                        - cancelled
+                        example: draft
+                      writeProtection:
+                        description: Indicates if the production is write protected
+                        type: boolean
+                        example: false
+                      address:
+                        description: Address entity of the production. By default, only the ID is returned. To get the full Address object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - createdAt
+                          - updatedAt
+                          properties:
+                            id:
+                              type: string
+                              example: '42'
+                            isDeleted:
+                              description: Flagged if the entry was deleted.
+                              type: boolean
+                              example: false
+                            createdAt:
+                              description: Creation timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-03-15T09:27:00+01:00'
+                            updatedAt:
+                              description: Last update timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-10-20T14:45:12+01:00'
+                          type: object
+                          additionalProperties: false
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      project:
+                        description: Project entity of the production. By default, only the ID is returned. To get the full Project object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - name
+                          - abbreviation
+                          properties:
+                            id:
+                              type: string
+                              example: '54'
+                            name:
+                              type: string
+                              example: Standard Project
+                            abbreviation:
+                              type: string
+                              example: STANDARD
+                          type: object
+                          additionalProperties: false
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      salesOrder:
+                        description: Sales order reference associated with the production
+                        properties:
+                          id:
+                            type: string
+                            example: '1'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1'
+                      produceProduct:
+                        description: Product entity to be produced. By default, only the ID is returned. To get the full Product object, use the `include` parameter.
+                        example:
+                          id: '1'
+                        anyOf:
+                        - required:
+                          - id
+                          - number
+                          properties:
+                            id:
+                              type: string
+                            number:
+                              type:
+                              - string
+                              - 'null'
+                            createdAt:
+                              description: Creation timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-03-15T09:27:00+01:00'
+                            updatedAt:
+                              description: Last update timestamp
+                              type: string
+                              format: date-time
+                              example: '2025-10-20T14:45:12+01:00'
+                          type: object
+                        - properties:
+                            id:
+                              type: string
+                          type: object
+                        - type: 'null'
+                      produceQuantity:
+                        description: Quantity of the product to be produced
+                        type:
+                        - number
+                        - 'null'
+                        format: float
+                        example: 10.5
+                      tags:
+                        description: Tags for categorizing the production
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                        example:
+                        - urgent
+                        - quality-check
+                      internalDesignation:
+                        description: Internal designation
+                        type:
+                        - string
+                        - 'null'
+                        example: FB-3860-L
+                      materials:
+                        description: Materials (line items) for the production. By default, this is not loaded. Use the `include` parameter to load.
+                        type: array
+                        items:
+                          properties:
+                            id:
+                              description: ID of the line item
+                              type: string
+                              example: '1'
+                            number:
+                              description: The Number of the material. Usually the product SKU, but can be adjusted if required.
+                              type:
+                              - string
+                              - 'null'
+                              example: 2462-SK-D
+                            name:
+                              description: The name of the material Usually the product name, but can be adjusted if required.
+                              type: string
+                              example: Strawberry Jam
+                            description:
+                              description: The description of the material. Usually the product description, but can be adjusted if required.
+                              type:
+                              - string
+                              - 'null'
+                              example: Delicious strawberry jam made from fresh strawberries.
+                            quantity:
+                              description: The quantity of the material
+                              type: number
+                              format: float
+                              example: 2
+                            product:
+                              description: The product of the line item
+                              type: object
+                            hasChildLineItems:
+                              description: Indicates if this line item has child line items (exploded line items)
+                              type: boolean
+                              example: false
+                            parentLineItem:
+                              description: If this line item is a child line item, this will contain the parent line item ID
+                              properties:
+                                id:
+                                  type: string
+                                  example: '1'
+                              type:
+                              - object
+                              - 'null'
+                              example:
+                                id: '1'
+                            sort:
+                              description: The sort order of the line item
+                              type: integer
+                              example: 1
+                            updatedAt:
+                              description: The date and time when the line item was last updated
+                              type: string
+                              format: date-time
+                              example: '2023-10-01T12:00:00Z'
+                            createdAt:
+                              description: The date and time when the line item was created
+                              type: string
+                              format: date-time
+                              example: '2023-10-01T12:00:00Z'
+                          type: object
+                      materialReservation:
+                        description: Material reservation method
+                        type: string
+                        example: on_release
+                      materialRetrieval:
+                        description: Material retrieval method
+                        type: string
+                        example: single
+                      resolveMultiLevelBOM:
+                        description: Whether to resolve multi-level bill of materials
+                        type: boolean
+                        example: false
+                      functionTest:
+                        description: Whether function testing is required
+                        type: boolean
+                        example: true
+                      createSerialNumbers:
+                        description: Whether to create serial numbers
+                        type: boolean
+                        example: false
+                      recordSubSerialNumbers:
+                        description: Whether to record sub-serial numbers
+                        type: boolean
+                        example: false
+                      stockRetrievalDate:
+                        description: Stock retrieval date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-25'
+                      stockProvisioningDate:
+                        description: Stock provisioning date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-20'
+                      productionStartDate:
+                        description: Production start date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-15'
+                      productionEndDate:
+                        description: Production end date
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                        example: '2024-01-20'
+                      bodyText:
+                        description: Body text for production notes
+                        type:
+                        - string
+                        - 'null'
+                        example: Additional production notes
+                      internalComment:
+                        description: Internal comment
+                        type:
+                        - string
+                        - 'null'
+                        example: Internal production comment
+                      printSettings:
+                        description: Print settings configuration
+                        properties:
+                          showTaskDescription:
+                            description: Whether to show task descriptions when printing
+                            type: boolean
+                            example: true
+                        type: object
+                        example:
+                          showTaskDescription: true
+                      preferredWarehouse:
+                        description: Preferred warehouse for the production. If set, only stock from this warehouse is considered for stock reservations, and the production cannot be started if the selected warehouse does not have sufficient stock.
+                        properties:
+                          id:
+                            type: string
+                            example: '1'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1'
+                      activity:
+                        description: Activity log entries for the production. By default, this is not loaded. Use the `include` parameter to load.
+                        type: array
+                        items:
+                          required:
+                          - message
+                          - causer
+                          - causedAt
+                          properties:
+                            message:
+                              type: string
+                              example: Invoice released
+                            causer:
+                              type:
+                              - string
+                              - 'null'
+                              example: John Doe
+                            causedAt:
+                              type: string
+                              format: date-time
+                              example: '2023-01-01T00:00:00Z'
+                          type: object
+                          additionalProperties: false
+                        example: []
+                      updatedAt:
+                        description: Timestamp of the last update
+                        type: string
+                        format: date-time
+                        example: '2023-10-01T12:00:00Z'
+                      createdAt:
+                        description: Timestamp of creation
+                        type: string
+                        format: date-time
+                        example: '2023-10-01T12:00:00Z'
+                    type: object
+                    x-example-ignore: true
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-beta: true
+      x-scopes:
+      - production:read
+    delete:
+      tags:
+      - Production
+      summary: Delete production V3
+      description: 'This endpoint requires the following scopes: `production:delete`.
+
+
+        Delete a production in status draft.'
+      operationId: DELETE::api-v3-productions-id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      status:
+                      - Only productions with status "draft" can be deleted.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:delete
+  /api/v3/productions/{id}/actions/logActivity:
+    patch:
+      tags:
+      - Production
+      summary: Log custom production activity V3
+      description: 'This endpoint requires the following scopes: `production:update`.
+
+
+        Record a custom activity log entry for a production.'
+      operationId: PATCH::api-v3-productions-id-actions-logactivity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - message
+              properties:
+                message:
+                  description: Message to be logged in the activity log.
+                  type: string
+                  maxLength: 255
+                  minLength: 1
+                  example: Transferred to accounting system.
+              type: object
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      message:
+                      - The message field is required.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:update
+  /api/v3/productions/{id}/actions/release:
+    patch:
+      tags:
+      - Production
+      summary: Release production V3
+      description: 'This endpoint requires the following scopes: `production:release`.
+
+
+        Release a production.'
+      operationId: PATCH::api-v3-productions-id-actions-release
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: Problem occurred
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: A URI reference that identifies the problem type.
+                    type: string
+                    example: https://api.xentral.biz/problems/invalid-status
+                  title:
+                    description: A short, human-readable summary of the problem type.
+                    type: string
+                    example: The resource cannot be modified in its current status.
+                  detail:
+                    description: A human-readable explanation specific to this occurrence of the problem.
+                    type: string
+                    example: Only a draft BusinessDocument can be deleted.
+                type: object
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:release
+  /api/v3/productions/{id}/actions/start:
+    patch:
+      tags:
+      - Production
+      summary: Start production V3
+      description: 'This endpoint requires the following scopes: `production:start`.
+
+
+        Start a production.'
+      operationId: PATCH::api-v3-productions-id-actions-start
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:start
+  /api/v3/productions/{id}/files:
+    post:
+      tags:
+      - Production
+      summary: Attach file to production V3
+      description: 'This endpoint requires the following scopes: `production:update`.
+
+
+        Attach a file to a production.'
+      operationId: POST::api-v3-productions-id-files
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - keyword
+              - fileName
+              - fileContent
+              properties:
+                title:
+                  description: Title of the file
+                  type: string
+                  example: Supporting document
+                description:
+                  description: Description of the file
+                  type: string
+                  example: Additional documentation
+                keyword:
+                  description: Document keyword/type
+                  type: string
+                  enum:
+                  - otherFile
+                  - coverPage
+                  - attachment
+                  - eInvoice
+                  - receipt
+                  - paymentReceipt
+                  example: otherFile
+                fileName:
+                  description: Name of the file
+                  type: string
+                  example: document.txt
+                fileContent:
+                  description: Base64 encoded file content
+                  type: string
+                  example: c2FtcGxlIGNvbnRlbnQ=
+              type: object
+      responses:
+        '201':
+          description: Attach a file to a production.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: File attached to a business object
+                    properties:
+                      id:
+                        description: File ID
+                        type: integer
+                        example: 123
+                    type: object
+                    example:
+                      id: 123
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      title:
+                      - The title field must be a string.
+                      description:
+                      - The description field must be a string.
+                      keyword:
+                      - The keyword field is required.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:update
+  /api/v3/productions/{id}/files/{fileId}:
+    delete:
+      tags:
+      - Production
+      summary: Delete file from production V3
+      description: 'This endpoint requires the following scopes: `production:update`.
+
+
+        Delete a file attached to a production.'
+      operationId: DELETE::api-v3-productions-id-files-fileid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:update
+    patch:
+      tags:
+      - Production
+      summary: Update file on production V3
+      description: 'This endpoint requires the following scopes: `production:update`.
+
+
+        Update a file attached to a production.'
+      operationId: PATCH::api-v3-productions-id-files-fileid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  description: Title of the file
+                  type: string
+                  example: Supporting document
+                description:
+                  description: Description of the file
+                  type: string
+                  example: Additional documentation
+                keyword:
+                  description: Document keyword/type
+                  type: string
+                  enum:
+                  - otherFile
+                  - coverPage
+                  - attachment
+                  - eInvoice
+                  - receipt
+                  - paymentReceipt
+                  example: otherFile
+                sort:
+                  description: Sorting of the file
+                  type: integer
+                  example: 1
+              type: object
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      title:
+                      - The title field must be a string.
+                      description:
+                      - The description field must be a string.
+                      keyword:
+                      - The selected keyword is invalid.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - production:update
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

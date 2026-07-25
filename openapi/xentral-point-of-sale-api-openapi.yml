@@ -1,0 +1,1899 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Point Of Sale API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Point Of Sale
+  description: Point Of Sale (POS) endpoints.
+paths:
+  /api/v1/cashiers:
+    get:
+      tags:
+      - Point Of Sale
+      operationId: cashier.list
+      summary: List cashiers
+      description: Lists all active cashiers.
+      parameters:
+      - name: project_id
+        in: query
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        name:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: Kassierer SW
+                        number:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: '1001'
+                        project:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        permissionLevel:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: '0'
+                      example:
+                        id: '1'
+                        name: Kassierer SW
+                        number: '1001'
+                        project:
+                          id: '2'
+                        permissionLevel: '0'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/cashiers/{id}/pinCheck:
+    post:
+      tags:
+      - Point Of Sale
+      operationId: cashier.pinCheck
+      summary: Cashier PIN check
+      description: Checks a pin for cashier.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Verify PIN
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - pin
+              - project
+              properties:
+                pin:
+                  type: string
+                  nullable: false
+                  pattern: \d{4}
+                project:
+                  type: string
+                  nullable: false
+                  pattern: \d
+            examples:
+              Verify PIN:
+                value:
+                  pin: '1234'
+                  project: '5'
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      name:
+                        x-description-missing: true
+                        type: string
+                        nullable: false
+                        example: Kassierer SW
+                      project:
+                        description: Reference to another resource
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1337'
+                      permissionLevel:
+                        x-description-missing: true
+                        type: string
+                        pattern: \d
+                        nullable: false
+                        example: '0'
+                    example:
+                      id: '1'
+                      name: Kassierer SW
+                      project:
+                        id: '2'
+                      permissionLevel: '0'
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/cashRegisters/{id}/balance:
+    get:
+      tags:
+      - Point Of Sale
+      operationId: cashRegister.balance
+      summary: View cash register balance
+      description: Retrieves the balance of a cash register.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      openingBalance:
+                        x-description-missing: true
+                        type: string
+                        nullable: false
+                        example: 1,236.61
+                      targetAmount:
+                        x-description-missing: true
+                        type: string
+                        nullable: false
+                        example: 1,236.61
+                    example:
+                      openingBalance: 1,236.61
+                      targetAmount: 1,236.61
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/posJournals:
+    get:
+      tags:
+      - Point Of Sale
+      operationId: journal.list
+      summary: List POS journals
+      description: Lists all active POS journals.
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: array
+                items:
+                  type: string
+                  pattern: \d+
+                  example: '17'
+                  description: Resource identifier.
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - id
+                  - date
+                  - customerId
+                  - projectId
+                  - salesOrderId
+                  - externalOrderNumber
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                  - allIn
+                  - allNotIn
+                  - contains
+                  - notContains
+                  - startsWith
+                  - endsWith
+                  - greaterThan
+                  - lessThan
+                value:
+                  oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - date
+                - customerId
+                - projectId
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        date:
+                          x-description-missing: true
+                          type: string
+                          format: date-time
+                          nullable: true
+                          example: '2020-09-23T14:20:08+02:00'
+                        projectId:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        type:
+                          x-description-missing: true
+                          type: string
+                          example: RE_Beleg
+                        posFunction:
+                          x-description-missing: true
+                          type: string
+                          example: TODO
+                        doctype:
+                          x-description-missing: true
+                          type: string
+                          example: rechnung
+                        paymentType:
+                          x-description-missing: true
+                          type: string
+                          example: eckarte
+                        doctypeId:
+                          x-description-missing: true
+                          type: number
+                          example: 10
+                        documentNumber:
+                          x-description-missing: true
+                          type: string
+                          example: '400009'
+                        journalText:
+                          x-description-missing: true
+                          type: string
+                          example: RE 400009 (POS)
+                        revenueAccount:
+                          x-description-missing: true
+                          type: string
+                          example: '4400'
+                        currency:
+                          x-description-missing: true
+                          type: string
+                          example: EUR
+                        tax:
+                          x-description-missing: true
+                          type: number
+                          format: float
+                          example: 16
+                        amountGross:
+                          x-description-missing: true
+                          type: number
+                          format: float
+                          example: 99
+                        amountNet:
+                          x-description-missing: true
+                          type: number
+                          format: float
+                          example: 85.34
+                        cashRegisterId:
+                          x-description-missing: true
+                          type: number
+                          example: 5
+                        customerId:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        createdAt:
+                          x-description-missing: true
+                          type: string
+                          format: date-time
+                          example: '2020-09-23T20:22:08+02:00'
+                        createdBy:
+                          x-description-missing: true
+                          type: string
+                          example: John Doe
+                        businessTransactionType:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: TODO
+                        qrString:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: null
+                        fiscalDocumentReference:
+                          description: This field represents an object with dynamic structure
+                          type: object
+                          additionalProperties: true
+                          nullable: true
+                          example: {}
+                        salesOrder:
+                          x-description-missing: true
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          - number
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            number:
+                              type: string
+                              example: '200002'
+                            externalOrderNumber:
+                              type: string
+                              example: '152'
+                          example:
+                            id: '5'
+                            number: '200002'
+                            externalOrderNumber: '152'
+                      example:
+                        id: '1'
+                        date: '2020-09-23T14:20:08+02:00'
+                        projectId: '6'
+                        type: RE_Beleg
+                        posFunction: ''
+                        doctype: rechnung
+                        paymentType: eckarte
+                        doctypeId: 1
+                        documentNumber: '400000'
+                        journalText: RE 400000 (POS)
+                        revenueAccount: '4400'
+                        currency: EUR
+                        tax: 16
+                        amountGross: 98.99
+                        amountNet: 85.34
+                        cashRegisterId: 5
+                        customerId: '36'
+                        createdAt: '2020-09-23T14:20:08+02:00'
+                        createdBy: John Doe
+                        businessTransactionType: ''
+                        salesOrder:
+                          id: '4'
+                          number: '200001'
+                          externalOrderNumber: ''
+                        qrString: null
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/posJournals/actions/add:
+    post:
+      tags:
+      - Point Of Sale
+      operationId: journal.add
+      summary: Add journal entry
+      description: Add a new journal entry.
+      parameters: []
+      requestBody:
+        description: Add journal entry
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - project
+              - cashier
+              - transaction
+              - entry
+              - payment
+              properties:
+                project:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                cashier:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                transaction:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - text
+                  properties:
+                    type:
+                      type: string
+                      nullable: false
+                    text:
+                      type: string
+                      nullable: false
+                entry:
+                  oneOf:
+                  - type: object
+                    additionalProperties: false
+                    nullable: false
+                    required:
+                    - type
+                    - timestamp
+                    - document
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - invoice
+                        - credit_note
+                        nullable: false
+                      timestamp:
+                        description: a atom formatted date time
+                        type: string
+                        format: date-time
+                        example: '2023-08-13T14:45:36+02:00'
+                      document:
+                        type: object
+                        description: When `entry.type` is `creditNote`, credit note ID will be provided. When `type` is `invoice`the invoice ID will be provided
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      qrString:
+                        type: string
+                        description: When `entry.type` is `invoice` or `credit_note` a string representing the QR code will be provided
+                        additionalProperties: false
+                  - type: object
+                    additionalProperties: false
+                    nullable: false
+                    required:
+                    - type
+                    - timestamp
+                    - amount
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - cash_in
+                        - cash_out
+                        - cash_difference
+                        nullable: false
+                      timestamp:
+                        type: string
+                        format: date-time
+                        nullable: false
+                      amount:
+                        type: object
+                        description: 'Mandatory field when `entry.type` has one of the values: `cash_in`, `cash_out`, `cash_difference`.'
+                        additionalProperties: false
+                        required:
+                        - amount
+                        - currency
+                        properties:
+                          amount:
+                            type: string
+                            format: float
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - PLN
+                            - CHF
+                            - USD
+                            - GBP
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                payment:
+                  type: object
+                  additionalProperties: false
+                  nullable: false
+                  required:
+                  - type
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - cash
+                      - ec
+                      - credit
+                      - ec_card
+                      nullable: false
+                fiscalDocumentReference:
+                  description: This field represents an object with dynamic structure
+                  type: object
+                  additionalProperties: true
+                  nullable: true
+            examples:
+              Add journal entry:
+                value:
+                  project:
+                    id: '2'
+                  cashier:
+                    id: '4'
+                  transaction:
+                    type: invoice
+                    text: Invoice 123
+                  entry:
+                    type: invoice
+                    timestamp: '2023-10-01T00:00:00Z'
+                    document:
+                      id: '1'
+                  payment:
+                    type: cash
+                  fiscalDocumentReference: null
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/posCashCount/actions/add:
+    post:
+      tags:
+      - Point Of Sale
+      operationId: cashCount.add
+      summary: Add cash count entry
+      description: Add a new cash count entry.
+      parameters: []
+      requestBody:
+        description: Add cash count body
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - project
+              - cashier
+              - comment
+              - difference
+              - cashQuantity
+              properties:
+                project:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                cashier:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                comment:
+                  type: string
+                  nullable: false
+                difference:
+                  type: number
+                  format: float
+                  nullable: false
+                cashQuantity:
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  required:
+                  - eur500
+                  - eur200
+                  - eur100
+                  - eur50
+                  - eur20
+                  - eur10
+                  - eur5
+                  - eur2
+                  - eur1
+                  - eur05
+                  - eur02
+                  - eur01
+                  - eur005
+                  - eur002
+                  - eur001
+                  properties:
+                    eur500:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur200:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur100:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur50:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur20:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur10:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur5:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur2:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur1:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur05:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur02:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur01:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur005:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur002:
+                      type: integer
+                      format: int64
+                      nullable: false
+                    eur001:
+                      type: integer
+                      format: int64
+                      nullable: false
+            examples:
+              Add cash count:
+                value:
+                  project:
+                    id: '2'
+                  cashier:
+                    id: '4'
+                  comment: Cash count comment
+                  difference: 0
+                  cashQuantity:
+                    eur500: 0
+                    eur200: 0
+                    eur100: 2
+                    eur50: 3
+                    eur20: 8
+                    eur10: 12
+                    eur5: 8
+                    eur2: 19
+                    eur1: 28
+                    eur05: 20
+                    eur02: 10
+                    eur01: 7
+                    eur005: 29
+                    eur002: 29
+                    eur001: 20
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+  /api/v1/posQrCode/actions/add:
+    post:
+      tags:
+      - Point Of Sale
+      operationId: qrCode.add
+      summary: Add qr code data to a document
+      description: Add qr code data to a document.
+      parameters: []
+      requestBody:
+        description: Add qr code data to a document
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - documentNumber
+              - eventType
+              - qrCodeData
+              properties:
+                documentNumber:
+                  type: string
+                  nullable: false
+                  example: '400000'
+                eventType:
+                  type: string
+                  nullable: false
+                  example: SALE, REFUND
+                timeSignature:
+                  description: a atom formatted date time
+                  type: string
+                  format: date-time
+                  example: '2023-08-13T14:45:36+02:00'
+                cashRegisterSerialNumber:
+                  type: string
+                  nullable: false
+                externalReceiptNumber:
+                  type: string
+                  nullable: false
+                qrCodeData:
+                  type: string
+                  nullable: false
+            examples:
+              Add qr code data to a document:
+                value:
+                  documentNumber: RE2025-1234
+                  eventType: SALE
+                  qrCodeData: V0;ESR d233001e-d3fe-4737-a8b1-2dea39945b4f;Kassenbeleg-V1;Beleg^11.90_0.00_0.00_0.00_0.00^11.90:Bar;1;37;2024-12-10T10:23:10.000Z;2024-12-10T10:23:10.000Z;ecdsa-plain-SHA256;unixTime;ODIQw9I7F4D2yGYbvjBLAqtLxbjExVOfyAcUL7FDZz3CJxxsf+E/Vmrd+LCe2kJyWW34ojZtTQze1cM3pEcEXQ==;BHln9oQpOXGmuYEPUEMzu9EERUDYZUiQioUOyrlOKg7i5bwW39MjMXi+4UgrUt3lY0Audzp2+GbnxOOTwQpfEvI=
+                  timeSignature: '2024-01-01T16:19:04+01:00'
+                  cashRegisterSerialNumber: AOuPTr
+                  externalReceiptNumber: '3'
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

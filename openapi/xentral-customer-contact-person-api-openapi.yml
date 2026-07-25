@@ -1,0 +1,2010 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Customer - Contact Person API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Customer - Contact Person
+  description: Contact person information related to a specific customer
+paths:
+  /api/v1/customers/{customerId}/contactPerson:
+    get:
+      tags:
+      - Customer - Contact Person
+      operationId: customer.contactPerson.getList
+      summary: List contact persons
+      description: Provides a list of contact persons belongs to a customer related to given filters
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - type
+                  - name
+                  - title
+                  - birthday
+                  - birthdayShowInCalendar
+                  - sendBirthdayCard
+                  - marketingBan
+                  - department
+                  - subDepartment
+                  - position
+                  - street
+                  - additionalStreet
+                  - zip
+                  - city
+                  - state
+                  - country
+                  - phone
+                  - fax
+                  - mobile
+                  - salutation
+                  - email
+                  - group
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - contains
+                  - notContains
+                  - startsWith
+                  - endsWith
+                  - lessThan
+                  - greaterThan
+                  - in
+                  - notIn
+                value:
+                  oneOf:
+                  - type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - name
+                - customerId
+                - type
+                - title
+                - birthday
+                - birthdayShowInCalendar
+                - sendBirthdayCard
+                - marketingBan
+                - department
+                - subDepartment
+                - position
+                - street
+                - additionalStreet
+                - zip
+                - city
+                - state
+                - country
+                - phone
+                - fax
+                - mobile
+                - salutation
+                - email
+                - others
+                - comment
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: List of contact persons
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - links
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - name
+                      - type
+                      - createdAt
+                      - updatedAt
+                      - language
+                      description: Contact person object
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        customer:
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          description: The customer this contact person belongs to
+                          example:
+                            id: '1234'
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                        type:
+                          type: string
+                          enum:
+                          - company
+                          - mr
+                          - mrs
+                          - other
+                          nullable: true
+                          example: mr
+                          description: Type of contact used later for salutations
+                        name:
+                          type: string
+                          nullable: false
+                          example: Firstname Surname
+                          description: Full name of the contact person
+                        title:
+                          type: string
+                          nullable: true
+                          example: Prof. Dr.
+                          description: Additional information used for salutations
+                        birthday:
+                          description: Birthday of contact person in default format like 'YYYY-MM-DD
+                          type: string
+                          format: date
+                          nullable: true
+                          example: '2001-01-14'
+                        birthdayShowInCalendar:
+                          type: boolean
+                          nullable: true
+                          example: true
+                          description: Decides wether or not to show in birthday calendar
+                        sendBirthdayCard:
+                          type: boolean
+                          nullable: true
+                          example: true
+                          description: Decides wether or not to send birthday card via serial letter module
+                        marketingBan:
+                          type: boolean
+                          nullable: true
+                          example: true
+                          description: Decides wether or not to send serial letters to this contact
+                        department:
+                          type: string
+                          nullable: true
+                          example: HR department
+                          description: Department of contact if necessary and available
+                        subDepartment:
+                          type: string
+                          nullable: true
+                          example: Sub department
+                          description: Sub-Department of contact if necessary and available
+                        position:
+                          type: string
+                          nullable: true
+                          example: head of purchasing
+                          description: Position or responsibility
+                        createdAt:
+                          type: string
+                          format: date-time
+                          description: Contact person creation date and time
+                          example: '2024-09-18T14:30:00Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          description: Contact person last update date and time
+                          example: '2024-09-18T14:30:00Z'
+                        language:
+                          type: string
+                          nullable: true
+                          description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
+                          example: DE
+                        address:
+                          type: object
+                          additionalProperties: false
+                          description: Address information of the contact person
+                          example:
+                            street: Example st. 13
+                            additionalStreet: 6th floor
+                            zip: '12345'
+                            city: city
+                            state: Bayern
+                            country: Deutschland
+                          properties:
+                            street:
+                              type: string
+                              nullable: true
+                              example: 2176 example street
+                              description: Street + number of contact address
+                            additionalStreet:
+                              type: string
+                              nullable: true
+                              example: 6th floor
+                              description: Address suffix
+                            zip:
+                              type: string
+                              nullable: true
+                              example: '12345'
+                              description: ZIP code of contact address
+                            city:
+                              type: string
+                              nullable: true
+                              example: city
+                              description: City of contact address
+                            state:
+                              type: string
+                              nullable: true
+                              example: Ohio
+                              description: Federal state / district of contact address
+                            country:
+                              type: string
+                              nullable: true
+                              example: DE
+                              description: ISO 3166-1 (Alpha 2) Code of contact address country
+                        contact:
+                          type: object
+                          additionalProperties: false
+                          description: Contact information of the contact person
+                          example:
+                            phone: +49 555 12345667
+                            fax: +49 555 7654321
+                            mobile: +49 555 7654321
+                            salutation: Dear Dr. Smith, Friend and Supporter
+                            email: email@test.com
+                          properties:
+                            phone:
+                              type: string
+                              nullable: true
+                              example: +49 330 12345667
+                              description: Phone number of contact address
+                            fax:
+                              type: string
+                              nullable: true
+                              example: +49 330 7654321
+                              description: Fax number of contact address
+                            mobile:
+                              type: string
+                              nullable: true
+                              example: +49 172 7654321
+                              description: Mobile number of contact address
+                            salutation:
+                              type: string
+                              nullable: true
+                              example: Dear Dr. Smith, Friend and Supporter
+                              description: Specifies dedicated salutation
+                            email:
+                              type: string
+                              format: email
+                              nullable: true
+                              example: contact-person@address-location.tld
+                              description: E-mail address
+                        groups:
+                          type: array
+                          items:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          description: List of groups this contact person is belong to
+                          example:
+                          - '17'
+                          - '22'
+                        comment:
+                          type: string
+                          nullable: true
+                          example: This is a internal comment
+                          description: Internal comment for this contact
+                        others:
+                          type: string
+                          nullable: true
+                          example: ''
+                          description: Every other information you deem relevant
+                      example:
+                        id: '12345'
+                        type: mrs
+                        name: Kathleen Minority
+                        title: Prof. Dr. Dr.
+                        birthday: '2001-02-02'
+                        birthdayShowInCalendar: false
+                        sendBirthdayCard: true
+                        marketingBan: false
+                        department: Finance
+                        subDepartment: Controlling
+                        position: Head of Controlling
+                        address:
+                          street: 11W 53rd St
+                          additionalStreet: 6. Floor
+                          zip: '10019'
+                          city: New York
+                          state: NY
+                          country: US
+                        contact:
+                          phone: +1 917 55512345
+                          fax: +1 917 55512345-1
+                          mobile: +1 800 55554321
+                          salutation: Dear Mrs. Minority, my most value customer
+                          email: k.m@ny.tld
+                        groups:
+                        - '1'
+                        - '23'
+                        - '34'
+                        comment: This is a internal comment for employees eyes only
+                        others: some other things necessary to write down belong to this contact ...
+                        createdAt: '2025-09-16 15:55:09'
+                        updatedAt: '2025-09-16 15:55:09'
+                        language: DE
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+                  links:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - self
+                    - customer
+                    description: Links related to the contact person list
+                    example:
+                      self: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
+                      next: http://localhost/api/customers/123/contactPerson?page[number]=2&page[size]=10
+                      prev: null
+                      customer: /api/v2/customers/123
+                    properties:
+                      self:
+                        type: string
+                        description: Link to the current page of contact persons
+                        example: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
+                      next:
+                        type: string
+                        nullable: true
+                        description: Link to the next page of contact persons (null if no next page)
+                        example: http://localhost/api/customers/123/contactPerson?page[number]=2&page[size]=10
+                      prev:
+                        type: string
+                        nullable: true
+                        description: Link to the previous page of contact persons (null if no previous page)
+                        example: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
+                      customer:
+                        type: string
+                        description: Link to the customer resource
+                        example: /api/v2/customers/123
+              example:
+                data:
+                - id: '1'
+                  customer:
+                    id: '123'
+                  type: mr
+                  name: John Doe
+                  title: Dr.
+                  birthday: '1980-01-01'
+                  birthdayShowInCalendar: true
+                  sendBirthdayCard: false
+                  marketingBan: false
+                  department: Sales
+                  subDepartment: Inside Sales
+                  position: Sales Manager
+                  createdAt: '2024-01-01T10:00:00Z'
+                  updatedAt: '2024-01-01T10:00:00Z'
+                  language: EN
+                  address:
+                    street: 123 Main St
+                    additionalStreet: Suite 100
+                    zip: '12345'
+                    city: Anytown
+                    state: CA
+                    country: US
+                  contact:
+                    phone: +1-555-123-4567
+                    fax: +1-555-123-4568
+                    mobile: +1-555-987-6543
+                    salutation: Dear Dr. Doe
+                    email: john.doe@example.com
+                  groups:
+                  - '1'
+                  - '2'
+                  comment: Key account contact
+                  others: Additional notes
+                extra:
+                  totalCount: 25
+                  page:
+                    number: 1
+                    size: 10
+                links:
+                  self: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
+                  next: http://localhost/api/customers/123/contactPerson?page[number]=2&page[size]=10
+                  prev: null
+                  customer: /api/v2/customers/123
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+    post:
+      tags:
+      - Customer - Contact Person
+      operationId: customer.contactPerson.create
+      summary: Create contact person
+      description: Creates new contact person for given customer.
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Create customer contact person object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - name
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - company
+                  - mr
+                  - mrs
+                  - other
+                  nullable: true
+                  example: mr
+                  description: Type of contact used later for salutations
+                name:
+                  type: string
+                  nullable: false
+                  example: Firstname Surname
+                  description: Full name of the contact person
+                title:
+                  type: string
+                  nullable: true
+                  example: Prof. Dr.
+                  description: Additional information used for salutations
+                birthday:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2001-01-14'
+                birthdayShowInCalendar:
+                  type: boolean
+                  nullable: true
+                  example: true
+                  description: Decides wether or not to show in birthday calendar
+                sendBirthdayCard:
+                  type: boolean
+                  nullable: true
+                  example: true
+                  description: Decides wether or not to send birthday card via serial letter module
+                marketingBan:
+                  type: boolean
+                  nullable: true
+                  example: true
+                  description: Decides wether or not to send serial letters to this contact
+                department:
+                  type: string
+                  nullable: true
+                  example: HR department
+                  description: Department of contact if necessary and available
+                subDepartment:
+                  type: string
+                  nullable: true
+                  example: Sub department
+                  description: Sub-Department of contact if necessary and available
+                position:
+                  type: string
+                  nullable: true
+                  example: ''
+                  description: Position or responsibility
+                language:
+                  type: string
+                  nullable: true
+                  description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
+                  example: DE
+                address:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    street:
+                      type: string
+                      nullable: true
+                      example: 2176 example street
+                      description: Street + number of contact address
+                    additionalStreet:
+                      type: string
+                      nullable: true
+                      example: 6th floor
+                      description: Address suffix
+                    zip:
+                      type: string
+                      nullable: true
+                      example: '12345'
+                      description: ZIP code of contact address
+                    city:
+                      type: string
+                      nullable: true
+                      example: city
+                      description: City of contact address
+                    state:
+                      type: string
+                      nullable: true
+                      example: Ohio
+                      description: Federal state / district of contact address
+                    country:
+                      type: string
+                      nullable: true
+                      example: DE
+                      description: ISO 3166-1 (Alpha 2) Code of contact address country
+                contact:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    phone:
+                      type: string
+                      nullable: true
+                      example: +49 330 12345667
+                      description: Phone number of contact address
+                    fax:
+                      type: string
+                      nullable: true
+                      example: +49 330 7654321
+                      description: Fax number of contact address
+                    mobile:
+                      type: string
+                      nullable: true
+                      example: +49 172 7654321
+                      description: Mobile number of contact address
+                    salutation:
+                      type: string
+                      nullable: true
+                      example: Dear Dr. Smith, Friend and Supporter
+                      description: Specifies dedicated salutation
+                    email:
+                      type: string
+                      format: email
+                      nullable: true
+                      example: contact-person@address-location.tld
+                      description: E-mail address
+                groups:
+                  type: array
+                  items:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  description: List of groups this contact person is belong to
+                  example:
+                  - '17'
+                  - '22'
+                comment:
+                  type: string
+                  nullable: true
+                  example: This is a internal comment
+                  description: Internal comment for this contact
+                others:
+                  type: string
+                  nullable: true
+                  example: ''
+                  description: Every other information you deem relevant
+            examples:
+              minimal:
+                value:
+                  name: Fullname of contact person
+              fullQualified:
+                value:
+                  type: mrs
+                  name: Kathleen Minority
+                  title: Prof. Dr. Dr.
+                  birthday: '2001-02-02'
+                  birthdayShowInCalendar: false
+                  sendBirthdayCard: true
+                  marketingBan: false
+                  department: Finance
+                  subDepartment: Controlling
+                  position: Head of Controlling
+                  language: DE
+                  address:
+                    street: 11W 53rd St
+                    additionalStreet: 6. Floor
+                    zip: '10019'
+                    city: New York
+                    state: NY
+                    country: US
+                  contact:
+                    phone: +1 917 55512345
+                    fax: +1 917 55512345-1
+                    mobile: +1 800 55554321
+                    salutation: Dear Mrs. Minority, my most value customer
+                    email: k.m@ny.tld
+                  groups:
+                  - '1'
+                  - '23'
+                  - '34'
+                  comment: This is a internal comment for employees eyes only
+                  others: some other things necessary to write down blong to this contact ...
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+  /api/v1/customers/{customerId}/contactPerson/{contactPersonId}:
+    patch:
+      tags:
+      - Customer - Contact Person
+      operationId: customer.contactPerson.update
+      summary: Update contact person
+      description: Updates new contact person for given customer.
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - name: contactPersonId
+        in: path
+        description: Contact Person ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update customer contact person object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - company
+                  - mr
+                  - mrs
+                  - other
+                  nullable: false
+                  example: mr
+                  description: Type of contact used later for salutations
+                name:
+                  type: string
+                  minLength: 1
+                  nullable: false
+                  example: Firstname Surname
+                  description: Full name of the contact person
+                title:
+                  type: string
+                  nullable: true
+                  example: Prof. Dr.
+                  description: Additional information used for salutations
+                birthday:
+                  type: string
+                  format: date
+                  nullable: true
+                  example: '2001-01-14'
+                birthdayShowInCalendar:
+                  type: boolean
+                  nullable: false
+                  example: true
+                  description: Decides wether or not to show in birthday calendar
+                sendBirthdayCard:
+                  type: boolean
+                  nullable: false
+                  example: true
+                  description: Decides wether or not to send birthday card via serial letter module
+                marketingBan:
+                  type: boolean
+                  nullable: false
+                  example: true
+                  description: Decides wether or not to send serial letters to this contact
+                department:
+                  type: string
+                  nullable: true
+                  example: HR department
+                  description: Department of contact if necessary and available
+                subDepartment:
+                  type: string
+                  nullable: true
+                  example: Sub department
+                  description: Sub-Department of contact if necessary and available
+                position:
+                  type: string
+                  nullable: true
+                  example: ''
+                  description: Position or responsibility
+                language:
+                  type: string
+                  nullable: true
+                  description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
+                  example: DE
+                address:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    street:
+                      type: string
+                      nullable: true
+                      example: 2176 example street
+                      description: Street + number of contact address
+                    additionalStreet:
+                      type: string
+                      nullable: true
+                      example: 6th floor
+                      description: Address suffix
+                    zip:
+                      type: string
+                      nullable: true
+                      example: '12345'
+                      description: ZIP code of contact address
+                    city:
+                      type: string
+                      nullable: true
+                      example: city
+                      description: City of contact address
+                    state:
+                      type: string
+                      nullable: true
+                      example: Ohio
+                      description: Federal state / district of contact address
+                    country:
+                      type: string
+                      nullable: true
+                      example: DE
+                      description: ISO 3166-1 (Alpha 2) Code of contact address country
+                contact:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    phone:
+                      type: string
+                      nullable: true
+                      example: +49 330 12345667
+                      description: Phone number of contact address
+                    fax:
+                      type: string
+                      nullable: true
+                      example: +49 330 7654321
+                      description: Fax number of contact address
+                    mobile:
+                      type: string
+                      nullable: true
+                      example: +49 172 7654321
+                      description: Mobile number of contact address
+                    salutation:
+                      type: string
+                      nullable: true
+                      example: Dear Dr. Smith, Friend and Supporter
+                      description: Specifies dedicated salutation
+                    email:
+                      type: string
+                      format: email
+                      nullable: true
+                      example: contact-person@address-location.tld
+                      description: E-mail address
+                groups:
+                  type: array
+                  items:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  description: List of groups this contact person is belong to
+                  example:
+                  - '17'
+                  - '22'
+                comment:
+                  type: string
+                  nullable: true
+                  example: This is a internal comment
+                  description: Internal comment for this contact
+                others:
+                  type: string
+                  nullable: true
+                  example: ''
+                  description: Every other information you deem relevant
+            examples:
+              full:
+                value:
+                  type: mrs
+                  name: Kathleen Minority
+                  title: Prof. Dr. Dr.
+                  birthday: '2001-02-02'
+                  birthdayShowInCalendar: false
+                  sendBirthdayCard: true
+                  marketingBan: false
+                  department: Finance
+                  subDepartment: Controlling
+                  position: Head of Controlling
+                  language: DE
+                  address:
+                    street: 11W 53rd St
+                    additionalStreet: 6. Floor
+                    zip: '10019'
+                    city: New York
+                    state: NY
+                    country: US
+                  contact:
+                    phone: +1 917 55512345
+                    fax: +1 917 55512345-1
+                    mobile: +1 800 55554321
+                    salutation: Dear Mrs. Minority, my most value customer
+                    email: k.m@ny.tld
+                  groups:
+                  - '1'
+                  - '23'
+                  - '34'
+                  comment: This is a internal comment for employees eyes only
+                  others: some other things necessary to write down blong to this contact ...
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+    delete:
+      tags:
+      - Customer - Contact Person
+      operationId: customer.contactPerson.delete
+      summary: Delete contact person
+      description: Deletes a contact person for given customer.
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The unique identifier of the customer
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: path
+        name: contactPersonId
+        required: true
+        description: The unique identifier of the contact person
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+    get:
+      tags:
+      - Customer - Contact Person
+      operationId: customer.contactPerson.get
+      summary: View contact person
+      description: Gets a single contact person of given customer by ID.
+      parameters:
+      - in: path
+        name: customerId
+        required: true
+        description: The customer's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: path
+        name: contactPersonId
+        required: true
+        description: The contact person's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Contact person object
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - links
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - name
+                    - type
+                    - createdAt
+                    - updatedAt
+                    - language
+                    description: Contact person object
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      customer:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        description: The customer this contact person belongs to
+                        example:
+                          id: '1234'
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                      type:
+                        type: string
+                        enum:
+                        - company
+                        - mr
+                        - mrs
+                        - other
+                        nullable: true
+                        example: mr
+                        description: Type of contact used later for salutations
+                      name:
+                        type: string
+                        nullable: false
+                        example: Firstname Surname
+                        description: Full name of the contact person
+                      title:
+                        type: string
+                        nullable: true
+                        example: Prof. Dr.
+                        description: Additional information used for salutations
+                      birthday:
+                        description: Birthday of contact person in default format like 'YYYY-MM-DD
+                        type: string
+                        format: date
+                        nullable: true
+                        example: '2001-01-14'
+                      birthdayShowInCalendar:
+                        type: boolean
+                        nullable: true
+                        example: true
+                        description: Decides wether or not to show in birthday calendar
+                      sendBirthdayCard:
+                        type: boolean
+                        nullable: true
+                        example: true
+                        description: Decides wether or not to send birthday card via serial letter module
+                      marketingBan:
+                        type: boolean
+                        nullable: true
+                        example: true
+                        description: Decides wether or not to send serial letters to this contact
+                      department:
+                        type: string
+                        nullable: true
+                        example: HR department
+                        description: Department of contact if necessary and available
+                      subDepartment:
+                        type: string
+                        nullable: true
+                        example: Sub department
+                        description: Sub-Department of contact if necessary and available
+                      position:
+                        type: string
+                        nullable: true
+                        example: head of purchasing
+                        description: Position or responsibility
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: Contact person creation date and time
+                        example: '2024-09-18T14:30:00Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        description: Contact person last update date and time
+                        example: '2024-09-18T14:30:00Z'
+                      language:
+                        type: string
+                        nullable: true
+                        description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
+                        example: DE
+                      address:
+                        type: object
+                        additionalProperties: false
+                        description: Address information of the contact person
+                        example:
+                          street: Example st. 13
+                          additionalStreet: 6th floor
+                          zip: '12345'
+                          city: city
+                          state: Bayern
+                          country: Deutschland
+                        properties:
+                          street:
+                            type: string
+                            nullable: true
+                            example: 2176 example street
+                            description: Street + number of contact address
+                          additionalStreet:
+                            type: string
+                            nullable: true
+                            example: 6th floor
+                            description: Address suffix
+                          zip:
+                            type: string
+                            nullable: true
+                            example: '12345'
+                            description: ZIP code of contact address
+                          city:
+                            type: string
+                            nullable: true
+                            example: city
+                            description: City of contact address
+                          state:
+                            type: string
+                            nullable: true
+                            example: Ohio
+                            description: Federal state / district of contact address
+                          country:
+                            type: string
+                            nullable: true
+                            example: DE
+                            description: ISO 3166-1 (Alpha 2) Code of contact address country
+                      contact:
+                        type: object
+                        additionalProperties: false
+                        description: Contact information of the contact person
+                        example:
+                          phone: +49 555 12345667
+                          fax: +49 555 7654321
+                          mobile: +49 555 7654321
+                          salutation: Dear Dr. Smith, Friend and Supporter
+                          email: email@test.com
+                        properties:
+                          phone:
+                            type: string
+                            nullable: true
+                            example: +49 330 12345667
+                            description: Phone number of contact address
+                          fax:
+                            type: string
+                            nullable: true
+                            example: +49 330 7654321
+                            description: Fax number of contact address
+                          mobile:
+                            type: string
+                            nullable: true
+                            example: +49 172 7654321
+                            description: Mobile number of contact address
+                          salutation:
+                            type: string
+                            nullable: true
+                            example: Dear Dr. Smith, Friend and Supporter
+                            description: Specifies dedicated salutation
+                          email:
+                            type: string
+                            format: email
+                            nullable: true
+                            example: contact-person@address-location.tld
+                            description: E-mail address
+                      groups:
+                        type: array
+                        items:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        description: List of groups this contact person is belong to
+                        example:
+                        - '17'
+                        - '22'
+                      comment:
+                        type: string
+                        nullable: true
+                        example: This is a internal comment
+                        description: Internal comment for this contact
+                      others:
+                        type: string
+                        nullable: true
+                        example: ''
+                        description: Every other information you deem relevant
+                    example:
+                      id: '12345'
+                      type: mrs
+                      name: Kathleen Minority
+                      title: Prof. Dr. Dr.
+                      birthday: '2001-02-02'
+                      birthdayShowInCalendar: false
+                      sendBirthdayCard: true
+                      marketingBan: false
+                      department: Finance
+                      subDepartment: Controlling
+                      position: Head of Controlling
+                      address:
+                        street: 11W 53rd St
+                        additionalStreet: 6. Floor
+                        zip: '10019'
+                        city: New York
+                        state: NY
+                        country: US
+                      contact:
+                        phone: +1 917 55512345
+                        fax: +1 917 55512345-1
+                        mobile: +1 800 55554321
+                        salutation: Dear Mrs. Minority, my most value customer
+                        email: k.m@ny.tld
+                      groups:
+                      - '1'
+                      - '23'
+                      - '34'
+                      comment: This is a internal comment for employees eyes only
+                      others: some other things necessary to write down belong to this contact ...
+                      createdAt: '2025-09-16 15:55:09'
+                      updatedAt: '2025-09-16 15:55:09'
+                      language: DE
+                  links:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - self
+                    - customer
+                    description: Links related to the contact person
+                    example:
+                      self: http://localhost/api/customers/123/contactPerson/456
+                      customer: http://localhost/api/v2/customers/123
+                    properties:
+                      self:
+                        type: string
+                        description: Link to the contact person resource
+                        example: http://localhost/api/customers/123/contactPerson/456
+                      customer:
+                        type: string
+                        description: Link to the customer resource
+                        example: http://localhost/api/v2/customers/123
+              example:
+                data:
+                  id: '12345'
+                  customer:
+                    id: '1234'
+                  type: mrs
+                  name: Kathleen Minority
+                  title: Prof. Dr. Dr.
+                  birthday: '2001-02-02'
+                  birthdayShowInCalendar: false
+                  sendBirthdayCard: true
+                  marketingBan: false
+                  department: Finance
+                  subDepartment: Controlling
+                  position: Head of Controlling
+                  createdAt: '2025-09-16T15:55:09Z'
+                  updatedAt: '2025-09-16T15:55:09Z'
+                  language: DE
+                  address:
+                    street: 11W 53rd St
+                    additionalStreet: 6. Floor
+                    zip: '10019'
+                    city: New York
+                    state: NY
+                    country: US
+                  contact:
+                    phone: +1 917 55512345
+                    fax: +1 917 55512345-1
+                    mobile: +1 800 55554321
+                    salutation: Dear Mrs. Minority, my most value customer
+                    email: k.m@ny.tld
+                  groups:
+                  - '1'
+                  - '23'
+                  - '34'
+                  comment: This is a internal comment for employees eyes only
+                  others: some other things necessary to write down belong to this contact ...
+                links:
+                  self: http://localhost/api/customers/1234/contactPerson/12345
+                  customer: http://localhost/api/v2/customers/1234
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

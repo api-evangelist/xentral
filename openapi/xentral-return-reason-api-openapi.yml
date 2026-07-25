@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Return Reason API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Return Reason
+  description: Return reason describes why an item is being returned
+paths:
+  /api/v1/returnReasons:
+    get:
+      tags:
+      - Return Reason
+      operationId: returnReason.list
+      summary: List return reasons
+      description: Returns a list of return reasons
+      parameters:
+      - name: project
+        style: deepObject
+        in: query
+        schema:
+          type: object
+          additionalProperties: false
+          description: Project to optionally filter by
+          properties:
+            id:
+              type: string
+              pattern: \d+
+              example: '17'
+              description: Resource identifier.
+      - name: language
+        in: query
+        schema:
+          type: string
+          description: Language code, 2-letter ISO code.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - designation
+                      - description
+                      - language
+                      - project
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        designation:
+                          type: string
+                          example: Broken packaging
+                          description: Designation of the return reason
+                        description:
+                          type: string
+                          example: The boxes have been ripped off during transit
+                          description: Description of the return reason
+                        language:
+                          type: string
+                          example: DE
+                          description: Language in which the return reason is written
+                        project:
+                          type: object
+                          required:
+                          - id
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          description: Project for the return reason
+                          example:
+                            id: '1'
+                    description: Data representation of a list of return reasons
+                    example:
+                    - id: '1'
+                      designation: Broken packaging
+                      description: The boxes have been ripped off during transit
+                      language: DE
+                      project:
+                        id: '1'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '406':
+          description: Requested resource representation does not exist.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

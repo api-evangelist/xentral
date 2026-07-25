@@ -1,0 +1,1691 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Revenue Account Mapping API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Revenue Account Mapping
+  description: Revenue Account Mapping configurations
+paths:
+  /api/v1/revenueAccountMapping:
+    post:
+      tags:
+      - Revenue Account Mapping
+      operationId: revenueAccountMapping.create.v1
+      summary: 🔒 Create revenue account mapping
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        Create revenue account mapping'
+      requestBody:
+        description: Create a revenue account mapping object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              required:
+              - accountId
+              properties:
+                accountId:
+                  type: string
+                deliveryCountryCode:
+                  type: string
+                projectId:
+                  type: string
+                productId:
+                  type: string
+                warehouseId:
+                  type: string
+                isActive:
+                  type: boolean
+            examples:
+              revenue account mapping:
+                value:
+                  accountId: '1'
+                  deliveryCountryCode: DE
+                  projectId: '1'
+                  productId: '1'
+                  warehouseId: '1'
+                  isActive: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                description: Revenue account mapping entry
+                properties:
+                  id:
+                    description: Revenue account mapping ID
+                    type: string
+                    example: '1'
+                  accountId:
+                    description: Account ID
+                    type: string
+                    example: '1000'
+                  name:
+                    description: Name of the mapping
+                    type: string
+                    example: Mapping Rule 1
+                  deliveryCountryCode:
+                    description: Delivery country code
+                    type: string
+                    example: DE
+                  projectId:
+                    description: Project ID
+                    type: string
+                    nullable: true
+                    example: '1'
+                  productId:
+                    description: Product ID
+                    type: string
+                    nullable: true
+                    example: '1'
+                  warehouseId:
+                    description: Warehouse ID
+                    type: string
+                    nullable: true
+                    example: '1'
+                  warehouseCountryCode:
+                    description: Warehouse country code
+                    type: string
+                    nullable: true
+                    example: DE
+                  isActive:
+                    description: Is active
+                    type: boolean
+                    example: true
+                  createdAt:
+                    description: Created at timestamp
+                    type: string
+                    format: date-time
+                    example: '2022-01-01T00:00:00Z'
+                  updatedAt:
+                    description: Updated at timestamp
+                    type: string
+                    format: date-time
+                    example: '2022-01-01T00:00:00Z'
+                example:
+                  id: '1'
+                  accountId: '1000'
+                  deliveryCountryCode: DE
+                  projectId: '1'
+                  productId: '1'
+                  warehouseId: '1'
+                  warehouseCountryCode: DE
+                  isActive: true
+                  createdAt: '2022-01-01T00:00:00Z'
+                  updatedAt: '2022-01-01T00:00:00Z'
+        '400':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '409':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+        '500':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+    get:
+      tags:
+      - Revenue Account Mapping
+      operationId: revenueAccountMapping.list.v1
+      summary: 🔒 List Revenue Account Mapping Entries
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        List revenue account mapping entries'
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        description: Filter parameters
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - accountId
+                - deliveryCountryCode
+                - name
+                - projectId
+                - warehouseId
+                - productId
+                - warehouseCountryCode
+                - isActive
+                - createdAt
+                - updatedAt
+                example: id
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - exactlyIn
+                - allIn
+                - allNotIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - is
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - accountId
+                - deliveryCountryCode
+                - projectId
+                - warehouseId
+                - productId
+                - warehouseCountryCode
+                - isActive
+                - createdAt
+                - updatedAt
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+                      description: Revenue account mapping entry
+                      properties:
+                        id:
+                          description: Revenue account mapping ID
+                          type: string
+                          example: '1'
+                        accountId:
+                          description: Account ID
+                          type: string
+                          example: '1000'
+                        name:
+                          description: Name of the mapping
+                          type: string
+                          example: Mapping Rule 1
+                        deliveryCountryCode:
+                          description: Delivery country code
+                          type: string
+                          example: DE
+                        projectId:
+                          description: Project ID
+                          type: string
+                          nullable: true
+                          example: '1'
+                        productId:
+                          description: Product ID
+                          type: string
+                          nullable: true
+                          example: '1'
+                        warehouseId:
+                          description: Warehouse ID
+                          type: string
+                          nullable: true
+                          example: '1'
+                        warehouseCountryCode:
+                          description: Warehouse country code
+                          type: string
+                          nullable: true
+                          example: DE
+                        isActive:
+                          description: Is active
+                          type: boolean
+                          example: true
+                        createdAt:
+                          description: Created at timestamp
+                          type: string
+                          format: date-time
+                          example: '2022-01-01T00:00:00Z'
+                        updatedAt:
+                          description: Updated at timestamp
+                          type: string
+                          format: date-time
+                          example: '2022-01-01T00:00:00Z'
+                      example:
+                        id: '1'
+                        accountId: '1000'
+                        deliveryCountryCode: DE
+                        projectId: '1'
+                        productId: '1'
+                        warehouseId: '1'
+                        warehouseCountryCode: DE
+                        isActive: true
+                        createdAt: '2022-01-01T00:00:00Z'
+                        updatedAt: '2022-01-01T00:00:00Z'
+        '400':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '429':
+          description: Too many API calls made.
+        '500':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+  /api/v1/revenueAccountMapping/{id}:
+    get:
+      tags:
+      - Revenue Account Mapping
+      operationId: revenueAccountMapping.get.v1
+      summary: 🔒 Get Revenue Account Mapping Entry by ID
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        Retrieves a specific revenue account mapping entry by its ID.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the revenue account mapping entry to retrieve.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: true
+                    description: Revenue account mapping entry
+                    properties:
+                      id:
+                        description: Revenue account mapping ID
+                        type: string
+                        example: '1'
+                      accountId:
+                        description: Account ID
+                        type: string
+                        example: '1000'
+                      name:
+                        description: Name of the mapping
+                        type: string
+                        example: Mapping Rule 1
+                      deliveryCountryCode:
+                        description: Delivery country code
+                        type: string
+                        example: DE
+                      projectId:
+                        description: Project ID
+                        type: string
+                        nullable: true
+                        example: '1'
+                      productId:
+                        description: Product ID
+                        type: string
+                        nullable: true
+                        example: '1'
+                      warehouseId:
+                        description: Warehouse ID
+                        type: string
+                        nullable: true
+                        example: '1'
+                      warehouseCountryCode:
+                        description: Warehouse country code
+                        type: string
+                        nullable: true
+                        example: DE
+                      isActive:
+                        description: Is active
+                        type: boolean
+                        example: true
+                      createdAt:
+                        description: Created at timestamp
+                        type: string
+                        format: date-time
+                        example: '2022-01-01T00:00:00Z'
+                      updatedAt:
+                        description: Updated at timestamp
+                        type: string
+                        format: date-time
+                        example: '2022-01-01T00:00:00Z'
+                    example:
+                      id: '1'
+                      accountId: '1000'
+                      deliveryCountryCode: DE
+                      projectId: '1'
+                      productId: '1'
+                      warehouseId: '1'
+                      warehouseCountryCode: DE
+                      isActive: true
+                      createdAt: '2022-01-01T00:00:00Z'
+                      updatedAt: '2022-01-01T00:00:00Z'
+        '400':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '429':
+          description: Too many API calls made.
+        '500':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+    patch:
+      tags:
+      - Revenue Account Mapping
+      operationId: revenueAccountMapping.update.v1
+      summary: 🔒 Update revenue account mapping
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        Updates a single revenue account mapping.'
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The ID of the revenue account mapping entry to update.
+        schema:
+          type: string
+      requestBody:
+        description: Create a revenue account mapping object
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              required:
+              - accountId
+              properties:
+                accountId:
+                  type: string
+                deliveryCountryCode:
+                  type: string
+                projectId:
+                  type: string
+                productId:
+                  type: string
+                warehouseId:
+                  type: string
+                isActive:
+                  type: boolean
+            examples:
+              revenue account mapping:
+                value:
+                  accountId: '1'
+                  deliveryCountryCode: DE
+                  projectId: '1'
+                  productId: '1'
+                  warehouseId: '1'
+                  isActive: true
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '409':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+        '500':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+    delete:
+      tags:
+      - Revenue Account Mapping
+      operationId: revenueAccountMapping.delete.v1
+      summary: 🔒 Delete Revenue Account Mapping Entry by ID
+      description: 'This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.
+
+
+        Deletes a specific revenue account mapping entry by its ID.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the revenue account mapping entry to delete.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+        '429':
+          description: Too many API calls made.
+        '500':
+          description: XGL Problem
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                description: XGL Problem specification
+                properties:
+                  type:
+                    type: string
+                    description: URL of the problem
+                    example: https://api.xentral.biz/problems/xgl-error
+                  title:
+                    type: string
+                    description: title of the error. It should be always XGL Error
+                    example: XGL Error
+                  errorCode:
+                    type: integer
+                    description: Error code regarding the request failure
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 5
+                    - 6
+                    - 7
+                    - 8
+                    - 9
+                    - 10
+                    - 11
+                    - 12
+                    example: 1
+                  message:
+                    type: string
+                    description: General description about the failed request
+                    enum:
+                    - Error listing tax obligations
+                    - Error creating tax obligation
+                    - Error listing taxes
+                    - Error getting account information
+                    - Error getting account mapping information
+                    - Error listing account mappings
+                    - Error creating account mapping
+                    - Error updating account mapping
+                    - Error deleting account mapping
+                    - Error creating tax
+                    - Error updating tax
+                    - Error getting general ledger
+                    example: Error getting account information
+                  details:
+                    type: object
+                    description: Object containing the fields and their specifications
+                    additionalProperties:
+                      type: string
+                    example:
+                      field: Additional error detail
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

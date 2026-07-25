@@ -1,0 +1,743 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Query API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Query
+  description: Create, manage and export reports and report results based on SQL queries against your data.
+paths:
+  /api/v1/analytics/query:
+    post:
+      tags:
+      - Query
+      operationId: analytics.query
+      summary: Execute query
+      description: Execute a query synchronously on the Analytics platform and get result table (Redshift dialect). The number of records that you receive as results is limited to a reasonable amount. This endpoint is mainly for viewing the data. Use the export endpoints in order to fetch all results.
+      requestBody:
+        description: Query payload
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - query
+              example:
+                query: SELECT * FROM users
+                settings:
+                  exportFormat: csv
+                  delimiter: ','
+                parameters:
+                - name: date
+                  type: string
+                  defaultValue: '2021-01-01'
+              properties:
+                query:
+                  type: string
+                  description: SQL query to execute
+                  example: SELECT * FROM users
+                settings:
+                  type: object
+                  nullable: true
+                  additionalProperties: false
+                  properties:
+                    delimiter:
+                      type: string
+                      description: The delimiter character used for CSV or TXT exports
+                      example: ','
+                      minLength: 1
+                      maxLength: 1
+                    escapeSpecialCharacters:
+                      type: boolean
+                      description: Whether to escape special characters in TXT exports (e.g. quotes, newlines)
+                      example: true
+                      default: false
+                    disableQuotes:
+                      type: boolean
+                      description: Whether to disable enclosing all values with double quotes in TXT exports. This is useful for handling special characters or values that contain the delimiter character. It's problematic if values contain double quotes themselves.
+                      example: false
+                      default: false
+                    exportFormat:
+                      type: string
+                      description: Export format for reports
+                      example: txt
+                      enum:
+                      - csv
+                      - xlsx
+                      - json
+                      - txt
+                      - parquet
+                      - pdf
+                      default: txt
+                    numberFormattingMode:
+                      type: string
+                      description: Number formatting mode that should be applied when visualizing numbers (does not affect exports)
+                      example: locale
+                      enum:
+                      - locale
+                      - raw
+                      default: raw
+                parameters:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - name
+                    - type
+                    - defaultValue
+                    example:
+                      name: date
+                      type: string
+                      defaultValue: '2021-01-01'
+                    properties:
+                      name:
+                        type: string
+                        description: Parameter name
+                        example: date
+                      type:
+                        type: string
+                        description: Parameter type
+                        example: string
+                      defaultValue:
+                        type: string
+                        description: Default value for parameter you want to store
+                        example: '2021-01-01'
+                      valueMap:
+                        type: array
+                        description: Array of dropdown options with label and value properties. Values will be rendered in the query, labels are displayed in the dropdown.
+                        items:
+                          type: object
+                          required:
+                          - label
+                          - value
+                          properties:
+                            label:
+                              type: string
+                              description: Display label shown in the dropdown
+                            value:
+                              type: string
+                              description: Value used in the query
+                        example:
+                        - label: Option 1
+                          value: option1
+                        - label: Option 2
+                          value: option2
+            examples:
+              example:
+                summary: Example SQL query payload
+                value:
+                  query: SELECT * FROM users
+                  parameters:
+                  - name: date
+                    type: string
+                    defaultValue: '2021-01-01'
+      parameters:
+      - name: preview
+        in: query
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            preview:
+              type: boolean
+              example: false
+              default: false
+              description: If true, only a limited amount of records will be returned, but the request does not cost any credits. If true, all results are returned up to a max number of 500 rows.
+      responses:
+        '200':
+          description: Query response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - meta
+                properties:
+                  data:
+                    description: Generic result response for a query in a table-like structure.
+                    type: object
+                    nullable: true
+                    additionalProperties: false
+                    required:
+                    - header
+                    - rows
+                    properties:
+                      header:
+                        type: array
+                        items:
+                          type: string
+                      rows:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                    example:
+                      header:
+                      - id
+                      - name
+                      rows:
+                      - - '1'
+                        - Alice
+                      - - '2'
+                        - Bob
+                  meta:
+                    description: Query meta information.
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    example:
+                      query: SELECT * FROM users
+                      executionTime: 0.123
+                      totalResults: 2
+                      columnTypes:
+                      - integer
+                      - string
+                    properties:
+                      columnTypes:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
+                        description: Derived column types for each column in the result table.
+                        example:
+                        - integer
+                        - string
+                      executionTime:
+                        description: Execution time of the query in seconds.
+                        example: 0.123
+                        type: number
+                        nullable: true
+                      query:
+                        description: SQL query that was executed.
+                        type: string
+                        nullable: false
+                        example: SELECT * FROM users
+                      totalResults:
+                        description: Total number of rows og the result (the returned result is always limited).
+                        type: number
+                        nullable: true
+                        example: 2
+        '400':
+          description: Error response with message
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - message
+                properties:
+                  message:
+                    description: Error message
+                    type: string
+                    example: SQL statement is invalid
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '402':
+          description: Resource can not be accessed because you exceeded the credit limit.
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/analytics/query/export:
+    post:
+      tags:
+      - Query
+      operationId: analytics.query.export.create
+      summary: Create query export
+      description: Create a query export. This starts a query execution. The query will be executed asynchronously. You can check the status of the query using the `GET /api/analytics/query/export/{uuid}` endpoint.
+      requestBody:
+        description: Query payload
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - query
+              example:
+                query: SELECT * FROM users
+                settings:
+                  exportFormat: csv
+                  delimiter: ','
+                parameters:
+                - name: date
+                  type: string
+                  defaultValue: '2021-01-01'
+              properties:
+                query:
+                  type: string
+                  description: SQL query to execute
+                  example: SELECT * FROM users
+                settings:
+                  type: object
+                  nullable: true
+                  additionalProperties: false
+                  properties:
+                    delimiter:
+                      type: string
+                      description: The delimiter character used for CSV or TXT exports
+                      example: ','
+                      minLength: 1
+                      maxLength: 1
+                    escapeSpecialCharacters:
+                      type: boolean
+                      description: Whether to escape special characters in TXT exports (e.g. quotes, newlines)
+                      example: true
+                      default: false
+                    disableQuotes:
+                      type: boolean
+                      description: Whether to disable enclosing all values with double quotes in TXT exports. This is useful for handling special characters or values that contain the delimiter character. It's problematic if values contain double quotes themselves.
+                      example: false
+                      default: false
+                    exportFormat:
+                      type: string
+                      description: Export format for reports
+                      example: txt
+                      enum:
+                      - csv
+                      - xlsx
+                      - json
+                      - txt
+                      - parquet
+                      - pdf
+                      default: txt
+                    numberFormattingMode:
+                      type: string
+                      description: Number formatting mode that should be applied when visualizing numbers (does not affect exports)
+                      example: locale
+                      enum:
+                      - locale
+                      - raw
+                      default: raw
+                parameters:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - name
+                    - type
+                    - defaultValue
+                    example:
+                      name: date
+                      type: string
+                      defaultValue: '2021-01-01'
+                    properties:
+                      name:
+                        type: string
+                        description: Parameter name
+                        example: date
+                      type:
+                        type: string
+                        description: Parameter type
+                        example: string
+                      defaultValue:
+                        type: string
+                        description: Default value for parameter you want to store
+                        example: '2021-01-01'
+                      valueMap:
+                        type: array
+                        description: Array of dropdown options with label and value properties. Values will be rendered in the query, labels are displayed in the dropdown.
+                        items:
+                          type: object
+                          required:
+                          - label
+                          - value
+                          properties:
+                            label:
+                              type: string
+                              description: Display label shown in the dropdown
+                            value:
+                              type: string
+                              description: Value used in the query
+                        example:
+                        - label: Option 1
+                          value: option1
+                        - label: Option 2
+                          value: option2
+            examples:
+              example:
+                summary: Example SQL query payload
+                value:
+                  query: SELECT * FROM users
+                  parameters:
+                  - name: date
+                    type: string
+                    defaultValue: '2021-01-01'
+      responses:
+        '200':
+          description: Query execution response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - status
+                      - query
+                      - url
+                      - error
+                      - createdAt
+                      - updatedAt
+                      properties:
+                        id:
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                          type: string
+                          format: uuid
+                          description: Query execution ID
+                        status:
+                          example: pending
+                          type: string
+                          description: Query execution status
+                        query:
+                          example: SELECT * FROM users
+                          type: string
+                          description: SQL query
+                        url:
+                          example: https://example.com
+                          type: string
+                          description: URL to download the result
+                        error:
+                          example: SQL statement is invalid
+                          type: string
+                          description: Error message
+                        exportFormat:
+                          example: txt
+                          type: string
+                          description: Export format of the result
+                        createdAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Creation time
+                        updatedAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Last update time
+                    description: Details of the query execution
+        '400':
+          description: Error response with message
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - message
+                properties:
+                  message:
+                    description: Error message
+                    type: string
+                    example: SQL statement is invalid
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '402':
+          description: Resource can not be accessed because you exceeded the credit limit.
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Query
+      operationId: analytics.query.export.list
+      summary: List query exports
+      description: Get a list of recent query exports and their status. Possible statuses are `success`, `failed`, `running` and `pending`. If status is success, then we also show the download link.
+      responses:
+        '200':
+          description: Query execution response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - status
+                      - query
+                      - url
+                      - error
+                      - createdAt
+                      - updatedAt
+                      properties:
+                        id:
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                          type: string
+                          format: uuid
+                          description: Query execution ID
+                        status:
+                          example: pending
+                          type: string
+                          description: Query execution status
+                        query:
+                          example: SELECT * FROM users
+                          type: string
+                          description: SQL query
+                        url:
+                          example: https://example.com
+                          type: string
+                          description: URL to download the result
+                        error:
+                          example: SQL statement is invalid
+                          type: string
+                          description: Error message
+                        exportFormat:
+                          example: txt
+                          type: string
+                          description: Export format of the result
+                        createdAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Creation time
+                        updatedAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Last update time
+                    description: Details of the query execution
+        '400':
+          description: Error response with message
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - message
+                properties:
+                  message:
+                    description: Error message
+                    type: string
+                    example: SQL statement is invalid
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+  /api/v1/analytics/query/export/{uuid}:
+    get:
+      tags:
+      - Query
+      operationId: analytics.query.export.getById
+      summary: View query export
+      description: Get specific query export by ID which (if completed successfully) contains a download link to a file in CSV format
+      parameters:
+      - in: path
+        name: uuid
+        required: true
+        description: The resource's UUID identifier.
+        schema:
+          description: UUID identifier of the resource.
+          type: string
+          pattern: ^$|^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+          example: a00fd11e-3a67-433b-83c0-4e815fd4a0e1
+      responses:
+        '200':
+          description: Query execution response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - status
+                      - query
+                      - url
+                      - error
+                      - createdAt
+                      - updatedAt
+                      properties:
+                        id:
+                          example: 123e4567-e89b-12d3-a456-426614174000
+                          type: string
+                          format: uuid
+                          description: Query execution ID
+                        status:
+                          example: pending
+                          type: string
+                          description: Query execution status
+                        query:
+                          example: SELECT * FROM users
+                          type: string
+                          description: SQL query
+                        url:
+                          example: https://example.com
+                          type: string
+                          description: URL to download the result
+                        error:
+                          example: SQL statement is invalid
+                          type: string
+                          description: Error message
+                        exportFormat:
+                          example: txt
+                          type: string
+                          description: Export format of the result
+                        createdAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Creation time
+                        updatedAt:
+                          example: '2023-01-01T00:00:00+00:00'
+                          type: string
+                          format: date-time
+                          description: Last update time
+                    description: Details of the query execution
+        '400':
+          description: Error response with message
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - message
+                properties:
+                  message:
+                    description: Error message
+                    type: string
+                    example: SQL statement is invalid
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

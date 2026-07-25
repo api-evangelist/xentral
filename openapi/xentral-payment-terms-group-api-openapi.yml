@@ -1,0 +1,800 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Payment Terms Group API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Payment Terms Group
+  description: PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options.
+paths:
+  /api/v1/paymentTermsGroups:
+    get:
+      tags:
+      - Payment Terms Group
+      operationId: paymentTermsGroup.list
+      summary: List payment terms groups
+      description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
+
+
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          oneOf:
+          - type: array
+            title: Pass the array of filters.
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  description: Pass the array as filter[0][key], filter[0][op], filter[0][value]
+                  enum:
+                  - id
+                  - name
+                  - key
+                  - isActive
+                  - projectId
+                  - categoryId
+                op:
+                  type: string
+                  enum:
+                  - equals
+                  - notEquals
+                  - in
+                  - notIn
+                  - exactlyIn
+                  - allIn
+                  - allNotIn
+                  - contains
+                  - notContains
+                  - startsWith
+                  - endsWith
+                  - greaterThan
+                  - lessThan
+                  - is
+                value:
+                  oneOf:
+                  - type: string
+                    description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                    title: String
+                  - type: array
+                    title: Array
+                    items:
+                      type: string
+                      description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+                - name
+                - key
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      x-description-missing: true
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        key:
+                          x-description-missing: true
+                          type: string
+                          example: payment_terms_group_1
+                        name:
+                          x-description-missing: true
+                          type: string
+                          example: Sample payment terms group
+                        isActive:
+                          x-description-missing: true
+                          type: boolean
+                          example: true
+                        comment:
+                          x-description-missing: true
+                          type: string
+                          nullable: true
+                          example: This is a payment terms group.
+                        paymentTerms:
+                          x-description-missing: true
+                          nullable: true
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            basicDiscount:
+                              type: number
+                              example: 5
+                              nullable: true
+                            paymentTargetDays:
+                              type: integer
+                              example: 30
+                              nullable: true
+                            earlyPaymentDiscount:
+                              nullable: true
+                              type: object
+                              additionalProperties: false
+                              properties:
+                                value:
+                                  type: number
+                                  example: 2
+                                paymentTargetDays:
+                                  type: integer
+                                  example: 7
+                            postageFreeFrom:
+                              nullable: true
+                              type: number
+                              example: 99.99
+                              description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
+                          example:
+                            basicDiscount: 5
+                            paymentTargetDays: 30
+                            earlyPaymentDiscount:
+                              value: 2
+                              paymentTargetDays: 7
+                            postageFreeFrom: 99.99
+                        project:
+                          x-description-missing: true
+                          nullable: true
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1'
+                        category:
+                          x-description-missing: true
+                          nullable: true
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '789'
+                      example:
+                        id: '123'
+                        key: DISCOUNT-10
+                        name: Customer Discount 10%
+                        isActive: true
+                        comment: Customers in this group get 10% discount on all orders. And free shipping if the order value is at least 100.00 EUR.
+                        paymentTerms:
+                          basicDiscount: 10
+                          paymentTargetDays: 30
+                          earlyPaymentDiscount:
+                            value: 2
+                            paymentTargetDays: 15
+                          postageFreeFrom: 100
+                        project:
+                          id: '1'
+                        category:
+                          id: '789'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              example:
+                data:
+                - id: '1'
+                  key: DISCOUNT
+                  name: 10.5% discount for customers
+                  isActive: true
+                  comment: All customer in this group get a 10.5% discount on their orders.
+                  paymentTerms:
+                    basicDiscount: 10.5
+                    paymentTargetDays: 30
+                    earlyPaymentDiscount: null
+                    postageFreeFrom: null
+                  project:
+                    id: '1'
+                  category:
+                    id: '1'
+                - id: '2'
+                  key: FREE-SHIPPING
+                  name: free shipping on all orders
+                  isActive: true
+                  comment: null
+                  paymentTerms:
+                    basicDiscount: null
+                    paymentTargetDays: null
+                    earlyPaymentDiscount: null
+                    postageFreeFrom: 0
+                  project: null
+                  category: null
+                - id: '3'
+                  key: EARLY_PAYMENT
+                  name: early payment discount
+                  isActive: false
+                  comment: Customers in this group tend to delay payments -> we offer higher early payment discount.
+                  paymentTerms:
+                    basicDiscount: null
+                    paymentTargetDays: null
+                    earlyPaymentDiscount:
+                      value: 5.5
+                      paymentTargetDays: 14
+                    postageFreeFrom: null
+                  project: null
+                  category: null
+                extra:
+                  totalCount: 3
+                  page:
+                    number: 1
+                    size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    post:
+      tags:
+      - Payment Terms Group
+      operationId: paymentTermsGroup.create
+      summary: Create payment terms group
+      description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
+
+
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+      parameters: []
+      requestBody:
+        description: Request to create a new paymentTermsGroup.
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - key
+              - name
+              properties:
+                key:
+                  type: string
+                  pattern: ^[a-zA-Z0-9_-]{3,255}$
+                  minLength: 3
+                  maxLength: 255
+                  example: DISCOUNT_10-5
+                name:
+                  type: string
+                  minLength: 3
+                  maxLength: 512
+                  example: Customer Discount 10.5%
+                comment:
+                  nullable: true
+                  type: string
+                  maxLength: 64000
+                  example: Customers in this group get 10.5% discount on all orders. And free shipping if the order value is at least 99.99 EUR.
+                isActive:
+                  type: boolean
+                  default: true
+                paymentTerms:
+                  nullable: true
+                  type: object
+                  additionalProperties: false
+                  minProperties: 1
+                  properties:
+                    basicDiscount:
+                      nullable: true
+                      type: number
+                      example: 5.5
+                    paymentTargetDays:
+                      nullable: true
+                      type: integer
+                      example: 30
+                      description: 'default: 14 days'
+                      default: 14
+                    earlyPaymentDiscount:
+                      nullable: true
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        value:
+                          type: number
+                          example: 2.1
+                        paymentTargetDays:
+                          type: integer
+                          example: 7
+                    postageFreeFrom:
+                      nullable: true
+                      type: number
+                      example: 99.99
+                      default: null
+                      description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
+                project:
+                  x-description-missing: true
+                  nullable: true
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1'
+                category:
+                  x-description-missing: true
+                  nullable: true
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '789'
+            examples:
+              create payment terms:
+                value:
+                  key: DISCOUNT-10
+                  name: Customer Discount 10%
+                  isActive: true
+                  comment: Customers in this group get 10% discount on all orders. And free shipping if the order value is at least 99.99 EUR.
+                  paymentTerms:
+                    basicDiscount: 10
+                    paymentTargetDays: 30
+                    earlyPaymentDiscount:
+                      value: 2
+                      paymentTargetDays: 15
+                    postageFreeFrom: 99.99
+                  project:
+                    id: '1'
+                  category:
+                    id: '789'
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/paymentTermsGroups/{id}:
+    get:
+      tags:
+      - Payment Terms Group
+      operationId: paymentTermsGroup.view
+      summary: View payment terms group
+      description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
+
+
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      key:
+                        x-description-missing: true
+                        type: string
+                        example: payment_terms_group_1
+                      name:
+                        x-description-missing: true
+                        type: string
+                        example: Sample payment terms group
+                      isActive:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      comment:
+                        x-description-missing: true
+                        type: string
+                        nullable: true
+                        example: This is a payment terms group.
+                      paymentTerms:
+                        x-description-missing: true
+                        nullable: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          basicDiscount:
+                            type: number
+                            example: 5
+                            nullable: true
+                          paymentTargetDays:
+                            type: integer
+                            example: 30
+                            nullable: true
+                          earlyPaymentDiscount:
+                            nullable: true
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              value:
+                                type: number
+                                example: 2
+                              paymentTargetDays:
+                                type: integer
+                                example: 7
+                          postageFreeFrom:
+                            nullable: true
+                            type: number
+                            example: 99.99
+                            description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
+                        example:
+                          basicDiscount: 5
+                          paymentTargetDays: 30
+                          earlyPaymentDiscount:
+                            value: 2
+                            paymentTargetDays: 7
+                          postageFreeFrom: 99.99
+                      project:
+                        x-description-missing: true
+                        nullable: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1'
+                      category:
+                        x-description-missing: true
+                        nullable: true
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '789'
+                    example:
+                      id: '123'
+                      key: DISCOUNT-10
+                      name: Customer Discount 10%
+                      isActive: true
+                      comment: Customers in this group get 10% discount on all orders. And free shipping if the order value is at least 100.00 EUR.
+                      paymentTerms:
+                        basicDiscount: 10
+                        paymentTargetDays: 30
+                        earlyPaymentDiscount:
+                          value: 2
+                          paymentTargetDays: 15
+                        postageFreeFrom: 100
+                      project:
+                        id: '1'
+                      category:
+                        id: '789'
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

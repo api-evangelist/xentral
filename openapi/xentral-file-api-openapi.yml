@@ -1,0 +1,869 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account File API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: File
+  description: Get a business document file and its metadata.
+paths:
+  /api/v2/{documentType}/{id}/files:
+    get:
+      tags:
+      - File
+      operationId: files.list
+      summary: List files for a document
+      description: Returns a collection with all files for a document.
+      parameters:
+      - name: documentType
+        in: path
+        description: The type of the document
+        required: true
+        schema:
+          type: string
+          enum:
+          - salesOrders
+          - liabilities
+          - returns
+          - invoices
+          - creditNotes
+          - purchaseOrders
+          - offers
+          - priceInquiries
+          - proformaInvoices
+          - deliveryNotes
+          - productions
+          - serviceOrders
+          - tickets
+      - name: id
+        in: path
+        description: The identifier for the document
+        required: true
+        schema:
+          type: integer
+      - name: filter
+        in: query
+        style: deepObject
+        description: Filters applied to the query. Only 'keyword' and 'title' are allowed as filter keys.
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - keyword
+                - title
+                example: keyword
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - exactlyIn
+                - allIn
+                - allNotIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - is
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: Represents a file associated with a specific business document and including metadata.
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        entity:
+                          description: The type of business document the file is related to, such as an invoice, delivery note, or order.
+                          type: string
+                          enum:
+                          - creditNote
+                          - deliveryNote
+                          - invoice
+                          - liability
+                          - offer
+                          - priceInquiry
+                          - production
+                          - proformaInvoice
+                          - purchaseOrder
+                          - return
+                          - salesOrder
+                          - serviceOrder
+                          - ticket
+                          example: invoice
+                        entityId:
+                          description: The identifier of the related business document (e.g., invoice ID, order ID).
+                          type: integer
+                          example: 1234
+                        title:
+                          description: A human-readable title for the file.
+                          type: string
+                          nullable: true
+                          example: Invoice Document
+                        description:
+                          description: A detailed explanation or note about the file’s purpose or content.
+                          type: string
+                          nullable: true
+                          example: Document for invoice 1234
+                        keyword:
+                          description: A keyword or tag to help categorize or search for the document.
+                          type: string
+                          enum:
+                          - attachment
+                          - coverPage
+                          - eInvoice
+                          - paymentReceipt
+                          - receipt
+                          - otherFile
+                          - ''
+                          nullable: true
+                          example: attachment
+                        sort:
+                          description: An integer used to define the order in which files are sorted.
+                          type: integer
+                          example: 1
+                        currentVersion:
+                          description: The current version of the file.
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            version:
+                              type: integer
+                              description: The version of the file
+                              example: 4
+                            remark:
+                              type: string
+                              description: An internal note/remark for the file
+                              example: Please process this quickly
+                              nullable: true
+                            filename:
+                              type: string
+                              example: document-2024-1234.pdf
+                              description: The name of the uploaded file
+                            size:
+                              type: object
+                              required:
+                              - value
+                              - unit
+                              properties:
+                                value:
+                                  type: integer
+                                  description: The size of the file
+                                  example: 2684
+                                unit:
+                                  type: string
+                                  description: The unit of the file size
+                                  example: byte
+                              example:
+                                value: 2684
+                                unit: byte
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: '2023-01-01T00:00:00+00:00'
+                              description: The last time this liability document was updated
+                          example:
+                            id: '1'
+                            version: 4
+                            remark: Please process this quickly
+                            filename: document-2024-1234.pdf
+                            size:
+                              value: 2684
+                              unit: byte
+                            updatedAt: '2023-01-01T00:00:00+00:00'
+                        updatedAt:
+                          description: The ISO 8601 timestamp indicating when the file was last updated.
+                          type: string
+                          format: date-time
+                          example: '2024-06-04T12:00:00+00:00'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+  /api/v2/{documentType}/{id}/files/{fileId}:
+    get:
+      tags:
+      - File
+      operationId: files.view
+      summary: View file of a document by id
+      description: Returns details of a single file. If you want to access the file itself please use accept-header `application/vnd.xentral.file`.
+      parameters:
+      - name: documentType
+        in: path
+        description: Document Type
+        required: true
+        schema:
+          type: string
+          enum:
+          - salesOrders
+          - liabilities
+          - returns
+          - invoices
+          - creditNotes
+          - purchaseOrders
+          - offers
+          - priceInquiries
+          - proformaInvoices
+          - deliveryNotes
+          - productions
+          - serviceOrders
+          - tickets
+      - name: fileId
+        in: path
+        description: ID of document
+        required: true
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    description: Represents a document associated with a specific business entity, including metadata and version history.
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      entity:
+                        description: The type of business document the file is related to, such as an invoice, delivery note, or order.
+                        type: string
+                        enum:
+                        - creditNote
+                        - deliveryNote
+                        - invoice
+                        - liability
+                        - offer
+                        - priceInquiry
+                        - production
+                        - proformaInvoice
+                        - purchaseOrder
+                        - return
+                        - salesOrder
+                        - serviceOrder
+                        - ticket
+                        example: invoice
+                      entityId:
+                        description: The identifier of the related business document (e.g., invoice ID, order ID).
+                        type: integer
+                        example: 1234
+                      title:
+                        description: A human-readable title for the file.
+                        type: string
+                        nullable: true
+                        example: Invoice Document
+                      description:
+                        description: A detailed explanation or note about the file’s purpose or content.
+                        type: string
+                        nullable: true
+                        example: Document for invoice 1234
+                      keyword:
+                        description: A keyword or tag to help categorize or search for the document.
+                        type: string
+                        enum:
+                        - attachment
+                        - coverPage
+                        - eInvoice
+                        - paymentReceipt
+                        - receipt
+                        - otherFile
+                        - ''
+                        nullable: true
+                        example: attachment
+                      sort:
+                        description: An integer used to define the order in which files are sorted.
+                        type: integer
+                        example: 1
+                      versions:
+                        description: A list of all versions of the file, including metadata such as file name and version number.
+                        type: array
+                        items:
+                          description: Represents a specific version of a file, including metadata such as version number, filename, remarks, file size, and update timestamp.
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                            version:
+                              type: integer
+                              description: The version of the file
+                              example: 4
+                            remark:
+                              type: string
+                              description: An internal note/remark for the file
+                              example: Please process this quickly
+                              nullable: true
+                            filename:
+                              type: string
+                              example: document-2024-1234.pdf
+                              description: The name of the uploaded file
+                            size:
+                              type: object
+                              required:
+                              - value
+                              - unit
+                              properties:
+                                value:
+                                  type: integer
+                                  description: The size of the file
+                                  example: 2684
+                                unit:
+                                  type: string
+                                  description: The unit of the file size
+                                  example: byte
+                              example:
+                                value: 2684
+                                unit: byte
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: '2023-01-01T00:00:00+00:00'
+                              description: The last time this liability document was updated
+                          example:
+                            id: '1'
+                            version: 4
+                            remark: Please process this quickly
+                            filename: document-2024-1234.pdf
+                            size:
+                              value: 2684
+                              unit: byte
+                            updatedAt: '2023-01-01T00:00:00+00:00'
+                      currentVersion:
+                        description: Represents a specific version of a file, including metadata such as version number, filename, remarks, file size, and update timestamp.
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                          version:
+                            type: integer
+                            description: The version of the file
+                            example: 4
+                          remark:
+                            type: string
+                            description: An internal note/remark for the file
+                            example: Please process this quickly
+                            nullable: true
+                          filename:
+                            type: string
+                            example: document-2024-1234.pdf
+                            description: The name of the uploaded file
+                          size:
+                            type: object
+                            required:
+                            - value
+                            - unit
+                            properties:
+                              value:
+                                type: integer
+                                description: The size of the file
+                                example: 2684
+                              unit:
+                                type: string
+                                description: The unit of the file size
+                                example: byte
+                            example:
+                              value: 2684
+                              unit: byte
+                          updatedAt:
+                            type: string
+                            format: date-time
+                            example: '2023-01-01T00:00:00+00:00'
+                            description: The last time this liability document was updated
+                        example:
+                          id: '1'
+                          version: 4
+                          remark: Please process this quickly
+                          filename: document-2024-1234.pdf
+                          size:
+                            value: 2684
+                            unit: byte
+                          updatedAt: '2023-01-01T00:00:00+00:00'
+                      updatedAt:
+                        description: The ISO 8601 timestamp indicating when the file was last updated.
+                        type: string
+                        format: date-time
+                        example: '2024-06-04T12:00:00+00:00'
+                    example:
+                      id: '1'
+                      entity: invoice
+                      entityId: 1234
+                      title: Invoice Document
+                      description: Document for invoice 1234
+                      keyword: attachment
+                      sort: 1
+                      versions:
+                      - id: '1'
+                        version: 4
+                        remark: Please process this quickly
+                        filename: document-2024-1234.pdf
+                        size:
+                          value: 2684
+                          unit: byte
+                        updatedAt: '2023-01-01T00:00:00+00:00'
+                      currentVersion:
+                        id: '1'
+                        version: 4
+                        remark: Please process this quickly
+                        filename: document-2024-1234.pdf
+                        size:
+                          value: 2684
+                          unit: byte
+                        updatedAt: '2023-01-01T00:00:00+00:00'
+                      updatedAt: '2024-06-04T12:00:00+00:00'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

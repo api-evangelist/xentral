@@ -1,0 +1,1719 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Shipping Methods API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Shipping Methods
+  description: Shipping methods
+paths:
+  /api/v1/shippingMethods:
+    get:
+      tags:
+      - Shipping Methods
+      operationId: shippingMethod.list
+      summary: List shipping methods
+      description: Lists existing shipping methods
+      parameters:
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      responses:
+        '200':
+          description: Shipping method list
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                - extra
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - module
+                      - type
+                      - designation
+                      - project
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        module:
+                          type: string
+                          description: Module used by the given Shipping Method
+                          example: glsapi
+                        type:
+                          type: string
+                          description: Type of the given Shipping Method
+                          example: gls
+                        designation:
+                          type: string
+                          description: Description given to a particular Shipping Method
+                          example: GLS International
+                        project:
+                          description: Nullable reference to another resource
+                          type: object
+                          additionalProperties: false
+                          nullable: true
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        shippingLabelPrinter:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        exportDocumentPrinter:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        shippingEmailBehaviour:
+                          type: string
+                          description: Email behavior for shipping notifications
+                          enum:
+                          - default behaviour
+                          - no dispatch email
+                          - custom text template
+                          example: default behaviour
+                        textTemplate:
+                          type: object
+                          description: The text template used for shipping notifications
+                          nullable: true
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the text template used for custom emails
+                              example: '77'
+                            type:
+                              type: string
+                              description: Type of the text template
+                              example: Template Type
+                          example:
+                            id: '77'
+                            type: Template Type
+                        supportDeliveries:
+                          type: boolean
+                          description: Whether this shipping method supports deliveries
+                          example: true
+                        supportReturns:
+                          type: boolean
+                          description: Whether this shipping method supports returns
+                          example: true
+                    description: Response data containing list of Shipping Methods
+                    example:
+                    - id: '1'
+                      module: glsapi
+                      type: gls
+                      designation: GLS International
+                      project:
+                        id: '1'
+                      shippingLabelPrinter:
+                        id: '103'
+                      exportDocumentPrinter:
+                        id: '104'
+                      shippingEmailBehaviour: custom text template
+                      textTemplate:
+                        id: '77'
+                        type: Template Type
+                      supportDeliveries: false
+                      supportReturns: true
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    post:
+      tags:
+      - Shipping Methods
+      operationId: shippingMethod.create
+      summary: Create shipping method
+      description: Creates new shipping method.
+      requestBody:
+        description: Request body for creating or updating a shipping method.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+                  description: Indicates if the shipping method is active.
+                  example: true
+                name:
+                  type: string
+                  description: The name of the shipping method.
+                  example: New Carrier
+                project:
+                  description: Nullable reference to another resource
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                carrier:
+                  type: object
+                  description: Details of the carrier providing the shipping service.
+                  properties:
+                    credentials:
+                      oneOf:
+                      - type: object
+                        properties:
+                          basic:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                                description: Username used to authenticate at carrier's.
+                                example: admin
+                              password:
+                                type: string
+                                description: Password used to authenticate at carrier's.
+                                example: Password
+                            required:
+                            - username
+                            - password
+                            additionalProperties: false
+                        required:
+                        - basic
+                        additionalProperties: false
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                      - type: object
+                        properties:
+                          bearer:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: API token used to authenticate at carrier's.
+                                example: 0191e008-3057-7090-8b72-8f5f31bd11ef
+                            required:
+                            - token
+                            additionalProperties: false
+                        required:
+                        - bearer
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          oauthClientCredentials:
+                            type: object
+                            properties:
+                              tokenUrl:
+                                type: string
+                                description: URL used to exchange authorization codes or credentials for an access token at carrier's.
+                                example: https://example.com/oauth/token
+                              username:
+                                type: string
+                                description: Username used to authenticate at carrier's.
+                                example: admin
+                              password:
+                                type: string
+                                description: Password used to authenticate at carrier's.
+                                example: Password
+                              audience:
+                                type: string
+                                description: Application or service that requests access to protected resources on behalf of itself.
+                                example: Xentral
+                            required:
+                            - tokenUrl
+                            - username
+                            - password
+                            additionalProperties: false
+                        required:
+                        - oauthClientCredentials
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                        additionalProperties: false
+                    serviceUrl:
+                      type: string
+                      example: https://xentral.someUrl.com
+                      description: The base URL at which the Carrier Service that you want to connect to can be reached.
+                    extra:
+                      type: object
+                      description: Additional fields for the carrier or service.
+                      properties:
+                        field1:
+                          type: string
+                          description: An extra field for custom data.
+                          example: value1
+                        field2:
+                          type: string
+                          description: Another extra field for custom data.
+                          example: value2
+                      example:
+                        extra:
+                          field1: value1
+                          field2: value2
+                    id:
+                      type: string
+                      description: The unique identifier of the carrier.
+                      example: post-ch
+                    product:
+                      type: object
+                      description: A shipping product is a specific service offered by a carrier.
+                      properties:
+                        id:
+                          type: string
+                          description: The shipping product ID.
+                          example: post-ch-express
+                      example:
+                        product:
+                          id: post-ch-express
+                    shipmentType:
+                      type: string
+                      description: 'A type of shipment: outbound or return.'
+                      enum:
+                      - outbound
+                      - return
+                      example: outbound
+                  example:
+                    carrier:
+                      credentials:
+                        basic:
+                          username: your-username
+                          password: your-password
+                      serviceUrl: https://api.example.com
+                      extra:
+                        field1: value1
+                        field2: value2
+                      id: post-ch
+                      product:
+                        id: post-ch-express
+                        shipmentType: outbound
+                printers:
+                  type: object
+                  description: Details about the printers used for shipping labels and documents
+                  properties:
+                    label:
+                      description: Reference to another resource
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                      example:
+                        id: '1337'
+                    document:
+                      description: Reference to another resource
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                      example:
+                        id: '1337'
+                parcel:
+                  type: object
+                  properties:
+                    defaultDimensions:
+                      type: object
+                      properties:
+                        length:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                        width:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                        height:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                    minimumWeight:
+                      type: object
+                      description: The minimum weight of the parcel. If the weight of the parcel is less than this value, this value will be submitted to the carrier.
+                      properties:
+                        value:
+                          type: number
+                        unit:
+                          type: string
+                          enum:
+                          - kg
+                sender:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    address:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+            examples:
+              example:
+                summary: Example of a shipping method request
+                value:
+                  isActive: true
+                  name: New Carrier
+                  project:
+                    id: '123'
+                  carrier:
+                    credentials:
+                      basic:
+                        username: your-username
+                        password: your-password
+                    serviceUrl: https://api.example.com
+                    extra:
+                      field1: value1
+                      field2: value2
+                    id: post-ch
+                    product:
+                      id: post-ch-express
+                  printers:
+                    label:
+                      id: label-printer-1
+                    document:
+                      id: document-printer-1
+                  parcel:
+                    defaultDimensions:
+                      length:
+                        value: 10
+                        unit: cm
+                      width:
+                        value: 10
+                        unit: cm
+                      height:
+                        value: 10
+                        unit: cm
+                    minimumWeight:
+                      value: 1
+                      unit: kg
+                  sender:
+                    id: sender-1
+                    name: Sender Name
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/shippingMethods/{id}:
+    get:
+      tags:
+      - Shipping Methods
+      operationId: shippingMethod.view
+      summary: View shipping method
+      description: Shows the details of a Shipping Method
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The type of the carrier
+                    enum:
+                    - genericCarrier
+                    example: genericCarrier
+                  isActive:
+                    type: boolean
+                    description: Determines whether the shipping Method is currently active.
+                    example: true
+                  name:
+                    type: string
+                    example: New generic Carrier
+                    description: The human readable name you would like to give to this carrier
+                  project:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+                  carrier:
+                    type: object
+                    description: Details of the carrier providing the shipping service.
+                    properties:
+                      credentials:
+                        oneOf:
+                        - type: object
+                          properties:
+                            basic:
+                              type: object
+                              properties:
+                                username:
+                                  type: string
+                                  description: Username used to authenticate at carrier's.
+                                  example: admin
+                                password:
+                                  type: string
+                                  description: Password used to authenticate at carrier's.
+                                  example: Password
+                              required:
+                              - username
+                              - password
+                              additionalProperties: false
+                          required:
+                          - basic
+                          additionalProperties: false
+                          description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                        - type: object
+                          properties:
+                            bearer:
+                              type: object
+                              properties:
+                                token:
+                                  type: string
+                                  description: API token used to authenticate at carrier's.
+                                  example: 0191e008-3057-7090-8b72-8f5f31bd11ef
+                              required:
+                              - token
+                              additionalProperties: false
+                          required:
+                          - bearer
+                          description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                          additionalProperties: false
+                        - type: object
+                          properties:
+                            oauthClientCredentials:
+                              type: object
+                              properties:
+                                tokenUrl:
+                                  type: string
+                                  description: URL used to exchange authorization codes or credentials for an access token at carrier's.
+                                  example: https://example.com/oauth/token
+                                username:
+                                  type: string
+                                  description: Username used to authenticate at carrier's.
+                                  example: admin
+                                password:
+                                  type: string
+                                  description: Password used to authenticate at carrier's.
+                                  example: Password
+                                audience:
+                                  type: string
+                                  description: Application or service that requests access to protected resources on behalf of itself.
+                                  example: Xentral
+                              required:
+                              - tokenUrl
+                              - username
+                              - password
+                              additionalProperties: false
+                          required:
+                          - oauthClientCredentials
+                          description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                          additionalProperties: false
+                      serviceUrl:
+                        type: string
+                        example: https://xentral.someUrl.com
+                        description: The base URL at which the Carrier Service that you want to connect to can be reached.
+                      extra:
+                        type: object
+                        description: Additional fields for the carrier or service.
+                        properties:
+                          field1:
+                            type: string
+                            description: An extra field for custom data.
+                            example: value1
+                          field2:
+                            type: string
+                            description: Another extra field for custom data.
+                            example: value2
+                        example:
+                          extra:
+                            field1: value1
+                            field2: value2
+                      id:
+                        type: string
+                        description: The unique identifier of the carrier.
+                        example: post-ch
+                      product:
+                        type: object
+                        description: A shipping product is a specific service offered by a carrier.
+                        properties:
+                          id:
+                            type: string
+                            description: The shipping product ID.
+                            example: post-ch-express
+                        example:
+                          product:
+                            id: post-ch-express
+                      shipmentType:
+                        type: string
+                        description: 'A type of shipment: outbound or return.'
+                        enum:
+                        - outbound
+                        - return
+                        example: outbound
+                    example:
+                      carrier:
+                        credentials:
+                          basic:
+                            username: your-username
+                            password: your-password
+                        serviceUrl: https://api.example.com
+                        extra:
+                          field1: value1
+                          field2: value2
+                        id: post-ch
+                        product:
+                          id: post-ch-express
+                          shipmentType: outbound
+                  shippingLabelPrinter:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+                  exportDocumentPrinter:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+                  shippingEmailBehaviour:
+                    type: string
+                    description: Email behavior for shipping notifications
+                    enum:
+                    - default behaviour
+                    - no dispatch email
+                    - custom text template
+                    example: default behaviour
+                  textTemplate:
+                    type: object
+                    description: The text template used for shipping notifications
+                    nullable: true
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the text template used for custom emails
+                        example: '77'
+                      type:
+                        type: string
+                        description: Type of the text template
+                        example: Template Type
+                    example:
+                      id: '77'
+                      type: Template Type
+                  supportDeliveries:
+                    type: boolean
+                    description: Whether this shipping method supports deliveries
+                    example: true
+                  supportReturns:
+                    type: boolean
+                    description: Whether this shipping method supports returns
+                    example: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    put:
+      tags:
+      - Shipping Methods
+      operationId: shippingMethod.update
+      summary: Update shipping method
+      description: Updates a Shipping Method
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: Request body for creating or updating a shipping method.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isActive:
+                  type: boolean
+                  description: Indicates if the shipping method is active.
+                  example: true
+                name:
+                  type: string
+                  description: The name of the shipping method.
+                  example: New Carrier
+                project:
+                  description: Nullable reference to another resource
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                carrier:
+                  type: object
+                  description: Details of the carrier providing the shipping service.
+                  properties:
+                    credentials:
+                      oneOf:
+                      - type: object
+                        properties:
+                          basic:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                                description: Username used to authenticate at carrier's.
+                                example: admin
+                              password:
+                                type: string
+                                description: Password used to authenticate at carrier's.
+                                example: Password
+                            required:
+                            - username
+                            - password
+                            additionalProperties: false
+                        required:
+                        - basic
+                        additionalProperties: false
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                      - type: object
+                        properties:
+                          bearer:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: API token used to authenticate at carrier's.
+                                example: 0191e008-3057-7090-8b72-8f5f31bd11ef
+                            required:
+                            - token
+                            additionalProperties: false
+                        required:
+                        - bearer
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          oauthClientCredentials:
+                            type: object
+                            properties:
+                              tokenUrl:
+                                type: string
+                                description: URL used to exchange authorization codes or credentials for an access token at carrier's.
+                                example: https://example.com/oauth/token
+                              username:
+                                type: string
+                                description: Username used to authenticate at carrier's.
+                                example: admin
+                              password:
+                                type: string
+                                description: Password used to authenticate at carrier's.
+                                example: Password
+                              audience:
+                                type: string
+                                description: Application or service that requests access to protected resources on behalf of itself.
+                                example: Xentral
+                            required:
+                            - tokenUrl
+                            - username
+                            - password
+                            additionalProperties: false
+                        required:
+                        - oauthClientCredentials
+                        description: Credentials can be either basic, bearer or OAuth Client Credentials authentication.
+                        additionalProperties: false
+                    serviceUrl:
+                      type: string
+                      example: https://xentral.someUrl.com
+                      description: The base URL at which the Carrier Service that you want to connect to can be reached.
+                    extra:
+                      type: object
+                      description: Additional fields for the carrier or service.
+                      properties:
+                        field1:
+                          type: string
+                          description: An extra field for custom data.
+                          example: value1
+                        field2:
+                          type: string
+                          description: Another extra field for custom data.
+                          example: value2
+                      example:
+                        extra:
+                          field1: value1
+                          field2: value2
+                    id:
+                      type: string
+                      description: The unique identifier of the carrier.
+                      example: post-ch
+                    product:
+                      type: object
+                      description: A shipping product is a specific service offered by a carrier.
+                      properties:
+                        id:
+                          type: string
+                          description: The shipping product ID.
+                          example: post-ch-express
+                      example:
+                        product:
+                          id: post-ch-express
+                    shipmentType:
+                      type: string
+                      description: 'A type of shipment: outbound or return.'
+                      enum:
+                      - outbound
+                      - return
+                      example: outbound
+                  example:
+                    carrier:
+                      credentials:
+                        basic:
+                          username: your-username
+                          password: your-password
+                      serviceUrl: https://api.example.com
+                      extra:
+                        field1: value1
+                        field2: value2
+                      id: post-ch
+                      product:
+                        id: post-ch-express
+                        shipmentType: outbound
+                printers:
+                  type: object
+                  description: Details about the printers used for shipping labels and documents
+                  properties:
+                    label:
+                      description: Reference to another resource
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                      example:
+                        id: '1337'
+                    document:
+                      description: Reference to another resource
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                      example:
+                        id: '1337'
+                parcel:
+                  type: object
+                  properties:
+                    defaultDimensions:
+                      type: object
+                      properties:
+                        length:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                        width:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                        height:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                            unit:
+                              type: string
+                              enum:
+                              - cm
+                    minimumWeight:
+                      type: object
+                      description: The minimum weight of the parcel. If the weight of the parcel is less than this value, this value will be submitted to the carrier.
+                      properties:
+                        value:
+                          type: number
+                        unit:
+                          type: string
+                          enum:
+                          - kg
+                sender:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    address:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+            examples:
+              example:
+                summary: Example of a shipping method request
+                value:
+                  isActive: true
+                  name: New Carrier
+                  project:
+                    id: '123'
+                  carrier:
+                    credentials:
+                      basic:
+                        username: your-username
+                        password: your-password
+                    serviceUrl: https://api.example.com
+                    extra:
+                      field1: value1
+                      field2: value2
+                    id: post-ch
+                    product:
+                      id: post-ch-express
+                  printers:
+                    label:
+                      id: label-printer-1
+                    document:
+                      id: document-printer-1
+                  parcel:
+                    defaultDimensions:
+                      length:
+                        value: 10
+                        unit: cm
+                      width:
+                        value: 10
+                        unit: cm
+                      height:
+                        value: 10
+                        unit: cm
+                    minimumWeight:
+                      value: 1
+                      unit: kg
+                  sender:
+                    id: sender-1
+                    name: Sender Name
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

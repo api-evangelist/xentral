@@ -1,0 +1,3827 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Purchase Price API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Purchase Price
+  description: PurchasePrices determine the prices used for the purchasing of products.
+paths:
+  /api/v1/purchasePrices:
+    post:
+      tags:
+      - Purchase Price
+      deprecated: true
+      operationId: purchasePrice.create
+      summary: Create purchase price V1
+      description: Creates new purchase price
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - product
+              - fromQuantity
+              - price
+              - validFrom
+              - expiresAt
+              properties:
+                product:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                supplier:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  description: Reference to a supplier for this price
+                  example:
+                    id: '194'
+                isStandardSupplier:
+                  description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                  example: '''true'''
+                  oneOf:
+                  - type: boolean
+                  - type: number
+                    enum:
+                    - 0
+                    - 1
+                  - type: string
+                    enum:
+                    - 'true'
+                    - 'false'
+                    - 'True'
+                    - 'False'
+                    - 'TRUE'
+                    - 'FALSE'
+                supplierDesignation:
+                  type: string
+                  description: The designation of the supplier
+                  example: Xentral
+                supplierItemNumber:
+                  type: string
+                  description: Supplier item number
+                  example: 4992042-20
+                fromQuantity:
+                  type: number
+                  format: float
+                  description: Minimum quantity for this price
+                  example: 1
+                packageAmount:
+                  type: number
+                  format: float
+                  nullable: true
+                  description: Amount of items in a package
+                  example: 10
+                price:
+                  description: Price of the product
+                  example:
+                    amount: 7.3
+                    currency: EUR
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    amount:
+                      x-description-missing: true
+                      type: number
+                      format: float
+                      example: 7.3
+                    currency:
+                      x-description-missing: true
+                      type: string
+                      enum:
+                      - EUR
+                      - PLN
+                      - CHF
+                      - USD
+                      - GBP
+                      example: EUR
+                validFrom:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date from which the price is valid
+                  example: '2023-12-01'
+                expiresAt:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date until which the price is valid
+                  example: '2024-12-12'
+            examples:
+              Create purchase price:
+                value:
+                  product:
+                    id: '18'
+                  supplier:
+                    id: '194'
+                  isStandardSupplier: true
+                  supplierDesignation: Pillow 20x20
+                  supplierItemNumber: 4992042-20
+                  fromQuantity: 50
+                  packageAmount: 10
+                  validFrom: '2021-01-01'
+                  expiresAt: null
+                  price:
+                    amount: 7.3
+                    currency: EUR
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Purchase Price
+      deprecated: true
+      operationId: purchasePrice.list
+      summary: List purchase prices V1
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - product
+                - supplier
+                - currency
+                - fromQuantity
+                - isValidAt
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - exactlyIn
+                - allIn
+                - allNotIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+                - greaterThan
+                - lessThan
+                - is
+                - lessThanOrEquals
+                - greaterThanOrEquals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      description: Returns list of a purchase prices
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      x-description-missing: true
+                      type: object
+                      additionalProperties: false
+                      example:
+                        id: '1'
+                        product:
+                          id: '5'
+                        supplier:
+                          id: '7'
+                        isStandardSupplier: false
+                        supplierDesignation: '123456'
+                        fromQuantity: 1
+                        packageAmount: 1
+                        price:
+                          amount: 12.92
+                          currency: EUR
+                        validFrom: null
+                        expiresAt: '2024-12-12'
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        product:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        supplier:
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          description: Reference to a supplier for this price
+                          example:
+                            id: '194'
+                        isStandardSupplier:
+                          type: boolean
+                          example: true
+                          description: Sets the supplier to be the standard supplier for this product
+                        supplierDesignation:
+                          type: string
+                          description: The designation of the supplier
+                          example: Xentral
+                        supplierItemNumber:
+                          type: string
+                          description: Supplier item number
+                          example: 4992042-20
+                        fromQuantity:
+                          type: number
+                          format: float
+                          description: Minimum quantity for this price
+                          example: 1
+                        packageAmount:
+                          type: number
+                          format: float
+                          nullable: true
+                          description: Amount of items in a package
+                          example: 10
+                        price:
+                          description: Price of the product
+                          example:
+                            amount: 7.3
+                            currency: EUR
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            amount:
+                              x-description-missing: true
+                              type: number
+                              format: float
+                              example: 7.3
+                            currency:
+                              x-description-missing: true
+                              type: string
+                              enum:
+                              - EUR
+                              - PLN
+                              - CHF
+                              - USD
+                              - GBP
+                              example: EUR
+                        validFrom:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date from which the price is valid
+                          example: '2023-12-01'
+                        expiresAt:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date until which the price is valid
+                          example: '2024-12-12'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              examples:
+                Lists all purchase prices:
+                  value:
+                    data:
+                    - id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: 12.92
+                        currency: EUR
+                      validFrom: null
+                      expiresAt: null
+                    - id: '2'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 10
+                      packageAmount: 1
+                      price:
+                        amount: 10.45
+                        currency: EUR
+                      validFrom: null
+                      expiresAt: '2024-04-10'
+                    extra:
+                      totalCount: 2
+                      page:
+                        number: 1
+                        size: 10
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    patch:
+      deprecated: true
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.updateMultiple
+      summary: Update multiple purchase prices V1
+      description: Updates multiple purchase prices
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  supplier:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    description: Reference to a supplier for this price
+                    example:
+                      id: '194'
+                  isStandardSupplier:
+                    description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                    example: '''true'''
+                    oneOf:
+                    - type: boolean
+                    - type: number
+                      enum:
+                      - 0
+                      - 1
+                    - type: string
+                      enum:
+                      - 'true'
+                      - 'false'
+                      - 'True'
+                      - 'False'
+                      - 'TRUE'
+                      - 'FALSE'
+                  supplierDesignation:
+                    type: string
+                    description: The designation of the supplier
+                    example: Xentral
+                  supplierItemNumber:
+                    type: string
+                    description: Supplier item number
+                    example: 4992042-20
+                  fromQuantity:
+                    type: number
+                    format: float
+                    description: Minimum quantity for this price
+                    example: 1
+                  packageAmount:
+                    type: number
+                    format: float
+                    nullable: true
+                    description: Amount of items in a package
+                    example: 10
+                  price:
+                    description: Price of the product
+                    example:
+                      amount: 7.3
+                      currency: EUR
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      amount:
+                        x-description-missing: true
+                        type: number
+                        format: float
+                        example: 7.3
+                      currency:
+                        x-description-missing: true
+                        type: string
+                        enum:
+                        - EUR
+                        - PLN
+                        - CHF
+                        - USD
+                        - GBP
+                        example: EUR
+                  validFrom:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: Date from which the price is valid
+                    example: '2023-12-01'
+                  expiresAt:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: Date until which the price is valid
+                    example: '2024-12-12'
+            examples:
+              Update multiple purchase prices:
+                value:
+                - id: '194'
+                  price:
+                    amount: 7.3
+                    currency: EUR
+                - id: '199'
+                  price:
+                    amount: 10.3
+                    currency: EUR
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v1/purchasePrices/{id}:
+    get:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.view
+      summary: View purchase price
+      description: Returns details of a single purchase price
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    example:
+                      id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: 12.92
+                        currency: EUR
+                      validFrom: null
+                      expiresAt: '2024-12-12'
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      product:
+                        description: Reference to another resource
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1337'
+                      supplier:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        description: Reference to a supplier for this price
+                        example:
+                          id: '194'
+                      isStandardSupplier:
+                        type: boolean
+                        example: true
+                        description: Sets the supplier to be the standard supplier for this product
+                      supplierDesignation:
+                        type: string
+                        description: The designation of the supplier
+                        example: Xentral
+                      supplierItemNumber:
+                        type: string
+                        description: Supplier item number
+                        example: 4992042-20
+                      fromQuantity:
+                        type: number
+                        format: float
+                        description: Minimum quantity for this price
+                        example: 1
+                      packageAmount:
+                        type: number
+                        format: float
+                        nullable: true
+                        description: Amount of items in a package
+                        example: 10
+                      price:
+                        description: Price of the product
+                        example:
+                          amount: 7.3
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            x-description-missing: true
+                            type: number
+                            format: float
+                            example: 7.3
+                          currency:
+                            x-description-missing: true
+                            type: string
+                            enum:
+                            - EUR
+                            - PLN
+                            - CHF
+                            - USD
+                            - GBP
+                            example: EUR
+                      validFrom:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Date from which the price is valid
+                        example: '2023-12-01'
+                      expiresAt:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Date until which the price is valid
+                        example: '2024-12-12'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              examples:
+                Shows a single purchase price:
+                  value:
+                    data:
+                      id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: 12.92
+                        currency: EUR
+                      validFrom: null
+                      expiresAt: '2024-12-12'
+            application/vnd.xentral.default.v2-beta+json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    x-description-missing: true
+                    type: object
+                    additionalProperties: false
+                    example:
+                      id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: '12.92'
+                        currency: EUR
+                      internalComment: Test1
+                      validFrom: null
+                      expiresAt: '2024-12-12'
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                      product:
+                        description: Reference to another resource
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1337'
+                      supplier:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        description: Reference to a supplier for this price
+                        example:
+                          id: '194'
+                      isStandardSupplier:
+                        x-description-missing: true
+                        type: boolean
+                        example: true
+                      supplierDesignation:
+                        type: string
+                        description: The designation of the supplier
+                        example: Xentral
+                      supplierItemNumber:
+                        type: string
+                        description: Supplier item number
+                        example: 4992042-20
+                      fromQuantity:
+                        type: number
+                        format: float
+                        description: Minimum quantity for this price
+                        example: 1
+                      packageAmount:
+                        type: number
+                        format: float
+                        nullable: true
+                        description: Amount of items in a package
+                        example: 10
+                      price:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      internalComment:
+                        type: string
+                        description: Internal Comment
+                        example: Test
+                      validFrom:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Date from which the price is valid
+                        example: '2023-12-01'
+                      expiresAt:
+                        type: string
+                        format: date
+                        nullable: true
+                        description: Date until which the price is valid
+                        example: '2024-12-12'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              examples:
+                Shows a single purchase price:
+                  value:
+                    data:
+                      id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: '12.92000000'
+                        currency: EUR
+                      validFrom: null
+                      expiresAt: '2024-12-12'
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    patch:
+      deprecated: true
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.update
+      summary: Update purchase price V1
+      description: Updates details of a single purchase price
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                supplier:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  description: Reference to a supplier for this price
+                  example:
+                    id: '194'
+                isStandardSupplier:
+                  description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                  example: '''true'''
+                  oneOf:
+                  - type: boolean
+                  - type: number
+                    enum:
+                    - 0
+                    - 1
+                  - type: string
+                    enum:
+                    - 'true'
+                    - 'false'
+                    - 'True'
+                    - 'False'
+                    - 'TRUE'
+                    - 'FALSE'
+                supplierDesignation:
+                  type: string
+                  description: The designation of the supplier
+                  example: Xentral
+                supplierItemNumber:
+                  type: string
+                  description: Supplier item number
+                  example: 4992042-20
+                fromQuantity:
+                  type: number
+                  format: float
+                  description: Minimum quantity for this price
+                  example: 1
+                packageAmount:
+                  type: number
+                  format: float
+                  nullable: true
+                  description: Amount of items in a package
+                  example: 10
+                price:
+                  description: Price of the product
+                  example:
+                    amount: 7.3
+                    currency: EUR
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    amount:
+                      x-description-missing: true
+                      type: number
+                      format: float
+                      example: 7.3
+                    currency:
+                      x-description-missing: true
+                      type: string
+                      enum:
+                      - EUR
+                      - PLN
+                      - CHF
+                      - USD
+                      - GBP
+                      example: EUR
+                validFrom:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date from which the price is valid
+                  example: '2023-12-01'
+                expiresAt:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date until which the price is valid
+                  example: '2024-12-12'
+            examples:
+              Update Purchase Price:
+                value:
+                  validFrom: '2023-12-01'
+                  fromQuantity: 1
+                  price:
+                    amount: 24.2
+                    currency: EUR
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '429':
+          description: Too many API calls made.
+    delete:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.delete
+      summary: Delete purchase price
+      description: Deletes a single purchase price
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v2/purchasePrices:
+    post:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.create.V2
+      summary: Create purchase price V2
+      description: Creates new purchase price
+      requestBody:
+        description: Successful creation of a purchase price.
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - product
+              - fromQuantity
+              - price
+              properties:
+                product:
+                  description: Reference to another resource
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  example:
+                    id: '1337'
+                supplier:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  description: Reference to a supplier for this price
+                  example:
+                    id: '194'
+                isStandardSupplier:
+                  description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                  example: '''true'''
+                  oneOf:
+                  - type: boolean
+                  - type: number
+                    enum:
+                    - 0
+                    - 1
+                  - type: string
+                    enum:
+                    - 'true'
+                    - 'false'
+                    - 'True'
+                    - 'False'
+                    - 'TRUE'
+                    - 'FALSE'
+                supplierDesignation:
+                  type: string
+                  description: The designation of the supplier
+                  example: Xentral
+                supplierItemNumber:
+                  type: string
+                  description: Supplier item number
+                  example: 4992042-20
+                fromQuantity:
+                  type: number
+                  format: float
+                  description: Minimum quantity for this price
+                  example: 1
+                packageAmount:
+                  type: number
+                  format: float
+                  nullable: true
+                  description: Amount of items in a package
+                  example: 10
+                price:
+                  description: Money object with amount and currency
+                  example:
+                    amount: '13.37'
+                    currency: EUR
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    amount:
+                      description: A string representing the amount
+                      type: string
+                      format: float
+                      example: '24.99'
+                    currency:
+                      type: string
+                      pattern: '[A-Z]{3}'
+                      enum:
+                      - EUR
+                      - USD
+                      - JPY
+                      - BGN
+                      - CZK
+                      - DKK
+                      - GBP
+                      - HUF
+                      - PLN
+                      - RON
+                      - SEK
+                      - CHF
+                      - ISK
+                      - NOK
+                      - HRK
+                      - RUB
+                      - TRY
+                      - AUD
+                      - BRL
+                      - CAD
+                      - CNY
+                      - HKD
+                      - IDR
+                      - ILS
+                      - INR
+                      - KRW
+                      - MXN
+                      - MYR
+                      - NZD
+                      - PHP
+                      - SGD
+                      - THB
+                      - ZAR
+                      - ARS
+                      - CLP
+                      - SAR
+                      - AED
+                      - QAR
+                      description: Currency matches one of currency values as specified in ISO-4217.
+                      example: PLN
+                validFrom:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date from which the price is valid
+                  example: '2023-12-01'
+                expiresAt:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date until which the price is valid
+                  example: '2024-12-12'
+                additionalInformation:
+                  description: Purchase Price
+                  example:
+                    supplierStockLevel: 73
+                    supplierStockDate: '2024-11-01'
+                    safetyStockLevel: 10
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: days
+                    currentDeliveryTime: 12
+                    currentDeliveryTimeUnit: weeks
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  properties:
+                    supplierStockLevel:
+                      type: number
+                      x-description-missing: true
+                      example: 7
+                    supplierStockDate:
+                      type: string
+                      x-description-missing: true
+                      format: date
+                      example: '2024-11-01'
+                    safetyStockLevel:
+                      type: number
+                      x-description-missing: true
+                      example: 7
+                    standardDeliveryTime:
+                      type: number
+                      x-description-missing: true
+                      example: 3
+                    standardDeliveryTimeUnit:
+                      type: string
+                      x-description-missing: true
+                      enum:
+                      - days
+                      - weeks
+                      example: days
+                    currentDeliveryTime:
+                      type: number
+                      x-description-missing: true
+                      example: 6
+                    currentDeliveryTimeUnit:
+                      type: string
+                      x-description-missing: true
+                      enum:
+                      - days
+                      - weeks
+                      example: days
+                internalComment:
+                  type: string
+                  description: Internal Comment
+                  example: Test
+            examples:
+              Create purchase price:
+                value:
+                  product:
+                    id: '18'
+                  supplier:
+                    id: '194'
+                  isStandardSupplier: true
+                  supplierDesignation: Pillow 20x20
+                  supplierItemNumber: 4992042-20
+                  fromQuantity: 50
+                  packageAmount: 10
+                  validFrom: '2021-01-01'
+                  expiresAt: null
+                  price:
+                    amount: '7.30'
+                    currency: EUR
+                  additionalInformation:
+                    supplierStockLevel: 10000
+                    supplierStockDate: '2024-06-30'
+                    safetyStockLevel: 2000
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: days
+                    currentDeliveryTime: 2
+                    currentDeliveryTimeUnit: weeks
+                  internalComment: internalComment1234
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+    get:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.listV2
+      summary: List purchase prices V2
+      parameters:
+      - name: filter
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - id
+                - product
+                - supplier
+                - currency
+                - fromQuantity
+                - isValidAt
+                example: product
+              op:
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - startsWith
+                - endsWith
+                - lessThan
+                - lessThanOrEquals
+                - greaterThan
+                - greaterThanOrEquals
+                - is
+                example: equals
+              value:
+                oneOf:
+                - type: string
+                  description: Used for the operations 'equals', 'notEquals', 'contains', 'notContains', 'startsWith', 'endsWith' and 'is'.
+                  title: String
+                - type: array
+                  description: Used for the operations 'in', 'notIn', 'exactlyIn', 'allIn' and 'allNotIn'.
+                  title: Array
+                  items:
+                    type: string
+      - in: query
+        name: page
+        required: false
+        style: deepObject
+        schema:
+          type: object
+          additionalProperties: false
+          required:
+          - number
+          - size
+          properties:
+            number:
+              type: string
+              pattern: \d+
+              description: Page number should be an integer greater than or equal to 1
+            size:
+              type: string
+              pattern: \d+
+              description: Page size should usually be an integer between 10 and 50.
+      - name: order
+        in: query
+        style: deepObject
+        schema:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - id
+              dir:
+                type: string
+                enum:
+                - asc
+                - desc
+      description: Returns list of purchase prices.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: array
+                    items:
+                      x-description-missing: true
+                      type: object
+                      additionalProperties: false
+                      example:
+                        id: '1'
+                        product:
+                          id: '5'
+                        supplier:
+                          id: '7'
+                        isStandardSupplier: false
+                        supplierDesignation: '123456'
+                        fromQuantity: 1
+                        packageAmount: 1
+                        price:
+                          amount: '12.92'
+                          currency: EUR
+                        internalComment: Test1
+                        validFrom: null
+                        expiresAt: '2024-12-12'
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        product:
+                          description: Reference to another resource
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          example:
+                            id: '1337'
+                        supplier:
+                          type: object
+                          additionalProperties: false
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: string
+                              pattern: \d+
+                              example: '17'
+                              description: Resource identifier.
+                          description: Reference to a supplier for this price
+                          example:
+                            id: '194'
+                        isStandardSupplier:
+                          x-description-missing: true
+                          type: boolean
+                          example: true
+                        supplierDesignation:
+                          type: string
+                          description: The designation of the supplier
+                          example: Xentral
+                        supplierItemNumber:
+                          type: string
+                          description: Supplier item number
+                          example: 4992042-20
+                        fromQuantity:
+                          type: number
+                          format: float
+                          description: Minimum quantity for this price
+                          example: 1
+                        packageAmount:
+                          type: number
+                          format: float
+                          nullable: true
+                          description: Amount of items in a package
+                          example: 10
+                        price:
+                          description: Money object with amount and currency
+                          example:
+                            amount: '13.37'
+                            currency: EUR
+                          type: object
+                          additionalProperties: false
+                          properties:
+                            amount:
+                              description: A string representing the amount
+                              type: string
+                              format: float
+                              example: '24.99'
+                            currency:
+                              type: string
+                              pattern: '[A-Z]{3}'
+                              enum:
+                              - EUR
+                              - USD
+                              - JPY
+                              - BGN
+                              - CZK
+                              - DKK
+                              - GBP
+                              - HUF
+                              - PLN
+                              - RON
+                              - SEK
+                              - CHF
+                              - ISK
+                              - NOK
+                              - HRK
+                              - RUB
+                              - TRY
+                              - AUD
+                              - BRL
+                              - CAD
+                              - CNY
+                              - HKD
+                              - IDR
+                              - ILS
+                              - INR
+                              - KRW
+                              - MXN
+                              - MYR
+                              - NZD
+                              - PHP
+                              - SGD
+                              - THB
+                              - ZAR
+                              - ARS
+                              - CLP
+                              - SAR
+                              - AED
+                              - QAR
+                              description: Currency matches one of currency values as specified in ISO-4217.
+                              example: PLN
+                        internalComment:
+                          type: string
+                          description: Internal Comment
+                          example: Test
+                        validFrom:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date from which the price is valid
+                          example: '2023-12-01'
+                        expiresAt:
+                          type: string
+                          format: date
+                          nullable: true
+                          description: Date until which the price is valid
+                          example: '2024-12-12'
+                  extra:
+                    type: object
+                    required:
+                    - totalCount
+                    - page
+                    additionalProperties: false
+                    x-description-ignore: true
+                    properties:
+                      totalCount:
+                        description: the total count of all items
+                        type: integer
+                        example: 1
+                      page:
+                        description: The pagination object containing the current page number and size
+                        type: object
+                        required:
+                        - number
+                        - size
+                        additionalProperties: false
+                        properties:
+                          number:
+                            description: The current page number
+                            type: integer
+                            example: 1
+                          size:
+                            description: The size of the pages
+                            type: integer
+                            example: 10
+                        example:
+                          number: 1
+                          size: 10
+                    example:
+                      totalCount: 1
+                      page:
+                        number: 1
+                        size: 10
+              examples:
+                Lists all purchase prices:
+                  value:
+                    data:
+                    - id: '1'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 1
+                      packageAmount: 1
+                      price:
+                        amount: '12.92000000'
+                        currency: EUR
+                      internalComment: hey look, you found a comment
+                      validFrom: null
+                      expiresAt: null
+                    - id: '2'
+                      product:
+                        id: '5'
+                      supplier:
+                        id: '7'
+                      isStandardSupplier: false
+                      supplierDesignation: '123456'
+                      supplierItemNumber: ''
+                      fromQuantity: 10
+                      packageAmount: 1
+                      price:
+                        amount: '10.45000000'
+                        currency: EUR
+                      internalComment: oh look, another comment
+                      validFrom: null
+                      expiresAt: '2024-04-10'
+                    extra:
+                      totalCount: 2
+                      page:
+                        number: 1
+                        size: 10
+        '400':
+          description: Request payload validation failed.
+          content:
+            application/json:
+              example:
+                type: https://api.xentral.biz/problems/request-validation
+                title: Request payload validation failed.
+                violations:
+                  filter.0.key:
+                  - The selected value for filter.0.key is invalid.
+                  filter.0.op:
+                  - Operator `lessThanOrEquals` is not supported in filter key of type `custom`.
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '429':
+          description: Too many API calls made.
+    patch:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.updateMultipleV2
+      summary: Update multiple purchase prices V2
+      description: Updates multiple purchase prices
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    pattern: \d+
+                    example: '17'
+                    description: Resource identifier.
+                  product:
+                    description: Reference to another resource
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    example:
+                      id: '1337'
+                  supplier:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: string
+                        pattern: \d+
+                        example: '17'
+                        description: Resource identifier.
+                    description: Reference to a supplier for this price
+                    example:
+                      id: '194'
+                  isStandardSupplier:
+                    description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                    example: '''true'''
+                    oneOf:
+                    - type: boolean
+                    - type: number
+                      enum:
+                      - 0
+                      - 1
+                    - type: string
+                      enum:
+                      - 'true'
+                      - 'false'
+                      - 'True'
+                      - 'False'
+                      - 'TRUE'
+                      - 'FALSE'
+                  supplierDesignation:
+                    type: string
+                    description: The designation of the supplier
+                    example: Xentral
+                  supplierItemNumber:
+                    type: string
+                    description: Supplier item number
+                    example: 4992042-20
+                  fromQuantity:
+                    type: number
+                    format: float
+                    description: Minimum quantity for this price
+                    example: 1
+                  packageAmount:
+                    type: number
+                    format: float
+                    nullable: true
+                    description: Amount of items in a package
+                    example: 10
+                  price:
+                    description: Money object with amount and currency
+                    example:
+                      amount: '13.37'
+                      currency: EUR
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      amount:
+                        description: A string representing the amount
+                        type: string
+                        format: float
+                        example: '24.99'
+                      currency:
+                        type: string
+                        pattern: '[A-Z]{3}'
+                        enum:
+                        - EUR
+                        - USD
+                        - JPY
+                        - BGN
+                        - CZK
+                        - DKK
+                        - GBP
+                        - HUF
+                        - PLN
+                        - RON
+                        - SEK
+                        - CHF
+                        - ISK
+                        - NOK
+                        - HRK
+                        - RUB
+                        - TRY
+                        - AUD
+                        - BRL
+                        - CAD
+                        - CNY
+                        - HKD
+                        - IDR
+                        - ILS
+                        - INR
+                        - KRW
+                        - MXN
+                        - MYR
+                        - NZD
+                        - PHP
+                        - SGD
+                        - THB
+                        - ZAR
+                        - ARS
+                        - CLP
+                        - SAR
+                        - AED
+                        - QAR
+                        description: Currency matches one of currency values as specified in ISO-4217.
+                        example: PLN
+                  validFrom:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: Date from which the price is valid
+                    example: '2023-12-01'
+                  expiresAt:
+                    type: string
+                    format: date
+                    nullable: true
+                    description: Date until which the price is valid
+                    example: '2024-12-12'
+                  additionalInformation:
+                    description: Purchase Price
+                    example:
+                      supplierStockLevel: 73
+                      supplierStockDate: '2024-11-01'
+                      safetyStockLevel: 10
+                      standardDeliveryTime: 3
+                      standardDeliveryTimeUnit: days
+                      currentDeliveryTime: 12
+                      currentDeliveryTimeUnit: weeks
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    properties:
+                      supplierStockLevel:
+                        type: number
+                        x-description-missing: true
+                        example: 7
+                      supplierStockDate:
+                        type: string
+                        x-description-missing: true
+                        format: date
+                        example: '2024-11-01'
+                      safetyStockLevel:
+                        type: number
+                        x-description-missing: true
+                        example: 7
+                      standardDeliveryTime:
+                        type: number
+                        x-description-missing: true
+                        example: 3
+                      standardDeliveryTimeUnit:
+                        type: string
+                        x-description-missing: true
+                        enum:
+                        - days
+                        - weeks
+                        example: days
+                      currentDeliveryTime:
+                        type: number
+                        x-description-missing: true
+                        example: 6
+                      currentDeliveryTimeUnit:
+                        type: string
+                        x-description-missing: true
+                        enum:
+                        - days
+                        - weeks
+                        example: days
+                  internalComment:
+                    type: string
+                    description: Internal Comment
+                    example: Test
+            examples:
+              Update multiple purchase prices:
+                value:
+                - id: '194'
+                  price:
+                    amount: '7.3'
+                    currency: EUR
+                  additionalInformation:
+                    supplierStockLevel: 105
+                    supplierStockDate: '2024-02-11'
+                    safetyStockLevel: 5000
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: days
+                    currentDeliveryTime: 2
+                    currentDeliveryTimeUnit: weeks
+                  internalComment: Test
+                - id: '199'
+                  price:
+                    amount: '10.3'
+                    currency: EUR
+                  additionalInformation:
+                    supplierStockLevel: 105
+                    supplierStockDate: '2024-02-11'
+                    safetyStockLevel: 5000
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: weeks
+                    currentDeliveryTime: 2
+                    currentDeliveryTimeUnit: days
+                  internalComment: Test
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+  /api/v2/purchasePrices/{id}:
+    patch:
+      tags:
+      - Purchase Price
+      operationId: purchasePrice.updateV2
+      summary: Update purchase price V2
+      description: Updates details of a single purchase price
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                supplier:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - id
+                  properties:
+                    id:
+                      type: string
+                      pattern: \d+
+                      example: '17'
+                      description: Resource identifier.
+                  description: Reference to a supplier for this price
+                  example:
+                    id: '194'
+                isStandardSupplier:
+                  description: Loose boolean type which accepts boolean, number 0 or 1 and string 'true' or 'false'
+                  example: '''true'''
+                  oneOf:
+                  - type: boolean
+                  - type: number
+                    enum:
+                    - 0
+                    - 1
+                  - type: string
+                    enum:
+                    - 'true'
+                    - 'false'
+                    - 'True'
+                    - 'False'
+                    - 'TRUE'
+                    - 'FALSE'
+                supplierDesignation:
+                  type: string
+                  description: The designation of the supplier
+                  example: Xentral
+                supplierItemNumber:
+                  type: string
+                  description: Supplier item number
+                  example: 4992042-20
+                fromQuantity:
+                  type: number
+                  format: float
+                  description: Minimum quantity for this price
+                  example: 1
+                packageAmount:
+                  type: number
+                  format: float
+                  nullable: true
+                  description: Amount of items in a package
+                  example: 10
+                price:
+                  description: Price of the product
+                  example:
+                    amount: 7.3
+                    currency: EUR
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    amount:
+                      x-description-missing: true
+                      type: number
+                      format: float
+                      example: 7.3
+                    currency:
+                      x-description-missing: true
+                      type: string
+                      enum:
+                      - EUR
+                      - PLN
+                      - CHF
+                      - USD
+                      - GBP
+                      example: EUR
+                validFrom:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date from which the price is valid
+                  example: '2023-12-01'
+                expiresAt:
+                  type: string
+                  format: date
+                  nullable: true
+                  description: Date until which the price is valid
+                  example: '2024-12-12'
+                additionalInformation:
+                  description: Purchase Price
+                  example:
+                    supplierStockLevel: 73
+                    supplierStockDate: '2024-11-01'
+                    safetyStockLevel: 10
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: days
+                    currentDeliveryTime: 12
+                    currentDeliveryTimeUnit: weeks
+                  type: object
+                  additionalProperties: false
+                  nullable: true
+                  properties:
+                    supplierStockLevel:
+                      type: number
+                      x-description-missing: true
+                      example: 7
+                    supplierStockDate:
+                      type: string
+                      x-description-missing: true
+                      format: date
+                      example: '2024-11-01'
+                    safetyStockLevel:
+                      type: number
+                      x-description-missing: true
+                      example: 7
+                    standardDeliveryTime:
+                      type: number
+                      x-description-missing: true
+                      example: 3
+                    standardDeliveryTimeUnit:
+                      type: string
+                      x-description-missing: true
+                      enum:
+                      - days
+                      - weeks
+                      example: days
+                    currentDeliveryTime:
+                      type: number
+                      x-description-missing: true
+                      example: 6
+                    currentDeliveryTimeUnit:
+                      type: string
+                      x-description-missing: true
+                      enum:
+                      - days
+                      - weeks
+                      example: days
+                internalComment:
+                  type: string
+                  description: Internal Comment
+                  example: Test
+            examples:
+              Update Purchase Price:
+                value:
+                  validFrom: '2023-12-01'
+                  fromQuantity: 1
+                  price:
+                    amount: 24.2
+                    currency: EUR
+                  additionalInformation:
+                    supplierStockLevel: 105
+                    supplierStockDate: '2024-02-11'
+                    safetyStockLevel: 5000
+                    standardDeliveryTime: 3
+                    standardDeliveryTimeUnit: days
+                    currentDeliveryTime: 2
+                    currentDeliveryTimeUnit: weeks
+                  internalComment: Test
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '409':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

@@ -1,0 +1,1408 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account ProductCalculation API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: ProductCalculation
+  description: ProductCalculation
+paths:
+  /api/v3/products/{id}/calculationItems:
+    get:
+      tags:
+      - ProductCalculation
+      summary: List product calculation line items V3
+      description: 'This endpoint requires the following scopes: `productCalculation:read`.
+
+
+        List a product purchase price calculation line items'
+      operationId: GET::api-v3-products-id-calculationitems
+      parameters:
+      - name: filter
+        in: query
+        description: "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`archived`: *equals*, *notEquals* \n\n`designation`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`costType`: *equals*, *notEquals*, *in*, *notIn* \n\n`includeInCalculation`: *equals*, *notEquals*"
+        required: false
+        style: deepObject
+        schema:
+          type: array
+          items:
+            properties:
+              key:
+                type: string
+                enum:
+                - archived
+                - designation
+                - costType
+                - includeInCalculation
+              op:
+                description: operator
+                type: string
+                enum:
+                - equals
+                - notEquals
+                - in
+                - notIn
+                - contains
+                - notContains
+                - startsWith
+                - endsWith
+              value:
+                description: The property value.
+                oneOf:
+                - title: String
+                  type: string
+                - title: Array
+                  type: array
+                  items:
+                    type: string
+            type: object
+            additionalProperties: false
+      - name: sort
+        in: query
+        description: Sort via id, -id, date, -date, designation, -designation, costType and -costType. Default sort is -id
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            enum:
+            - id
+            - -id
+            - date
+            - -date
+            - designation
+            - -designation
+            - costType
+            - -costType
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: x-pagination
+        in: header
+        description: 'Controls the pagination format. Available types: simple, table, cursor. Defaults to ''simple'' if not specified.'
+        required: false
+        schema:
+          type: string
+          enum:
+          - simple
+          - table
+          - cursor
+          example: simple
+      - name: perPage
+        in: query
+        description: 'Number of items per page. Default: 15, Max: 5000'
+        required: false
+        schema:
+          type: integer
+          example: 15
+      - name: page
+        in: query
+        description: Page number. Only used with simple and table pagination.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      - name: cursor
+        in: query
+        description: The cursor to use for the paginated call. Only used with cursor pagination. Not compatible with page parameter
+        required: false
+        schema:
+          type: string
+          example: eyJpZCI6MTUsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0
+      responses:
+        '200':
+          description: List a product purchase price calculation line items
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - title: 'Paginated Response: simple'
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        description: A product calculation line item
+                        properties:
+                          id:
+                            description: ID of the line item.
+                            type: string
+                            example: '33'
+                          designation:
+                            description: Designation of the line item.
+                            example: purchaseCosts
+                            oneOf:
+                            - type: string
+                            - type: string
+                              enum:
+                              - additionalCosts
+                              - productionCosts
+                              - purchaseCosts
+                              - additionalParts
+                              - freightCosts
+                              - additionalFreightCosts
+                          date:
+                            description: Date of the cost.
+                            type: string
+                            format: date
+                            example: '2026-01-01'
+                          costType:
+                            description: Type of the cost.
+                            type: string
+                            enum:
+                            - oneTime
+                            - perPiece
+                            - perLot
+                            - purchase
+                            - oldMovingAverage
+                            example: purchase
+                          includeInCalculation:
+                            description: Whether the line item is included in the purchase price calculation.
+                            type: boolean
+                            example: true
+                          totalCost:
+                            description: Total cost of the line item.
+                            properties:
+                              amount:
+                                description: Total cost amount.
+                                type: string
+                                example: '100.00'
+                              currency:
+                                description: Total cost currency.
+                                type: string
+                                example: EUR
+                            type: object
+                            example:
+                              amount: '100.00'
+                              currency: EUR
+                          forQuantity:
+                            description: Quantity for the total cost.
+                            type:
+                            - integer
+                            - 'null'
+                            example: 10
+                          costPerUnit:
+                            description: Cost per unit.
+                            properties:
+                              amount:
+                                description: Cost per unit amount.
+                                type: string
+                                example: '10.00'
+                              currency:
+                                description: Cost per unit currency.
+                                type: string
+                                example: EUR
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              amount: '10.00'
+                              currency: EUR
+                          purchaseOrder:
+                            description: The purchase order connected to this line item.
+                            properties:
+                              id:
+                                description: Purchase order ID.
+                                type: string
+                                example: '1234'
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              id: '1234'
+                          archived:
+                            description: Whether the line item is archived.
+                            type: boolean
+                            example: false
+                          editor:
+                            description: The editor who created/modified the line item.
+                            properties:
+                              id:
+                                description: User ID of the editor.
+                                type: string
+                                example: '17'
+                              name:
+                                description: Username of the editor.
+                                type: string
+                                example: JohnDoe
+                            type: object
+                            example:
+                              id: '17'
+                              name: JohnDoe
+                          internalComment:
+                            description: Internal comment. Intended to be used for company-internal notes.
+                            type:
+                            - string
+                            - 'null'
+                            example: this is an internal comment
+                        type: object
+                        additionalProperties: false
+                      x-description-ignore: true
+                      x-example-ignore: true
+                    meta:
+                      description: Pagination meta data
+                      properties:
+                        currentPage:
+                          description: The current page number
+                          type: integer
+                          example: 1
+                        from:
+                          description: The first item being returned in the current page
+                          type: integer
+                          example: 1
+                          nullable: true
+                        path:
+                          description: The base path for the paginated results
+                          type: string
+                          example: https://api.example.com/items
+                        perPage:
+                          description: The number of items shown per page
+                          type: integer
+                          example: 15
+                        to:
+                          description: The last item being returned in the current page
+                          type: integer
+                          example: 15
+                          nullable: true
+                      type: object
+                      x-example-ignore: true
+                    links:
+                      description: Pagination links
+                      properties:
+                        first:
+                          description: URL to the first page
+                          type: string
+                          example: https://api.example.com/items?page=1
+                          nullable: true
+                        last:
+                          description: URL to the last page
+                          type: string
+                          example: null
+                          nullable: true
+                        prev:
+                          description: URL to the previous page
+                          type: string
+                          example: null
+                          nullable: true
+                        next:
+                          description: URL to the next page
+                          type: string
+                          example: https://api.example.com/items?page=17
+                          nullable: true
+                      type: object
+                      x-example-ignore: true
+                  type: object
+                - title: 'Paginated Response: table'
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        description: A product calculation line item
+                        properties:
+                          id:
+                            description: ID of the line item.
+                            type: string
+                            example: '33'
+                          designation:
+                            description: Designation of the line item.
+                            example: purchaseCosts
+                            oneOf:
+                            - type: string
+                            - type: string
+                              enum:
+                              - additionalCosts
+                              - productionCosts
+                              - purchaseCosts
+                              - additionalParts
+                              - freightCosts
+                              - additionalFreightCosts
+                          date:
+                            description: Date of the cost.
+                            type: string
+                            format: date
+                            example: '2026-01-01'
+                          costType:
+                            description: Type of the cost.
+                            type: string
+                            enum:
+                            - oneTime
+                            - perPiece
+                            - perLot
+                            - purchase
+                            - oldMovingAverage
+                            example: purchase
+                          includeInCalculation:
+                            description: Whether the line item is included in the purchase price calculation.
+                            type: boolean
+                            example: true
+                          totalCost:
+                            description: Total cost of the line item.
+                            properties:
+                              amount:
+                                description: Total cost amount.
+                                type: string
+                                example: '100.00'
+                              currency:
+                                description: Total cost currency.
+                                type: string
+                                example: EUR
+                            type: object
+                            example:
+                              amount: '100.00'
+                              currency: EUR
+                          forQuantity:
+                            description: Quantity for the total cost.
+                            type:
+                            - integer
+                            - 'null'
+                            example: 10
+                          costPerUnit:
+                            description: Cost per unit.
+                            properties:
+                              amount:
+                                description: Cost per unit amount.
+                                type: string
+                                example: '10.00'
+                              currency:
+                                description: Cost per unit currency.
+                                type: string
+                                example: EUR
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              amount: '10.00'
+                              currency: EUR
+                          purchaseOrder:
+                            description: The purchase order connected to this line item.
+                            properties:
+                              id:
+                                description: Purchase order ID.
+                                type: string
+                                example: '1234'
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              id: '1234'
+                          archived:
+                            description: Whether the line item is archived.
+                            type: boolean
+                            example: false
+                          editor:
+                            description: The editor who created/modified the line item.
+                            properties:
+                              id:
+                                description: User ID of the editor.
+                                type: string
+                                example: '17'
+                              name:
+                                description: Username of the editor.
+                                type: string
+                                example: JohnDoe
+                            type: object
+                            example:
+                              id: '17'
+                              name: JohnDoe
+                          internalComment:
+                            description: Internal comment. Intended to be used for company-internal notes.
+                            type:
+                            - string
+                            - 'null'
+                            example: this is an internal comment
+                        type: object
+                        additionalProperties: false
+                      x-description-ignore: true
+                      x-example-ignore: true
+                    links:
+                      properties:
+                        first:
+                          description: URL to the first page
+                          type: string
+                          example: https://api.example.com/items?page=1
+                          nullable: true
+                        last:
+                          description: URL to the last page
+                          type: string
+                          example: https://api.example.com/items?page=10
+                          nullable: true
+                        prev:
+                          description: URL to the previous page
+                          type: string
+                          example: null
+                          nullable: true
+                        next:
+                          description: URL to the next page
+                          type: string
+                          example: https://api.example.com/items?page=2
+                          nullable: true
+                      type: object
+                      x-description-ignore: true
+                      x-example-ignore: true
+                    meta:
+                      properties:
+                        currentPage:
+                          description: The current page number
+                          type: integer
+                          example: 1
+                        from:
+                          description: The first item being returned in the current page
+                          type: integer
+                          example: 1
+                          nullable: true
+                        lastPage:
+                          description: The last page number
+                          type: integer
+                          example: 10
+                        path:
+                          description: The base path for the paginated results
+                          type: string
+                          example: https://api.example.com/items
+                        perPage:
+                          description: The number of items shown per page
+                          type: integer
+                          example: 15
+                        to:
+                          description: The last item being returned in the current page
+                          type: integer
+                          example: 15
+                          nullable: true
+                        total:
+                          description: The total number of items
+                          type: integer
+                          example: 150
+                      type: object
+                      x-description-ignore: true
+                      x-example-ignore: true
+                  type: object
+                - title: 'Paginated Response: cursor'
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        description: A product calculation line item
+                        properties:
+                          id:
+                            description: ID of the line item.
+                            type: string
+                            example: '33'
+                          designation:
+                            description: Designation of the line item.
+                            example: purchaseCosts
+                            oneOf:
+                            - type: string
+                            - type: string
+                              enum:
+                              - additionalCosts
+                              - productionCosts
+                              - purchaseCosts
+                              - additionalParts
+                              - freightCosts
+                              - additionalFreightCosts
+                          date:
+                            description: Date of the cost.
+                            type: string
+                            format: date
+                            example: '2026-01-01'
+                          costType:
+                            description: Type of the cost.
+                            type: string
+                            enum:
+                            - oneTime
+                            - perPiece
+                            - perLot
+                            - purchase
+                            - oldMovingAverage
+                            example: purchase
+                          includeInCalculation:
+                            description: Whether the line item is included in the purchase price calculation.
+                            type: boolean
+                            example: true
+                          totalCost:
+                            description: Total cost of the line item.
+                            properties:
+                              amount:
+                                description: Total cost amount.
+                                type: string
+                                example: '100.00'
+                              currency:
+                                description: Total cost currency.
+                                type: string
+                                example: EUR
+                            type: object
+                            example:
+                              amount: '100.00'
+                              currency: EUR
+                          forQuantity:
+                            description: Quantity for the total cost.
+                            type:
+                            - integer
+                            - 'null'
+                            example: 10
+                          costPerUnit:
+                            description: Cost per unit.
+                            properties:
+                              amount:
+                                description: Cost per unit amount.
+                                type: string
+                                example: '10.00'
+                              currency:
+                                description: Cost per unit currency.
+                                type: string
+                                example: EUR
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              amount: '10.00'
+                              currency: EUR
+                          purchaseOrder:
+                            description: The purchase order connected to this line item.
+                            properties:
+                              id:
+                                description: Purchase order ID.
+                                type: string
+                                example: '1234'
+                            type:
+                            - object
+                            - 'null'
+                            example:
+                              id: '1234'
+                          archived:
+                            description: Whether the line item is archived.
+                            type: boolean
+                            example: false
+                          editor:
+                            description: The editor who created/modified the line item.
+                            properties:
+                              id:
+                                description: User ID of the editor.
+                                type: string
+                                example: '17'
+                              name:
+                                description: Username of the editor.
+                                type: string
+                                example: JohnDoe
+                            type: object
+                            example:
+                              id: '17'
+                              name: JohnDoe
+                          internalComment:
+                            description: Internal comment. Intended to be used for company-internal notes.
+                            type:
+                            - string
+                            - 'null'
+                            example: this is an internal comment
+                        type: object
+                        additionalProperties: false
+                      x-description-ignore: true
+                      x-example-ignore: true
+                    links:
+                      description: Pagination links
+                      properties:
+                        first:
+                          description: URL to the first page
+                          type: string
+                          example: https://api.example.com/items?cursor=eyJpZCI6MSwiX3BvaW50c1RvTmV4dEl0ZW1zIjp0cnVlfQ
+                          nullable: true
+                        last:
+                          description: URL to the last page
+                          type: string
+                          example: null
+                          nullable: true
+                        prev:
+                          description: URL to the previous page
+                          type: string
+                          example: null
+                          nullable: true
+                        next:
+                          description: URL to the next page
+                          type: string
+                          example: https://api.example.com/items?cursor=eyJpZCI6MTYsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0
+                          nullable: true
+                      type: object
+                      x-description-ignore: true
+                      x-example-ignore: true
+                    meta:
+                      description: Pagination meta data
+                      properties:
+                        path:
+                          description: The base path for the paginated results
+                          type: string
+                          example: https://api.example.com/items
+                        perPage:
+                          description: The number of items shown per page
+                          type: integer
+                          example: 15
+                        nextCursor:
+                          description: Cursor for the next page
+                          type: string
+                          example: eyJpZCI6MTYsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0
+                          nullable: true
+                        prevCursor:
+                          description: Cursor for the previous page
+                          type: string
+                          example: null
+                          nullable: true
+                      type: object
+                      x-description-ignore: true
+                      x-example-ignore: true
+                  type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - productCalculation:read
+    post:
+      tags:
+      - ProductCalculation
+      summary: Create product calculation line item V3
+      description: 'This endpoint requires the following scopes: `productCalculation:create`.
+
+
+        Create a product calculation line item'
+      operationId: POST::api-v3-products-id-calculationitems
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Payload to create a product calculation line item
+              required:
+              - designation
+              - date
+              - costType
+              - totalCost
+              properties:
+                designation:
+                  description: Designation of the line item.
+                  example: purchaseCosts
+                  oneOf:
+                  - type: string
+                  - type: string
+                    enum:
+                    - additionalCosts
+                    - productionCosts
+                    - purchaseCosts
+                    - additionalParts
+                    - freightCosts
+                    - additionalFreightCosts
+                date:
+                  description: Date of the cost.
+                  type: string
+                  format: date
+                  example: '2026-01-01'
+                costType:
+                  description: Type of the cost.
+                  type: string
+                  enum:
+                  - oneTime
+                  - perPiece
+                  - perLot
+                  - purchase
+                  - oldMovingAverage
+                  example: purchase
+                includeInCalculation:
+                  description: Includes the line item into the calculation of the purchase price.
+                  type: boolean
+                  example: true
+                totalCost:
+                  description: Total cost of the line item.
+                  required:
+                  - amount
+                  - currency
+                  properties:
+                    amount:
+                      description: Total cost amount of the line item.
+                      type: string
+                      format: decimal
+                      example: '100.00'
+                    currency:
+                      description: Total cost currency of the line item.
+                      type: string
+                      example: EUR
+                  type: object
+                forQuantity:
+                  description: Quantity for the total cost of the line item.
+                  type: integer
+                  example: 10
+                archived:
+                  description: Marks a calculation line item as archived. Archived line items will not be used for further calculations.
+                  type: boolean
+                  example: false
+                internalComment:
+                  description: Internal comment. Intended to be used for company-internal notes.
+                  type: string
+                  example: this is an internal comment
+              type: object
+              additionalProperties: false
+      responses:
+        '201':
+          description: Create a product calculation line item
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: A product calculation line item
+                    properties:
+                      id:
+                        description: ID of the line item.
+                        type: string
+                        example: '33'
+                      designation:
+                        description: Designation of the line item.
+                        example: purchaseCosts
+                        oneOf:
+                        - type: string
+                        - type: string
+                          enum:
+                          - additionalCosts
+                          - productionCosts
+                          - purchaseCosts
+                          - additionalParts
+                          - freightCosts
+                          - additionalFreightCosts
+                      date:
+                        description: Date of the cost.
+                        type: string
+                        format: date
+                        example: '2026-01-01'
+                      costType:
+                        description: Type of the cost.
+                        type: string
+                        enum:
+                        - oneTime
+                        - perPiece
+                        - perLot
+                        - purchase
+                        - oldMovingAverage
+                        example: purchase
+                      includeInCalculation:
+                        description: Whether the line item is included in the purchase price calculation.
+                        type: boolean
+                        example: true
+                      totalCost:
+                        description: Total cost of the line item.
+                        properties:
+                          amount:
+                            description: Total cost amount.
+                            type: string
+                            example: '100.00'
+                          currency:
+                            description: Total cost currency.
+                            type: string
+                            example: EUR
+                        type: object
+                        example:
+                          amount: '100.00'
+                          currency: EUR
+                      forQuantity:
+                        description: Quantity for the total cost.
+                        type:
+                        - integer
+                        - 'null'
+                        example: 10
+                      costPerUnit:
+                        description: Cost per unit.
+                        properties:
+                          amount:
+                            description: Cost per unit amount.
+                            type: string
+                            example: '10.00'
+                          currency:
+                            description: Cost per unit currency.
+                            type: string
+                            example: EUR
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          amount: '10.00'
+                          currency: EUR
+                      purchaseOrder:
+                        description: The purchase order connected to this line item.
+                        properties:
+                          id:
+                            description: Purchase order ID.
+                            type: string
+                            example: '1234'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1234'
+                      archived:
+                        description: Whether the line item is archived.
+                        type: boolean
+                        example: false
+                      editor:
+                        description: The editor who created/modified the line item.
+                        properties:
+                          id:
+                            description: User ID of the editor.
+                            type: string
+                            example: '17'
+                          name:
+                            description: Username of the editor.
+                            type: string
+                            example: JohnDoe
+                        type: object
+                        example:
+                          id: '17'
+                          name: JohnDoe
+                      internalComment:
+                        description: Internal comment. Intended to be used for company-internal notes.
+                        type:
+                        - string
+                        - 'null'
+                        example: this is an internal comment
+                    type: object
+                    additionalProperties: false
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      designation:
+                      - The designation field is required.
+                      date:
+                      - The date field is required.
+                      costType:
+                      - The selected cost type is invalid.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - productCalculation:create
+  /api/v3/products/{id}/calculationItems/{itemId}:
+    get:
+      tags:
+      - ProductCalculation
+      summary: View product calculation line item V3
+      description: 'This endpoint requires the following scopes: `productCalculation:read`.
+
+
+        View a single product calculation line item'
+      operationId: GET::api-v3-products-id-calculationitems-itemid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: View a single product calculation line item
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: A product calculation line item
+                    properties:
+                      id:
+                        description: ID of the line item.
+                        type: string
+                        example: '33'
+                      designation:
+                        description: Designation of the line item.
+                        example: purchaseCosts
+                        oneOf:
+                        - type: string
+                        - type: string
+                          enum:
+                          - additionalCosts
+                          - productionCosts
+                          - purchaseCosts
+                          - additionalParts
+                          - freightCosts
+                          - additionalFreightCosts
+                      date:
+                        description: Date of the cost.
+                        type: string
+                        format: date
+                        example: '2026-01-01'
+                      costType:
+                        description: Type of the cost.
+                        type: string
+                        enum:
+                        - oneTime
+                        - perPiece
+                        - perLot
+                        - purchase
+                        - oldMovingAverage
+                        example: purchase
+                      includeInCalculation:
+                        description: Whether the line item is included in the purchase price calculation.
+                        type: boolean
+                        example: true
+                      totalCost:
+                        description: Total cost of the line item.
+                        properties:
+                          amount:
+                            description: Total cost amount.
+                            type: string
+                            example: '100.00'
+                          currency:
+                            description: Total cost currency.
+                            type: string
+                            example: EUR
+                        type: object
+                        example:
+                          amount: '100.00'
+                          currency: EUR
+                      forQuantity:
+                        description: Quantity for the total cost.
+                        type:
+                        - integer
+                        - 'null'
+                        example: 10
+                      costPerUnit:
+                        description: Cost per unit.
+                        properties:
+                          amount:
+                            description: Cost per unit amount.
+                            type: string
+                            example: '10.00'
+                          currency:
+                            description: Cost per unit currency.
+                            type: string
+                            example: EUR
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          amount: '10.00'
+                          currency: EUR
+                      purchaseOrder:
+                        description: The purchase order connected to this line item.
+                        properties:
+                          id:
+                            description: Purchase order ID.
+                            type: string
+                            example: '1234'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1234'
+                      archived:
+                        description: Whether the line item is archived.
+                        type: boolean
+                        example: false
+                      editor:
+                        description: The editor who created/modified the line item.
+                        properties:
+                          id:
+                            description: User ID of the editor.
+                            type: string
+                            example: '17'
+                          name:
+                            description: Username of the editor.
+                            type: string
+                            example: JohnDoe
+                        type: object
+                        example:
+                          id: '17'
+                          name: JohnDoe
+                      internalComment:
+                        description: Internal comment. Intended to be used for company-internal notes.
+                        type:
+                        - string
+                        - 'null'
+                        example: this is an internal comment
+                    type: object
+                    additionalProperties: false
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - productCalculation:read
+    delete:
+      tags:
+      - ProductCalculation
+      summary: Delete product calculation line item V3
+      description: 'This endpoint requires the following scopes: `productCalculation:delete`.
+
+
+        Delete a product calculation line item'
+      operationId: DELETE::api-v3-products-id-calculationitems-itemid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Resource successfully deleted
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - productCalculation:delete
+    patch:
+      tags:
+      - ProductCalculation
+      summary: Update product calculation line item V3
+      description: 'This endpoint requires the following scopes: `productCalculation:update`.
+
+
+        Update a product calculation line item'
+      operationId: PATCH::api-v3-products-id-calculationitems-itemid
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Payload to update a product calculation line item
+              properties:
+                designation:
+                  description: Designation of the line item.
+                  example: purchaseCosts
+                  oneOf:
+                  - type: string
+                  - type: string
+                    enum:
+                    - additionalCosts
+                    - productionCosts
+                    - purchaseCosts
+                    - additionalParts
+                    - freightCosts
+                    - additionalFreightCosts
+                date:
+                  description: Date of the cost.
+                  type: string
+                  format: date
+                  example: '2026-01-01'
+                costType:
+                  description: Type of the cost.
+                  type: string
+                  enum:
+                  - oneTime
+                  - perPiece
+                  - perLot
+                  - purchase
+                  - oldMovingAverage
+                  example: purchase
+                includeInCalculation:
+                  description: Includes the line item into the calculation of the purchase price.
+                  type: boolean
+                  example: true
+                totalCost:
+                  description: Total cost of the line item.
+                  properties:
+                    amount:
+                      description: Total cost amount of the line item.
+                      type: string
+                      example: '100.00'
+                    currency:
+                      description: Total cost currency of the line item.
+                      type: string
+                      example: EUR
+                  type: object
+                forQuantity:
+                  description: Quantity for the total cost of the line item.
+                  type: integer
+                  example: 10
+                archived:
+                  description: Marks a calculation line item as archived. Archived line items will not be used for further calculations.
+                  type: boolean
+                  example: false
+                internalComment:
+                  description: Internal comment. Intended to be used for company-internal notes.
+                  type: string
+                  example: this is an internal comment
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          description: Update a product calculation line item
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    description: A product calculation line item
+                    properties:
+                      id:
+                        description: ID of the line item.
+                        type: string
+                        example: '33'
+                      designation:
+                        description: Designation of the line item.
+                        example: purchaseCosts
+                        oneOf:
+                        - type: string
+                        - type: string
+                          enum:
+                          - additionalCosts
+                          - productionCosts
+                          - purchaseCosts
+                          - additionalParts
+                          - freightCosts
+                          - additionalFreightCosts
+                      date:
+                        description: Date of the cost.
+                        type: string
+                        format: date
+                        example: '2026-01-01'
+                      costType:
+                        description: Type of the cost.
+                        type: string
+                        enum:
+                        - oneTime
+                        - perPiece
+                        - perLot
+                        - purchase
+                        - oldMovingAverage
+                        example: purchase
+                      includeInCalculation:
+                        description: Whether the line item is included in the purchase price calculation.
+                        type: boolean
+                        example: true
+                      totalCost:
+                        description: Total cost of the line item.
+                        properties:
+                          amount:
+                            description: Total cost amount.
+                            type: string
+                            example: '100.00'
+                          currency:
+                            description: Total cost currency.
+                            type: string
+                            example: EUR
+                        type: object
+                        example:
+                          amount: '100.00'
+                          currency: EUR
+                      forQuantity:
+                        description: Quantity for the total cost.
+                        type:
+                        - integer
+                        - 'null'
+                        example: 10
+                      costPerUnit:
+                        description: Cost per unit.
+                        properties:
+                          amount:
+                            description: Cost per unit amount.
+                            type: string
+                            example: '10.00'
+                          currency:
+                            description: Cost per unit currency.
+                            type: string
+                            example: EUR
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          amount: '10.00'
+                          currency: EUR
+                      purchaseOrder:
+                        description: The purchase order connected to this line item.
+                        properties:
+                          id:
+                            description: Purchase order ID.
+                            type: string
+                            example: '1234'
+                        type:
+                        - object
+                        - 'null'
+                        example:
+                          id: '1234'
+                      archived:
+                        description: Whether the line item is archived.
+                        type: boolean
+                        example: false
+                      editor:
+                        description: The editor who created/modified the line item.
+                        properties:
+                          id:
+                            description: User ID of the editor.
+                            type: string
+                            example: '17'
+                          name:
+                            description: Username of the editor.
+                            type: string
+                            example: JohnDoe
+                        type: object
+                        example:
+                          id: '17'
+                          name: JohnDoe
+                      internalComment:
+                        description: Internal comment. Intended to be used for company-internal notes.
+                        type:
+                        - string
+                        - 'null'
+                        example: this is an internal comment
+                    type: object
+                    additionalProperties: false
+                type: object
+        '400':
+          description: Failed validation
+          content:
+            application/problem+json:
+              schema:
+                properties:
+                  type:
+                    description: Error messages
+                    type: string
+                    example: https://api.xentral.biz/problems/request-validation
+                  title:
+                    description: Error messages
+                    type: string
+                    example: Request payload validation failed.
+                  violations:
+                    description: Error messages
+                    type: object
+                    example:
+                      designation:
+                      - The designation field must be a string.
+                      date:
+                      - The date field must be a valid date.
+                      costType:
+                      - The selected cost type is invalid.
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    description: Too Many Requests
+                    type: string
+                    example: Too Many Requests
+                type: object
+      x-scopes:
+      - productCalculation:update
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

@@ -1,0 +1,461 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Payment Transaction API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Payment Transaction
+  description: Payment Transaction resource
+paths:
+  /api/v1/paymentTransactions/{id}:
+    get:
+      tags:
+      - Payment Transaction
+      operationId: paymentTransaction.view
+      summary: View payment transaction
+      description: Returns details of a single payment transaction
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '200':
+          description: Operation completed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  data:
+                    type: object
+                    description: information about a payment transaction
+                    additionalProperties: false
+                    properties:
+                      returns:
+                        type: array
+                        description: List of return orders
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Nullable reference to another resource
+                              type: object
+                              additionalProperties: false
+                              nullable: true
+                              required:
+                              - id
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                              example:
+                                id: '1337'
+                            salesOrder:
+                              description: Nullable reference to another resource
+                              type: object
+                              additionalProperties: false
+                              nullable: true
+                              required:
+                              - id
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: \d+
+                                  example: '17'
+                                  description: Resource identifier.
+                              example:
+                                id: '1337'
+                      salesOrder:
+                        description: Nullable reference to another resource
+                        type: object
+                        additionalProperties: false
+                        nullable: true
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1337'
+                      creditNote:
+                        description: Nullable reference to another resource
+                        type: object
+                        additionalProperties: false
+                        nullable: true
+                        required:
+                        - id
+                        properties:
+                          id:
+                            type: string
+                            pattern: \d+
+                            example: '17'
+                            description: Resource identifier.
+                        example:
+                          id: '1337'
+                      monetary:
+                        description: Money object with amount and currency
+                        example:
+                          amount: '13.37'
+                          currency: EUR
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          amount:
+                            description: A string representing the amount
+                            type: string
+                            format: float
+                            example: '24.99'
+                          currency:
+                            type: string
+                            pattern: '[A-Z]{3}'
+                            enum:
+                            - EUR
+                            - USD
+                            - JPY
+                            - BGN
+                            - CZK
+                            - DKK
+                            - GBP
+                            - HUF
+                            - PLN
+                            - RON
+                            - SEK
+                            - CHF
+                            - ISK
+                            - NOK
+                            - HRK
+                            - RUB
+                            - TRY
+                            - AUD
+                            - BRL
+                            - CAD
+                            - CNY
+                            - HKD
+                            - IDR
+                            - ILS
+                            - INR
+                            - KRW
+                            - MXN
+                            - MYR
+                            - NZD
+                            - PHP
+                            - SGD
+                            - THB
+                            - ZAR
+                            - ARS
+                            - CLP
+                            - SAR
+                            - AED
+                            - QAR
+                            description: Currency matches one of currency values as specified in ISO-4217.
+                            example: PLN
+                      paymentStatus:
+                        type: string
+                        description: information about the the current status of the transaction
+                        example: approved
+                      paymentReason:
+                        type: string
+                        description: information about the payment reason
+                        example: some reason
+                    example:
+                      creditNote:
+                        id: '3'
+                      returns:
+                      - returnOrder:
+                          id: '1'
+                        salesOrder:
+                          id: '2'
+                      monetary:
+                        amount: '12.34'
+                        currency: EUR
+                      paymentStatus: error
+                      paymentReason: Some reason
+              examples:
+                Shows a single payment transaction:
+                  value:
+                    data:
+                      creditNote:
+                        id: '3'
+                      returns:
+                      - returnOrder:
+                          id: '1'
+                        salesOrder:
+                          id: '2'
+                      monetary:
+                        amount: '12.34'
+                        currency: EUR
+                      paymentStatus: error
+                      paymentReason: Some reason
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '429':
+          description: Too many API calls made.
+  /api/v1/paymentTransactions/{id}/status:
+    patch:
+      tags:
+      - Payment Transaction
+      operationId: paymentTransaction.status
+      summary: Update payment transaction status
+      description: Update status for single Payment Transaction
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: The resource's identifier.
+        schema:
+          type: string
+          pattern: \d+
+          example: '17'
+          description: Resource identifier.
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '404':
+          description: Resource was not found or not enough access privileges
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+      requestBody:
+        description: '[EARLY ACCESS] Update status for single Payment Transaction'
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              description: Status is required. statusReason is optional and should be used for errors. The legacy value `verbucht` is replaced with `success` in the payload.
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - success
+                  - error
+                statusReason:
+                  type: string
+            examples:
+              Set payment transaction to success:
+                value:
+                  status: success
+              Set payment transaction to error:
+                value:
+                  status: error
+                  statusReason: card has expired
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []

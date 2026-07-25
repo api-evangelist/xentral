@@ -1,0 +1,1439 @@
+openapi: 3.0.0
+info:
+  title: Xentral Account Setting API
+  version: v0.1
+  description: Xentral is an ERP platform.
+  contact:
+    name: Xentral
+    url: https://xentral.com
+    email: api@xentral.com
+servers:
+- url: https://{xentralId}.xentral.biz
+  description: Your Xentral Instance
+  variables:
+    xentralId:
+      default: xentral
+- url: https://{domain}
+  description: Xentral at a custom domain
+  variables:
+    domain:
+      default: xentral.com
+security:
+- BearerAuth: []
+tags:
+- name: Setting
+  description: Settings represents the application's configurations.
+paths:
+  /api/v2/settings/masterdata/addressCustomFields:
+    get:
+      tags:
+      - Setting
+      operationId: settings.masterdata.address.customFields.list.v2
+      summary: List address free fields
+      description: Fetches all configured address custom fields. Pagination is not necessary because of limit of such fields (20).
+      responses:
+        '200':
+          description: List of address custom fields
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - name
+                      - type
+                      - allowedValues
+                      description: Address custom field object
+                      properties:
+                        id:
+                          type: string
+                          pattern: \d+
+                          example: '17'
+                          description: Resource identifier.
+                        name:
+                          type: string
+                          description: Name of address custom field
+                          example: Lead-Status
+                        type:
+                          type: string
+                          enum:
+                          - single_line
+                          - multi_line
+                          - date
+                          - checkbox
+                          - select
+                          nullable: false
+                          description: Value type of address custom field
+                          example: select
+                        allowedValues:
+                          type: array
+                          items:
+                            type: object
+                            additionalProperties: false
+                            required:
+                            - label
+                            - value
+                            properties:
+                              label:
+                                type: string
+                                nullable: false
+                                example: Contact
+                              value:
+                                type: string
+                                nullable: false
+                                example: ATTEMPTED_TO_CONTACT
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    post:
+      tags:
+      - Setting
+      operationId: settings.masterdata.address.customFields.create.v1
+      summary: Create address free field
+      description: Creates a address custom field configuration.
+      requestBody:
+        description: Request structure to create a address custom field configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  nullable: false
+                  description: Name of custom field
+                  example: Hubspot deal status
+                type:
+                  type: string
+                  enum:
+                  - single_line
+                  - multi_line
+                  - date
+                  - checkbox
+                  - select
+                  nullable: false
+                  example: date
+                allowedValues:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    additionalProperties: false
+                    nullable: true
+                    required:
+                    - label
+                    - value
+                    properties:
+                      label:
+                        type: string
+                        nullable: false
+                        example: Contact
+                      value:
+                        type: string
+                        nullable: false
+                        example: ATTEMPTED_TO_CONTACT
+            examples:
+              Create singleline custom field:
+                value:
+                  name: Lead Number
+                  type: single_line
+              Create select custom field:
+                value:
+                  name: Lead-Status
+                  type: select
+                  allowedValues:
+                  - label: Attempts to contact
+                    value: ATTEMPTED_TO_CONTACT
+                  - label: Open Deal
+                    value: OPEN_DEAL
+      responses:
+        '201':
+          description: Resource successfully created response
+          headers:
+            Location:
+              schema:
+                type: string
+                example: https://example.xentral.biz/api/users/17
+              description: URI of the created resource
+          content:
+            text/html:
+              schema:
+                type: string
+                enum:
+                - ''
+                nullable: true
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '409':
+          description: Request conflict with the current state of the target resource
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+        '415':
+          description: Resource representation send in the request is not supported.
+        '423':
+          description: All address custom fields are already in use
+  /api/v2/settings/text-templates:
+    get:
+      tags:
+      - Setting
+      operationId: settings.text-templates.v2
+      summary: List text templates
+      description: Show all receipt related text template settings
+      responses:
+        '200':
+          description: Object of all text template settings
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: false
+                    required:
+                    - offer
+                    - order
+                    - invoice
+                    - delivery_note
+                    - credit_note
+                    - purchase_order
+                    - work_report
+                    - commission_credit_note
+                    - proforma_invoice
+                    - misc
+                    description: Text template settings object
+                    properties:
+                      offer:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Offer related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Offer text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Offer text at the end (HTML formatted)
+                            example: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for offers
+                            example: false
+                        example:
+                          header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary: false
+                      order:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Order related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Sales Order text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Sales Order text at the end (HTML formatted)
+                            example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for orders
+                            example: false
+                        example:
+                          header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary: false
+                      invoice:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Invoice related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Invoice text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Invoice text at the end (HTML formatted)
+                            example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for invoices
+                            example: false
+                        example:
+                          header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically"'
+                          disable_stationary: false
+                      delivery_note:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Delivery Note related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Delivery Note text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Delivery Note text at the end (HTML formatted)
+                            example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for Delivery Notes
+                            example: false
+                          eu_delivery_note:
+                            type: string
+                            nullable: false
+                            description: EU delivery note text
+                            example: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                          export_delivery_note:
+                            type: string
+                            nullable: false
+                            description: Export delivery note text outside to EU
+                            example: Tax-excempt in 3rd party country
+                        example:
+                          header: '{ANSCHREIBEN},<br /><br />we deliver::<br /><br />{IF}{TRACKINGNUMMER}{THEN}Tracking-Number/n:{TRACKINGNUMMER}{ELSE}{ENDIF}<br />&nbsp;'
+                          footer: Dieses Formular wurde maschinell erstellt und ist ohne Unterschrift gültig.
+                          disable_stationary: false
+                          eu_delivery_note: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                          export_delivery_note: Tax-excempt in 3rd party country
+                      credit_note:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Credit Note related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Credit Note text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Credit Note text at the end (HTML formatted)
+                            example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for credit notes
+                            example: false
+                        example:
+                          header: '{ANSCHREIBEN},<br /><br />some text:'
+                          footer: This form was created automatically
+                          disable_stationary: false
+                      purchase_order:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        description: Purchase Order related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Purchase Order text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Purchase Order text at the end (HTML formatted)
+                            example: This form was created automatically
+                        example:
+                          header: '{ANSCHREIBEN},<br /><br />we order now:<br /><br />Our order number:: {BESTELLUNGBESTAETIGTABNUMMER}<br /><strong>Deliver Address: </strong>{LIEFERADRESSELANG}'
+                          footer: This form was created automaticallyThis form was created automatically
+                      work_report:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Work Report related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Work Report text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Work Report text at the end (HTML formatted)
+                            example: This form was created automatically
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for Work Reports
+                            example: false
+                        example:
+                          header: '{ANSCHREIBEN},<br /><br />we deliver following:'
+                          footer: This form was created automatically
+                          disable_stationary: false
+                      commission_credit_note:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        description: Commission Credit Note related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Commission Credit Note text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Commission Credit Note text at the end (HTML formatted)
+                            example: This form was created automatically
+                        example:
+                          header: '{ANSCHREIBEN},<br /><br />,'
+                          footer: This form was created automaticallyThis form was created automatically
+                      proforma_invoice:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - header
+                        - footer
+                        - disable_stationary
+                        description: Proforma Invoice related text template settings
+                        properties:
+                          header:
+                            type: string
+                            nullable: false
+                            description: Proforma Invoice text above the product table (HTML formatted)
+                            example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                          footer:
+                            type: string
+                            nullable: false
+                            description: Proforma Invoice text at the end (HTML formatted)
+                            example: This form was created automatically
+                          disable_stationary:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for Proforma Invoices
+                            example: false
+                        example:
+                          header: '{IF}{USTID}{THEN}Your VAT ID:{USTID}{ELSE}{ENDIF}<br />&nbsp;'
+                          footer: This form was created automatically
+                          disable_stationary: false
+                      misc:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - travel_expenses_without_letterhead
+                        - footer_order_offer
+                        - footer_order_offer_enabled
+                        - footer_order_order
+                        - footer_order_order_enabled
+                        - footer_order_invoice
+                        - footer_order_invoice_enabled
+                        - footer_order_credit_note
+                        - footer_order_credit_note_enabled
+                        - footer_order_delivery_note
+                        - footer_order_delivery_note_enabled
+                        - footer_order_purchase_order
+                        - footer_order_purchase_order_enabled
+                        - footer_order_proforma_invoice
+                        - footer_order_proforma_invoice_enabled
+                        description: Additional text template settings
+                        properties:
+                          travel_expenses_without_letterhead:
+                            type: boolean
+                            nullable: false
+                            description: Disable letterhead and logo for travel expenses
+                            example: true
+                          footer_order_offer:
+                            type: string
+                            nullable: false
+                            description: Offer order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_offer_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for offers
+                            example: true
+                          footer_order_order:
+                            type: string
+                            nullable: false
+                            description: Sales Order order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_order_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for orders
+                            example: true
+                          footer_order_invoice:
+                            type: string
+                            nullable: false
+                            description: Invoice order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_invoice_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for invoices
+                            example: true
+                          footer_order_credit_note:
+                            type: string
+                            nullable: false
+                            description: Credit Note order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_credit_note_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for credit notes
+                            example: true
+                          footer_order_delivery_note:
+                            type: string
+                            nullable: false
+                            description: Delivery Note order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_delivery_note_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for delivery notes
+                            example: true
+                          footer_order_purchase_order:
+                            type: string
+                            nullable: false
+                            description: Purchase Order order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_purchase_order_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for purchase orders
+                            example: true
+                          footer_order_proforma_invoice:
+                            type: string
+                            nullable: false
+                            description: Proforma Invoice order according to table
+                            example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                          footer_order_proforma_invoice_enabled:
+                            type: boolean
+                            nullable: false
+                            description: Activate your own sequence for proforma invoices
+                            example: true
+                        example:
+                          travel_expenses_without_letterhead: false
+                          footer_order_offer: ''
+                          footer_order_offer_enabled: false
+                          footer_order_order: ''
+                          footer_order_order_enabled: false
+                          footer_order_invoice: ''
+                          footer_order_invoice_enabled: false
+                          footer_order_credit_note: ''
+                          footer_order_credit_note_enabled: false
+                          footer_order_delivery_note: ''
+                          footer_order_delivery_note_enabled: false
+                          footer_order_purchase_order: ''
+                          footer_order_purchase_order_enabled: false
+                          footer_order_proforma_invoice: ''
+                          footer_order_proforma_invoice_enabled: false
+                    example:
+                      offer:
+                        header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                        footer: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                        disable_stationary: false
+                      order:
+                        header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                        footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                        disable_stationary: false
+                      invoice:
+                        header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                        footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically"'
+                        disable_stationary: false
+                      delivery_note:
+                        header: '{ANSCHREIBEN},<br /><br />we deliver::<br /><br />{IF}{TRACKINGNUMMER}{THEN}Tracking-Number/n:{TRACKINGNUMMER}{ELSE}{ENDIF}<br />&nbsp;'
+                        footer: Dieses Formular wurde maschinell erstellt und ist ohne Unterschrift gültig.
+                        disable_stationary: false
+                        eu_delivery_note: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                        export_delivery_note: Tax-excempt in 3rd party country
+                      credit_note:
+                        header: '{ANSCHREIBEN},<br /><br />some text:'
+                        footer: This form was created automatically
+                        disable_stationary: false
+                      purchase_order:
+                        header: '{ANSCHREIBEN},<br /><br />we order now:<br /><br />Our order number:: {BESTELLUNGBESTAETIGTABNUMMER}<br /><strong>Deliver Address: </strong>{LIEFERADRESSELANG}'
+                        footer: This form was created automaticallyThis form was created automatically
+                      work_report:
+                        header: '{ANSCHREIBEN},<br /><br />we deliver following:'
+                        footer: This form was created automatically
+                        disable_stationary: false
+                      commission_credit_note:
+                        header: '{ANSCHREIBEN},<br /><br />,'
+                        footer: This form was created automaticallyThis form was created automatically
+                      proforma_invoice:
+                        header: '{IF}{USTID}{THEN}Your VAT ID:{USTID}{ELSE}{ENDIF}<br />&nbsp;'
+                        footer: This form was created automatically
+                        disable_stationary: false
+                      misc:
+                        travel_expenses_without_letterhead: false
+                        footer_order_offer: ''
+                        footer_order_offer_enabled: false
+                        footer_order_order: ''
+                        footer_order_order_enabled: false
+                        footer_order_invoice: ''
+                        footer_order_invoice_enabled: false
+                        footer_order_credit_note: ''
+                        footer_order_credit_note_enabled: false
+                        footer_order_delivery_note: ''
+                        footer_order_delivery_note_enabled: false
+                        footer_order_purchase_order: ''
+                        footer_order_purchase_order_enabled: false
+                        footer_order_proforma_invoice: ''
+                        footer_order_proforma_invoice_enabled: false
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '429':
+          description: Too many API calls made.
+    patch:
+      tags:
+      - Setting
+      operationId: settings.text-templates.v2.update
+      summary: Update text templates
+      description: Update one or more text template settings
+      requestBody:
+        description: Update text template settings request body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offer:
+                  type: object
+                  description: Object contains offer related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Offer text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Offer text at the end (HTML formatted)
+                      example: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for offers
+                      example: false
+                  example:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary: false
+                order:
+                  type: object
+                  description: Object contains order related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Sales Order text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Sales Order text at the end (HTML formatted)
+                      example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for orders
+                      example: false
+                  example:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary: false
+                invoice:
+                  type: object
+                  description: Object contains invoice related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Invoice text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Invoice text at the end (HTML formatted)
+                      example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for invoices
+                      example: false
+                  example:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically"'
+                    disable_stationary: false
+                delivery_note:
+                  type: object
+                  description: Object contains delivery note related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Delivery Note text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Delivery Note text at the end (HTML formatted)
+                      example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for Delivery Notes
+                      example: false
+                    eu_delivery_note:
+                      type: string
+                      nullable: false
+                      description: EU delivery note text
+                      example: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                    export_delivery_note:
+                      type: string
+                      nullable: false
+                      description: Export delivery note text outside to EU
+                      example: Tax-excempt in 3rd party country
+                  example:
+                    header: '{ANSCHREIBEN},<br /><br />we deliver::<br /><br />{IF}{TRACKINGNUMMER}{THEN}Tracking-Number/n:{TRACKINGNUMMER}{ELSE}{ENDIF}<br />&nbsp;'
+                    footer: Dieses Formular wurde maschinell erstellt und ist ohne Unterschrift gültig.
+                    disable_stationary: false
+                    eu_delivery_note: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                    export_delivery_note: Tax-excempt in 3rd party country
+                credit_note:
+                  type: object
+                  description: Object contains credit note related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Credit Note text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Credit Note text at the end (HTML formatted)
+                      example: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for credit notes
+                      example: false
+                  example:
+                    header: '{ANSCHREIBEN},<br /><br />some text:'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                purchase_order:
+                  type: object
+                  description: Object contains purchase order related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Purchase Order text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Purchase Order text at the end (HTML formatted)
+                      example: This form was created automatically
+                  example:
+                    header: '{ANSCHREIBEN},<br /><br />we order now:<br /><br />Our order number:: {BESTELLUNGBESTAETIGTABNUMMER}<br /><strong>Deliver Address: </strong>{LIEFERADRESSELANG}'
+                    footer: This form was created automaticallyThis form was created automatically
+                work_report:
+                  type: object
+                  description: Object contains work report related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Work Report text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Work Report text at the end (HTML formatted)
+                      example: This form was created automatically
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for Work Reports
+                      example: false
+                  example:
+                    header: '{ANSCHREIBEN},<br /><br />we deliver following:'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                commission_credit_note:
+                  type: object
+                  description: Object contains commission credit note related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Commission Credit Note text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Commission Credit Note text at the end (HTML formatted)
+                      example: This form was created automatically
+                  example:
+                    header: '{ANSCHREIBEN},<br /><br />,'
+                    footer: This form was created automaticallyThis form was created automatically
+                proforma_invoice:
+                  type: object
+                  description: Object contains proforma invoice related settings
+                  properties:
+                    header:
+                      type: string
+                      nullable: false
+                      description: Proforma Invoice text above the product table (HTML formatted)
+                      example: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer:
+                      type: string
+                      nullable: false
+                      description: Proforma Invoice text at the end (HTML formatted)
+                      example: This form was created automatically
+                    disable_stationary:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for Proforma Invoices
+                      example: false
+                  example:
+                    header: '{IF}{USTID}{THEN}Your VAT ID:{USTID}{ELSE}{ENDIF}<br />&nbsp;'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                misc:
+                  type: object
+                  description: Object contains miscellaneous settings
+                  properties:
+                    travel_expenses_without_letterhead:
+                      type: boolean
+                      nullable: false
+                      description: Disable letterhead and logo for travel expenses
+                      example: true
+                    footer_order_offer:
+                      type: string
+                      nullable: false
+                      description: Offer order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_offer_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for offers
+                      example: true
+                    footer_order_order:
+                      type: string
+                      nullable: false
+                      description: Sales Order order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_order_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for orders
+                      example: true
+                    footer_order_invoice:
+                      type: string
+                      nullable: false
+                      description: Invoice order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_invoice_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for invoices
+                      example: true
+                    footer_order_credit_note:
+                      type: string
+                      nullable: false
+                      description: Credit Note order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_credit_note_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for credit notes
+                      example: true
+                    footer_order_delivery_note:
+                      type: string
+                      nullable: false
+                      description: Delivery Note order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_delivery_note_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for delivery notes
+                      example: true
+                    footer_order_purchase_order:
+                      type: string
+                      nullable: false
+                      description: Purchase Order order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_purchase_order_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for purchase orders
+                      example: true
+                    footer_order_proforma_invoice:
+                      type: string
+                      nullable: false
+                      description: Proforma Invoice order according to table
+                      example: '{FOOTERFREITEXT}{FOOTERTEXTVORLAGEANGEBOT}{FOOTERZAHLUNGSWEISETEXT}'
+                    footer_order_proforma_invoice_enabled:
+                      type: boolean
+                      nullable: false
+                      description: Activate your own sequence for proforma invoices
+                      example: true
+                  example:
+                    travel_expenses_without_letterhead: false
+                    footer_order_offer: ''
+                    footer_order_offer_enabled: false
+                    footer_order_order: ''
+                    footer_order_order_enabled: false
+                    footer_order_invoice: ''
+                    footer_order_invoice_enabled: false
+                    footer_order_credit_note: ''
+                    footer_order_credit_note_enabled: false
+                    footer_order_delivery_note: ''
+                    footer_order_delivery_note_enabled: false
+                    footer_order_purchase_order: ''
+                    footer_order_purchase_order_enabled: false
+                    footer_order_proforma_invoice: ''
+                    footer_order_proforma_invoice_enabled: false
+            examples:
+              Fully Qualified:
+                value:
+                  offer:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{GUELTIGBIS}{THEN}Offer is valid until: {GUELTIGBIS}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary: false
+                  order:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically'
+                    disable_stationary: false
+                  invoice:
+                    header: '{ANSCHREIBEN},<br/><br/>Some text before product table'
+                    footer: '{IF}{LIEFERADRESSE}{THEN}<strong>Delivery Address:</strong><br />{LIEFERADRESSE}{ELSE}{ENDIF}<br /><br />This form was created automatically"'
+                    disable_stationary: false
+                  delivery_note:
+                    header: '{ANSCHREIBEN},<br /><br />we deliver::<br /><br />{IF}{TRACKINGNUMMER}{THEN}Tracking-Number/n:{TRACKINGNUMMER}{ELSE}{ENDIF}<br />&nbsp;'
+                    footer: Dieses Formular wurde maschinell erstellt und ist ohne Unterschrift gültig.
+                    disable_stationary: false
+                    eu_delivery_note: Tax-exempt according to §4 No.1 in conjunction with §6 ...
+                    export_delivery_note: Tax-excempt in 3rd party country
+                  credit_note:
+                    header: '{ANSCHREIBEN},<br /><br />some text:'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                  purchase_order:
+                    header: '{ANSCHREIBEN},<br /><br />we order now:<br /><br />Our order number:: {BESTELLUNGBESTAETIGTABNUMMER}<br /><strong>Deliver Address: </strong>{LIEFERADRESSELANG}'
+                    footer: This form was created automaticallyThis form was created automatically
+                  work_report:
+                    header: '{ANSCHREIBEN},<br /><br />we deliver following:'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                  commission_credit_note:
+                    header: '{ANSCHREIBEN},<br /><br />,'
+                    footer: This form was created automaticallyThis form was created automatically
+                  proforma_invoice:
+                    header: '{IF}{USTID}{THEN}Your VAT ID:{USTID}{ELSE}{ENDIF}<br />&nbsp;'
+                    footer: This form was created automatically
+                    disable_stationary: false
+                  misc:
+                    travel_expenses_without_letterhead: false
+                    footer_order_offer: ''
+                    footer_order_offer_enabled: false
+                    footer_order_order: ''
+                    footer_order_order_enabled: false
+                    footer_order_invoice: ''
+                    footer_order_invoice_enabled: false
+                    footer_order_credit_note: ''
+                    footer_order_credit_note_enabled: false
+                    footer_order_delivery_note: ''
+                    footer_order_delivery_note_enabled: false
+                    footer_order_purchase_order: ''
+                    footer_order_purchase_order_enabled: false
+                    footer_order_proforma_invoice: ''
+                    footer_order_proforma_invoice_enabled: false
+      responses:
+        '204':
+          description: Operation completed successfully, no response body
+        '400':
+          description: IETF RFC 9457 Problem API compliant response
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - violations
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/request-validation
+                    title:
+                      type: string
+                      minLength: 1
+                      example: Request payload validation failed.
+                    violations:
+                      oneOf:
+                      - type: array
+                        items:
+                          type: object
+                          example:
+                            username:
+                            - This value should not be blank.
+                            email:
+                            - This value is not a valid email address.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                      - type: object
+                        example:
+                          _:
+                          - This value should contain at most `9` elements.
+                        description: This field will be a mirrored request payload with only invalid fields and values replaced by error messages.
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflict
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - items
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/conflictItems
+                    title:
+                      type: string
+                      minLength: 1
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - id
+                        - title
+                        - messages
+                        properties:
+                          id:
+                            type: integer
+                          title:
+                            type: string
+                            minLength: 1
+                          messages:
+                            type: array
+                            items:
+                              type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - scopes
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://developer.xentral.com/reference/problems#token-scopes
+                    title:
+                      type: string
+                      minLength: 1
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                - type: object
+                  additionalProperties: false
+                  required:
+                  - type
+                  - title
+                  - messages
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - https://api.xentral.biz/problems/generic-validation
+                    title:
+                      type: string
+                      minLength: 1
+                    messages:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unable to authenticate the client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message explaining why the request failed.
+                    example: 'Missing required scopes: customer:create.'
+              example:
+                message: 'Missing required scopes: customer:create.'
+            text/html:
+              schema:
+                type: string
+                example: Unauthorized
+        '403':
+          description: Unable to authorize the client
+        '406':
+          description: Requested resource representation does not exist.
+        '415':
+          description: Resource representation send in the request is not supported.
+        '429':
+          description: Too many API calls made.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-readme:
+  samples-languages: []
