@@ -1,0 +1,25 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Xentral
+providerId: xentral
+generated: '2026-07-21'
+method: searched
+created: '2026-07-21'
+modified: '2026-07-21'
+tags:
+- Rate Limiting
+- ERP
+description: The Xentral API is rate limited to 100 requests per minute independent of
+  the Xentral plan. The docs flag the values as provisional ("final values for rate limits
+  are currently being evaluated") and exceeding the limit returns 429 Too Many Requests.
+sources:
+- https://developer.xentral.com/reference/rate-limiting
+responseCodes:
+  throttled: 429
+limits:
+- name: API requests
+  scope: instance
+  metric: requests-per-minute
+  limit: 100
+  notes: Plan-independent; documented as under evaluation and likely to change.

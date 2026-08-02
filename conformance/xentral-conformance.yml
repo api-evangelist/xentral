@@ -1,0 +1,48 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/xentral-api-openapi-original.json, openapi/xentral-documents-api-openapi-original.json,
+  developer.xentral.com reference pages
+standards:
+- id: rfc9457-problem-details
+  conforms: true
+  evidence: 564 4xx/5xx responses across both OpenAPI specs use application/problem+json;
+    docs examples send Accept application/problem+json.
+- id: rfc6838-media-types
+  conforms: true
+  evidence: Vendor media-type variants application/vnd.xentral.VARIANT.vN+FORMAT constructed
+    per RFC 6838 section 3.2 (stated at /reference/variants).
+- id: oauth2
+  conforms: false
+  evidence: Authentication is Personal Access Tokens (http bearer); no oauth2 flows declared
+    in either spec and no OAuth documentation published.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returned 404 on xentral.com and developer.xentral.com.
+- id: pagination
+  conforms: true
+  evidence: Documented page[number]/page[size] (v1/v2) and X-Pagination simple/cursor
+    strategies (v3).
+- id: idempotency
+  conforms: false
+  evidence: No idempotency-key contract documented or declared in the specs.
+- id: rate-limiting-429
+  conforms: true
+  evidence: Documented 100 req/min limit with 429 Too Many Requests; 429 declared on 488
+    operations across both specs.
+- id: asyncapi
+  conforms: true
+  evidence: Official AsyncAPI 2.6.0 event-system spec (152 channels) published at
+    xentral.github.io/api-spec-public (captured at asyncapi/xentral-events-asyncapi.json).
+- id: cloudevents
+  conforms: false
+  evidence: Webhook payloads use a custom {type "com.xentral.EVENT.vX", body} envelope
+    with reverse-DNS types but no CloudEvents attributes (specversion, id, source).
+- id: json:api
+  conforms: false
+  evidence: Responses use a Xentral-specific meta/data/extra/links envelope, not JSON:API.
+- id: scim
+  conforms: false
+  evidence: No SCIM paths in either spec.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset/Deprecation header support documented.

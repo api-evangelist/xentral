@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: searched
+notes: Probed the /.well-known/ discovery surface on both public hosts on 2026-07-21.
+  No well-known documents are published; both hosts do publish /llms.txt (outside
+  /.well-known/), captured at llms/xentral-llms.txt.
+hosts:
+- host: https://xentral.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+- host: https://developer.xentral.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/xentral-llms.txt

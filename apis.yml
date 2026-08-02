@@ -1,23 +1,1393 @@
 aid: xentral
 name: Xentral
-description: Xentral is a company surfaced as a portfolio company of lightspeed-venture-partners and added
-  to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: Xentral is a cloud ERP and business operations platform from Augsburg,
+  Germany that helps small and mid-sized product businesses run sales orders, purchasing,
+  warehousing, fulfillment, invoicing, accounting, POS, and production from one system.
+  It exposes a versioned REST API (v1/v2/v3) with Personal Access Token authentication,
+  a Kafka-backed event system with webhooks, an official OpenAPI specification on GitHub,
+  a hosted MCP server behind its AgentOS, and a published Claude Code plugin with agent
+  skills for automating the ERP.
 url: https://raw.githubusercontent.com/api-evangelist/xentral/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - lightspeed-venture-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: enrichment-pipeline
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
+image: https://eu-central-1-enterprise-euc1.graphassets.com/AwA5KcKRdQcurP6TExnrjz/cmp1bwlva178v07uueip5kbla
 tags:
 - Company
-apis: []
+- ERP
+- eCommerce
+- Fulfillment
+- Warehousing
+- Invoicing
+- Accounting
+- Orders
+- Products
+- Germany
+apis:
+- aid: xentral:xentral-account-api
+  name: Xentral Account API
+  description: Account configurations
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-account-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-accounting-export-api
+  name: Xentral Accounting Export API
+  description: Accounting Export endpoints
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Accounting Export
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-accounting-export-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-authplatform-api
+  name: Xentral AuthPlatform API
+  description: AuthPlatform represents the oauth login for Xentral
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - AuthPlatform
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-authplatform-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-collection-api
+  name: Xentral Collection API
+  description: Create and manage collections for your reports.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Collection
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-collection-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-collective-bill-api
+  name: Xentral Collective Bill API
+  description: Create collective bills
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Collective Bill
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-collective-bill-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-credit-api
+  name: Xentral Credit API
+  description: Get information about your current current and monthly credits regarding Report usage.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Credit
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-credit-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-credit-note-api
+  name: Xentral Credit Note API
+  description: >-
+    A credit note is a document you send to your customer to correct a mistake on an order or an invoice,
+    or to refund an amount paid for products or services.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Credit Note
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-credit-note-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-credit-note-tag-api
+  name: Xentral Credit Note Tag API
+  description: Credit Note resource tags management.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Credit Note Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-credit-note-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-creditnote-api
+  name: Xentral CreditNote API
+  description: CreditNote
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - CreditNote
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-creditnote-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-customer-address-api
+  name: Xentral Customer Address API
+  description: >-
+    Represents the address associated with a specific customer, including details such as location, contact
+    information, and address type.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Customer Address
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-customer-address-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-customer-api
+  name: Xentral Customer API
+  description: Customer represents an information related to company, or individual person.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Customer
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-customer-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-customer-contact-person-api
+  name: Xentral Customer - Contact Person API
+  description: Contact person information related to a specific customer
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Customer - Contact Person
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-customer-contact-person-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-customer-delivery-address-api
+  name: Xentral Customer Delivery Address API
+  description: Customer Delivery Address
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Customer Delivery Address
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-customer-delivery-address-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-delivery-api
+  name: Xentral Delivery API
+  description: Delivery information.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Delivery
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-delivery-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-delivery-note-api
+  name: Xentral Delivery Note API
+  description: Delivery notes.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Delivery Note
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-delivery-note-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-delivery-note-tag-api
+  name: Xentral Delivery Note Tag API
+  description: Delivery notes tags.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Delivery Note Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-delivery-note-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-delivery-terms-api
+  name: Xentral Delivery Terms API
+  description: Delivery Terms
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Delivery Terms
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-delivery-terms-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-deliverynote-api
+  name: Xentral DeliveryNote API
+  description: DeliveryNote
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - DeliveryNote
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-deliverynote-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-documentation-api
+  name: Xentral Documentation API
+  description: Get documentation about our data catalog, tables and columns.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Documentation
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-documentation-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-emailaccount-api
+  name: Xentral EmailAccount API
+  description: EmailAccount
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - EmailAccount
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-emailaccount-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-employee-api
+  name: Xentral Employee API
+  description: Employees
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Employee
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-employee-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-external-reference-api
+  name: Xentral External Reference API
+  description: External shop references that are linked to a product.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - External Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-external-reference-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-external-reference-target-api
+  name: Xentral External Reference Target API
+  description: All external shops that exists within Xentral
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - External Reference Target
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-external-reference-target-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-file-api
+  name: Xentral File API
+  description: Get a business document file and its metadata.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - File
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-file-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-general-ledger-api
+  name: Xentral General Ledger API
+  description: General Ledger transactions
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - General Ledger
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-general-ledger-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-goods-receipt-api
+  name: Xentral Goods Receipt API
+  description: Goods Receipt for physical incoming goods.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Goods Receipt
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-goods-receipt-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-invoice-api
+  name: Xentral Invoice API
+  description: >-
+    An invoice is a commercial document issued by a seller to a buyer relating to a sale transaction and
+    indicating the products, quantities, and agreed-upon prices for products or services the seller had
+    provided the buyer.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Invoice
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-invoice-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-invoice-tag-api
+  name: Xentral Invoice Tag API
+  description: Invoice resource tags management.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Invoice Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-invoice-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-liability-api
+  name: Xentral Liability API
+  description: Returns a collection with all liabilities.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Liability
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-liability-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-matrixproduct-api
+  name: Xentral Matrixproduct API
+  description: Manage options for products.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Matrixproduct
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-matrixproduct-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-offer-api
+  name: Xentral Offer API
+  description: Offer
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Offer
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-offer-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-payment-methods-api
+  name: Xentral Payment Methods API
+  description: Payment Methods resource
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Payment Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-payment-methods-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-payment-service-provider-api
+  name: Xentral Payment Service Provider API
+  description: Payment Service Provider endpoints
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Payment Service Provider
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-payment-service-provider-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-payment-terms-group-api
+  name: Xentral Payment Terms Group API
+  description: >-
+    PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts,
+    payment targets, and free postage options.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Payment Terms Group
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-payment-terms-group-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-payment-transaction-api
+  name: Xentral Payment Transaction API
+  description: Payment Transaction resource
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Payment Transaction
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-payment-transaction-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-point-of-sale-api
+  name: Xentral Point Of Sale API
+  description: Point Of Sale (POS) endpoints.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Point Of Sale
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-point-of-sale-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-priceinquiry-api
+  name: Xentral PriceInquiry API
+  description: PriceInquiry
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - PriceInquiry
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-priceinquiry-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-print-jobs-api
+  name: Xentral Print Jobs API
+  description: Print Jobs represent the jobs that are sent to the printer.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Print Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-print-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-api
+  name: Xentral Product API
+  description: Product represents the services or things given company sells in the business.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-category-api
+  name: Xentral Product Category API
+  description: >-
+    Product Category represents the Product Category Tree that can be used to categorise products.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Category
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-category-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-free-field-api
+  name: Xentral Product Free Field API
+  description: 40 product free fields can be used and individually labeled.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Free Field
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-free-field-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-label-api
+  name: Xentral Product Label API
+  description: Product labels management.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Label
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-label-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-media-api
+  name: Xentral Product Media API
+  description: Images of a product
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Media
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-media-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-merchandise-group-api
+  name: Xentral Product Merchandise Group API
+  description: Product merchandise groups.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Merchandise Group
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-merchandise-group-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-property-api
+  name: Xentral Product Property API
+  description: Product properties describe its physical traits.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Property
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-property-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-product-tag-api
+  name: Xentral Product Tag API
+  description: Product resource tags management.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Product Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-product-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-productcalculation-api
+  name: Xentral ProductCalculation API
+  description: ProductCalculation
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - ProductCalculation
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-productcalculation-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-productdeliverythreshold-api
+  name: Xentral ProductDeliveryThreshold API
+  description: ProductDeliveryThreshold
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - ProductDeliveryThreshold
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-productdeliverythreshold-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-production-api
+  name: Xentral Production API
+  description: Production resource management
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Production
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-production-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-proformainvoice-api
+  name: Xentral ProformaInvoice API
+  description: ProformaInvoice
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - ProformaInvoice
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-proformainvoice-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-project-api
+  name: Xentral Project API
+  description: Project resource.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Project
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-project-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-provisional-return-api
+  name: Xentral Provisional Return API
+  description: Provisional Return resource.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Provisional Return
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-provisional-return-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-purchase-order-api
+  name: Xentral Purchase Order API
+  description: Purchase Orders made at a supplier.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Purchase Order
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-purchase-order-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-purchase-price-api
+  name: Xentral Purchase Price API
+  description: PurchasePrices determine the prices used for the purchasing of products.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Purchase Price
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-purchase-price-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-purchaseorder-api
+  name: Xentral PurchaseOrder API
+  description: PurchaseOrder
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - PurchaseOrder
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-purchaseorder-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-query-api
+  name: Xentral Query API
+  description: >-
+    Create, manage and export reports and report results based on SQL queries against your data.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Query
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-query-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-report-api
+  name: Xentral Report API
+  description: >-
+    Create, manage and export reports and report results based on SQL queries against your data.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Report
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-report-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-report-usage-api
+  name: Xentral Report Usage API
+  description: Provide information about your usage in terms of credits spent.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Report Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-report-usage-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-reporting-settings-api
+  name: Xentral Reporting Settings API
+  description: Settings for analytics reporting platform
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Reporting Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-reporting-settings-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-return-api
+  name: Xentral Return API
+  description: Return represents incoming shipments from customer to supplier
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Return
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-return-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-return-reason-api
+  name: Xentral Return Reason API
+  description: Return reason describes why an item is being returned
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Return Reason
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-return-reason-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-returnorder-api
+  name: Xentral ReturnOrder API
+  description: ReturnOrder
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - ReturnOrder
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-returnorder-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-revenue-account-mapping-api
+  name: Xentral Revenue Account Mapping API
+  description: Revenue Account Mapping configurations
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Revenue Account Mapping
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-revenue-account-mapping-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-sales-channel-api
+  name: Xentral Sales Channel API
+  description: SalesChannel are the configured Shops/Marketplaces.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Sales Channel
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-sales-channel-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-sales-channels-product-settings-api
+  name: Xentral Sales Channels Product Settings API
+  description: Sales Channel Settings inside a product.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Sales Channels Product Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-sales-channels-product-settings-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-sales-order-api
+  name: Xentral Sales Order API
+  description: SalesOrders are an outbound orders, meaning that someone has bought from you.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Sales Order
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-sales-order-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-sales-price-api
+  name: Xentral Sales Price API
+  description: SalesPrices determine the prices used in sales to customers.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Sales Price
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-sales-price-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-salesorder-api
+  name: Xentral SalesOrder API
+  description: SalesOrder
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - SalesOrder
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-salesorder-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-salesprice-api
+  name: Xentral SalesPrice API
+  description: SalesPrice
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - SalesPrice
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-salesprice-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-serviceorder-api
+  name: Xentral ServiceOrder API
+  description: ServiceOrder
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - ServiceOrder
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-serviceorder-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-setting-api
+  name: Xentral Setting API
+  description: Settings represents the application's configurations.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Setting
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-setting-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-shipments-api
+  name: Xentral Shipments API
+  description: Shipments
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Shipments
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-shipments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-shipping-methods-api
+  name: Xentral Shipping Methods API
+  description: Shipping methods
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Shipping Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-shipping-methods-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-stock-movement-types-api
+  name: Xentral Stock Movement Types API
+  description: Stock movement type
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Stock Movement Types
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-stock-movement-types-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-storage-item-api
+  name: Xentral Storage Item API
+  description: Represent a storage item in a storage location
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Storage Item
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-storage-item-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-storage-location-api
+  name: Xentral Storage Location API
+  description: Represents the spaces within a warehouse
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Storage Location
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-storage-location-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-supplier-api
+  name: Xentral Supplier API
+  description: >-
+    Suppliers represents an information related to providers of goods the company is managing.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Supplier
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-supplier-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-supplier-delivery-address-api
+  name: Xentral Supplier Delivery Address API
+  description: Supplier Delivery Address
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Supplier Delivery Address
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-supplier-delivery-address-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-supplier-tag-api
+  name: Xentral Supplier Tag API
+  description: Supplier resource tags management.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Supplier Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-supplier-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-supplierinvoice-api
+  name: Xentral SupplierInvoice API
+  description: SupplierInvoice
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - SupplierInvoice
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-supplierinvoice-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tag-api
+  name: Xentral Tag API
+  description: Resource tags.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tag-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-account-mapping-api
+  name: Xentral Tax Account Mapping API
+  description: Tax Account Mapping configurations
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax Account Mapping
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-account-mapping-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-api
+  name: Xentral Tax API
+  description: Tax resource
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-obligation-api
+  name: Xentral Tax Obligation API
+  description: Tax Obligation resource
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax Obligation
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-obligation-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-rate-api
+  name: Xentral Tax Rate API
+  description: Represents a tax rate for a product on given day and for given country
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax Rate
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-rate-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-type-api
+  name: Xentral Tax Type API
+  description: Tax Type configurations
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax Type
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-type-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-tax-type-mapping-api
+  name: Xentral Tax Type Mapping API
+  description: Tax Type Mapping configurations
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Tax Type Mapping
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-tax-type-mapping-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-user-api
+  name: Xentral User API
+  description: User represents a Xentral account used to access other parts of the system.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-user-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-warehouse-api
+  name: Xentral Warehouse API
+  description: Represents a location with storage space
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Warehouse
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-warehouse-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+- aid: xentral:xentral-webhook-api
+  name: Xentral Webhook API
+  description: Manage webhooks.
+  humanURL: https://developer.xentral.com/reference/intro
+  baseURL: https://xentral.xentral.biz
+  tags:
+  - Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/xentral-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://developer.xentral.com/reference/intro
+  - type: Documentation
+    url: https://developer.xentral.com/reference/v3-filterung-ordering-pagination
+common:
+- type: Authentication
+  url: authentication/xentral-authentication.yml
+- type: DeveloperPortal
+  url: https://developer.xentral.com
+- type: Documentation
+  url: https://developer.xentral.com/reference/intro
+- type: APIReference
+  url: https://developer.xentral.com/reference/intro
+- type: GettingStarted
+  url: https://developer.xentral.com/docs/getting-started
+- type: Support
+  url: https://help.xentral.com
+- type: Blog
+  url: https://xentral.com/de/artikel
+- type: GitHubOrganization
+  url: https://github.com/xentral
+- type: Pricing
+  url: https://xentral.com/de/preise
+- type: SignUp
+  url: https://xentral.com/de/jetzt-starten
+- type: TermsOfService
+  url: https://xentral.com/de/agb
+- type: PrivacyPolicy
+  url: https://xentral.com/de/datenschutz
+- type: RateLimits
+  url: rate-limits/xentral-rate-limits.yml
+- type: AsyncAPI
+  url: asyncapi/xentral-events-asyncapi.json
+- type: Webhooks
+  url: https://developer.xentral.com/reference/webhooks
+- type: MCPServer
+  url: mcp/xentral-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/xentral-llms.txt
+- type: Packages
+  url: packages/xentral-packages.yml
+- type: OAuthScopes
+  url: scopes/xentral-scopes.yml
+- type: Conventions
+  url: conventions/xentral-conventions.yml
+- type: Sandbox
+  url: sandbox/xentral-sandbox.yml
+- type: Conformance
+  url: conformance/xentral-conformance.yml
+- type: ErrorCatalog
+  url: errors/xentral-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/xentral-lifecycle.yml
+- type: Deprecation
+  url: https://developer.xentral.com/reference/versioning
+- type: DataModel
+  url: data-model/xentral-data-model.yml
+- type: DomainSecurity
+  url: security/xentral-domain-security.yml
+- type: WellKnown
+  url: well-known/xentral-well-known.yml
+- type: Overlay
+  url: overlays/xentral-api-overlay.yaml
+- type: Overlay
+  url: overlays/xentral-documents-api-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+- FN: Xentral API Team
+  email: api@xentral.com
+  url: https://www.xentral.com
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 28
+  pass: local-v1

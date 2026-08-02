@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/xentral-api-openapi-original.json, openapi/xentral-documents-api-openapi-original.json
+docs: https://developer.xentral.com/reference/authentication
+summary:
+  types:
+  - http
+  scheme: bearer (Personal Access Token)
+  scopes: v3 Business Documents endpoints require per-endpoint token scopes (resource:action)
+notes: Authentication for all Xentral APIs (current API, legacy REST API, legacy Standard
+  API) is via Personal Access Tokens (PATs) created under Administration > Account settings
+  > Developer Settings > Personal Access Tokens (admin rights required). Tokens are shown
+  once at creation, have unlimited permissions and no expiration date, and can be revoked
+  by deletion at any time. Some legacy /shopimport/* and /v1/reports endpoints are not
+  accessible with PATs. More granular token access control is documented as a planned
+  enhancement.
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+  sources:
+  - openapi/xentral-api-openapi-original.json
+  - openapi/xentral-documents-api-openapi-original.json
+scopes_artifact: scopes/xentral-scopes.yml

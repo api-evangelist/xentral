@@ -1,0 +1,99 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/xentral-api-openapi-original.json, openapi/xentral-documents-api-openapi-original.json
+format: rfc9457
+notes: 'Xentral error responses use application/problem+json (RFC 9457 Problem Details) across both APIs; docs examples
+  send Accept: application/problem+json. 429 signals the documented 100 req/min rate limit.'
+problems:
+- status: 400
+  title: Bad Request — the request payload or query is invalid
+  format: rfc9457
+  occurrences: 357
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.list
+  - openapi/xentral-api-openapi-original.json#analytics.report.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.get
+- status: 401
+  title: Unauthorized — missing or invalid Personal Access Token
+  format: json
+  occurrences: 498
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.list
+  - openapi/xentral-api-openapi-original.json#analytics.report.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.get
+- status: 402
+  title: Payment Required — the feature is not available on the current plan
+  format: json
+  occurrences: 5
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.export.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.query
+  - openapi/xentral-api-openapi-original.json#analytics.report.permalink.download
+- status: 403
+  title: Forbidden — the token lacks the required permission or endpoint scope
+  format: rfc9457
+  occurrences: 526
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.list
+  - openapi/xentral-api-openapi-original.json#analytics.report.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.get
+- status: 404
+  title: Not Found — the resource does not exist
+  format: rfc9457
+  occurrences: 408
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.list
+  - openapi/xentral-api-openapi-original.json#analytics.report.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.get
+- status: 406
+  title: Not Acceptable — the requested media type variant does not exist
+  format: json
+  occurrences: 121
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#creditNote.list
+  - openapi/xentral-api-openapi-original.json#creditNote.view
+  - openapi/xentral-api-openapi-original.json#creditNote.update
+- status: 409
+  title: Conflict — the resource state does not allow the operation
+  format: rfc9457
+  occurrences: 143
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#customer.create.v2
+  - openapi/xentral-api-openapi-original.json#customer.address.create.v2
+  - openapi/xentral-api-openapi-original.json#customer.update.v2
+- status: 415
+  title: Unsupported Media Type — the Content-Type is not a supported vnd.xentral variant
+  format: json
+  occurrences: 151
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.list
+  - openapi/xentral-api-openapi-original.json#analytics.report.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.get
+- status: 422
+  title: Unprocessable Entity — the request was well-formed but semantically invalid
+  format: json
+  occurrences: 1
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.export.create
+- status: 423
+  title: Locked — the resource is write-protected
+  format: json
+  occurrences: 1
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#settings.masterdata.address.customFields.create.v1
+- status: 429
+  title: Too Many Requests — the 100 requests/minute rate limit was exceeded
+  format: json
+  occurrences: 488
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#analytics.report.export.create
+  - openapi/xentral-api-openapi-original.json#analytics.report.query
+  - openapi/xentral-api-openapi-original.json#analytics.report.permalink.download
+- status: 500
+  title: Internal Server Error
+  format: rfc9457
+  occurrences: 33
+  example_operations:
+  - openapi/xentral-api-openapi-original.json#generalLedger.list
+  - openapi/xentral-api-openapi-original.json#generalLedger.listWithAggregatedDocument
+  - openapi/xentral-api-openapi-original.json#generalLedger.listWithAggregatedAccount

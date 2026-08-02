@@ -1,0 +1,625 @@
+generated: '2026-07-21'
+method: searched
+source: https://github.com/xentral/api-spec-public (endpoint scope requirements documented per operation in the
+  official OpenAPI)
+docs: https://developer.xentral.com/reference/authentication
+notes: Xentral authenticates with Personal Access Tokens (Bearer). The Business Documents API v3 documents a required
+  scope per endpoint (resource:action form); the v1/v2 API documents no scopes. No oauth2 flows are declared in
+  the OpenAPI.
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/xentral-api-openapi-original.json
+  - openapi/xentral-documents-api-openapi-original.json
+scopes:
+- scope: creditNote:create
+  description: Grants the create action on creditNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/creditNotes
+- scope: creditNote:delete
+  description: Grants the delete action on creditNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/creditNotes/{id}
+- scope: creditNote:read
+  description: Grants the read action on creditNote resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/creditNotes
+  - GET /api/v3/creditNotes/{id}
+  - GET /api/v3/creditNotes/{id}/lineItems/{lineItemId}
+- scope: creditNote:release
+  description: Grants the release action on creditNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/creditNotes/{id}/actions/release
+- scope: creditNote:removeWriteProtection
+  description: Grants the removeWriteProtection action on creditNote resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/creditNotes/{id}/actions/removeWriteProtection
+- scope: creditNote:send
+  description: Grants the send action on creditNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/creditNotes/{id}/actions/send
+- scope: creditNote:setWriteProtection
+  description: Grants the setWriteProtection action on creditNote resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/creditNotes/{id}/actions/setWriteProtection
+- scope: creditNote:update
+  description: Grants the update action on creditNote resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/creditNotes/{id}/files/{fileId}
+  - DELETE /api/v3/creditNotes/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/creditNotes/{id}
+  - PATCH /api/v3/creditNotes/{id}/actions/logActivity
+  - PATCH /api/v3/creditNotes/{id}/files/{fileId}
+  - PATCH /api/v3/creditNotes/{id}/lineItems/{lineItemId}
+  - POST /api/v3/creditNotes/{id}/files
+  - POST /api/v3/creditNotes/{id}/lineItems
+- scope: customer:create
+  description: Grants the create action on customer resources (required by 2 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/customers
+  - POST /api/v3/customers/{customerId}/contactPersons
+- scope: customer:delete
+  description: Grants the delete action on customer resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/customers/{id}
+- scope: customer:read
+  description: Grants the read action on customer resources (required by 6 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/customers
+  - GET /api/v3/customers/{customerId}/contactPersons
+  - GET /api/v3/customers/{customerId}/contactPersons/{contactPersonId}
+  - GET /api/v3/customers/{customerId}/deliveryAddresses
+  - GET /api/v3/customers/{customerId}/deliveryAddresses/{deliveryAddressId}
+  - GET /api/v3/customers/{id}
+- scope: customer:update
+  description: Grants the update action on customer resources (required by 6 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/customers/{customerId}/contactPersons/{contactPersonId}
+  - DELETE /api/v3/customers/{customerId}/deliveryAddresses/{deliveryAddressId}
+  - PATCH /api/v3/customers/{customerId}/contactPersons/{contactPersonId}
+  - PATCH /api/v3/customers/{customerId}/deliveryAddresses/{deliveryAddressId}
+  - PATCH /api/v3/customers/{id}
+  - POST /api/v3/customers/{customerId}/deliveryAddresses
+- scope: deliveryNote:cancel
+  description: Grants the cancel action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/cancel
+- scope: deliveryNote:complete
+  description: Grants the complete action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/complete
+- scope: deliveryNote:create
+  description: Grants the create action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/deliveryNotes
+- scope: deliveryNote:delete
+  description: Grants the delete action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/deliveryNotes/{id}
+- scope: deliveryNote:read
+  description: Grants the read action on deliveryNote resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/deliveryNotes
+  - GET /api/v3/deliveryNotes/{id}
+  - GET /api/v3/deliveryNotes/{id}/lineItems/{lineItemId}
+- scope: deliveryNote:release
+  description: Grants the release action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/release
+- scope: deliveryNote:removeWriteProtection
+  description: Grants the removeWriteProtection action on deliveryNote resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/removeWriteProtection
+- scope: deliveryNote:send
+  description: Grants the send action on deliveryNote resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/send
+- scope: deliveryNote:setWriteProtection
+  description: Grants the setWriteProtection action on deliveryNote resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/deliveryNotes/{id}/actions/setWriteProtection
+- scope: deliveryNote:update
+  description: Grants the update action on deliveryNote resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/deliveryNotes/{id}/files/{fileId}
+  - DELETE /api/v3/deliveryNotes/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/deliveryNotes/{id}
+  - PATCH /api/v3/deliveryNotes/{id}/actions/logActivity
+  - PATCH /api/v3/deliveryNotes/{id}/files/{fileId}
+  - PATCH /api/v3/deliveryNotes/{id}/lineItems/{lineItemId}
+  - POST /api/v3/deliveryNotes/{id}/files
+  - POST /api/v3/deliveryNotes/{id}/lineItems
+- scope: deliveryThreshold:create
+  description: Grants the create action on deliveryThreshold resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - POST /api/v3/products/{productId}/deliveryThresholds
+- scope: invoice:create
+  description: Grants the create action on invoice resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/invoices
+  - POST /api/v3/invoices/actions/createFromDeliveryNote
+  - POST /api/v3/invoices/actions/createFromSalesOrder
+- scope: invoice:delete
+  description: Grants the delete action on invoice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/invoices/{id}
+- scope: invoice:read
+  description: Grants the read action on invoice resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/invoices
+  - GET /api/v3/invoices/{id}
+  - GET /api/v3/invoices/{id}/lineItems/{lineItemId}
+- scope: invoice:release
+  description: Grants the release action on invoice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/invoices/{id}/actions/release
+- scope: invoice:removeWriteProtection
+  description: Grants the removeWriteProtection action on invoice resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/invoices/{id}/actions/removeWriteProtection
+- scope: invoice:send
+  description: Grants the send action on invoice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/invoices/{id}/actions/send
+- scope: invoice:setWriteProtection
+  description: Grants the setWriteProtection action on invoice resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/invoices/{id}/actions/setWriteProtection
+- scope: invoice:update
+  description: Grants the update action on invoice resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/invoices/{id}/files/{fileId}
+  - DELETE /api/v3/invoices/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/invoices/{id}
+  - PATCH /api/v3/invoices/{id}/actions/logActivity
+  - PATCH /api/v3/invoices/{id}/files/{fileId}
+  - PATCH /api/v3/invoices/{id}/lineItems/{lineItemId}
+  - POST /api/v3/invoices/{id}/files
+  - POST /api/v3/invoices/{id}/lineItems
+- scope: mailAcct:sendEmail
+  description: Grants the sendEmail action on mailAcct resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/emailAccounts/{id}/actions/sendEmail
+- scope: offer:cancel
+  description: Grants the cancel action on offer resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/offers/{id}/actions/cancel
+- scope: offer:create
+  description: Grants the create action on offer resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/offers
+- scope: offer:delete
+  description: Grants the delete action on offer resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/offers/{id}
+- scope: offer:read
+  description: Grants the read action on offer resources (required by 3 endpoint(s) in the Business Documents API
+    v3).
+  operations:
+  - GET /api/v3/offers
+  - GET /api/v3/offers/{id}
+  - GET /api/v3/offers/{id}/lineItems/{lineItemId}
+- scope: offer:release
+  description: Grants the release action on offer resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/offers/{id}/actions/release
+- scope: offer:removeWriteProtection
+  description: Grants the removeWriteProtection action on offer resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/offers/{id}/actions/removeWriteProtection
+- scope: offer:send
+  description: Grants the send action on offer resources (required by 1 endpoint(s) in the Business Documents API
+    v3).
+  operations:
+  - PATCH /api/v3/offers/{id}/actions/send
+- scope: offer:setWriteProtection
+  description: Grants the setWriteProtection action on offer resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/offers/{id}/actions/setWriteProtection
+- scope: offer:update
+  description: Grants the update action on offer resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/offers/{id}/files/{fileId}
+  - DELETE /api/v3/offers/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/offers/{id}
+  - PATCH /api/v3/offers/{id}/actions/logActivity
+  - PATCH /api/v3/offers/{id}/files/{fileId}
+  - PATCH /api/v3/offers/{id}/lineItems/{lineItemId}
+  - POST /api/v3/offers/{id}/files
+  - POST /api/v3/offers/{id}/lineItems
+- scope: priceInquiry:update
+  description: Grants the update action on priceInquiry resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/priceInquiries/{id}/files/{fileId}
+  - PATCH /api/v3/priceInquiries/{id}/files/{fileId}
+  - POST /api/v3/priceInquiries/{id}/files
+- scope: productCalculation:create
+  description: Grants the create action on productCalculation resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - POST /api/v3/products/{id}/calculationItems
+- scope: productCalculation:delete
+  description: Grants the delete action on productCalculation resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - DELETE /api/v3/products/{id}/calculationItems/{itemId}
+- scope: productCalculation:read
+  description: Grants the read action on productCalculation resources (required by 2 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - GET /api/v3/products/{id}/calculationItems
+  - GET /api/v3/products/{id}/calculationItems/{itemId}
+- scope: productCalculation:update
+  description: Grants the update action on productCalculation resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/products/{id}/calculationItems/{itemId}
+- scope: production:create
+  description: Grants the create action on production resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/productions
+- scope: production:delete
+  description: Grants the delete action on production resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/productions/{id}
+- scope: production:read
+  description: Grants the read action on production resources (required by 2 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/productions
+  - GET /api/v3/productions/{id}
+- scope: production:release
+  description: Grants the release action on production resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/productions/{id}/actions/release
+- scope: production:start
+  description: Grants the start action on production resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/productions/{id}/actions/start
+- scope: production:update
+  description: Grants the update action on production resources (required by 4 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/productions/{id}/files/{fileId}
+  - PATCH /api/v3/productions/{id}/actions/logActivity
+  - PATCH /api/v3/productions/{id}/files/{fileId}
+  - POST /api/v3/productions/{id}/files
+- scope: proformaInvoice:create
+  description: Grants the create action on proformaInvoice resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - POST /api/v3/proformaInvoices
+- scope: proformaInvoice:delete
+  description: Grants the delete action on proformaInvoice resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - DELETE /api/v3/proformaInvoices/{id}
+- scope: proformaInvoice:read
+  description: Grants the read action on proformaInvoice resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/proformaInvoices
+  - GET /api/v3/proformaInvoices/{id}
+  - GET /api/v3/proformaInvoices/{id}/lineItems/{lineItemId}
+- scope: proformaInvoice:release
+  description: Grants the release action on proformaInvoice resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/proformaInvoices/{id}/actions/release
+- scope: proformaInvoice:removeWriteProtection
+  description: Grants the removeWriteProtection action on proformaInvoice resources (required by 1 endpoint(s) in
+    the Business Documents API v3).
+  operations:
+  - PATCH /api/v3/proformaInvoices/{id}/actions/removeWriteProtection
+- scope: proformaInvoice:send
+  description: Grants the send action on proformaInvoice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/proformaInvoices/{id}/actions/send
+- scope: proformaInvoice:setWriteProtection
+  description: Grants the setWriteProtection action on proformaInvoice resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/proformaInvoices/{id}/actions/setWriteProtection
+- scope: proformaInvoice:update
+  description: Grants the update action on proformaInvoice resources (required by 8 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - DELETE /api/v3/proformaInvoices/{id}/files/{fileId}
+  - DELETE /api/v3/proformaInvoices/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/proformaInvoices/{id}
+  - PATCH /api/v3/proformaInvoices/{id}/actions/logActivity
+  - PATCH /api/v3/proformaInvoices/{id}/files/{fileId}
+  - PATCH /api/v3/proformaInvoices/{id}/lineItems/{lineItemId}
+  - POST /api/v3/proformaInvoices/{id}/files
+  - POST /api/v3/proformaInvoices/{id}/lineItems
+- scope: purchaseOrder:cancel
+  description: Grants the cancel action on purchaseOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/cancel
+- scope: purchaseOrder:complete
+  description: Grants the complete action on purchaseOrder resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/complete
+- scope: purchaseOrder:create
+  description: Grants the create action on purchaseOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/purchaseOrders
+- scope: purchaseOrder:delete
+  description: Grants the delete action on purchaseOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/purchaseOrders/{id}
+- scope: purchaseOrder:read
+  description: Grants the read action on purchaseOrder resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/purchaseOrders
+  - GET /api/v3/purchaseOrders/{id}
+  - GET /api/v3/purchaseOrders/{id}/lineItems/{lineItemId}
+- scope: purchaseOrder:release
+  description: Grants the release action on purchaseOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/release
+- scope: purchaseOrder:removeWriteProtection
+  description: Grants the removeWriteProtection action on purchaseOrder resources (required by 1 endpoint(s) in
+    the Business Documents API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/removeWriteProtection
+- scope: purchaseOrder:send
+  description: Grants the send action on purchaseOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/send
+- scope: purchaseOrder:setWriteProtection
+  description: Grants the setWriteProtection action on purchaseOrder resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/purchaseOrders/{id}/actions/setWriteProtection
+- scope: purchaseOrder:update
+  description: Grants the update action on purchaseOrder resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/purchaseOrders/{id}/files/{fileId}
+  - DELETE /api/v3/purchaseOrders/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/purchaseOrders/{id}
+  - PATCH /api/v3/purchaseOrders/{id}/actions/logActivity
+  - PATCH /api/v3/purchaseOrders/{id}/files/{fileId}
+  - PATCH /api/v3/purchaseOrders/{id}/lineItems/{lineItemId}
+  - POST /api/v3/purchaseOrders/{id}/files
+  - POST /api/v3/purchaseOrders/{id}/lineItems
+- scope: return:cancel
+  description: Grants the cancel action on return resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/cancel
+- scope: return:complete
+  description: Grants the complete action on return resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/complete
+- scope: return:create
+  description: Grants the create action on return resources (required by 2 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/returnOrders
+  - POST /api/v3/returnOrders/actions/createFromDeliveryNote
+- scope: return:delete
+  description: Grants the delete action on return resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/returnOrders/{id}
+- scope: return:read
+  description: Grants the read action on return resources (required by 3 endpoint(s) in the Business Documents API
+    v3).
+  operations:
+  - GET /api/v3/returnOrders
+  - GET /api/v3/returnOrders/{id}
+  - GET /api/v3/returnOrders/{id}/lineItems/{lineItemId}
+- scope: return:release
+  description: Grants the release action on return resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/release
+- scope: return:removeWriteProtection
+  description: Grants the removeWriteProtection action on return resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/removeWriteProtection
+- scope: return:send
+  description: Grants the send action on return resources (required by 1 endpoint(s) in the Business Documents API
+    v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/send
+- scope: return:setWriteProtection
+  description: Grants the setWriteProtection action on return resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/returnOrders/{id}/actions/setWriteProtection
+- scope: return:update
+  description: Grants the update action on return resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/returnOrders/{id}/files/{fileId}
+  - DELETE /api/v3/returnOrders/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/returnOrders/{id}
+  - PATCH /api/v3/returnOrders/{id}/actions/logActivity
+  - PATCH /api/v3/returnOrders/{id}/files/{fileId}
+  - PATCH /api/v3/returnOrders/{id}/lineItems/{lineItemId}
+  - POST /api/v3/returnOrders/{id}/files
+  - POST /api/v3/returnOrders/{id}/lineItems
+- scope: salesOrder:cancel
+  description: Grants the cancel action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/cancel
+- scope: salesOrder:complete
+  description: Grants the complete action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/complete
+- scope: salesOrder:create
+  description: Grants the create action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/salesOrders
+- scope: salesOrder:delete
+  description: Grants the delete action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/salesOrders/{id}
+- scope: salesOrder:read
+  description: Grants the read action on salesOrder resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/salesOrders
+  - GET /api/v3/salesOrders/{id}
+  - GET /api/v3/salesOrders/{id}/lineItems/{lineItemId}
+- scope: salesOrder:release
+  description: Grants the release action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/release
+- scope: salesOrder:removeWriteProtection
+  description: Grants the removeWriteProtection action on salesOrder resources (required by 1 endpoint(s) in the
+    Business Documents API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/removeWriteProtection
+- scope: salesOrder:send
+  description: Grants the send action on salesOrder resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/send
+- scope: salesOrder:setWriteProtection
+  description: Grants the setWriteProtection action on salesOrder resources (required by 1 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - PATCH /api/v3/salesOrders/{id}/actions/setWriteProtection
+- scope: salesOrder:update
+  description: Grants the update action on salesOrder resources (required by 8 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/salesOrders/{id}/files/{fileId}
+  - DELETE /api/v3/salesOrders/{id}/lineItems/{lineItemId}
+  - PATCH /api/v3/salesOrders/{id}
+  - PATCH /api/v3/salesOrders/{id}/actions/logActivity
+  - PATCH /api/v3/salesOrders/{id}/files/{fileId}
+  - PATCH /api/v3/salesOrders/{id}/lineItems/{lineItemId}
+  - POST /api/v3/salesOrders/{id}/files
+  - POST /api/v3/salesOrders/{id}/lineItems
+- scope: salesPrice:create
+  description: Grants the create action on salesPrice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/salesPrices
+- scope: salesPrice:delete
+  description: Grants the delete action on salesPrice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/salesPrices/{id}
+- scope: salesPrice:read
+  description: Grants the read action on salesPrice resources (required by 2 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/salesPrices
+  - GET /api/v3/salesPrices/{id}
+- scope: salesPrice:update
+  description: Grants the update action on salesPrice resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - PATCH /api/v3/salesPrices
+- scope: serviceOrder:update
+  description: Grants the update action on serviceOrder resources (required by 3 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/serviceOrders/{id}/files/{fileId}
+  - PATCH /api/v3/serviceOrders/{id}/files/{fileId}
+  - POST /api/v3/serviceOrders/{id}/files
+- scope: supplier:create
+  description: Grants the create action on supplier resources (required by 2 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - POST /api/v3/suppliers
+  - POST /api/v3/suppliers/{supplierId}/contactPersons
+- scope: supplier:delete
+  description: Grants the delete action on supplier resources (required by 1 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/suppliers/{id}
+- scope: supplier:read
+  description: Grants the read action on supplier resources (required by 6 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - GET /api/v3/suppliers
+  - GET /api/v3/suppliers/{id}
+  - GET /api/v3/suppliers/{supplierId}/contactPersons
+  - GET /api/v3/suppliers/{supplierId}/contactPersons/{contactPersonId}
+  - GET /api/v3/suppliers/{supplierId}/deliveryAddresses
+  - GET /api/v3/suppliers/{supplierId}/deliveryAddresses/{deliveryAddressId}
+- scope: supplier:update
+  description: Grants the update action on supplier resources (required by 6 endpoint(s) in the Business Documents
+    API v3).
+  operations:
+  - DELETE /api/v3/suppliers/{supplierId}/contactPersons/{contactPersonId}
+  - DELETE /api/v3/suppliers/{supplierId}/deliveryAddresses/{deliveryAddressId}
+  - PATCH /api/v3/suppliers/{id}
+  - PATCH /api/v3/suppliers/{supplierId}/contactPersons/{contactPersonId}
+  - PATCH /api/v3/suppliers/{supplierId}/deliveryAddresses/{deliveryAddressId}
+  - POST /api/v3/suppliers/{supplierId}/deliveryAddresses
+- scope: supplierInvoice:update
+  description: Grants the update action on supplierInvoice resources (required by 3 endpoint(s) in the Business
+    Documents API v3).
+  operations:
+  - DELETE /api/v3/supplierInvoices/{id}/files/{fileId}
+  - PATCH /api/v3/supplierInvoices/{id}/files/{fileId}
+  - POST /api/v3/supplierInvoices/{id}/files

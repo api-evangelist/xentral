@@ -1,0 +1,22 @@
+# generated: 2026-07-21 | method: generated | source: openapi/xentral-documents-api-openapi-original.json
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Xentral Business Documents API v3
+  version: 1.0.0
+extends: openapi/xentral-documents-api-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      provider: xentral
+      enriched: '2026-07-21'
+      scopes: scopes/xentral-scopes.yml
+      data-model: data-model/xentral-data-model.yml
+      conventions: conventions/xentral-conventions.yml
+      errors: errors/xentral-problem-types.yml
+    x-scopes-note: Every operation documents a required Personal Access Token scope in
+      resource:action form (100 distinct scopes harvested to scopes/xentral-scopes.yml).
+    x-pagination: V3 supports simple/cursor/none strategies selected via the X-Pagination
+      request header; sort uses sort=field,-otherField; filters are indexed
+      filter[n][key|op|value] query params with dot-notation nested fields.
+    x-error-format: application/problem+json (RFC 9457)

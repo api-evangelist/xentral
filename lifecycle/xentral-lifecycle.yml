@@ -1,0 +1,34 @@
+generated: '2026-07-21'
+method: searched
+source: https://developer.xentral.com/reference/versioning
+versioning:
+  scheme: uri-path
+  pattern: /api/v1, /api/v2, /api/v3 (versioned per endpoint, not per API)
+  docs: https://developer.xentral.com/reference/versioning
+  legacy: media-type (header) versioning via application/vnd.xentral.VARIANT.vN+json is
+    deprecated; unversioned /api/... paths remain temporarily but will be removed
+  stages:
+    stable: application/vnd.xentral.VARIANT.v1+json
+    beta: application/vnd.xentral.VARIANT.v1-beta+json (contract may change)
+    alpha: application/vnd.xentral.VARIANT.v1-alpha+json (dummy data, public for feedback)
+deprecation:
+  policy_url: https://developer.xentral.com/reference/versioning
+  policy: Breaking changes ship only as a new endpoint version; releasing a new version
+    automatically deprecates the previous one, which is removed at a later point in time.
+    Early-access and Beta endpoints may introduce breaking changes without notice.
+  sunset_header: false
+sla: null
+status_page: null
+status_page_notes: No public status page found (status.xentral.com does not resolve;
+  xentral.statuspage.io redirects to the generic Statuspage marketing site).
+deprecated_operations_count: 31
+deprecated_operations_source: openapi/xentral-api-openapi-original.json
+deprecated_operations_sample:
+- 'GET /api/v1/creditNotesTags'
+- 'GET /api/v1/deliveries/{id}'
+- 'GET /api/v1/deliveryNotesTags'
+- 'GET /api/v1/deliveryNotes/{id}/deliveries'
+- 'PATCH /api/v1/invoices/{id}/send'
+- 'GET /api/v1/invoicesTags'
+- 'POST /api/v1/products'
+- 'GET /api/v1/products'

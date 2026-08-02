@@ -1,0 +1,31 @@
+generated: '2026-07-21'
+method: searched
+source: https://developer.xentral.com/reference/e (Testing the APIs), https://xentral.com/de/jetzt-starten
+approach: test-project-isolation
+notes: Xentral has no separate sandbox environment or magic test values. The documented
+  testing pattern is to create a dedicated test project inside your (production) instance
+  and scope all test traffic to that project id. A 14-day free trial instance with sample
+  data ("Einfacher Start mit Musterdaten") is the self-serve way to get a disposable
+  environment.
+test_isolation:
+  mechanism: project
+  steps:
+  - 'Create a project reserved for testing (e.g. "API-Test") in your Xentral instance.'
+  - 'Copy the project id from the project dashboard URL (?module=projekt&action=dashboard&id=21).'
+  - 'Reference the test project id in POST payloads ("project": {"id": "21"}) so created
+    records land in the test project, not production data.'
+  - 'Filter GET requests to the test project with filter[0][key]=project&filter[0][op]=equals&filter[0][value]=<id>.'
+  benefits:
+  - Isolation from production data, controlled testing, easy cleanup of test records.
+trial:
+  url: https://xentral.com/de/jetzt-starten
+  duration_days: 14
+  sample_data: true
+  credit_card_required: false
+planned:
+  - More granular access control on API tokens to prevent accidental production writes
+    (stated as a future enhancement in the testing docs).
+carrier_sandbox:
+  notes: The open-sourced shiplabel-mcp server documents carrier sandboxes (DHL, UPS,
+    FedEx have sandbox modes; developer.dhl.com sandbox works without a production contract).
+  source: https://github.com/xentral/shiplabel-mcp

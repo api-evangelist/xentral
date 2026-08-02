@@ -1,0 +1,71 @@
+generated: '2026-07-21'
+method: searched
+source: https://developer.xentral.com/reference/authentication, https://developer.xentral.com/reference/filtering-sorting-pagination,
+  https://developer.xentral.com/reference/v3-filterung-ordering-pagination, https://developer.xentral.com/reference/versioning,
+  https://developer.xentral.com/reference/variants, https://developer.xentral.com/reference/rate-limiting
+authentication:
+  style: bearer-personal-access-token
+  header: 'Authorization: Bearer <PAT>'
+  notes: Personal Access Tokens created under Administration > Account settings > Developer
+    Settings; unlimited permissions, no expiration. V3 Business Documents endpoints
+    additionally require per-endpoint token scopes (resource:action, e.g. invoice:release).
+  artifact: authentication/xentral-authentication.yml
+idempotency:
+  supported: false
+  notes: No idempotency-key header or parameter is documented in the docs or declared in
+    either OpenAPI specification.
+pagination:
+  v1_v2:
+    style: page-number
+    params: ['page[number]', 'page[size]']
+    default_page_size: 10
+    max_page_size: 50
+  v3:
+    style: header-selected
+    header: X-Pagination
+    strategies: [simple, cursor, none]
+    default: simple
+    notes: The V3 API supports three pagination strategies selected via the X-Pagination
+      request header; simple is the default when the header is omitted.
+filtering:
+  style: indexed-query-params
+  shape: filter[n][key] / filter[n][op] / filter[n][value] (AND-combined)
+  operators: [equals, notEquals, in, notIn, contains, notContains, startsWith, endsWith,
+    greaterThan, greaterThanOrEquals, lessThan, lessThanOrEquals, between, isNull, isNotNull]
+  notes: V3 supports dot-notation nested fields (e.g. totals.gross.amount); between is
+    v1/v2 only, isNull/isNotNull and contains/notContains are documented for V3.
+ordering:
+  v1_v2: order[n][field] + order[n][dir] (asc/desc)
+  v3: sort=fieldName,-otherField (minus prefix for descending)
+media_types:
+  style: vendor-media-type-variants
+  pattern: application/vnd.xentral.VARIANT.vVERSION+DATAFORMAT
+  rfc: RFC 6838 section 3.2
+  stages:
+    stable: application/vnd.xentral.VARIANT.v1+json
+    beta: application/vnd.xentral.VARIANT.v1-beta+json
+    alpha: application/vnd.xentral.VARIANT.v1-alpha+json
+  error_on_unknown: 406
+versioning:
+  scheme: uri-path
+  pattern: /api/v1/... /api/v2/... /api/v3/...
+  granularity: per-endpoint (not whole-API)
+  legacy: header/media-type based versioning via accept/content-type is deprecated
+  breaking_changes: payload structure modification/removal and big data-processing changes
+    ship as a new endpoint version; additions are non-breaking; releasing a new version
+    auto-deprecates the previous one for later removal
+error_envelope:
+  format: rfc9457
+  content_type: application/problem+json
+  artifact: errors/xentral-problem-types.yml
+rate_limits:
+  limit: 100 requests / minute (plan-independent, provisional per docs)
+  throttle_response: 429 Too Many Requests
+  artifact: rate-limits/xentral-rate-limits.yml
+request_tracing:
+  documented: false
+webhooks:
+  status: testing phase behind a feature flag (contact api@xentral.com)
+  payload: '{"type": "com.xentral.EVENTTYPE.vX", "body": {...}}'
+  event_spec: asyncapi/xentral-events-asyncapi.json
+lifecycle_artifact: lifecycle/xentral-lifecycle.yml

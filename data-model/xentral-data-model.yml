@@ -1,0 +1,333 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/xentral-documents-api-openapi-original.json
+notes: Entity-relationship graph derived from the Business Documents API v3 schemas (176 entities). The published
+  spec is fully dereferenced (no $ref), so relationships are detected from inline reference objects — properties
+  shaped as {id} objects (belongs_to) or arrays of {id} objects (has_many). "to" is the matched schema name where
+  one exists, otherwise the field name.
+entities:
+- AccountAssignment
+- ActivityLogEntry
+- AdditionalContactInformationData
+- Address
+- AddressData
+- AddressReferenceData
+- BusinessDocument
+- BusinessDocumentCreateDeviatingDeliveryAddress
+- BusinessDocumentFinancials
+- BusinessDocumentUpdateDeviatingDeliveryAddress
+- CanBeHiddenOnPDF
+- CommunicationData
+- ContactPerson
+- ContactPersonDetailsData
+- CostCenter
+- CreateAccountAssignmentData
+- CreateBusinessDocumentData
+- CreateContactPersonData
+- CreateCreditNoteData
+- CreateCreditNoteLineItemData
+- CreateCustomFieldData
+- CreateCustomFieldSetData
+- CreateCustomerData
+- CreateDeliveryAddressData
+- CreateDeliveryNoteData
+- CreateDeliveryNoteLineItemData
+- CreateDocumentAddressData
+- CreateFileData
+- CreateInvoiceData
+- CreateInvoiceFromDeliveryNoteData
+- CreateInvoiceFromSalesOrderData
+- CreateInvoiceLineItemData
+- CreateOfferData
+- CreateOfferLineItemData
+- CreateProductCalculationLineItemData
+- CreateProductDeliveryThresholdData
+- CreateProductLineItemData
+- CreateProductionData
+- CreateProformaInvoiceData
+- CreateProformaInvoiceLineItemData
+- CreatePurchaseOrderData
+- CreatePurchaseOrderLineItemData
+- CreateReturnOrderData
+- CreateReturnOrderFromDeliveryNoteRequest
+- CreateReturnOrderLineItemData
+- CreateSalesOrderData
+- CreateSalesOrderLineItemData
+- CreateSupplierData
+- CreateSupplierFulfillmentData
+- CreditNote
+- CreditNoteLineItem
+- CustomField
+- CustomFieldSet
+- CustomFieldsData
+- Customer
+- CustomerAddressData
+- CustomerPaymentTermsData
+- CustomerRoleData
+- DeliveryAddress
+- DeliveryDetailsData
+- DeliveryNote
+- DeliveryNoteLineItem
+- DeliveryNoteReferenceResource
+- DocumentDeliveryData
+- DocumentRecipientData
+- DocumentRecipientsData
+- FileResource
+- FinancialLineItemResource
+- FinancialResource
+- FinancialsData
+- FulfillmentData
+- Group
+- GroupReferenceData
+- GroupTotalLineItem
+- HasPreferredWarehouse
+- HasSales
+- HeadingLineItem
+- ImageLineItem
+- IntermediateLineItem
+- Invoice
+- InvoiceLineItem
+- InvoiceReferenceData
+- InvoiceReferenceResource
+- LineItemFinancials
+- LogCustomActivityData
+- MobileApiWidget
+- Money
+- Offer
+- OfferLineItem
+- OfferReferenceResource
+- OrderPickingReferenceData
+- PageBreakLineItem
+- PaymentMethodReferenceData
+- PaymentTermsData
+- PaypalData
+- PostalAddress
+- PreferredReferenceResource
+- PrimaryBankAccountData
+- PrinterReferenceData
+- Product
+- ProductCalculationLineItemResource
+- ProductDeliveryThreshold
+- ProductLineItem
+- ProductReferenceData
+- Production
+- ProductionLineItem
+- ProformaInvoice
+- ProformaInvoiceLineItem
+- Project
+- ProjectReferenceData
+- PurchaseOrder
+- PurchaseOrderLineItem
+- ReleaseBusinessDocumentData
+- ReturnLineItemInput
+- ReturnOrder
+- ReturnOrderLineItem
+- RoleData
+- SalesChannelReferenceData
+- SalesManagerData
+- SalesOrder
+- SalesOrderLineItem
+- SalesOrderLineItemReferenceResource
+- SalesOrderReferenceData
+- SalesOrderReferenceResource
+- SalesOrderTrafficLight
+- SalesPrice
+- SalesPriceCreateData
+- SalesPriceUpdateData
+- SalesPriceUpdateMultipleData
+- SalesReferenceResource
+- SendBusinessDocumentData
+- SendEmailData
+- SendViaEmailData
+- SepaData
+- ShippingMethodReferenceData
+- StorageLocationReferenceData
+- SubtotalLineItem
+- Supplier
+- SupplierCommunicationData
+- SupplierDocumentDeliveryData
+- SupplierDocumentRecipientsData
+- SupplierFinancialsData
+- SupplierTaxData
+- TagReferenceData
+- TaxData
+- UpdateAccountAssignmentData
+- UpdateBusinessDocumentData
+- UpdateContactPersonData
+- UpdateCreditNoteData
+- UpdateCreditNoteLineData
+- UpdateCustomFieldData
+- UpdateCustomFieldSetData
+- UpdateCustomerAddressData
+- UpdateCustomerData
+- UpdateDeliveryAddressData
+- UpdateDeliveryNoteData
+- UpdateDeliveryNoteLineItemData
+- UpdateFileData
+- UpdateInvoiceData
+- UpdateInvoiceLineItemData
+- UpdateOfferData
+- UpdateOfferLineItemData
+- UpdatePostalAddressData
+- UpdateProductCalculationLineItemData
+- UpdateProductLineItemData
+- UpdateProformaInvoiceData
+- UpdateProformaInvoiceLineItemData
+- UpdatePurchaseOrderData
+- UpdatePurchaseOrderLineItemData
+- UpdateReturnOrderData
+- UpdateReturnOrderLineItemData
+- UpdateSalesOrderData
+- UpdateSalesOrderLineItemData
+- UpdateSupplierAddressData
+- UpdateSupplierData
+- UpdateSupplierFulfillmentData
+relationships:
+- from: AccountAssignment
+  to: liability
+  kind: belongs_to
+  via: liability
+- from: BusinessDocument
+  to: tags
+  kind: has_many
+  via: tags
+- from: ContactPerson
+  to: Group
+  kind: has_many
+  via: groups
+- from: CreateBusinessDocumentData
+  to: Address
+  kind: belongs_to
+  via: address
+- from: CreateBusinessDocumentData
+  to: editor
+  kind: belongs_to
+  via: editor
+- from: CreateContactPersonData
+  to: Group
+  kind: has_many
+  via: groups
+- from: CreateCustomerData
+  to: mainProject
+  kind: belongs_to
+  via: mainProject
+- from: CreateCustomerData
+  to: accountManager
+  kind: belongs_to
+  via: accountManager
+- from: CreateCustomerData
+  to: SalesManagerData
+  kind: belongs_to
+  via: salesManager
+- from: CreateCustomerData
+  to: originSalesChannel
+  kind: belongs_to
+  via: originSalesChannel
+- from: CreateCustomerData
+  to: Group
+  kind: has_many
+  via: groups
+- from: CreateInvoiceFromDeliveryNoteData
+  to: DeliveryNote
+  kind: belongs_to
+  via: deliveryNote
+- from: CreateInvoiceFromSalesOrderData
+  to: SalesOrder
+  kind: belongs_to
+  via: salesOrder
+- from: CreateProductLineItemData
+  to: Product
+  kind: belongs_to
+  via: product
+- from: CreateReturnOrderFromDeliveryNoteRequest
+  to: DeliveryNote
+  kind: belongs_to
+  via: deliveryNote
+- from: CreateSupplierData
+  to: mainProject
+  kind: belongs_to
+  via: mainProject
+- from: CreateSupplierData
+  to: Group
+  kind: has_many
+  via: groups
+- from: CreateSupplierData
+  to: accountManager
+  kind: belongs_to
+  via: accountManager
+- from: CreateSupplierFulfillmentData
+  to: commissionConsignmentWarehouse
+  kind: belongs_to
+  via: commissionConsignmentWarehouse
+- from: Customer
+  to: Group
+  kind: has_many
+  via: groups
+- from: Customer
+  to: tags
+  kind: has_many
+  via: tags
+- from: CustomerRoleData
+  to: Project
+  kind: belongs_to
+  via: project
+- from: HasPreferredWarehouse
+  to: preferredWarehouse
+  kind: belongs_to
+  via: preferredWarehouse
+- from: HasSales
+  to: sales
+  kind: belongs_to
+  via: sales
+- from: ProductCalculationLineItemResource
+  to: editor
+  kind: belongs_to
+  via: editor
+- from: ReturnLineItemInput
+  to: returnReason
+  kind: belongs_to
+  via: returnReason
+- from: RoleData
+  to: Project
+  kind: belongs_to
+  via: project
+- from: SalesPrice
+  to: Product
+  kind: belongs_to
+  via: product
+- from: SalesPriceCreateData
+  to: Product
+  kind: belongs_to
+  via: product
+- from: SalesPriceUpdateData
+  to: Product
+  kind: belongs_to
+  via: product
+- from: SendBusinessDocumentData
+  to: printer
+  kind: belongs_to
+  via: printer
+- from: Supplier
+  to: Group
+  kind: has_many
+  via: groups
+- from: Supplier
+  to: tags
+  kind: has_many
+  via: tags
+- from: UpdateBusinessDocumentData
+  to: editor
+  kind: belongs_to
+  via: editor
+- from: UpdateContactPersonData
+  to: Group
+  kind: has_many
+  via: groups
+- from: UpdateCustomerData
+  to: Group
+  kind: has_many
+  via: groups
+- from: UpdateSupplierData
+  to: Group
+  kind: has_many
+  via: groups

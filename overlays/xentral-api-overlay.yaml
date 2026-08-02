@@ -1,0 +1,30 @@
+# generated: 2026-07-21 | method: generated | source: openapi/xentral-api-openapi-original.json
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Xentral API
+  version: 1.0.0
+extends: openapi/xentral-api-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      provider: xentral
+      enriched: '2026-07-21'
+      authentication: authentication/xentral-authentication.yml
+      conventions: conventions/xentral-conventions.yml
+      errors: errors/xentral-problem-types.yml
+      lifecycle: lifecycle/xentral-lifecycle.yml
+      rate-limits: rate-limits/xentral-rate-limits.yml
+    x-rate-limit: 100 requests/minute (429 on throttle)
+    x-error-format: application/problem+json (RFC 9457)
+- target: $.info
+  update:
+    description: The current Xentral REST API (v1/v2) for finance, business documents,
+      contacts, products, warehousing, POS, production, analytics, and settings. Per-tenant
+      base URL https://{xentralId}.xentral.biz; URL-path versioning per endpoint; vendor
+      media-type variants application/vnd.xentral.VARIANT.vN+FORMAT; 31 v1 operations are
+      already flagged deprecated in favor of newer versions.
+- target: $.servers
+  update:
+    x-apievangelist-note: Tenant-scoped servers; there is no shared public host. Use your
+      instance id or custom domain.

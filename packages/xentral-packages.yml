@@ -1,0 +1,70 @@
+generated: '2026-07-21'
+method: searched
+source: npm, PyPI, Packagist registry searches + github.com/xentral org inventory (2026-07-21)
+notes: Xentral publishes no first-party client SDK for its REST API — integration is via
+  the OpenAPI specs at github.com/xentral/api-spec-public. First-party packages are the
+  open-sourced shiplabel-mcp server and Laravel developer-tooling packages on Packagist.
+  Community client libraries exist on npm (unofficial). shiplabel-mcp README documents
+  pip install, but the package was not yet resolvable on PyPI when probed (404).
+packages:
+- language: python
+  registry: github
+  name: shiplabel-mcp
+  url: https://github.com/xentral/shiplabel-mcp
+  install: pip install shiplabel-mcp
+  official: true
+  kind: mcp-server
+  notes: Carrier-agnostic shipping-label MCP server open-sourced by Xentral; PyPI listing
+    returned 404 on 2026-07-21, GitHub is the authoritative source.
+- language: php
+  registry: packagist
+  name: xentral/laravel-api
+  url: https://packagist.org/packages/xentral/laravel-api
+  install: composer require xentral/laravel-api
+  official: true
+  kind: developer-tooling
+  notes: Laravel package with Xentral's OpenAPI-spec-first API workflow; tooling, not an
+    API client for the Xentral REST API.
+- language: php
+  registry: packagist
+  name: xentral/laravel-testing
+  url: https://packagist.org/packages/xentral/laravel-testing
+  install: composer require --dev xentral/laravel-testing
+  official: true
+  kind: developer-tooling
+- language: php
+  registry: packagist
+  name: xentral/evatr-php
+  url: https://packagist.org/packages/xentral/evatr-php
+  install: composer require xentral/evatr-php
+  official: true
+  kind: sdk-other
+  notes: PHP SDK for the German BZSt eVATR VAT-ID verification API, not for the Xentral API.
+- language: javascript
+  registry: npm
+  name: xentral-node-api
+  url: https://www.npmjs.com/package/xentral-node-api
+  install: npm install xentral-node-api
+  official: false
+  kind: community-client
+- language: javascript
+  registry: npm
+  name: xentral-mcp
+  url: https://www.npmjs.com/package/xentral-mcp
+  install: npm install xentral-mcp
+  official: false
+  kind: community-mcp-server
+- language: javascript
+  registry: npm
+  name: n8n-nodes-xentral
+  url: https://www.npmjs.com/package/n8n-nodes-xentral
+  install: npm install n8n-nodes-xentral
+  official: false
+  kind: community-integration
+- language: javascript
+  registry: npm
+  name: '@digital-boss/n8n-nodes-xentral'
+  url: https://www.npmjs.com/package/@digital-boss/n8n-nodes-xentral
+  install: npm install @digital-boss/n8n-nodes-xentral
+  official: false
+  kind: community-integration
