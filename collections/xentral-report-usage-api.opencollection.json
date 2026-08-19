@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Report Usage API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Report Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get report usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/reportUsage",
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get report usage which shows the history of chargeable requests made within the given timeframe"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

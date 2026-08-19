@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account ServiceOrder API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ServiceOrder",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Attach file to service order V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/serviceOrders/:id/files",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `serviceOrder:update`.\n\nAttach a file to a service order."
+        },
+        {
+          "info": {
+            "name": "Update file on service order V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/serviceOrders/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `serviceOrder:update`.\n\nUpdate a file attached to a service order."
+        },
+        {
+          "info": {
+            "name": "Delete file from service order V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/serviceOrders/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `serviceOrder:update`.\n\nDelete a file attached to a service order."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

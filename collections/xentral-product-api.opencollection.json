@@ -1,0 +1,891 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Product API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products",
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a collection with all products."
+        },
+        {
+          "info": {
+            "name": "Create product V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product."
+        },
+        {
+          "info": {
+            "name": "Update multiple products V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple products at once."
+        },
+        {
+          "info": {
+            "name": "List products V1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products",
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a collection with all products."
+        },
+        {
+          "info": {
+            "name": "Create new product V1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product."
+        },
+        {
+          "info": {
+            "name": "Update multiple products V1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates multiple products"
+        },
+        {
+          "info": {
+            "name": "Delete multiple products",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes multiple products"
+        },
+        {
+          "info": {
+            "name": "View product v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a single product"
+        },
+        {
+          "info": {
+            "name": "Update product v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates details of a single product"
+        },
+        {
+          "info": {
+            "name": "Delete product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a single product"
+        },
+        {
+          "info": {
+            "name": "View media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/media",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' Media"
+        },
+        {
+          "info": {
+            "name": "View purchase prices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/purchasePrices",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' PurchasePrices"
+        },
+        {
+          "info": {
+            "name": "View sales prices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/salesPrices",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' SalesPrices"
+        },
+        {
+          "info": {
+            "name": "View purchase orders positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/purchaseOrdersPositions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' positions in PurchaseOrders"
+        },
+        {
+          "info": {
+            "name": "View sales orders positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/salesOrdersPositions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' positions in SalesOrders"
+        },
+        {
+          "info": {
+            "name": "View productions positions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/productionsPositions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' positions in Productions"
+        },
+        {
+          "info": {
+            "name": "List product properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/properties",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' Properties"
+        },
+        {
+          "info": {
+            "name": "Update product properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/properties",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update Properties of a single product"
+        },
+        {
+          "info": {
+            "name": "View reservations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/reservations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' Reservations"
+        },
+        {
+          "info": {
+            "name": "List parts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' Parts"
+        },
+        {
+          "info": {
+            "name": "Create parts v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new parts for a product."
+        },
+        {
+          "info": {
+            "name": "Update parts v1",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the parts of a product."
+        },
+        {
+          "info": {
+            "name": "Delete parts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes the parts of a product."
+        },
+        {
+          "info": {
+            "name": "View storage locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/storageLocations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of given Products' warehouses entries"
+        },
+        {
+          "info": {
+            "name": "List cross sellings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/crossSelling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of product's cross-selling products"
+        },
+        {
+          "info": {
+            "name": "Create cross selling",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/crossSelling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new cross selling for a product."
+        },
+        {
+          "info": {
+            "name": "Update cross selling",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/crossSelling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates cross selling products of a product."
+        },
+        {
+          "info": {
+            "name": "Delete cross selling",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/crossSelling",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes cross selling items of a product."
+        },
+        {
+          "info": {
+            "name": "View stock details of a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/stocks",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns stock details of a given product"
+        },
+        {
+          "info": {
+            "name": "List product texts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/texts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "The different product descriptions in all available locales for each of the shops."
+        },
+        {
+          "info": {
+            "name": "View product V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a single product"
+        },
+        {
+          "info": {
+            "name": "Update product v2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates details of a single product"
+        },
+        {
+          "info": {
+            "name": "Create parts v2",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new parts for a product."
+        },
+        {
+          "info": {
+            "name": "Update parts v2",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v2/products/:id/parts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates parts of a product."
+        },
+        {
+          "info": {
+            "name": "Update account mapping",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/updateAccountMapping",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update account mapping for a single product"
+        },
+        {
+          "info": {
+            "name": "Creates variants for a matrix product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/actions/createVariants",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates variants for a matrix product"
+        },
+        {
+          "info": {
+            "name": "Identify product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/actions/identify",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a collection with all products found with the identifier. Evaluates barcode, product number, manufacturer number, foreign number and packaging unit."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

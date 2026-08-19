@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account AuthPlatform API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AuthPlatform",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange subject token for platform access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/auth-platform/token-exchange",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Request body for token exchange"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

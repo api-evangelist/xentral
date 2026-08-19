@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Delivery API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Delivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List deliveries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/deliveries",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists existing deliveries"
+        },
+        {
+          "info": {
+            "name": "View delivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/deliveries/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a delivery aka shipment"
+        },
+        {
+          "info": {
+            "name": "View shipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/shipments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a shipment aka delivery"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

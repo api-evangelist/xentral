@@ -1,0 +1,710 @@
+{
+  "item": [
+    {
+      "id": "c24a1d27-5479-467b-94a3-1a663ca5125b",
+      "name": "Tax Rate",
+      "description": {
+        "content": "Represents a tax rate for a product on given day and for given country",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4acb6742-f15b-4e48-a426-4c970ba61e9b",
+          "name": "List tax rates",
+          "request": {
+            "name": "List tax rates",
+            "description": {
+              "content": "This endpoint returns the tax rate for a given country code. The country code is a two-letter ISO 3166-1 alpha-2 code. The response is a list of applicable tax rates for the given country code.\nTo get a more granular response you can use the query parameters to filter the response, for example by product or project.\n\nThe applicable tax rate is determined in the following order:\n1. If a custom tax rate is defined for the product, it is returned.\n2. If a tax rate is defined in the taxRates module for that country, it is returned.\n3. If a tax rate is defined in the taxRates module for the project, or a generic tax Rate without country or project it is returned.\n4. If a tax rate is defined for the applicable project it is returned.\n5. If a tax rate is defined for the system it is returned.\n6. If no tax rate is defined anywhere we will return an empty list.\n\nTo see which step was used to determine the tax rate, the source field is returned in the response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "taxRates",
+                ":countryCode"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[0][key]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][op]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][value]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][key]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][op]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][value]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "countryCode",
+                  "description": "(Required) This is the country code for which the tax rates are requested"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f2967d1a-6343-46cc-8580-bd1dab0bf3cd",
+              "name": "Operation completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"rate\": \"Support Request\",\n      \"type\": \"Support Request\",\n      \"date\": \"2023-09-09\",\n      \"name\": \"Support Request\",\n      \"product\": {\n        \"id\": \"17\"\n      },\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"source\": \"Support Request\"\n    },\n    {\n      \"rate\": \"Support Request\",\n      \"type\": \"Support Request\",\n      \"date\": \"2023-09-09\",\n      \"name\": \"Support Request\",\n      \"product\": {\n        \"id\": \"17\"\n      },\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"source\": \"Support Request\"\n    }\n  ],\n  \"extra\": {\n    \"totalCount\": 1,\n    \"page\": {\n      \"number\": 1,\n      \"size\": 10\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb4d3358-5f79-42d3-9c39-889e4a1c9cde",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "653f2934-ad2a-4d6f-8ffe-ccaf00045f8e",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4095b98d-d046-4f4d-89c5-4dc109d06d21",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cdbc6960-f7ab-4d23-895b-a48158603fe8",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c08e1617-f1a0-480d-a581-ef39b3c37c54",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "taxRates",
+                    ":countryCode"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "countryCode",
+                      "description": "(Required) This is the country code for which the tax rates are requested"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "105fba7e-5053-422b-93a0-8f8b0797c2c0",
+    "name": "Xentral Account Tax Rate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

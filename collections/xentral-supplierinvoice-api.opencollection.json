@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account SupplierInvoice API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SupplierInvoice",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Attach file to supplier invoice V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/supplierInvoices/:id/files",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `supplierInvoice:update`.\n\nAttach a file to a supplier invoice."
+        },
+        {
+          "info": {
+            "name": "Update file on supplier invoice V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/supplierInvoices/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `supplierInvoice:update`.\n\nUpdate a file attached to a supplier invoice."
+        },
+        {
+          "info": {
+            "name": "Delete file from supplier invoice V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/supplierInvoices/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `supplierInvoice:update`.\n\nDelete a file attached to a supplier invoice."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

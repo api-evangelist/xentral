@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Provisional Return API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Provisional Return",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List provisional returns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/provisionalReturns",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists existing provisional returns"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

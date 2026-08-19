@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Sales Channel API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sales Channel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sales channels V2",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/salesChannels",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a collection with all sales channels."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

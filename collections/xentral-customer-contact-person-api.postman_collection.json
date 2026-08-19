@@ -1,0 +1,2693 @@
+{
+  "item": [
+    {
+      "id": "e05b5ecd-6759-4c72-a437-dffcb700ae07",
+      "name": "Customer - Contact Person",
+      "description": {
+        "content": "Contact person information related to a specific customer",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5b0f1afd-64dc-4e02-9db7-45b4551ffbf9",
+          "name": "List contact persons",
+          "request": {
+            "name": "List contact persons",
+            "description": {
+              "content": "Provides a list of contact persons belongs to a customer related to given filters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                ":customerId",
+                "contactPerson"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[0][key]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][op]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][value]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][key]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][op]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][value]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][dir]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][dir]",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The customer's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3cf5215a-5b3d-4de6-9894-ba5cbfe60476",
+              "name": "List of contact persons",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"customer\": {\n        \"id\": \"123\"\n      },\n      \"type\": \"mr\",\n      \"name\": \"John Doe\",\n      \"title\": \"Dr.\",\n      \"birthday\": \"1980-01-01\",\n      \"birthdayShowInCalendar\": true,\n      \"sendBirthdayCard\": false,\n      \"marketingBan\": false,\n      \"department\": \"Sales\",\n      \"subDepartment\": \"Inside Sales\",\n      \"position\": \"Sales Manager\",\n      \"createdAt\": \"2024-01-01T10:00:00Z\",\n      \"updatedAt\": \"2024-01-01T10:00:00Z\",\n      \"language\": \"EN\",\n      \"address\": {\n        \"street\": \"123 Main St\",\n        \"additionalStreet\": \"Suite 100\",\n        \"zip\": \"12345\",\n        \"city\": \"Anytown\",\n        \"state\": \"CA\",\n        \"country\": \"US\"\n      },\n      \"contact\": {\n        \"phone\": \"+1-555-123-4567\",\n        \"fax\": \"+1-555-123-4568\",\n        \"mobile\": \"+1-555-987-6543\",\n        \"salutation\": \"Dear Dr. Doe\",\n        \"email\": \"john.doe@example.com\"\n      },\n      \"groups\": [\n        \"1\",\n        \"2\"\n      ],\n      \"comment\": \"Key account contact\",\n      \"others\": \"Additional notes\"\n    }\n  ],\n  \"extra\": {\n    \"totalCount\": 25,\n    \"page\": {\n      \"number\": 1,\n      \"size\": 10\n    }\n  },\n  \"links\": {\n    \"self\": \"http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10\",\n    \"next\": \"http://localhost/api/customers/123/contactPerson?page[number]=2&page[size]=10\",\n    \"prev\": null,\n    \"customer\": \"/api/v2/customers/123\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9160cfb8-9c3c-4f48-883f-3cd7206b8334",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5354429-d122-4b36-a23f-c3088ac15e58",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3da935a8-e6a2-40dc-a61b-3e1206fc965e",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "30c632c2-5a15-4ac7-8225-59c6b8d6828a",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d3909e7c-af0d-407d-a1c3-2b2908eb469e",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b9a52b0-572d-4f51-ac96-9f00d2667cf5",
+          "name": "Create contact person",
+          "request": {
+            "name": "Create contact person",
+            "description": {
+              "content": "Creates new contact person for given customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                ":customerId",
+                "contactPerson"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The customer's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"birthday\": \"<date>\",\n  \"birthdayShowInCalendar\": \"<boolean>\",\n  \"sendBirthdayCard\": \"<boolean>\",\n  \"marketingBan\": \"<boolean>\",\n  \"department\": \"<string>\",\n  \"subDepartment\": \"<string>\",\n  \"position\": \"<string>\",\n  \"language\": \"<string>\",\n  \"address\": {\n    \"street\": \"<string>\",\n    \"additionalStreet\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"contact\": {\n    \"phone\": \"<string>\",\n    \"fax\": \"<string>\",\n    \"mobile\": \"<string>\",\n    \"salutation\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"comment\": \"<string>\",\n  \"others\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5b5f820e-8c21-4e1b-b9f5-459b821d106a",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "732324cb-b9fd-40d9-9528-0994955c88d0",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0187f0e-3eed-4678-a152-cbc01324286c",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2d27f42-1a30-4915-b330-095f10bbb813",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91f46c0b-3759-428d-a43a-cd0b24745989",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e003a40b-6d96-493b-8c35-abd65b6a651a",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Fullname of contact person\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a273007-a46e-455b-8120-e786f26eaa9a",
+          "name": "Update contact person",
+          "request": {
+            "name": "Update contact person",
+            "description": {
+              "content": "Updates new contact person for given customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                ":customerId",
+                "contactPerson",
+                ":contactPersonId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The customer's identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "contactPersonId",
+                  "description": "(Required) Contact Person ID"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"title\": \"<string>\",\n  \"birthday\": \"<date>\",\n  \"birthdayShowInCalendar\": \"<boolean>\",\n  \"sendBirthdayCard\": \"<boolean>\",\n  \"marketingBan\": \"<boolean>\",\n  \"department\": \"<string>\",\n  \"subDepartment\": \"<string>\",\n  \"position\": \"<string>\",\n  \"language\": \"<string>\",\n  \"address\": {\n    \"street\": \"<string>\",\n    \"additionalStreet\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"contact\": {\n    \"phone\": \"<string>\",\n    \"fax\": \"<string>\",\n    \"mobile\": \"<string>\",\n    \"salutation\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"groups\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"comment\": \"<string>\",\n  \"others\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5013479f-fe5a-4ad6-b0d8-c2f94adf8961",
+              "name": "Operation completed successfully, no response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a1c7e02-bfb8-458f-8816-3920dff013e8",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02fae06e-0d81-4aa8-88b6-ffc08eafddf9",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74b3d88c-6743-4ada-a958-3b7c9fba09b6",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a84e7ae4-8a8d-429f-9649-a140d06e0e13",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "63cbbb83-3a30-4696-9969-77e805b515e9",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "contactPersonId",
+                      "description": "(Required) Contact Person ID"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"mrs\",\n  \"name\": \"Kathleen Minority\",\n  \"title\": \"Prof. Dr. Dr.\",\n  \"birthday\": \"2001-02-02\",\n  \"birthdayShowInCalendar\": false,\n  \"sendBirthdayCard\": true,\n  \"marketingBan\": false,\n  \"department\": \"Finance\",\n  \"subDepartment\": \"Controlling\",\n  \"position\": \"Head of Controlling\",\n  \"language\": \"DE\",\n  \"address\": {\n    \"street\": \"11W 53rd St\",\n    \"additionalStreet\": \"6. Floor\",\n    \"zip\": \"10019\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"US\"\n  },\n  \"contact\": {\n    \"phone\": \"+1 917 55512345\",\n    \"fax\": \"+1 917 55512345-1\",\n    \"mobile\": \"+1 800 55554321\",\n    \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n    \"email\": \"k.m@ny.tld\"\n  },\n  \"groups\": [\n    \"1\",\n    \"23\",\n    \"34\"\n  ],\n  \"comment\": \"This is a internal comment for employees eyes only\",\n  \"others\": \"some other things necessary to write down blong to this contact ...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f18f207e-bc97-4626-abc4-1e1ad78af2a1",
+          "name": "Delete contact person",
+          "request": {
+            "name": "Delete contact person",
+            "description": {
+              "content": "Deletes a contact person for given customer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                ":customerId",
+                "contactPerson",
+                ":contactPersonId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The unique identifier of the customer"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactPersonId",
+                  "description": "(Required) The unique identifier of the contact person"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "585005c3-6838-46d6-a712-896d53a6029a",
+              "name": "Operation completed successfully, no response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The unique identifier of the customer"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The unique identifier of the contact person"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5526e998-6e52-4bc7-a64b-fba8297a6493",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The unique identifier of the customer"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The unique identifier of the contact person"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ea9335d-ce54-429c-b5c1-9359c2e12e41",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The unique identifier of the customer"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The unique identifier of the contact person"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a4c1450d-40cb-4c15-a1d7-29682737ab92",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The unique identifier of the customer"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The unique identifier of the contact person"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99b79dad-d627-4ba4-a97e-003dcff61ab6",
+          "name": "View contact person",
+          "request": {
+            "name": "View contact person",
+            "description": {
+              "content": "Gets a single contact person of given customer by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "customers",
+                ":customerId",
+                "contactPerson",
+                ":contactPersonId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "customerId",
+                  "description": "(Required) The customer's identifier."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contactPersonId",
+                  "description": "(Required) The contact person's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce975e2e-b3c0-4e8d-99f1-8cfab2795731",
+              "name": "Contact person object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"12345\",\n    \"customer\": {\n      \"id\": \"1234\"\n    },\n    \"type\": \"mrs\",\n    \"name\": \"Kathleen Minority\",\n    \"title\": \"Prof. Dr. Dr.\",\n    \"birthday\": \"2001-02-02\",\n    \"birthdayShowInCalendar\": false,\n    \"sendBirthdayCard\": true,\n    \"marketingBan\": false,\n    \"department\": \"Finance\",\n    \"subDepartment\": \"Controlling\",\n    \"position\": \"Head of Controlling\",\n    \"createdAt\": \"2025-09-16T15:55:09Z\",\n    \"updatedAt\": \"2025-09-16T15:55:09Z\",\n    \"language\": \"DE\",\n    \"address\": {\n      \"street\": \"11W 53rd St\",\n      \"additionalStreet\": \"6. Floor\",\n      \"zip\": \"10019\",\n      \"city\": \"New York\",\n      \"state\": \"NY\",\n      \"country\": \"US\"\n    },\n    \"contact\": {\n      \"phone\": \"+1 917 55512345\",\n      \"fax\": \"+1 917 55512345-1\",\n      \"mobile\": \"+1 800 55554321\",\n      \"salutation\": \"Dear Mrs. Minority, my most value customer\",\n      \"email\": \"k.m@ny.tld\"\n    },\n    \"groups\": [\n      \"1\",\n      \"23\",\n      \"34\"\n    ],\n    \"comment\": \"This is a internal comment for employees eyes only\",\n    \"others\": \"some other things necessary to write down belong to this contact ...\"\n  },\n  \"links\": {\n    \"self\": \"http://localhost/api/customers/1234/contactPerson/12345\",\n    \"customer\": \"http://localhost/api/v2/customers/1234\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d86f6914-fce6-40ca-8505-52ac6bad1f6a",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05e0997f-1681-4a7b-9829-660e771639ec",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a6efc7b-e86c-4d68-b1f5-63687be9f979",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "289d8159-0f38-436c-bc1b-8651afd373e5",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dc08b926-7fc9-4a2c-b23e-e192df2d2448",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "customers",
+                    ":customerId",
+                    "contactPerson",
+                    ":contactPersonId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "customerId",
+                      "description": "(Required) The customer's identifier."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contactPersonId",
+                      "description": "(Required) The contact person's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "53c61a49-0750-4e2d-9629-34350cb65e04",
+    "name": "Xentral Account Customer - Contact Person API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

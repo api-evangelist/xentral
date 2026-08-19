@@ -1,0 +1,2544 @@
+{
+  "item": [
+    {
+      "id": "4c71a212-d413-4246-b75a-cf01def9adc0",
+      "name": "Tax",
+      "description": {
+        "content": "Tax resource",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5220f275-9fb4-45a8-a7d1-d52dcc788eda",
+          "name": "🔒 List Tax Entries",
+          "request": {
+            "name": "🔒 List Tax Entries",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nRetrieves a list of tax entries.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tax"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[0][key]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][op]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][value]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][key]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][op]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][value]",
+                  "value": "<string>",
+                  "description": "Filter parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][dir]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][dir]",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0563230-dc43-47a2-9018-3b393028f91e",
+              "name": "Successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"VAT 19%\",\n      \"taxType\": \"standard\",\n      \"taxRate\": 19,\n      \"countryCode\": \"DE\",\n      \"zipCode\": \"\",\n      \"isDefault\": true,\n      \"isStandard\": true,\n      \"defaultRevenueAccountNumber\": \"8400\",\n      \"defaultDebitTaxAccountNumber\": null,\n      \"defaultCreditTaxAccountNumber\": null,\n      \"defaultCostAccountNumber\": null,\n      \"validFrom\": \"2022-01-01T00:00:00Z\",\n      \"validUntil\": null,\n      \"createdAt\": \"2022-01-01T00:00:00Z\",\n      \"updatedAt\": \"2022-01-01T00:00:00Z\"\n    },\n    {\n      \"name\": \"VAT 19%\",\n      \"taxType\": \"standard\",\n      \"taxRate\": 19,\n      \"countryCode\": \"DE\",\n      \"zipCode\": \"\",\n      \"isDefault\": true,\n      \"isStandard\": true,\n      \"defaultRevenueAccountNumber\": \"8400\",\n      \"defaultDebitTaxAccountNumber\": null,\n      \"defaultCreditTaxAccountNumber\": null,\n      \"defaultCostAccountNumber\": null,\n      \"validFrom\": \"2022-01-01T00:00:00Z\",\n      \"validUntil\": null,\n      \"createdAt\": \"2022-01-01T00:00:00Z\",\n      \"updatedAt\": \"2022-01-01T00:00:00Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6894fb62-e704-472e-85d0-edc6f2fb9a65",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fde1d5c-8daf-4c3c-bddb-06251e794bf5",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e908be38-31ac-4d06-a2d9-e42d68f8beea",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2f054af9-1029-474e-9f7b-002a45585611",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e73015f-488a-4df2-b2ff-279d947b6d6d",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7d70e5f1-572f-4872-b6d1-eb85192441ba",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "name"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a216741b-edb4-473a-9549-51b17f2252ac",
+          "name": "🔒 Create tax",
+          "request": {
+            "name": "🔒 Create tax",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nCreates a single tax entry.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tax"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"taxType\": \"standard\",\n  \"taxRate\": \"<float>\",\n  \"countryCode\": \"<string>\",\n  \"zipCode\": \"\",\n  \"isDefault\": false,\n  \"isStandard\": false,\n  \"defaultRevenueAccountNumber\": \"<string>\",\n  \"defaultDebitTaxAccountNumber\": \"<string>\",\n  \"defaultCreditTaxAccountNumber\": \"<string>\",\n  \"defaultCostAccountNumber\": \"<string>\",\n  \"validFrom\": \"<dateTime>\",\n  \"validUntil\": \"<dateTime>\",\n  \"key_0\": 8361,\n  \"key_1\": 914.1730491079336,\n  \"key_2\": false,\n  \"key_3\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f38cc44e-77e1-4946-8c80-a6dc086650d9",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"defaultDebitTaxAccountNumber\": null,\n  \"defaultCreditTaxAccountNumber\": null,\n  \"defaultCostAccountNumber\": null,\n  \"validFrom\": \"2022-01-01T00:00:00Z\",\n  \"validUntil\": null,\n  \"createdAt\": \"2022-01-01T00:00:00Z\",\n  \"updatedAt\": \"2022-01-01T00:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "379390a0-2fef-42a9-b4dc-6f31eff576cf",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77f0ed04-3b24-46ae-939f-f079033fd54d",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00689547-30bf-4ad9-8afd-ec82fe03878c",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "30b3d9cf-c6c4-42b7-9a39-38065f0d1f98",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8b1dfad-5b87-48d7-a00c-111d6bc5cba9",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "33fc2cd3-9772-4795-acd6-5ae0f9012f8d",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e7e04309-a5f9-48ba-8d64-8342dfa623b0",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2faed4d0-5bc1-4fc7-b780-7d84824def59",
+          "name": "🔒 Get Tax Entry by ID",
+          "request": {
+            "name": "🔒 Get Tax Entry by ID",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nRetrieves a specific tax entry by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tax",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the tax entry to retrieve."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "914bb984-66dd-4def-b931-3b1b6909c232",
+              "name": "Successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"name\": \"VAT 19%\",\n    \"taxType\": \"standard\",\n    \"taxRate\": 19,\n    \"countryCode\": \"DE\",\n    \"zipCode\": \"\",\n    \"isDefault\": true,\n    \"isStandard\": true,\n    \"defaultRevenueAccountNumber\": \"8400\",\n    \"defaultDebitTaxAccountNumber\": null,\n    \"defaultCreditTaxAccountNumber\": null,\n    \"defaultCostAccountNumber\": null,\n    \"validFrom\": \"2022-01-01T00:00:00Z\",\n    \"validUntil\": null,\n    \"createdAt\": \"2022-01-01T00:00:00Z\",\n    \"updatedAt\": \"2022-01-01T00:00:00Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "233e2b7d-3fa6-4468-b9ce-25327c2f59ee",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5a6453d-362b-4fe9-8dd4-133973e52969",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "704db5a5-332f-49b7-8da1-1551508e6e44",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "435953f7-2f1b-4596-b672-40220266d6a9",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98fbbdda-1470-4f45-ac30-672f68c800c7",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3a89827b-8b5d-48d8-bae8-aff8db76b5ef",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to retrieve."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1842a06e-996e-485a-97b9-2ed1597d67bc",
+          "name": "🔒 Update tax",
+          "request": {
+            "name": "🔒 Update tax",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nUpdates a single tax entry.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tax",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the tax entry to update."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"taxType\": \"standard\",\n  \"taxRate\": \"<float>\",\n  \"countryCode\": \"<string>\",\n  \"zipCode\": \"\",\n  \"isDefault\": false,\n  \"isStandard\": false,\n  \"defaultRevenueAccountNumber\": \"<string>\",\n  \"defaultDebitTaxAccountNumber\": \"<string>\",\n  \"defaultCreditTaxAccountNumber\": \"<string>\",\n  \"defaultCostAccountNumber\": \"<string>\",\n  \"validFrom\": \"<dateTime>\",\n  \"validUntil\": \"<dateTime>\",\n  \"key_0\": 8361,\n  \"key_1\": 914.1730491079336,\n  \"key_2\": false,\n  \"key_3\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f1d5dd9f-8bd2-4617-923f-aeda600a6468",
+              "name": "Operation completed successfully, no response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fff791a9-382f-45b6-8f4b-7016e6e40fa4",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c1425cb-0f1f-47d2-8d1a-f9d0377273bd",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03d12a23-03d2-4957-adbe-e40e18b1dbec",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aaac74fe-4ae0-45fc-a55c-ca0a603fe768",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9694b92-a307-4cad-bdad-63dae21d6d6b",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cd272e40-0ba2-4379-b781-96062a29e96b",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d0d1e76c-7c45-4021-b2d8-d02ab7b55598",
+              "name": "XGL Problem",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tax",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the tax entry to update."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"VAT 19%\",\n  \"taxType\": \"standard\",\n  \"taxRate\": 19,\n  \"countryCode\": \"DE\",\n  \"zipCode\": \"\",\n  \"isDefault\": true,\n  \"isStandard\": true,\n  \"defaultRevenueAccountNumber\": \"8400\",\n  \"validFrom\": \"2022-01-01T00:00:00Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/xgl-error\",\n  \"title\": \"XGL Error\",\n  \"errorCode\": 1,\n  \"message\": \"Error getting account information\",\n  \"details\": {\n    \"field\": \"Additional error detail\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "cfa1988d-60be-4a61-9b8a-0a613fc8709d",
+    "name": "Xentral Account Tax API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

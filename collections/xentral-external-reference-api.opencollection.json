@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account External Reference API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "External Reference",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List external references",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/externalReferences",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns list of external references for given Product."
+        },
+        {
+          "info": {
+            "name": "Create external reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/externalReferences",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new external references for a given Product"
+        },
+        {
+          "info": {
+            "name": "Update external reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/externalReferences",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates external references for a given Product"
+        },
+        {
+          "info": {
+            "name": "Delete external reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/products/:id/externalReferences",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes external references of a given Product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

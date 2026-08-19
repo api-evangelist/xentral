@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Product Category API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Category",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List product categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/productsCategories"
+          },
+          "docs": "Lists all available products categories."
+        },
+        {
+          "info": {
+            "name": "Create product category",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/productsCategories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product category."
+        },
+        {
+          "info": {
+            "name": "View product category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/productsCategories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a single product category"
+        },
+        {
+          "info": {
+            "name": "Update product category",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/productsCategories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates details of a single product category"
+        },
+        {
+          "info": {
+            "name": "Delete product category",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/productsCategories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a single product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

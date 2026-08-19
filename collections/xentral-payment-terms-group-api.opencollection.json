@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Payment Terms Group API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Terms Group",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payment terms groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/paymentTermsGroups",
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.\n\nPaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href=\"https://help.xentral.com/hc/en-us/articles/360016722000-Groups\">handbook article</a>."
+        },
+        {
+          "info": {
+            "name": "Create payment terms group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/paymentTermsGroups",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.\n\nPaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href=\"https://help.xentral.com/hc/en-us/articles/360016722000-Groups\">handbook article</a>."
+        },
+        {
+          "info": {
+            "name": "View payment terms group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/paymentTermsGroups/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.\n\nPaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href=\"https://help.xentral.com/hc/en-us/articles/360016722000-Groups\">handbook article</a>."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

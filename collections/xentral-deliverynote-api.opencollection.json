@@ -1,0 +1,472 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account DeliveryNote API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DeliveryNote",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List delivery notes V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes",
+            "headers": [
+              {
+                "name": "x-pagination",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`id`: *equals*, *notEquals*, *in*, *notIn* \n\n`documentNumber`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentDate`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`writeProtection`: *equals*, *notEquals* \n\n`address.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`project.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`tags`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`tags.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`language`: *equals*, *notEquals*, *in*, *notIn* \n\n`bodyIntroduction`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`bodyOutroduction`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`project.abbreviation`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`internalDesignation`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryTerms`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`internalComment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`isDocumentSent`: *equals*, *notEquals* \n\n`editor.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`createdAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals*, *isNull*, *isNotNull* \n\n`updatedAt`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals*, *isNull*, *isNotNull* \n\n`documentAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`documentAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`sales.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`status`: *equals*, *notEquals*, *in*, *notIn* \n\n`costCenter`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`customerNumber`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`customerOrderNumber`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`masterReferenceNumber`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`preferredWarehouse.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`shippingMethod.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`useAlternativeDocumentTitle`: *equals*, *notEquals* \n\n`salesOrder.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`orderPicking.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`shipments.count`: *equals*, *notEquals*, *lessThan*, *lessThanOrEquals*, *greaterThan*, *greaterThanOrEquals* \n\n`isDeliveryNoteToSupplier`: *equals*, *notEquals* \n\n`noInvoice`: *equals*, *notEquals* \n\n`invoice.id`: *equals*, *notEquals*, *in*, *notIn* \n\n`hasOpenShipment`: *equals*, *notEquals* \n\n`withoutInvoice`: *equals*, *notEquals* \n\n`notRetrievedFromStock`: *equals*, *notEquals*"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort via id, -id, documentNumber, -documentNumber, documentDate, -documentDate, customerNumber, -customerNumber, documentAddress.country, -documentAddress.country, project.id, -project.id, createdAt, -createdAt, updatedAt and -updatedAt. Default sort is id"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text-style search across predefined columns."
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 15, Max: 1000"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. Only used with simple and table pagination."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The cursor to use for the paginated call. Only used with cursor pagination. Not compatible with page parameter"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:read`.\n\nPaginated list of Delivery Notes."
+        },
+        {
+          "info": {
+            "name": "🔒 Create delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `deliveryNote:create`.\n\nCreate a new delivery note."
+        },
+        {
+          "info": {
+            "name": "View delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:read`.\n\nView a single delivery note.\n\n**Content Negotiation:** This endpoint supports additional response formats: `application/pdf`. Use the `Accept` header to request a specific format."
+        },
+        {
+          "info": {
+            "name": "🔒 Update delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `deliveryNote:update`.\n\nUpdate a delivery note."
+        },
+        {
+          "info": {
+            "name": "Delete delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:delete`.\n\nDelete a delivery note in status draft."
+        },
+        {
+          "info": {
+            "name": "Cancel delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:cancel`.\n\nCancel a delivery note. Restocking the items associated with the delivery note must be handled manually. Delivery notes in status draft or completed cannot be cancelled."
+        },
+        {
+          "info": {
+            "name": "Complete delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/complete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:complete`.\n\nComplete a delivery note. Only delivery notes for suppliers and released or sent delivery notes are allowed."
+        },
+        {
+          "info": {
+            "name": "Log custom delivery note activity V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/logActivity",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:update`.\n\nRecord a custom activity log entry for a delivery note."
+        },
+        {
+          "info": {
+            "name": "Release delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/release",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:release`.\n\nRelease a delivery note."
+        },
+        {
+          "info": {
+            "name": "Remove delivery note write protection V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/removeWriteProtection",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:removeWriteProtection`.\n\nRemove write protection from a delivery note."
+        },
+        {
+          "info": {
+            "name": "Send delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/send",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:send`.\n\nSend a delivery note."
+        },
+        {
+          "info": {
+            "name": "Set delivery note write protection V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/actions/setWriteProtection",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:setWriteProtection`.\n\nSet write protection for a delivery note."
+        },
+        {
+          "info": {
+            "name": "Attach file to delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/files",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:update`.\n\nAttach a file to a delivery note."
+        },
+        {
+          "info": {
+            "name": "Update file on delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:update`.\n\nUpdate a file attached to a delivery note."
+        },
+        {
+          "info": {
+            "name": "Delete file from delivery note V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:update`.\n\nDelete a file attached to a delivery note."
+        },
+        {
+          "info": {
+            "name": "🔒 Create delivery note line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/lineItems",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `deliveryNote:update`.\n\nCreate a new delivery note line item."
+        },
+        {
+          "info": {
+            "name": "View delivery note line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/lineItems/:lineItemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:read`.\n\nView a single delivery note line item."
+        },
+        {
+          "info": {
+            "name": "🔒 Update delivery note line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/lineItems/:lineItemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `deliveryNote:update`.\n\nUpdate a line item in a delivery note."
+        },
+        {
+          "info": {
+            "name": "Delete delivery note line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/deliveryNotes/:id/lineItems/:lineItemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "lineItemId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `deliveryNote:update`.\n\nDelete a line item of a delivery note."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

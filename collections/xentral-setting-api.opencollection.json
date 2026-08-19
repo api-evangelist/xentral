@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Setting API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Setting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List address free fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/settings/masterdata/addressCustomFields"
+          },
+          "docs": "Fetches all configured address custom fields. Pagination is not necessary because of limit of such fields (20)."
+        },
+        {
+          "info": {
+            "name": "Create address free field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v2/settings/masterdata/addressCustomFields",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a address custom field configuration."
+        },
+        {
+          "info": {
+            "name": "List text templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/settings/text-templates"
+          },
+          "docs": "Show all receipt related text template settings"
+        },
+        {
+          "info": {
+            "name": "Update text templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v2/settings/text-templates",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update one or more text template settings"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

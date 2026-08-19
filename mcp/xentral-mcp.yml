@@ -2,13 +2,12 @@ generated: '2026-07-21'
 method: searched
 status: published
 source: https://github.com/xentral/agent-library/blob/main/.claude-plugin/plugin.json
-notes: Xentral publishes a hosted, official MCP server as part of Xentral AgentOS. The
-  Claude Code plugin (xentral-connector, marketplace xentral/agent-library) declares the
-  HTTP MCP endpoint; the endpoint answered an MCP initialize POST with HTTP 200 on
-  2026-07-21. Authentication is per-tenant via a browser OAuth-style sign-in on first
-  use. Xentral also open-sourced a standalone, self-hostable MCP server (shiplabel-mcp)
-  for carrier-agnostic shipping labels, with the same engine hosted as the Carrier Kit
-  in AgentOS starter kits.
+notes: Xentral publishes a hosted, official MCP server as part of Xentral AgentOS. The Claude Code plugin
+  (xentral-connector, marketplace xentral/agent-library) declares the HTTP MCP endpoint; the endpoint
+  answered an MCP initialize POST with HTTP 200 on 2026-07-21. Authentication is per-tenant via a browser
+  OAuth-style sign-in on first use. Xentral also open-sourced a standalone, self-hostable MCP server (shiplabel-mcp)
+  for carrier-agnostic shipping labels, with the same engine hosted as the Carrier Kit in AgentOS starter
+  kits.
 server:
   name: xentral
   transport: http
@@ -20,38 +19,46 @@ server:
     install: /plugin marketplace add xentral/agent-library && /plugin install xentral-connector@xentral
 tools:
 - name: xentral_agents
-  description: Pick, configure, and schedule AI workers (agents) inside a Xentral instance,
-    including cadence/trigger setup and public form/chat shares.
+  description: Pick, configure, and schedule AI workers (agents) inside a Xentral instance, including
+    cadence/trigger setup and public form/chat shares.
   source: skills/xentral-agents.md
 - name: xentral_business_model
-  description: Read and maintain the instance Business Model profile (model, sales channels,
-    fulfillment, automation, target market, pain points).
+  description: Read and maintain the instance Business Model profile (model, sales channels, fulfillment,
+    automation, target market, pain points).
   source: skills/xentral-business-model.md
 - name: xentral_dashboards
-  description: Build and edit per-instance dashboards of widgets visualizing live business
-    and operations data, wired to KPIs.
+  description: Build and edit per-instance dashboards of widgets visualizing live business and operations
+    data, wired to KPIs.
   source: skills/xentral-dashboards.md
 - name: xentral_kpi
-  description: Register, update, and read instance business metrics in the central KPI store,
-    including push vs derived (SQL/prompt) KPIs and value history.
+  description: Register, update, and read instance business metrics in the central KPI store, including
+    push vs derived (SQL/prompt) KPIs and value history.
   source: skills/xentral-kpi.md
 - name: xentral_pdf_templates
-  description: Create, check, and render Xentral PDF business document templates (invoices,
-    delivery notes, offers, credit notes) with a Jinja2 + HTML/CSS model.
+  description: Create, check, and render Xentral PDF business document templates (invoices, delivery notes,
+    offers, credit notes) with a Jinja2 + HTML/CSS model.
   source: skills/xentral-pdf-templates.md
 - name: xentral_studio
-  description: Build per-instance Studio apps (mobile/desktop screens, forms, tables) bound
-    to business entities and KPIs, with buttons wired to screens, dialogs, or MCP tools.
+  description: Build per-instance Studio apps (mobile/desktop screens, forms, tables) bound to business
+    entities and KPIs, with buttons wired to screens, dialogs, or MCP tools.
   source: skills/xentral-studio.md
 - name: xentral_workflows
-  description: Build, edit, and debug node-based workflow automations from the template
-    library, including triggers, schedules, and run debugging.
+  description: Build, edit, and debug node-based workflow automations from the template library, including
+    triggers, schedules, and run debugging.
   source: skills/xentral-workflows.md
 related_servers:
 - name: shiplabel-mcp
   transport: stdio
   repository: https://github.com/xentral/shiplabel-mcp
-  description: Carrier-agnostic shipping labels (DHL, DPD, UPS, FedEx, GLS, Sendcloud,
-    Shipcloud, DHL Return) as a self-hostable MCP server; hosted variant is the Carrier
-    Kit at https://agent.xentral.com/en/starter-kits. Standalone, needs no Xentral account.
+  description: Carrier-agnostic shipping labels (DHL, DPD, UPS, FedEx, GLS, Sendcloud, Shipcloud, DHL
+    Return) as a self-hostable MCP server; hosted variant is the Carrier Kit at https://agent.xentral.com/en/starter-kits.
+    Standalone, needs no Xentral account.
   official: true
+deployment:
+  mode: remote
+  endpoint: https://agent-backend.eu.xentral.com/mcp
+  verified: probed
+  probe: live
+  tools: 27
+  checked: '2026-08-12'
+  source: catalog MCP census

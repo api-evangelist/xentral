@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account EmailAccount API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "EmailAccount",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send email via email account V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/emailAccounts/:id/actions/sendEmail",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `mailAcct:sendEmail`.\n\nSend an email using an existing email account. Attachments are base64-encoded with a max size of 10MB each (25MB total)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

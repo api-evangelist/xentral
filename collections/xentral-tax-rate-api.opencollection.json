@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Tax Rate API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tax Rate",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List tax rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/taxRates/:countryCode",
+            "params": [
+              {
+                "name": "countryCode",
+                "value": "DE",
+                "type": "path",
+                "description": "This is the country code for which the tax rates are requested"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint returns the tax rate for a given country code. The country code is a two-letter ISO 3166-1 alpha-2 code. The response is a list of applicable tax rates for the given country code.\nTo get a more granular response you can use the query parameters to filter the response, for example by product or project.\n\nThe applicable tax rate is determined in the following order:\n1. If a custom tax rate is defined for the product, it is returned.\n2. If a tax rate is defined in the taxRates module "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

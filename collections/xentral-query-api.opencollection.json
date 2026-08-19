@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Query API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/query",
+            "params": [
+              {
+                "name": "preview",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a query synchronously on the Analytics platform and get result table (Redshift dialect). The number of records that you receive as results is limited to a reasonable amount. This endpoint is mainly for viewing the data. Use the export endpoints in order to fetch all results."
+        },
+        {
+          "info": {
+            "name": "List query exports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/query/export"
+          },
+          "docs": "Get a list of recent query exports and their status. Possible statuses are `success`, `failed`, `running` and `pending`. If status is success, then we also show the download link."
+        },
+        {
+          "info": {
+            "name": "Create query export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/query/export",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a query export. This starts a query execution. The query will be executed asynchronously. You can check the status of the query using the `GET /api/analytics/query/export/{uuid}` endpoint."
+        },
+        {
+          "info": {
+            "name": "View query export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/query/export/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The resource's UUID identifier."
+              }
+            ]
+          },
+          "docs": "Get specific query export by ID which (if completed successfully) contains a download link to a file in CSV format"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

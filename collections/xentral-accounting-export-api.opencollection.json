@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Accounting Export API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounting Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute the accounting CSV export for invoices and credit notes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/csvExport/invoicesAndCreditNotes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting CSV export for invoices and credit notes."
+        },
+        {
+          "info": {
+            "name": "Execute the accounting CSV export for liabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/csvExport/liabilities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting CSV export for liabilities."
+        },
+        {
+          "info": {
+            "name": "Execute the accounting CSV export for account transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/csvExport/accountTransactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting CSV export for account transactions."
+        },
+        {
+          "info": {
+            "name": "Execute the accounting XML export for invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/xmlExport/invoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting XML export for invoices."
+        },
+        {
+          "info": {
+            "name": "Execute the accounting XML export for credit notes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/xmlExport/creditNotes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting XML export for credit notes."
+        },
+        {
+          "info": {
+            "name": "Execute the accounting XML export for liabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/datev/xmlExport/liabilities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute the accounting XML export for liabilities."
+        },
+        {
+          "info": {
+            "name": "Check accounting export status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/downloads/:downloadKey/status",
+            "params": [
+              {
+                "name": "downloadKey",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check the accounting export status."
+        },
+        {
+          "info": {
+            "name": "Download accounting export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/accounting/downloads/:downloadKey",
+            "params": [
+              {
+                "name": "downloadKey",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a generated export file from the accounting export."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1176 @@
+{
+  "item": [
+    {
+      "id": "5cec201a-4bd3-48d7-9e62-70cf4e52a2da",
+      "name": "Goods Receipt",
+      "description": {
+        "content": "Goods Receipt for physical incoming goods.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fac369c8-dec7-4c6a-961d-95204a686e5d",
+          "name": "Create goods receipt for purchase order",
+          "request": {
+            "name": "Create goods receipt for purchase order",
+            "description": {
+              "content": "Creates a new goods receipt for a purchase order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "purchaseOrders",
+                ":id",
+                "goodsReceipts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"<date>\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"<string>\"\n      },\n      \"quantity\": \"<double>\",\n      \"purchaseOrderPosition\": {\n        \"id\": \"<string>\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"product\": {\n        \"id\": \"<string>\"\n      },\n      \"quantity\": \"<double>\",\n      \"purchaseOrderPosition\": {\n        \"id\": \"<string>\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "85166d1a-fb75-4531-a7b4-cee4e8e511d3",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0fe59581-48cd-4d37-ab20-4a9bfac215bb",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07382831-a275-4ca9-b527-be7eb9e063f4",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a88369af-b9d4-4c99-9d1e-29481f5708e2",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7b013e4d-1bf2-462c-82dc-544866003f29",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "94cb4f0d-dc86-411d-a3f0-afa37dda5a74",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "51d837fa-40e1-4beb-acae-9a1a749f846b",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "purchaseOrders",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-24\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10,\n      \"purchaseOrderPosition\": {\n        \"id\": \"purchase-order-position-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"warehouse-1\"\n          },\n          \"storageLocation\": {\n            \"id\": \"storage-location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"batch\": \"BATCH-1234\",\n            \"bestBeforeDate\": \"2025-12-31\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "89873f8c-99ee-4aa2-9d43-e38e2a98af8a",
+          "name": "Create goods receipt for return",
+          "request": {
+            "name": "Create goods receipt for return",
+            "description": {
+              "content": "Creates a new goods receipt for a return.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "returns",
+                ":id",
+                "goodsReceipts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"<date>\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"<string>\"\n      },\n      \"quantity\": \"<double>\",\n      \"returnPosition\": {\n        \"id\": \"<string>\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": \"<double>\",\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": \"<double>\",\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"product\": {\n        \"id\": \"<string>\"\n      },\n      \"quantity\": \"<double>\",\n      \"returnPosition\": {\n        \"id\": \"<string>\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": \"<double>\",\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"warehouse\": {\n            \"id\": \"<string>\"\n          },\n          \"storageLocation\": {\n            \"id\": \"<string>\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": \"<double>\",\n            \"batch\": \"<string>\",\n            \"bestBeforeDate\": \"<date>\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"<string>\"\n              },\n              {\n                \"number\": \"<string>\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "59efd053-6fff-4ab1-bbc0-b3ebff80c80b",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0f8568ee-360a-48d8-8b76-3cc2f526d96a",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51e15bfb-68ba-430a-9c84-3caaeba13514",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5970b10e-1a9f-49c2-883a-7894b5e0b9a7",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "789bca66-8f1e-4124-a7fb-66a46941aef8",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2e26964c-07d6-448a-8326-d50770c3afa2",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0b3a8b49-4845-4654-b045-3f4bdbfb3c89",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "returns",
+                    ":id",
+                    "goodsReceipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-09-18\",\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"product-1\"\n      },\n      \"quantity\": 10.5,\n      \"returnPosition\": {\n        \"id\": \"return-1\"\n      },\n      \"stockMovements\": [\n        {\n          \"quantity\": 5,\n          \"warehouse\": {\n            \"id\": \"17\"\n          },\n          \"storageLocation\": {\n            \"id\": \"location-1\"\n          },\n          \"qualityControlAttributes\": {\n            \"quantity\": 2.5,\n            \"batch\": \"Batch-123\",\n            \"bestBeforeDate\": \"2025-01-01\",\n            \"serialNumbers\": [\n              {\n                \"number\": \"SN-123456789\"\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "35987c3d-7cec-4bb3-99d1-524e1e584827",
+    "name": "Xentral Account Goods Receipt API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account ProductCalculation API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ProductCalculation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List product calculation line items V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v3/products/:id/calculationItems",
+            "headers": [
+              {
+                "name": "x-pagination",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`archived`: *equals*, *notEquals* \n\n`designation`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`costType`: *equals*, *notEquals*, *in*, *notIn* \n\n`includeInCalculation`: *equals*, *notEquals*"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort via id, -id, date, -date, designation, -designation, costType and -costType. Default sort is -id"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page. Default: 15, Max: 5000"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number. Only used with simple and table pagination."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The cursor to use for the paginated call. Only used with cursor pagination. Not compatible with page parameter"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `productCalculation:read`.\n\nList a product purchase price calculation line items"
+        },
+        {
+          "info": {
+            "name": "Create product calculation line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v3/products/:id/calculationItems",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `productCalculation:create`.\n\nCreate a product calculation line item"
+        },
+        {
+          "info": {
+            "name": "View product calculation line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v3/products/:id/calculationItems/:itemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `productCalculation:read`.\n\nView a single product calculation line item"
+        },
+        {
+          "info": {
+            "name": "Update product calculation line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v3/products/:id/calculationItems/:itemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint requires the following scopes: `productCalculation:update`.\n\nUpdate a product calculation line item"
+        },
+        {
+          "info": {
+            "name": "Delete product calculation line item V3",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v3/products/:id/calculationItems/:itemId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "This endpoint requires the following scopes: `productCalculation:delete`.\n\nDelete a product calculation line item"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

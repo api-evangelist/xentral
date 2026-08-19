@@ -1,0 +1,2411 @@
+{
+  "item": [
+    {
+      "id": "a40f56b0-c162-4be8-8794-7e7fe20e012b",
+      "name": "Supplier Delivery Address",
+      "description": {
+        "content": "Supplier Delivery Address",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "63345e09-d829-4b21-b086-2ebceb8260a7",
+          "name": "🔒 List supplier delivery addresses V3",
+          "request": {
+            "name": "🔒 List supplier delivery addresses V3",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `supplier:read`.\n\nPaginated list of delivery addresses for a supplier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "suppliers",
+                ":supplierId",
+                "deliveryAddresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[0][key]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][op]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[0][value]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][key]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][op]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[1][value]",
+                  "value": "<string>",
+                  "description": "The filter parameter is used to filter the results of the given endpoint. \n\n\n**Supported filter operators by key:** \n\n`deliveryAddress.name`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.title`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.contactPerson`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.department`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.subDepartment`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.addressSupplement`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.street`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.zipCode`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.city`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.state`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.country`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.gln`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.email`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.phone`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`deliveryAddress.fax`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`taxType`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`defaultDeliveryAddress`: *equals*, *notEquals* \n\n`termsOfDelivery`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`vatId`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`remark`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`note`: *equals*, *notEquals*, *in*, *notIn*, *contains*, *notContains*, *startsWith*, *endsWith* \n\n`id`: *equals*, *notEquals*, *in*, *notIn*"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>,<string>",
+                  "description": "Sort via id, -id, name, -name, city, -city, country, -country, zipCode and -zipCode. Default sort is -created_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "<integer>",
+                  "description": "Number of items per page. Default: 15, Max: 100"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "supplierId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f1bd2f4-9a9e-4c23-8f2c-775f45b6661e",
+              "name": "Paginated list of delivery addresses for a supplier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "15"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"company\",\n      \"name\": \"Acme Logistics Hub Berlin\",\n      \"street\": \"Lagerweg 22\",\n      \"zipCode\": \"10437\",\n      \"city\": \"Berlin\",\n      \"country\": \"DE\",\n      \"deliveryDetails\": {\n        \"taxType\": \"domestic\",\n        \"defaultDeliveryAddress\": true,\n        \"termsOfDelivery\": \"EXW\",\n        \"vatId\": \"DE123456789\",\n        \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n        \"note\": \"Deliveries after 10am only\"\n      },\n      \"title\": \"Dr.\",\n      \"contactPerson\": \"Marco Schmidt\",\n      \"salutation\": \"Hallo Logistics Team\",\n      \"department\": \"Logistics\",\n      \"subDepartment\": \"Distribution Center\",\n      \"addressSupplement\": \"Hall B\",\n      \"state\": \"BE\",\n      \"gln\": \"4012345000300\",\n      \"phone\": \"+491231234567\",\n      \"mobile\": \"+49170123456\",\n      \"fax\": \"+491231234567-1\",\n      \"email\": \"name@provider.com\"\n    },\n    {\n      \"id\": \"1\",\n      \"type\": \"company\",\n      \"name\": \"Acme Logistics Hub Berlin\",\n      \"street\": \"Lagerweg 22\",\n      \"zipCode\": \"10437\",\n      \"city\": \"Berlin\",\n      \"country\": \"DE\",\n      \"deliveryDetails\": {\n        \"taxType\": \"domestic\",\n        \"defaultDeliveryAddress\": true,\n        \"termsOfDelivery\": \"EXW\",\n        \"vatId\": \"DE123456789\",\n        \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n        \"note\": \"Deliveries after 10am only\"\n      },\n      \"title\": \"Dr.\",\n      \"contactPerson\": \"Marco Schmidt\",\n      \"salutation\": \"Hallo Logistics Team\",\n      \"department\": \"Logistics\",\n      \"subDepartment\": \"Distribution Center\",\n      \"addressSupplement\": \"Hall B\",\n      \"state\": \"BE\",\n      \"gln\": \"4012345000300\",\n      \"phone\": \"+491231234567\",\n      \"mobile\": \"+49170123456\",\n      \"fax\": \"+491231234567-1\",\n      \"email\": \"name@provider.com\"\n    }\n  ],\n  \"meta\": {\n    \"currentPage\": 1,\n    \"from\": 1,\n    \"path\": \"https://api.example.com/items\",\n    \"perPage\": 15,\n    \"to\": 15\n  },\n  \"links\": {\n    \"first\": \"https://api.example.com/items?page=1\",\n    \"last\": null,\n    \"prev\": null,\n    \"next\": \"https://api.example.com/items?page=17\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3ec2434-b613-4304-8212-cfa773986546",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "15"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8deb1305-1b3f-4567-a508-5be2002990c4",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "15"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "141c5dfc-f97d-4665-a825-851dc7085c1b",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[0][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[0][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][key]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][op]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter[1][value]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "15"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too Many Requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f0e548c-4ecf-44d9-a3f3-5a1a0c601e79",
+          "name": "🔒 Create delivery address V3",
+          "request": {
+            "name": "🔒 Create delivery address V3",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `supplier:update`.\n\nCreate a new delivery address for a supplier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "suppliers",
+                ":supplierId",
+                "deliveryAddresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "supplierId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"street\": \"<string>\",\n  \"zipCode\": \"<string>\",\n  \"city\": \"<string>\",\n  \"country\": \"<string>\",\n  \"type\": \"<string>\",\n  \"title\": \"<string>\",\n  \"contactPerson\": \"<string>\",\n  \"salutation\": \"<string>\",\n  \"department\": \"<string>\",\n  \"subDepartment\": \"<string>\",\n  \"addressSupplement\": \"<string>\",\n  \"state\": \"<string>\",\n  \"gln\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"fax\": \"<string>\",\n  \"email\": \"<email>\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": \"<boolean>\",\n    \"termsOfDelivery\": \"<string,null>\",\n    \"vatId\": \"<string,null>\",\n    \"remark\": \"<string,null>\",\n    \"note\": \"<string,null>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea1ebed1-3d1b-42e7-ad56-87a2e679d740",
+              "name": "Create a new delivery address for a supplier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"1\",\n    \"type\": \"company\",\n    \"name\": \"Acme Logistics Hub Berlin\",\n    \"street\": \"Lagerweg 22\",\n    \"zipCode\": \"10437\",\n    \"city\": \"Berlin\",\n    \"country\": \"DE\",\n    \"deliveryDetails\": {\n      \"taxType\": \"domestic\",\n      \"defaultDeliveryAddress\": true,\n      \"termsOfDelivery\": \"EXW\",\n      \"vatId\": \"DE123456789\",\n      \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n      \"note\": \"Deliveries after 10am only\"\n    },\n    \"title\": \"Dr.\",\n    \"contactPerson\": \"Marco Schmidt\",\n    \"salutation\": \"Hallo Logistics Team\",\n    \"department\": \"Logistics\",\n    \"subDepartment\": \"Distribution Center\",\n    \"addressSupplement\": \"Hall B\",\n    \"state\": \"BE\",\n    \"gln\": \"4012345000300\",\n    \"phone\": \"+491231234567\",\n    \"mobile\": \"+49170123456\",\n    \"fax\": \"+491231234567-1\",\n    \"email\": \"name@provider.com\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b43d62ab-1ae7-4399-9074-64741139ec9d",
+              "name": "Failed validation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": {\n    \"type\": [\n      \"The selected type is invalid.\"\n    ],\n    \"name\": [\n      \"The name field is required.\"\n    ],\n    \"title\": [\n      \"The title field must be a string.\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aac26dcd-6123-4163-82f6-f4c34f8ddbea",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8be0db34-43db-491b-b4d0-bfad6e2c43b5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "81f17aa6-aaf4-425a-8757-5dce86be86d5",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "591d34eb-cc77-41e1-bb1f-f95a20954bdd",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"street\": \"Lagerweg 22\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"type\": \"company\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"addressSupplement\": \"Hall B\",\n  \"state\": \"BE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too Many Requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb20ff82-fdaa-4126-89d8-7d0cb999e031",
+          "name": "🔒 View delivery address V3",
+          "request": {
+            "name": "🔒 View delivery address V3",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `supplier:read`.\n\nView a single delivery address for a supplier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "suppliers",
+                ":supplierId",
+                "deliveryAddresses",
+                ":deliveryAddressId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "supplierId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deliveryAddressId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "111df3db-50e5-41a8-9168-d506cb180c97",
+              "name": "View a single delivery address for a supplier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"1\",\n    \"type\": \"company\",\n    \"name\": \"Acme Logistics Hub Berlin\",\n    \"street\": \"Lagerweg 22\",\n    \"zipCode\": \"10437\",\n    \"city\": \"Berlin\",\n    \"country\": \"DE\",\n    \"deliveryDetails\": {\n      \"taxType\": \"domestic\",\n      \"defaultDeliveryAddress\": true,\n      \"termsOfDelivery\": \"EXW\",\n      \"vatId\": \"DE123456789\",\n      \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n      \"note\": \"Deliveries after 10am only\"\n    },\n    \"title\": \"Dr.\",\n    \"contactPerson\": \"Marco Schmidt\",\n    \"salutation\": \"Hallo Logistics Team\",\n    \"department\": \"Logistics\",\n    \"subDepartment\": \"Distribution Center\",\n    \"addressSupplement\": \"Hall B\",\n    \"state\": \"BE\",\n    \"gln\": \"4012345000300\",\n    \"phone\": \"+491231234567\",\n    \"mobile\": \"+49170123456\",\n    \"fax\": \"+491231234567-1\",\n    \"email\": \"name@provider.com\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86c5da9b-a1ee-40c6-8431-77ed264b70cb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "854ea771-09df-4108-9009-459b63193986",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "41f9a80f-dfa1-487a-8845-b7018c27a471",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b1f05ec1-f470-49a9-931c-0ea4fdcf1533",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too Many Requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "826e81dc-7b99-4ea9-baf0-3e120ed28d7f",
+          "name": "🔒 Delete delivery address V3",
+          "request": {
+            "name": "🔒 Delete delivery address V3",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `supplier:update`.\n\nDelete a delivery address for a supplier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "suppliers",
+                ":supplierId",
+                "deliveryAddresses",
+                ":deliveryAddressId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "supplierId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deliveryAddressId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "33b26e3e-0e1c-4743-8d8f-dee513d9c58b",
+              "name": "Resource successfully deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9af6853f-c924-43a8-89f6-f0e2db798f7c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54a2e40d-bc77-4a45-9c66-ebf0f34873d8",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6c7c260a-5889-4f1e-ad35-c3cf5442a2a1",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1ba9dfbb-5253-4c84-b02e-b6d5bbbde1c9",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too Many Requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27fa8543-c0dd-4c92-9007-ff2d71f69f00",
+          "name": "🔒 Update delivery address V3",
+          "request": {
+            "name": "🔒 Update delivery address V3",
+            "description": {
+              "content": "This endpoint is currently in Beta and available for testing. It may contain bugs, and breaking changes can occur at any time without prior notice. We do not recommend using Beta endpoints in production environments. Should you choose to use it in production, you assume full responsibility for any resulting issues.\n\nThis endpoint requires the following scopes: `supplier:update`.\n\nUpdate an existing delivery address for a supplier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v3",
+                "suppliers",
+                ":supplierId",
+                "deliveryAddresses",
+                ":deliveryAddressId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "supplierId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deliveryAddressId",
+                  "description": "(Required) "
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"title\": \"<string,null>\",\n  \"contactPerson\": \"<string,null>\",\n  \"salutation\": \"<string,null>\",\n  \"department\": \"<string,null>\",\n  \"subDepartment\": \"<string,null>\",\n  \"street\": \"<string>\",\n  \"addressSupplement\": \"<string,null>\",\n  \"zipCode\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string,null>\",\n  \"country\": \"<string>\",\n  \"gln\": \"<string,null>\",\n  \"phone\": \"<string,null>\",\n  \"mobile\": \"<string,null>\",\n  \"fax\": \"<string,null>\",\n  \"email\": \"<string,null-email>\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": \"<boolean>\",\n    \"termsOfDelivery\": \"<string,null>\",\n    \"vatId\": \"<string,null>\",\n    \"remark\": \"<string,null>\",\n    \"note\": \"<string,null>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7e225fe3-1c6e-4a66-9631-7df3bb5f957e",
+              "name": "Update an existing delivery address for a supplier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"1\",\n    \"type\": \"company\",\n    \"name\": \"Acme Logistics Hub Berlin\",\n    \"street\": \"Lagerweg 22\",\n    \"zipCode\": \"10437\",\n    \"city\": \"Berlin\",\n    \"country\": \"DE\",\n    \"deliveryDetails\": {\n      \"taxType\": \"domestic\",\n      \"defaultDeliveryAddress\": true,\n      \"termsOfDelivery\": \"EXW\",\n      \"vatId\": \"DE123456789\",\n      \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n      \"note\": \"Deliveries after 10am only\"\n    },\n    \"title\": \"Dr.\",\n    \"contactPerson\": \"Marco Schmidt\",\n    \"salutation\": \"Hallo Logistics Team\",\n    \"department\": \"Logistics\",\n    \"subDepartment\": \"Distribution Center\",\n    \"addressSupplement\": \"Hall B\",\n    \"state\": \"BE\",\n    \"gln\": \"4012345000300\",\n    \"phone\": \"+491231234567\",\n    \"mobile\": \"+49170123456\",\n    \"fax\": \"+491231234567-1\",\n    \"email\": \"name@provider.com\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e9ba0ca-4aef-4eb0-ab37-188a85ea2552",
+              "name": "Failed validation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": {\n    \"type\": [\n      \"The selected type is invalid.\"\n    ],\n    \"name\": [\n      \"The name field must be a string.\"\n    ],\n    \"title\": [\n      \"The title field must be a string.\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f61bfe53-8825-4a7b-8066-70f8fda577d2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2b15b410-f960-456b-b588-b4088ead68c2",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e93265e2-d19e-4cb5-b16f-dbfb165f13d6",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "603ba094-c8cd-44d2-a3b8-cae7e1be4419",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v3",
+                    "suppliers",
+                    ":supplierId",
+                    "deliveryAddresses",
+                    ":deliveryAddressId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "supplierId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deliveryAddressId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"company\",\n  \"name\": \"Acme Logistics Hub Berlin\",\n  \"title\": \"Dr.\",\n  \"contactPerson\": \"Marco Schmidt\",\n  \"salutation\": \"Hallo Logistics Team\",\n  \"department\": \"Logistics\",\n  \"subDepartment\": \"Distribution Center\",\n  \"street\": \"Lagerweg 22\",\n  \"addressSupplement\": \"Hall B\",\n  \"zipCode\": \"10437\",\n  \"city\": \"Berlin\",\n  \"state\": \"BE\",\n  \"country\": \"DE\",\n  \"gln\": \"4012345000300\",\n  \"phone\": \"+491231234567\",\n  \"mobile\": \"+49170123456\",\n  \"fax\": \"+491231234567-1\",\n  \"email\": \"name@provider.com\",\n  \"deliveryDetails\": {\n    \"taxType\": \"domestic\",\n    \"defaultDeliveryAddress\": false,\n    \"termsOfDelivery\": \"EXW\",\n    \"vatId\": \"DE123456789\",\n    \"remark\": \"Main Berlin hub open 06:00 to 22:00\",\n    \"note\": \"Deliveries after 10am only\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Too Many Requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7f281033-af39-4f0a-b1ba-7873df3de191",
+    "name": "Xentral Account Supplier Delivery Address API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

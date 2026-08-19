@@ -1,0 +1,156 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Customer Address API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer Address",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/customers/:customerId/addresses",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Use either page-based or cursor-based pagination, but not both."
+              }
+            ]
+          },
+          "docs": "Fetches a list of addresses that belong to specified customer. The list includes the main address (type=masterdata), billing address (type=billingaddress) and all delivery addresses (type=deliveryaddress)."
+        },
+        {
+          "info": {
+            "name": "Create address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v2/customers/:customerId/addresses",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Customer's identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create new customer address"
+        },
+        {
+          "info": {
+            "name": "View address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/customers/:customerId/addresses/:id",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              },
+              {
+                "name": "id",
+                "value": "masterdata",
+                "type": "path",
+                "description": "The address identifier. Can be `masterdata`, `billingaddress`, or a numeric ID (which corresponds to a delivery address)."
+              }
+            ]
+          },
+          "docs": "Returns details of a single customer address"
+        },
+        {
+          "info": {
+            "name": "Update address",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v2/customers/:customerId/addresses/:id",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Customer's identifier"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "customers address identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates given fields for a given customer address"
+        },
+        {
+          "info": {
+            "name": "Delete address",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v2/customers/:customerId/addresses/:id",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "Customer's identifier"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "customers address identifier"
+              }
+            ]
+          },
+          "docs": "Delete customer address which could be inside of master data, billing address or a delivery address of a customer"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

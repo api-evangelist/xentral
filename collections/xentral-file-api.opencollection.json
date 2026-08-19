@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account File API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "File",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List files for a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/:documentType/:id/files",
+            "params": [
+              {
+                "name": "documentType",
+                "value": "",
+                "type": "path",
+                "description": "The type of the document"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the document"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Filters applied to the query. Only 'keyword' and 'title' are allowed as filter keys."
+              }
+            ]
+          },
+          "docs": "Returns a collection with all files for a document."
+        },
+        {
+          "info": {
+            "name": "View file of a document by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v2/:documentType/:id/files/:fileId",
+            "params": [
+              {
+                "name": "documentType",
+                "value": "",
+                "type": "path",
+                "description": "Document Type"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path",
+                "description": "ID of document"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns details of a single file. If you want to access the file itself please use accept-header `application/vnd.xentral.file`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

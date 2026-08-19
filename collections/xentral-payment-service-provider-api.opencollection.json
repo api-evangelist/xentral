@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Payment Service Provider API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Service Provider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List payment service provider transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/paymentServiceProviders/:id/transactions",
+            "params": [
+              {
+                "name": "id",
+                "value": "123",
+                "type": "path",
+                "description": "This is the account identifier"
+              }
+            ]
+          },
+          "docs": "Returns a collection of transactions for a specific payment service provider."
+        },
+        {
+          "info": {
+            "name": "Create payment service provider transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/paymentServiceProviders/:id/transactions",
+            "params": [
+              {
+                "name": "id",
+                "value": "123",
+                "type": "path",
+                "description": "This is the business account identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates one or more transactions for a specific payment service provider."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

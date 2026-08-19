@@ -1,0 +1,3121 @@
+{
+  "item": [
+    {
+      "id": "a4dbb815-cdc5-4c6f-8e70-8a4fd9d43834",
+      "name": "Liability",
+      "description": {
+        "content": "Returns a collection with all liabilities.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5820998c-8b7f-46af-9d32-f481fa0c4c55",
+          "name": "Create liability",
+          "request": {
+            "name": "Create liability",
+            "description": {
+              "content": "Creates a single new liability.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier\": {\n    \"id\": \"<string>\"\n  },\n  \"date\": \"<date>\",\n  \"supplierInvoiceNumber\": \"<string>\",\n  \"receiptDate\": \"<dateTime>\",\n  \"serviceDate\": \"<date>\",\n  \"status\": \"<string>\",\n  \"clarificationCase\": \"<boolean>\",\n  \"clarificationReason\": \"<string>\",\n  \"release\": \"<boolean>\",\n  \"invoiceRelease\": \"<boolean>\",\n  \"internalComment\": \"<string>\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"<float>\",\n      \"currency\": \"<string>\"\n    },\n    \"amountNet\": {\n      \"amount\": \"<float>\",\n      \"currency\": \"<string>\"\n    },\n    \"freightCharge\": \"<float>\",\n    \"taxation\": \"<string>\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": \"<number>\",\n        \"amount\": \"<float>\"\n      },\n      \"reducedTax\": {\n        \"rate\": \"<number>\",\n        \"amount\": \"<float>\"\n      },\n      \"customTax1\": {\n        \"rate\": \"<number>\",\n        \"amount\": \"<float>\"\n      },\n      \"customTax2\": {\n        \"rate\": \"<number>\",\n        \"amount\": \"<float>\"\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"<date>\",\n      \"earlyPaymentDate\": \"<date>\",\n      \"earlyPaymentDiscount\": \"<float>\",\n      \"earlyPaymentDiscountAmount\": \"<float>\"\n    },\n    \"bookingText\": \"<string>\",\n    \"payment\": {\n      \"methodName\": \"<string>\",\n      \"paidAmount\": \"<float>\",\n      \"paidOnDate\": \"<date>\",\n      \"discountReceived\": \"<float>\"\n    },\n    \"glAccount\": \"<string>\",\n    \"costCenter\": \"<string>\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"<string>\",\n      \"project\": {\n        \"id\": \"<string>\"\n      },\n      \"number\": \"<string>\",\n      \"amountGross\": \"<float>\",\n      \"amountNet\": \"<float>\",\n      \"salesOrder\": {\n        \"id\": \"<string>\"\n      },\n      \"costCenter\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"project\": {\n        \"id\": \"<string>\"\n      },\n      \"number\": \"<string>\",\n      \"amountGross\": \"<float>\",\n      \"amountNet\": \"<float>\",\n      \"salesOrder\": {\n        \"id\": \"<string>\"\n      },\n      \"costCenter\": \"<string>\"\n    }\n  ],\n  \"bookingText\": \"<string>\",\n  \"project\": {\n    \"id\": \"<string>\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"<string>\",\n      \"bookingText\": \"<string>\",\n      \"amount\": {\n        \"amount\": \"<float>\",\n        \"currency\": \"<string>\"\n      },\n      \"tax\": {\n        \"rate\": \"<float>\"\n      },\n      \"costCenter\": \"<string>\"\n    },\n    {\n      \"glAccount\": \"<string>\",\n      \"bookingText\": \"<string>\",\n      \"amount\": {\n        \"amount\": \"<float>\",\n        \"currency\": \"<string>\"\n      },\n      \"tax\": {\n        \"rate\": \"<float>\"\n      },\n      \"costCenter\": \"<string>\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"<date>\",\n    \"earlyPaymentDate\": \"<date>\",\n    \"earlyPaymentDiscount\": \"<float>\"\n  },\n  \"payment\": {\n    \"methodName\": \"<string>\",\n    \"paidAmount\": \"<float>\",\n    \"paidOnDate\": \"<date>\",\n    \"discountReceived\": \"<float>\"\n  },\n  \"positions\": [\n    {\n      \"product\": {\n        \"id\": \"<string>\",\n        \"supplierProductNumber\": \"<string>\"\n      },\n      \"price\": {\n        \"amount\": \"<float>\",\n        \"currency\": \"<string>\"\n      },\n      \"tax\": {\n        \"rate\": \"<float>\",\n        \"vatCategory\": \"<string>\",\n        \"taxText\": \"<string>\"\n      },\n      \"sort\": \"<number>\",\n      \"number\": \"<string>\",\n      \"purchaseOrder\": {\n        \"id\": \"<string>\"\n      },\n      \"deliveryDate\": \"<date>\",\n      \"quantity\": \"<number>\",\n      \"unit\": \"<string>\",\n      \"packagingUnit\": \"<string>\",\n      \"costCenter\": \"<string>\"\n    },\n    {\n      \"product\": {\n        \"id\": \"<string>\",\n        \"supplierProductNumber\": \"<string>\"\n      },\n      \"price\": {\n        \"amount\": \"<float>\",\n        \"currency\": \"<string>\"\n      },\n      \"tax\": {\n        \"rate\": \"<float>\",\n        \"vatCategory\": \"<string>\",\n        \"taxText\": \"<string>\"\n      },\n      \"sort\": \"<number>\",\n      \"number\": \"<string>\",\n      \"purchaseOrder\": {\n        \"id\": \"<string>\"\n      },\n      \"deliveryDate\": \"<date>\",\n      \"quantity\": \"<number>\",\n      \"unit\": \"<string>\",\n      \"packagingUnit\": \"<string>\",\n      \"costCenter\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d5d5c1d6-a8d5-4afb-a2e9-42d1bed0c438",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d59b8b68-5c5a-4813-bdf6-24355865ca23",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1588eac-5a98-4669-8e40-3412e4abda91",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ebbe79d-017d-4762-b429-6ad45ed8a8e1",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "68832fd3-5ad7-4d00-ad65-f8c7bd85d183",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ee60b97a-496e-44ed-9cbb-13ed57af0dad",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "705f22db-c060-4cfc-9bdd-18ff785c70d2",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date\": \"2024-01-01\",\n  \"supplier\": {\n    \"id\": \"123456\"\n  },\n  \"supplierInvoiceNumber\": \"123456\",\n  \"receiptDate\": \"2024-01-01T12:00:00Z\",\n  \"status\": \"open\",\n  \"clarificationCase\": true,\n  \"clarificationReason\": \"Awaiting customer confirmation on pricing details.\",\n  \"release\": true,\n  \"invoiceRelease\": false,\n  \"internalComment\": \"Priority customer. Expedite processing once clarification is received.\",\n  \"financials\": {\n    \"amountGross\": {\n      \"amount\": \"100.0\",\n      \"currency\": \"EUR\"\n    },\n    \"freightCharge\": 10,\n    \"taxation\": \"VAT\",\n    \"taxes\": {\n      \"normalTax\": {\n        \"rate\": 19,\n        \"amount\": 19\n      },\n      \"reducedTax\": {\n        \"rate\": 7,\n        \"amount\": 7\n      },\n      \"customTax1\": {\n        \"rate\": 8.1,\n        \"amount\": 50.5\n      },\n      \"customTax2\": {\n        \"rate\": 10,\n        \"amount\": 50.5\n      }\n    },\n    \"paymentTerms\": {\n      \"dueDate\": \"2020-01-31\",\n      \"earlyPaymentDate\": \"2020-01-15\",\n      \"earlyPaymentDiscount\": 2\n    },\n    \"bookingText\": \"Liability booking text\",\n    \"payment\": {\n      \"methodName\": \"Bank transfer\",\n      \"paidAmount\": 100,\n      \"paidOnDate\": \"2020-01-01\",\n      \"discountReceived\": 2\n    },\n    \"glAccount\": \"123456\",\n    \"costCenter\": \"123456\"\n  },\n  \"assignedPurchaseOrders\": [\n    {\n      \"id\": \"123456\",\n      \"number\": \"123456\",\n      \"amountGross\": 100,\n      \"amountNet\": 100,\n      \"project\": {\n        \"id\": \"123456\"\n      },\n      \"salesOrder\": {\n        \"id\": \"123456\"\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"bookingText\": \"Liability booking text\",\n  \"project\": {\n    \"id\": \"123456\"\n  },\n  \"accounting\": [\n    {\n      \"glAccount\": \"123456\",\n      \"bookingText\": \"Liability booking text\",\n      \"amount\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"tax\": {\n        \"rate\": 19\n      },\n      \"costCenter\": \"123456\"\n    }\n  ],\n  \"paymentTerms\": {\n    \"dueDate\": \"2020-01-31\",\n    \"earlyPaymentDate\": \"2020-01-15\"\n  },\n  \"positions\": [\n    {\n      \"sort\": 1,\n      \"number\": \"123456\",\n      \"purchaseOrder\": {\n        \"id\": \"123456\"\n      },\n      \"product\": {\n        \"id\": \"123456\",\n        \"supplierProductNumber\": \"123456\"\n      },\n      \"deliveryDate\": \"2024-01-01\",\n      \"quantity\": 1,\n      \"unit\": \"pcs\",\n      \"packagingUnit\": \"pcs\",\n      \"price\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"costCenter\": \"123456\",\n      \"tax\": {\n        \"vatCategory\": \"19%\",\n        \"rate\": 19,\n        \"taxText\": \"VAT 19%\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5bc1f8a-383f-4e3d-a958-70e922286117",
+          "name": "List liabilities",
+          "request": {
+            "name": "List liabilities",
+            "description": {
+              "content": "Returns a collection with all Liabilities",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filter[id][0]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filter[id][1]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[0][dir]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][field]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "order[1][dir]",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9b0f2a2f-19a4-4e26-997b-cf000b4cf07b",
+              "name": "Operation completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[id][0]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "filter[id][1]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"17\",\n      \"documentNumber\": \"LB-100001\",\n      \"date\": \"2020-01-15\",\n      \"createdAt\": \"2020-01-01 12:00:00+02:00\",\n      \"createdBy\": {\n        \"name\": \"John Doe\"\n      },\n      \"updatedAt\": \"2020-01-01 13:00:00+02:00\",\n      \"status\": \"PENDING\",\n      \"supplier\": {\n        \"id\": \"17\",\n        \"name\": \"Test\",\n        \"number\": \"123456\"\n      },\n      \"supplierInvoiceNumber\": \"INV-23456\",\n      \"receiptDate\": \"2020-01-01\",\n      \"financials\": {\n        \"amountGross\": {\n          \"amount\": \"100.0\",\n          \"currency\": \"EUR\"\n        },\n        \"freightCharge\": 10,\n        \"taxation\": \"VAT\",\n        \"taxes\": {\n          \"normalTax\": {\n            \"rate\": 19,\n            \"amount\": 19\n          },\n          \"reducedTax\": {\n            \"rate\": 7,\n            \"amount\": 7\n          },\n          \"customTax1\": {\n            \"rate\": 8.1,\n            \"amount\": 50.5\n          },\n          \"customTax2\": {\n            \"rate\": 10,\n            \"amount\": 50.5\n          }\n        },\n        \"paymentTerms\": {\n          \"dueDate\": \"2020-01-31\",\n          \"earlyPaymentDate\": \"2020-01-15\",\n          \"earlyPaymentDiscount\": 2\n        },\n        \"bookingText\": \"Liability booking text\",\n        \"payment\": {\n          \"methodName\": \"Bank transfer\",\n          \"paidAmount\": 100,\n          \"paidOnDate\": \"2020-01-01\",\n          \"discountReceived\": 2\n        },\n        \"bank\": {\n          \"iban\": \"ABC\",\n          \"bic\": \"de4\"\n        },\n        \"amountNet\": {\n          \"amount\": \"0.0000\",\n          \"currency\": \"EUR\"\n        },\n        \"remainingSum\": {\n          \"amount\": \"0.00\",\n          \"currency\": \"EUR\"\n        },\n        \"totalAmount\": {\n          \"amount\": \"0.00\",\n          \"currency\": \"EUR\"\n        }\n      },\n      \"purchaseOrder\": {\n        \"id\": \"17\"\n      },\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"icons\": {\n        \"goodsReceiptCheck\": \"ok\",\n        \"invoiceCheck\": \"ok\",\n        \"accountAssignment\": \"ok\",\n        \"paymentStatus\": \"partially_paid\",\n        \"accountLink\": \"missing\"\n      },\n      \"tags\": [\n        {\n          \"name\": \"Erledigt\",\n          \"color\": \"339966\"\n        },\n        {\n          \"name\": \"Zu klären\",\n          \"color\": \"ff0000\"\n        }\n      ]\n    },\n    {\n      \"id\": \"17\",\n      \"documentNumber\": \"LB-100001\",\n      \"date\": \"2020-01-15\",\n      \"createdAt\": \"2020-01-01 12:00:00+02:00\",\n      \"createdBy\": {\n        \"name\": \"John Doe\"\n      },\n      \"updatedAt\": \"2020-01-01 13:00:00+02:00\",\n      \"status\": \"PENDING\",\n      \"supplier\": {\n        \"id\": \"17\",\n        \"name\": \"Test\",\n        \"number\": \"123456\"\n      },\n      \"supplierInvoiceNumber\": \"INV-23456\",\n      \"receiptDate\": \"2020-01-01\",\n      \"financials\": {\n        \"amountGross\": {\n          \"amount\": \"100.0\",\n          \"currency\": \"EUR\"\n        },\n        \"freightCharge\": 10,\n        \"taxation\": \"VAT\",\n        \"taxes\": {\n          \"normalTax\": {\n            \"rate\": 19,\n            \"amount\": 19\n          },\n          \"reducedTax\": {\n            \"rate\": 7,\n            \"amount\": 7\n          },\n          \"customTax1\": {\n            \"rate\": 8.1,\n            \"amount\": 50.5\n          },\n          \"customTax2\": {\n            \"rate\": 10,\n            \"amount\": 50.5\n          }\n        },\n        \"paymentTerms\": {\n          \"dueDate\": \"2020-01-31\",\n          \"earlyPaymentDate\": \"2020-01-15\",\n          \"earlyPaymentDiscount\": 2\n        },\n        \"bookingText\": \"Liability booking text\",\n        \"payment\": {\n          \"methodName\": \"Bank transfer\",\n          \"paidAmount\": 100,\n          \"paidOnDate\": \"2020-01-01\",\n          \"discountReceived\": 2\n        },\n        \"bank\": {\n          \"iban\": \"ABC\",\n          \"bic\": \"de4\"\n        },\n        \"amountNet\": {\n          \"amount\": \"0.0000\",\n          \"currency\": \"EUR\"\n        },\n        \"remainingSum\": {\n          \"amount\": \"0.00\",\n          \"currency\": \"EUR\"\n        },\n        \"totalAmount\": {\n          \"amount\": \"0.00\",\n          \"currency\": \"EUR\"\n        }\n      },\n      \"purchaseOrder\": {\n        \"id\": \"17\"\n      },\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"icons\": {\n        \"goodsReceiptCheck\": \"ok\",\n        \"invoiceCheck\": \"ok\",\n        \"accountAssignment\": \"ok\",\n        \"paymentStatus\": \"partially_paid\",\n        \"accountLink\": \"missing\"\n      },\n      \"tags\": [\n        {\n          \"name\": \"Erledigt\",\n          \"color\": \"339966\"\n        },\n        {\n          \"name\": \"Zu klären\",\n          \"color\": \"ff0000\"\n        }\n      ]\n    }\n  ],\n  \"extra\": {\n    \"totalCount\": 1,\n    \"page\": {\n      \"number\": 1,\n      \"size\": 10\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "feae34bd-ee14-4844-bc6a-0016be31a459",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[id][0]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "filter[id][1]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3afe639a-26e1-4bd6-8770-cfcc69a510b8",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[id][0]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "filter[id][1]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eeeae36f-efd8-423d-9b44-f4607002cee7",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[id][0]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "filter[id][1]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c26fca03-3e1a-4dc4-915e-09a4ce32d3b7",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filter[id][0]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "filter[id][1]",
+                      "value": "17"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[0][dir]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][field]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order[1][dir]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "67ad4e24-c629-46e3-ab17-467af534a5ba",
+          "name": "Create recurring liability",
+          "request": {
+            "name": "Create recurring liability",
+            "description": {
+              "content": "Creates a single new recurring liability.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities-recurring"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"creationType\": \"<string>\",\n  \"type\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"filter\": \"<string>\",\n  \"debit\": \"<string>\",\n  \"credit\": \"<string>\",\n  \"fee\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"contraAccount\": \"<string>\",\n  \"invoiceNumber\": \"<string>\",\n  \"purpose\": \"<string>\",\n  \"costCenter\": \"<string>\",\n  \"paymentMethod\": \"<string>\",\n  \"approveGoodsReceiptInspection\": \"<boolean>\",\n  \"approveIncomingInvoiceInspection\": \"<boolean>\",\n  \"liabilityAmount\": \"<string>\",\n  \"liabilityCurrency\": \"<string>\",\n  \"value\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d2470e99-43e0-4291-a1d4-029678b0d805",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "62c68c66-fc6d-49de-a905-cbf2dd58b157",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf61c3c6-9ca1-4eeb-be5e-39c53999bb95",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f95f1fe4-3f15-4ca6-bad8-cb21c2a21035",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9c87a42-9015-4faf-8c1f-2b7a7babdff4",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c9e4a868-80b8-4398-81fb-5194b2574cc9",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b7368bf5-61f8-4f7b-b14b-d10c4ced3060",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities-recurring"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creationType\": \"incoming_payment\",\n  \"type\": \"liability\",\n  \"active\": true,\n  \"filter\": \"filter is bookingText test\",\n  \"debit\": \"12\",\n  \"credit\": \"11\",\n  \"fee\": \"1\",\n  \"currency\": \"EUR\",\n  \"value\": \"26171 Sandra Krämer (Dresden)\",\n  \"contraAccount\": \"account label\",\n  \"invoiceNumber\": \"INV-DE-UOSS-123456789-1234-567\",\n  \"purpose\": \"purpose test\",\n  \"costCenter\": \"5049 CostCenter Description\",\n  \"paymentMethod\": \"Amazon\",\n  \"approveGoodsReceiptInspection\": true,\n  \"approveIncomingInvoiceInspection\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f96db8a-eec9-4c4a-b61f-33c4cfb6b480",
+          "name": "View liability",
+          "request": {
+            "name": "View liability",
+            "description": {
+              "content": "Returns details of a single liability.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4f4112b-c196-4b2e-a56a-7565fffb2ed3",
+              "name": "Operation completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"documentNumber\": \"LB-100001\",\n    \"date\": \"2020-01-15\",\n    \"createdAt\": \"2020-01-01 12:00:00+02:00\",\n    \"createdBy\": {\n      \"name\": \"John Doe\"\n    },\n    \"updatedAt\": \"2020-01-01 13:00:00+02:00\",\n    \"supplierInvoice\": \"INV-12345\",\n    \"receiptDate\": \"2020-01-01T12:00:00Z\",\n    \"deliveryDate\": \"2020-01-01\",\n    \"status\": \"PENDING\",\n    \"supplier\": {},\n    \"supplierInvoiceNumber\": \"INV-12345\",\n    \"financials\": {\n      \"amountGross\": {\n        \"amount\": \"100.0\",\n        \"currency\": \"EUR\"\n      },\n      \"freightCharge\": 10,\n      \"taxation\": \"VAT\",\n      \"taxes\": {\n        \"normalTax\": {\n          \"rate\": 19,\n          \"amount\": 19\n        },\n        \"reducedTax\": {\n          \"rate\": 7,\n          \"amount\": 7\n        },\n        \"customTax1\": {\n          \"rate\": 8.1,\n          \"amount\": 50.5\n        },\n        \"customTax2\": {\n          \"rate\": 10,\n          \"amount\": 50.5\n        }\n      },\n      \"paymentTerms\": {\n        \"dueDate\": \"2020-01-31\",\n        \"earlyPaymentDate\": \"2020-01-15\",\n        \"earlyPaymentDiscount\": 2\n      },\n      \"bookingText\": \"Liability booking text\",\n      \"payment\": {\n        \"methodName\": \"Bank transfer\",\n        \"paidAmount\": 100,\n        \"paidOnDate\": \"2020-01-01\",\n        \"discountReceived\": 2\n      },\n      \"glAccount\": \"123456\",\n      \"costCenter\": \"123456\"\n    },\n    \"purchaseOrder\": {},\n    \"assignedPurchaseOrders\": [\n      {\n        \"number\": \"123456\",\n        \"amountGross\": 100,\n        \"amountNet\": 100,\n        \"project\": {},\n        \"salesOrder\": {},\n        \"costCenter\": \"123456\"\n      }\n    ],\n    \"project\": {},\n    \"accounting\": [\n      {\n        \"glAccount\": \"123456\",\n        \"bookingText\": \"Liability booking text\",\n        \"amount\": {\n          \"amount\": \"100.0\",\n          \"currency\": \"EUR\"\n        },\n        \"tax\": {\n          \"rate\": 19\n        },\n        \"costCenter\": \"123456\"\n      }\n    ],\n    \"purpose\": \"test purpose\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa73b0ab-0afc-4909-91eb-36540c3f5c5f",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c937bf7-a589-4147-80f3-dd66ecbb1840",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "829552fa-8f76-468a-9ff3-6ac99403f4b1",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6323c94e-132d-4517-a99f-7a9b3b17cc37",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "545a4702-d31b-48bf-b020-56aa17322600",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "651362fd-ae02-4d7f-b5d8-44fd1489d775",
+          "name": "Release liability",
+          "request": {
+            "name": "Release liability",
+            "description": {
+              "content": "Releases the liability, setting its status to released and enabling write protection",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities",
+                ":id",
+                "actions",
+                "release"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<string>"
+            }
+          },
+          "response": [
+            {
+              "id": "e0c2a46a-8608-4544-9281-e0a900aac6d4",
+              "name": "Operation completed successfully, no response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fdd2f6de-65ea-4fc7-b612-d718af1144c6",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9884cd88-32ab-4159-957d-436859e66dc7",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f06b96d-c384-4923-8b38-43c6df6e7145",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "59596ef1-d21b-4f2c-ad97-0bbe790bcf5f",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad3370b4-48b7-4e95-a42a-d0e23f0d34ee",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ec851697-4e2a-4170-b63b-e4266352bb77",
+              "name": "Request conflict with the current state of the target resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/conflict\",\n  \"title\": \"string\",\n  \"messages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "304854c2-24f7-4a21-a269-600b26468057",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "actions",
+                    "release"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ab5fd2b2-527c-49bc-a9c0-50f666f93949",
+          "name": "Add file to liability",
+          "request": {
+            "name": "Add file to liability",
+            "description": {
+              "content": "Upload a file and adds this file as document to given liability",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "liabilities",
+                ":id",
+                "documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileName\": \"<string>\",\n  \"fileContent\": \"<string>\",\n  \"keyword\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f70e173c-948d-4791-b0df-189f215a9267",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "db4a1f3e-711f-4171-9168-6f4596d46639",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "419d6361-d874-42c5-b5fc-c9f0f21a0283",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c681dec5-841b-4ba0-9427-61bba4956fdc",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "86bf8158-53cd-4c53-b48f-b5171a2c06be",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fd55550a-18f0-40ca-a0dd-495877828869",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0f1cb4d4-4a90-4557-9f5a-ab4f9b9efb53",
+              "name": "Request conflict with the current state of the target resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "liabilities",
+                    ":id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"keyword\": \"other\",\n  \"fileName\": \"document.pdf\",\n  \"fileContent\": \"dGVzdA==\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/conflict\",\n  \"title\": \"string\",\n  \"messages\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9d283c90-6da7-4828-8f09-f2cfe421a733",
+    "name": "Xentral Account Liability API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

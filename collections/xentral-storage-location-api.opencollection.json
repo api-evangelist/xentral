@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Storage Location API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Storage Location",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List storage locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/warehouses/:warehouseId/storageLocations",
+            "params": [
+              {
+                "name": "warehouseId",
+                "value": "",
+                "type": "path",
+                "description": "ID of warehouse"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint is only available as beta version and will introduce breaking changes without further notice or versioning. Returns all storage locations for the specified warehouse."
+        },
+        {
+          "info": {
+            "name": "Create storage location",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/warehouses/:warehouseId/storageLocations",
+            "params": [
+              {
+                "name": "warehouseId",
+                "value": "",
+                "type": "path",
+                "description": "ID of warehouse"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new storage location"
+        },
+        {
+          "info": {
+            "name": "Update storage location",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/warehouses/:warehouseId/storageLocations/:storageLocationId",
+            "params": [
+              {
+                "name": "warehouseId",
+                "value": "",
+                "type": "path",
+                "description": "ID of warehouse"
+              },
+              {
+                "name": "storageLocationId",
+                "value": "",
+                "type": "path",
+                "description": "ID of storage location"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a storage location for the specified warehouse."
+        },
+        {
+          "info": {
+            "name": "Delete storage location",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/warehouses/:warehouseId/storageLocations/:storageLocationId",
+            "params": [
+              {
+                "name": "warehouseId",
+                "value": "",
+                "type": "path",
+                "description": "ID of warehouse"
+              },
+              {
+                "name": "storageLocationId",
+                "value": "",
+                "type": "path",
+                "description": "ID of storage location"
+              }
+            ]
+          },
+          "docs": "Delete a storage location for the specified warehouse."
+        },
+        {
+          "info": {
+            "name": "Set total stock on storage locations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/storageLocations/setTotalStock",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint sets the total stock for one or more storage locations.<br>The stock data provided in the payload, including quality control attributes (batch, best-before date, and serial number), will be taken over as the new stock for the specified storage location(s).<br><br><strong>CAUTION: Any stock that was previously present in the storage location and is not specified in the payload will be removed from the storage location. This also includes the quality control attributes.</strong>"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

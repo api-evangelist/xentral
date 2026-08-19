@@ -1,0 +1,160 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Customer - Contact Person API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer - Contact Person",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contact persons",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/customers/:customerId/contactPerson",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Provides a list of contact persons belongs to a customer related to given filters"
+        },
+        {
+          "info": {
+            "name": "Create contact person",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/customers/:customerId/contactPerson",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new contact person for given customer."
+        },
+        {
+          "info": {
+            "name": "View contact person",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/customers/:customerId/contactPerson/:contactPersonId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              },
+              {
+                "name": "contactPersonId",
+                "value": "",
+                "type": "path",
+                "description": "The contact person's identifier."
+              }
+            ]
+          },
+          "docs": "Gets a single contact person of given customer by ID."
+        },
+        {
+          "info": {
+            "name": "Update contact person",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/customers/:customerId/contactPerson/:contactPersonId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The customer's identifier."
+              },
+              {
+                "name": "contactPersonId",
+                "value": "",
+                "type": "path",
+                "description": "Contact Person ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates new contact person for given customer."
+        },
+        {
+          "info": {
+            "name": "Delete contact person",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/customers/:customerId/contactPerson/:contactPersonId",
+            "params": [
+              {
+                "name": "customerId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the customer"
+              },
+              {
+                "name": "contactPersonId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the contact person"
+              }
+            ]
+          },
+          "docs": "Deletes a contact person for given customer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

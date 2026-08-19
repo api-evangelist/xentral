@@ -1,0 +1,399 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Report API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Report",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report"
+          },
+          "docs": "Returns a list of reports (official Xentral reports and custom reports)"
+        },
+        {
+          "info": {
+            "name": "Create report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new report and returns the new record"
+        },
+        {
+          "info": {
+            "name": "View report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Returns a single report by ID"
+        },
+        {
+          "info": {
+            "name": "Update report",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing report specified by its ID and returns the new record"
+        },
+        {
+          "info": {
+            "name": "Delete report",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Deletes an existing report specified by its ID and returns the deleted record"
+        },
+        {
+          "info": {
+            "name": "List report exports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/export",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "List all exports for that report. Possible statuses are `success`, `failed`, `running` and `pending`. If status is success, then we also show the download link."
+        },
+        {
+          "info": {
+            "name": "Create report export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/export",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an export for given report based on the SQL statement that is stored with the report. You can overwrite the stored query parameters by passing new parameters in the request body"
+        },
+        {
+          "info": {
+            "name": "View report export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/export/:uuid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The resource's UUID identifier."
+              }
+            ]
+          },
+          "docs": "Get specific report export by ID which (if completed successfully) contains a download link to a file in CSV format"
+        },
+        {
+          "info": {
+            "name": "Execute report query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/query",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "preview",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute a stored report query synchronously and get result table. The number of records that you receive as results is limited to a reasonable amount (currently 5000 records). This endpoint is mainly for viewing the data. Use the export endpoints in order to fetch all results."
+        },
+        {
+          "info": {
+            "name": "List report permalink",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/permalink",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "List permanent download link for report. You can only have one valid permalink enabled at a time for each report. Creating a new one will invalidate all existing permalinks."
+        },
+        {
+          "info": {
+            "name": "Create report permalink",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/permalink",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create permanent download link for report. You can only have one valid permalink enabled at a time for each report. Creating a new one will invalidate all existing permalinks."
+        },
+        {
+          "info": {
+            "name": "Invalidate permalink for report",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/permalink",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Invalidate permanent download link for downloading report results"
+        },
+        {
+          "info": {
+            "name": "Download report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/permalink/:token",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "path",
+                "description": "A randomly generated, 256 characters long, alphanumeric string."
+              }
+            ]
+          },
+          "docs": "Download latest report export result via permalink. Using a permalink will allow anyone with the link to view the report. We recommend to use other export features for exporting data."
+        },
+        {
+          "info": {
+            "name": "List report schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/schedule",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "List all scheduled report exports"
+        },
+        {
+          "info": {
+            "name": "Create report schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/schedule",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create scheduled export for report"
+        },
+        {
+          "info": {
+            "name": "Update report schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/schedule/:uuid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The resource's UUID identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update scheduled report export"
+        },
+        {
+          "info": {
+            "name": "Delete report schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/report/:id/schedule/:uuid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              },
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The resource's UUID identifier."
+              }
+            ]
+          },
+          "docs": "Delete scheduled report export"
+        },
+        {
+          "info": {
+            "name": "List schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/analytics/schedule"
+          },
+          "docs": "List all active export schedules for report exports"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

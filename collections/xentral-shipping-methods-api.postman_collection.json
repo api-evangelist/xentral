@@ -1,0 +1,1555 @@
+{
+  "item": [
+    {
+      "id": "f4ba72bc-9d01-4b1a-ab4f-84cc4c370537",
+      "name": "Shipping Methods",
+      "description": {
+        "content": "Shipping methods",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0de0da70-f9e1-4713-aa7d-3f68a75672d9",
+          "name": "List shipping methods",
+          "request": {
+            "name": "List shipping methods",
+            "description": {
+              "content": "Lists existing shipping methods",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "shippingMethods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "627d0400-6c44-4721-9937-94666b614395",
+              "name": "Shipping method list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"17\",\n      \"module\": \"glsapi\",\n      \"type\": \"gls\",\n      \"designation\": \"GLS International\",\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"shippingLabelPrinter\": {\n        \"id\": \"17\"\n      },\n      \"exportDocumentPrinter\": {\n        \"id\": \"17\"\n      },\n      \"shippingEmailBehaviour\": \"default behaviour\",\n      \"textTemplate\": {\n        \"type\": \"Template Type\"\n      },\n      \"supportDeliveries\": true,\n      \"supportReturns\": true\n    },\n    {\n      \"id\": \"17\",\n      \"module\": \"glsapi\",\n      \"type\": \"gls\",\n      \"designation\": \"GLS International\",\n      \"project\": {\n        \"id\": \"17\"\n      },\n      \"shippingLabelPrinter\": {\n        \"id\": \"17\"\n      },\n      \"exportDocumentPrinter\": {\n        \"id\": \"17\"\n      },\n      \"shippingEmailBehaviour\": \"default behaviour\",\n      \"textTemplate\": {\n        \"type\": \"Template Type\"\n      },\n      \"supportDeliveries\": true,\n      \"supportReturns\": true\n    }\n  ],\n  \"extra\": {\n    \"totalCount\": 1,\n    \"page\": {\n      \"number\": 1,\n      \"size\": 10\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30f166ee-421b-4e9e-ba84-4c1beff5fafe",
+              "name": "Unable to authenticate the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Missing required scopes: customer:create.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c313f45d-b288-4556-8616-6274559c3724",
+              "name": "Unable to authorize the client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e352b09c-1724-42e4-beab-d408f960d8cd",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9de8f594-9b80-4b94-838f-32522b9c6df9",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a7f03ab9-122e-4918-851a-dedc557d9fbd",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[number]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page[size]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f9e1afa-6f2a-47a4-bb6f-dda58a1d9b79",
+          "name": "Create shipping method",
+          "request": {
+            "name": "Create shipping method",
+            "description": {
+              "content": "Creates new shipping method.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "shippingMethods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/html"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": \"<boolean>\",\n  \"name\": \"<string>\",\n  \"project\": {\n    \"id\": \"<string>\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n      }\n    },\n    \"serviceUrl\": \"<string>\",\n    \"extra\": {\n      \"field1\": \"<string>\",\n      \"field2\": \"<string>\"\n    },\n    \"id\": \"<string>\",\n    \"product\": {\n      \"id\": \"<string>\"\n    },\n    \"shipmentType\": \"<string>\"\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"<string>\"\n    },\n    \"document\": {\n      \"id\": \"<string>\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      },\n      \"width\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      },\n      \"height\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": \"<number>\",\n      \"unit\": \"<string>\"\n    }\n  },\n  \"sender\": {\n    \"name\": \"<string>\",\n    \"address\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"country\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ef0bdd4a-52f9-4eab-a9c9-5d6381417d00",
+              "name": "Resource successfully created response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "URI of the created resource",
+                  "key": "Location",
+                  "value": "https://example.xentral.biz/api/users/17"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54a4f676-420e-4f51-acb1-03ad5dd1864a",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfa6ad05-a6a6-4687-8ca3-0a9d009684b9",
+              "name": "Resource representation send in the request is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "596f2c61-f297-441d-a689-d6ab8f655ff4",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1b09416d-ca43-4786-8723-d33beabc4a40",
+          "name": "View shipping method",
+          "request": {
+            "name": "View shipping method",
+            "description": {
+              "content": "Shows the details of a Shipping Method",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "shippingMethods",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "60d724ef-6eb5-47c1-a326-b24161eed151",
+              "name": "Operation completed successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"genericCarrier\",\n  \"isActive\": true,\n  \"name\": \"New generic Carrier\",\n  \"project\": {\n    \"id\": \"17\"\n  },\n  \"carrier\": {\n    \"carrier\": {\n      \"credentials\": {\n        \"basic\": {\n          \"username\": \"your-username\",\n          \"password\": \"your-password\"\n        }\n      },\n      \"serviceUrl\": \"https://api.example.com\",\n      \"extra\": {\n        \"field1\": \"value1\",\n        \"field2\": \"value2\"\n      },\n      \"product\": {\n        \"shipmentType\": \"outbound\"\n      }\n    }\n  },\n  \"shippingLabelPrinter\": {\n    \"id\": \"17\"\n  },\n  \"exportDocumentPrinter\": {\n    \"id\": \"17\"\n  },\n  \"shippingEmailBehaviour\": \"default behaviour\",\n  \"textTemplate\": {\n    \"type\": \"Template Type\"\n  },\n  \"supportDeliveries\": true,\n  \"supportReturns\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c68de088-12a3-424e-81cd-9d2480fcdc2a",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bca00b64-427a-4005-8430-72fd1424a89f",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ca391314-31ca-4519-93a5-98b55c6fc9ac",
+              "name": "Requested resource representation does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "665e9cde-bd6a-4adc-85b5-30b491a392b2",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e4737551-d7ce-4a75-9dc2-617fbdb72ef8",
+          "name": "Update shipping method",
+          "request": {
+            "name": "Update shipping method",
+            "description": {
+              "content": "Updates a Shipping Method",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "shippingMethods",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The resource's identifier."
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{xentralId}}",
+                  "key": "xentralId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": \"<boolean>\",\n  \"name\": \"<string>\",\n  \"project\": {\n    \"id\": \"<string>\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"<string>\",\n        \"password\": \"<string>\"\n      }\n    },\n    \"serviceUrl\": \"<string>\",\n    \"extra\": {\n      \"field1\": \"<string>\",\n      \"field2\": \"<string>\"\n    },\n    \"id\": \"<string>\",\n    \"product\": {\n      \"id\": \"<string>\"\n    },\n    \"shipmentType\": \"<string>\"\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"<string>\"\n    },\n    \"document\": {\n      \"id\": \"<string>\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      },\n      \"width\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      },\n      \"height\": {\n        \"value\": \"<number>\",\n        \"unit\": \"<string>\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": \"<number>\",\n      \"unit\": \"<string>\"\n    }\n  },\n  \"sender\": {\n    \"name\": \"<string>\",\n    \"address\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"country\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "febfea34-e64c-497f-b4ec-a0ba9e37bd6a",
+              "name": "Operation completed successfully, no response body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "57326e8c-10c0-4990-924b-87114d420123",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6064c15-3af8-41b8-809d-69cf78263d27",
+              "name": "Resource was not found or not enough access privileges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "741b6b8e-7e92-4309-bd6d-08b697fdff68",
+              "name": "IETF RFC 9457 Problem API compliant response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://api.xentral.biz/problems/request-validation\",\n  \"title\": \"Request payload validation failed.\",\n  \"violations\": [\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    },\n    {\n      \"username\": [\n        \"This value should not be blank.\"\n      ],\n      \"email\": [\n        \"This value is not a valid email address.\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fa6dc63-1acf-400a-a750-40145bb10be1",
+              "name": "Too many API calls made.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "shippingMethods",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The resource's identifier."
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{xentralId}}",
+                      "key": "xentralId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true,\n  \"name\": \"New Carrier\",\n  \"project\": {\n    \"id\": \"123\"\n  },\n  \"carrier\": {\n    \"credentials\": {\n      \"basic\": {\n        \"username\": \"your-username\",\n        \"password\": \"your-password\"\n      }\n    },\n    \"serviceUrl\": \"https://api.example.com\",\n    \"extra\": {\n      \"field1\": \"value1\",\n      \"field2\": \"value2\"\n    },\n    \"id\": \"post-ch\",\n    \"product\": {\n      \"id\": \"post-ch-express\"\n    }\n  },\n  \"printers\": {\n    \"label\": {\n      \"id\": \"label-printer-1\"\n    },\n    \"document\": {\n      \"id\": \"document-printer-1\"\n    }\n  },\n  \"parcel\": {\n    \"defaultDimensions\": {\n      \"length\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"width\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      },\n      \"height\": {\n        \"value\": 10,\n        \"unit\": \"cm\"\n      }\n    },\n    \"minimumWeight\": {\n      \"value\": 1,\n      \"unit\": \"kg\"\n    }\n  },\n  \"sender\": {\n    \"id\": \"sender-1\",\n    \"name\": \"Sender Name\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "xentral",
+      "key": "xentralId"
+    },
+    {
+      "type": "string",
+      "value": "https://{{xentralId}}.xentral.biz",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3889f111-0519-46c0-b04d-eb6175166b03",
+    "name": "Xentral Account Shipping Methods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Xentral is an ERP platform.\n\nContact Support:\n Name: Xentral\n Email: api@xentral.com",
+      "type": "text/plain"
+    }
+  }
+}

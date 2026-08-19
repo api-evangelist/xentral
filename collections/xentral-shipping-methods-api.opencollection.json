@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Xentral Account Shipping Methods API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Shipping Methods",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List shipping methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/shippingMethods",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists existing shipping methods"
+        },
+        {
+          "info": {
+            "name": "Create shipping method",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{xentralId}.xentral.biz/api/v1/shippingMethods",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates new shipping method."
+        },
+        {
+          "info": {
+            "name": "View shipping method",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{xentralId}.xentral.biz/api/v1/shippingMethods/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ]
+          },
+          "docs": "Shows the details of a Shipping Method"
+        },
+        {
+          "info": {
+            "name": "Update shipping method",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{xentralId}.xentral.biz/api/v1/shippingMethods/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource's identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a Shipping Method"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
