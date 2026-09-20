@@ -1,0 +1,266 @@
+slug: xentral
+provider: Xentral
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 26
+edges:
+- tag: General Ledger
+  spec_file: xentral-general-ledger-api-openapi.yml
+  capability_id: BC-200.10
+  capability_id_l1: BC-200
+  capability_name: General Ledger Management
+  confidence: 0.95
+  evidence: GET /api/v1/generalLedger  generalLedger.list  List General Ledger Entries
+  reason: Operations read general ledger entries aggregated by document, account and line item — unambiguously
+    general ledger accounting.
+- tag: Purchase Order
+  spec_file: xentral-purchase-order-api-openapi.yml
+  capability_id: BC-500.30
+  capability_id_l1: BC-500
+  capability_name: Purchase Order Management
+  confidence: 0.95
+  evidence: POST /api/v1/purchaseOrders  purchaseOrder.create  Create purchase order ... PATCH /api/v1/purchaseOrders/{id}/actions/release  Release
+    purchase order
+  reason: Operations create, update, cancel and release purchase orders — squarely purchase order lifecycle
+    in procurement.
+- tag: PurchaseOrder
+  spec_file: xentral-purchaseorder-api-openapi.yml
+  capability_id: BC-500.30
+  capability_id_l1: BC-500
+  capability_name: Purchase Order Management
+  confidence: 0.95
+  evidence: POST /api/v3/purchaseOrders  🔒 Create purchase order V3 ... PATCH /api/v3/purchaseOrders/{id}/actions/send  Send
+    purchase order V3
+  reason: 'Full v3 purchase order lifecycle: create, update, release, complete, cancel, send — purchase
+    order management.'
+- tag: Customer
+  spec_file: xentral-customer-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: POST /api/v3/customers  🔒 Create customer V3 ... GET /api/v3/customers/{customerId}/contactPersons  List
+    contact persons V3
+  reason: CRUD over customer records and their contact persons is customer master/golden-record data management.
+- tag: Report
+  spec_file: xentral-report-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.85
+  evidence: GET /api/v1/analytics/report  analytics.report.list  List reports ... POST /api/v1/analytics/report/{id}/export  Create
+    report export
+  reason: Report definition, execution, export and sharing under /analytics is reporting and business
+    intelligence delivery.
+- tag: User
+  spec_file: xentral-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: '"Create user", "List user permissions", "Download user permissions", "Request reset password
+    email"'
+  reason: Operations manage application user accounts, their permissions and credential reset — this is
+    identity and access administration, not HR employee records (no employment attributes, contracts or
+    payroll in the surface).
+- tag: Credit Note
+  spec_file: xentral-credit-note-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.82
+  evidence: POST /api/v1/creditNotes  creditNote.create  Create credit note ... GET /api/v1/creditNotes/{id}/balance  View
+    Credit Note Balance
+  reason: Credit note issuance, sending and balance viewing is customer billing/receivables accounting
+    in an ERP.
+- tag: CreditNote
+  spec_file: xentral-creditnote-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.82
+  evidence: POST /api/v3/creditNotes  🔒 Create credit note V3 ... PATCH /api/v3/creditNotes/{id}/actions/release  Release
+    credit note V3
+  reason: V3 credit note lifecycle (create, release, send, write protection) is customer receivables/billing
+    document management.
+- tag: Invoice
+  spec_file: xentral-invoice-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.82
+  evidence: POST /api/v1/invoices invoice.create Create invoice; PATCH /api/v1/invoices/{id}/send Send
+    invoice; GET /api/v1/invoices/{id}/balance View invoice balance
+  reason: Operations issue, send and track balance of customer invoices in an ERP — customer invoicing
+    and receivable tracking, i.e. Accounts Receivable Management.
+- tag: Accounting Export
+  spec_file: xentral-accounting-export-api-openapi.yml
+  capability_id: BC-200
+  capability_id_l1: BC-200
+  capability_name: Financial Management
+  confidence: 0.8
+  evidence: POST /api/v1/accounting/datev/csvExport/invoicesAndCreditNotes 'Execute the accounting CSV
+    export for invoices and credit notes'; .../csvExport/accountTransactions; .../xmlExport/liabilities
+  reason: DATEV accounting exports of invoices, credit notes, liabilities and account transactions are
+    core financial accounting data delivery to the books/tax advisor. Spans AR, AP and ledger, so no single
+    L2.
+- tag: Customer - Contact Person
+  spec_file: xentral-customer-contact-person-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.78
+  evidence: POST /api/v1/customers/{customerId}/contactPerson  customer.contactPerson.create  Create contact
+    person
+  reason: Maintains contact-person records under a customer, i.e. customer master data maintenance.
+- tag: Matrixproduct
+  spec_file: xentral-matrixproduct-api-openapi.yml
+  capability_id: BC-820.40
+  capability_id_l1: BC-820
+  capability_name: Product Configuration & Variant Management
+  confidence: 0.78
+  evidence: POST /api/v1/products/{id}/options product.createOption Create product option; GET /api/v1/products/{productId}/options/{id}/values
+    product.listValues List product option values
+  reason: Matrix products = product option/value axes generating variants; the surface manages product
+    options and their values, i.e. product configuration and variant management.
+- tag: Sales Price
+  spec_file: xentral-sales-price-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.78
+  evidence: POST /api/v1/salesPrices — 'Create sales price'; 'Update multiple sales prices'
+  reason: CRUD over sales price records maintains price books/price lists, matching Price List Management.
+- tag: SalesPrice
+  spec_file: xentral-salesprice-api-openapi.yml
+  capability_id: BC-440.20
+  capability_id_l1: BC-440
+  capability_name: Price List Management
+  confidence: 0.78
+  evidence: POST /api/v3/salesPrices — 'Create sales price V3'
+  reason: Same price-record maintenance surface as the v1 sales price API, i.e. price list maintenance.
+- tag: Offer
+  spec_file: xentral-offer-api-openapi.yml
+  capability_id: BC-410.40
+  capability_id_l1: BC-410
+  capability_name: Quote & Configuration Management
+  confidence: 0.75
+  evidence: POST /api/v3/offers Create offer V3; PATCH /api/v3/offers/{id}/actions/send Send offer V3;
+    PATCH /api/v3/offers/{id}/actions/cancel Cancel offer V3
+  reason: Offers (Angebote) are sales quotations created, released, sent to and cancelled for customers
+    — quote management in the lead-to-order flow.
+- tag: Query
+  spec_file: xentral-query-api-openapi.yml
+  capability_id: BC-610.50
+  capability_id_l1: BC-610
+  capability_name: Analytics & BI Management
+  confidence: 0.75
+  evidence: POST /api/v1/analytics/query  analytics.query  Execute query
+  reason: Ad-hoc analytics query execution and export under the analytics namespace realises analytics/BI
+    delivery.
+- tag: Customer Address
+  spec_file: xentral-customer-address-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.72
+  evidence: POST /api/v2/customers/{customerId}/addresses  customer.address.create.v2  Create address
+  reason: Address CRUD nested under customer records maintains customer master data attributes.
+- tag: SalesOrder
+  spec_file: xentral-salesorder-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.72
+  evidence: '''Release sales order V3'', ''Complete sales order V3'', ''Cancel sales order V3'''
+  reason: V3 sales-order lifecycle operations (release, complete, cancel, send) constitute order fulfilment
+    orchestration within the ERP.
+- tag: Tax
+  spec_file: xentral-tax-api-openapi.yml
+  capability_id: BC-220
+  capability_id_l1: BC-220
+  capability_name: Tax Management
+  confidence: 0.72
+  evidence: '"List Tax Entries", "Create tax", "Get Tax Entry by ID", "Update tax"'
+  reason: CRUD over tax definitions in an ERP, clearly tax management configuration. The operations do
+    not disclose whether these are direct or indirect tax constructs, so no L2 is asserted.
+- tag: Liability
+  spec_file: xentral-liability-api-openapi.yml
+  capability_id: BC-200.20
+  capability_id_l1: BC-200
+  capability_name: Accounts Payable Management
+  confidence: 0.7
+  evidence: POST /api/v1/liabilities liability.create Create liability; POST /api/v1/liabilities-recurring
+    Create recurring liability; PATCH /api/v1/liabilities/{id}/actions/release Release liability
+  reason: In this German ERP, 'liabilities' (Verbindlichkeiten) are incoming supplier obligations that
+    are created, documented and released for payment — Accounts Payable. Some residual ambiguity as the
+    term could cover general obligations.
+- tag: ProformaInvoice
+  spec_file: xentral-proformainvoice-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/v3/proformaInvoices  Create proforma invoice V3; PATCH /api/v3/proformaInvoices/{id}/actions/send  Send
+    proforma invoice V3
+  reason: 'Creation, release and sending of proforma invoices to customers within an ERP — customer invoicing
+    document handling, mapped to Accounts Receivable Management. Not freight billing: the vendor is a
+    general SMB ERP, not a carrier/forwarder system.'
+- tag: Return
+  spec_file: xentral-return-api-openapi.yml
+  capability_id: BC-2460.50
+  capability_id_l1: BC-2460
+  capability_name: Returns and Reverse Operations Management
+  confidence: 0.7
+  evidence: POST /api/v1/returns  return.create  Create return ... POST /api/v1/returns/{id}/actions/release  Release
+    return
+  reason: Creation, documentation and release of goods returns realises returns/reverse-logistics operations;
+    some ambiguity as it could also be read as order-fulfilment scope.
+- tag: ReturnOrder
+  spec_file: xentral-returnorder-api-openapi.yml
+  capability_id: BC-2460.50
+  capability_id_l1: BC-2460
+  capability_name: Returns and Reverse Operations Management
+  confidence: 0.7
+  evidence: POST /api/v3/returnOrders/actions/createFromDeliveryNote  🔒 Create return order from delivery
+    note V3
+  reason: Return order lifecycle including creation from a delivery note, cancel, complete and release
+    — receipt and disposition of returned goods (reverse logistics).
+- tag: Sales Order
+  spec_file: xentral-sales-order-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.7
+  evidence: '''Dispatch sales order'', ''Cancel sales order'', ''Create partial sales order'''
+  reason: Full sales-order lifecycle including dispatch and partial orders is order promising and fulfilment
+    orchestration in an ERP, not sales pipeline work.
+- tag: Supplier
+  spec_file: xentral-supplier-api-openapi.yml
+  capability_id: BC-510
+  capability_id_l1: BC-510
+  capability_name: Supplier Management
+  confidence: 0.7
+  evidence: '"List suppliers", "Create supplier V3", "Update supplier V3", "List contact persons V3"'
+  reason: CRUD over supplier records and their contact persons in an ERP — supplier master/relationship
+    administration. Evidence does not name a narrower sub-capability such as onboarding due diligence
+    or performance scoring, so L1 only.
+- tag: SupplierInvoice
+  spec_file: xentral-supplierinvoice-api-openapi.yml
+  capability_id: BC-200.20
+  capability_id_l1: BC-200
+  capability_name: Accounts Payable Management
+  confidence: 0.7
+  evidence: '"Attach file to supplier invoice V3", "Delete file from supplier invoice V3"'
+  reason: Operations act on supplier (vendor) invoice objects, the core artefact of accounts payable invoice
+    processing. The surface is limited to file attachments on those invoices, which tempers confidence
+    but the business object is unambiguous.
