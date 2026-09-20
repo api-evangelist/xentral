@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 26
+edge_count: 33
 edges:
 - tag: General Ledger
   spec_file: xentral-general-ledger-api-openapi.yml
@@ -115,6 +115,18 @@ edges:
   reason: DATEV accounting exports of invoices, credit notes, liabilities and account transactions are
     core financial accounting data delivery to the books/tax advisor. Spans AR, AP and ledger, so no single
     L2.
+- tag: DeliveryNote
+  spec_file: xentral-delivery-note-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.8
+  evidence: POST /api/v3/deliveryNotes "Create delivery note V3"; PATCH .../actions/release "Release delivery
+    note V3"; PATCH .../actions/complete "Complete delivery note V3"; PATCH .../actions/send
+  reason: Full lifecycle of delivery notes — create, release, complete, cancel, send — which is the outbound
+    shipping document driving order fulfilment in this ERP.
+  recovered_from: sweep-20260828T235257Z-edges.json
+  reanchored_from: xentral-deliverynote-api-openapi.yml
 - tag: Customer - Contact Person
   spec_file: xentral-customer-contact-person-api-openapi.yml
   capability_id: BC-420.10
@@ -179,6 +191,28 @@ edges:
   confidence: 0.72
   evidence: POST /api/v2/customers/{customerId}/addresses  customer.address.create.v2  Create address
   reason: Address CRUD nested under customer records maintains customer master data attributes.
+- tag: Delivery
+  spec_file: xentral-delivery-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.72
+  evidence: GET /api/v1/deliveries  deliveries.list  List deliveries ... GET /api/v1/shipments/{id}  shipment.view  View
+    shipment
+  reason: Read access to deliveries and shipments in an ERP that runs fulfilment; maps to order fulfilment
+    orchestration, though it could equally sit in logistics operations.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: Revenue Account Mapping
+  spec_file: xentral-revenue-account-mapping-api-openapi.yml
+  capability_id: BC-200.10
+  capability_id_l1: BC-200
+  capability_name: General Ledger Management
+  confidence: 0.72
+  evidence: POST /api/v1/revenueAccountMapping  Create revenue account mapping; GET /api/v1/revenueAccountMapping  List
+    Revenue Account Mapping Entries
+  reason: Maintains mapping of revenue to ledger accounts — chart-of-accounts/posting configuration, i.e.
+    general ledger accounting.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: SalesOrder
   spec_file: xentral-sales-order-api-openapi.yml
   reanchored_from: xentral-salesorder-api-openapi.yml
@@ -198,6 +232,26 @@ edges:
   evidence: '"List Tax Entries", "Create tax", "Get Tax Entry by ID", "Update tax"'
   reason: CRUD over tax definitions in an ERP, clearly tax management configuration. The operations do
     not disclose whether these are direct or indirect tax constructs, so no L2 is asserted.
+- tag: Collective Bill
+  spec_file: xentral-collective-bill-api-openapi.yml
+  capability_id: BC-200.30
+  capability_id_l1: BC-200
+  capability_name: Accounts Receivable Management
+  confidence: 0.7
+  evidence: POST /api/v1/collectiveBill  CollectiveBill.create  Create collective bill
+  reason: In this ERP a collective bill consolidates multiple deliveries/orders into one customer invoice,
+    which is customer invoicing under Accounts Receivable Management. Single operation, so moderate confidence.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: Goods Receipt
+  spec_file: xentral-goods-receipt-api-openapi.yml
+  capability_id: BC-500.40
+  capability_id_l1: BC-500
+  capability_name: Procure-to-Pay Operations Management
+  confidence: 0.7
+  evidence: POST /api/v1/purchaseOrders/{id}/goodsReceipts — "Create goods receipt for purchase order"
+  reason: Records receipt of goods against purchase orders and returns, which is the receipt step of procure-to-pay
+    operations. Some ambiguity as goods receipt also touches inventory accuracy/warehouse capabilities.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Liability
   spec_file: xentral-liability-api-openapi.yml
   capability_id: BC-200.20
@@ -250,6 +304,27 @@ edges:
   evidence: '''Dispatch sales order'', ''Cancel sales order'', ''Create partial sales order'''
   reason: Full sales-order lifecycle including dispatch and partial orders is order promising and fulfilment
     orchestration in an ERP, not sales pipeline work.
+- tag: Shipments
+  spec_file: xentral-shipments-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.7
+  evidence: POST /api/v1/shipments  shipments.create  Create tracking information
+  reason: Creating shipments with tracking information is outbound transport execution, part of Logistics
+    Operations Management. Single operation keeps confidence moderate.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: Storage Item
+  spec_file: xentral-storage-item-api-openapi.yml
+  capability_id: BC-530
+  capability_id_l1: BC-530
+  capability_name: Inventory Management
+  confidence: 0.7
+  evidence: POST /api/v1/warehouses/{warehouseId}/storageLocations/{storageLocationId}/items  warehouse.stockItem  Add
+    item to storage location
+  reason: Placing and retrieving items at warehouse storage locations is stock positioning within the
+    warehouse; sits under Inventory Management but the evidence does not name a specific sub-capability.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: Supplier
   spec_file: xentral-supplier-api-openapi.yml
   capability_id: BC-510
