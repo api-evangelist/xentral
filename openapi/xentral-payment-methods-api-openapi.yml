@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Payment Methods API
+  title: Xentral Payment Methods API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -133,17 +133,16 @@ paths:
                         type:
                           x-description-missing: true
                           type: string
-                          nullable: false
                           example: amazon
                         designation:
                           x-description-missing: true
                           type: string
-                          nullable: false
                           example: Amazon
                         project:
                           x-description-missing: true
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           required:
                           - id

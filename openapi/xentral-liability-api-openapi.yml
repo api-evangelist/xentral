@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Liability API
+  title: Xentral Liability API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -43,9 +43,10 @@ paths:
               properties:
                 date:
                   x-description-missing: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date
-                  nullable: true
                 supplier:
                   type: object
                   additionalProperties: false
@@ -63,18 +64,19 @@ paths:
                   description: The invoice number issued by the supplier
                 receiptDate:
                   description: The date when the supplier invoice was received by the recipient
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date-time
-                  nullable: true
                 serviceDate:
                   description: The date on which the service was provided
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date
-                  nullable: true
                 status:
                   description: Workflow status of the liability
                   type: string
-                  nullable: false
                   enum:
                   - open
                   - paid
@@ -260,9 +262,10 @@ paths:
                       additionalProperties: false
                       properties:
                         normalTax:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           properties:
                             rate:
                               type: number
@@ -272,9 +275,10 @@ paths:
                               format: float
                               description: absolut amount
                         reducedTax:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           properties:
                             rate:
                               type: number
@@ -284,9 +288,10 @@ paths:
                               format: float
                               description: absolut amount
                         customTax1:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           properties:
                             rate:
                               type: number
@@ -296,9 +301,10 @@ paths:
                               format: float
                               description: absolut amount
                         customTax2:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           properties:
                             rate:
                               type: number
@@ -313,13 +319,15 @@ paths:
                       additionalProperties: false
                       properties:
                         dueDate:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                         earlyPaymentDate:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                         earlyPaymentDiscount:
                           type: number
                           format: float
@@ -340,25 +348,29 @@ paths:
                           type: number
                           format: float
                         paidOnDate:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                         discountReceived:
                           type: number
                           format: float
                       description: payment information
                     glAccount:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: ledger account
                     costCenter:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       description: cost center
                 assignedPurchaseOrders:
                   x-description-missing: true
-                  type: array
-                  nullable: true
+                  type:
+                  - array
+                  - 'null'
                   items:
                     type: object
                     additionalProperties: false
@@ -392,8 +404,9 @@ paths:
                             example: '17'
                             description: Resource identifier.
                       salesOrder:
-                        type: object
-                        nullable: true
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - id
@@ -505,13 +518,15 @@ paths:
                   additionalProperties: false
                   properties:
                     dueDate:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date
-                      nullable: true
                     earlyPaymentDate:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date
-                      nullable: true
                     earlyPaymentDiscount:
                       type: number
                       format: float
@@ -526,9 +541,10 @@ paths:
                       type: number
                       format: float
                     paidOnDate:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date
-                      nullable: true
                     discountReceived:
                       type: number
                       format: float
@@ -550,9 +566,10 @@ paths:
                       number:
                         type: string
                       purchaseOrder:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         properties:
                           id:
                             type: string
@@ -574,9 +591,10 @@ paths:
                             type: string
                       deliveryDate:
                         description: The date the position was delivered
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                       quantity:
                         description: The quantity of the position
                         type: number
@@ -658,10 +676,10 @@ paths:
                             type: number
                             format: float
                             minimum: 0
-                            nullable: false
                           taxText:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
             examples:
               create liability:
                 value:
@@ -764,10 +782,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1136,44 +1155,45 @@ paths:
                           description: Resource identifier.
                         documentNumber:
                           description: Incremental document number. Before the document is approved, there is no document number.
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: LB-100001
                         date:
                           description: Date of the supplier's invoice
                           type: string
-                          nullable: false
                           format: date
                           example: '2020-01-15'
                         createdAt:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
                           example: '2020-01-01 12:00:00+02:00'
                         createdBy:
                           description: The user that created the liability
                           example:
                             name: John Doe
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           required:
                           - name
                           properties:
                             name:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                         updatedAt:
                           x-description-missing: true
                           type: string
-                          nullable: false
                           format: date-time
                           example: '2020-01-01 13:00:00+02:00'
                         status:
                           description: Workflow status of the liability
                           type: string
-                          nullable: false
                           enum:
                           - PENDING
                           - PAID
@@ -1193,12 +1213,14 @@ paths:
                               example: '17'
                               description: Resource identifier.
                             name:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: Test
                             number:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: '123456'
                           example:
                             id: '123456'
@@ -1208,8 +1230,9 @@ paths:
                           example: INV-23456
                         receiptDate:
                           description: Day when the invoice was received
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           format: date
                           example: '2020-01-01'
                         financials:
@@ -1268,25 +1291,23 @@ paths:
                               properties:
                                 amount:
                                   type: string
-                                  nullable: false
                                   format: float
                                   example: '1234.56'
                                   x-description-missing: true
                                 currency:
                                   type: string
-                                  nullable: false
                                   example: EUR
                                   x-description-missing: true
                             freightCharge:
                               x-description-missing: true
-                              type: number
-                              nullable: true
+                              type:
+                              - number
+                              - 'null'
                               example: 9.3
                             taxation:
                               description: The taxation method
                               type: string
                               example: Domestic
-                              nullable: false
                             taxes:
                               x-description-missing: true
                               type: object
@@ -1299,8 +1320,9 @@ paths:
                               properties:
                                 normalTax:
                                   description: The normal tax rate
-                                  type: object
-                                  nullable: true
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
                                   required:
                                   - rate
@@ -1308,18 +1330,21 @@ paths:
                                   properties:
                                     rate:
                                       description: The tax rate in percent
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 19
                                     amount:
                                       description: The tax amount
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 120.5
                                 reducedTax:
                                   description: The reduced tax rate
-                                  type: object
-                                  nullable: true
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
                                   required:
                                   - rate
@@ -1327,18 +1352,21 @@ paths:
                                   properties:
                                     rate:
                                       description: The tax rate in percent
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 7
                                     amount:
                                       description: The tax amount
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 60.5
                                 customTax1:
                                   description: The first custom tax rate
-                                  type: object
-                                  nullable: true
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
                                   required:
                                   - rate
@@ -1346,18 +1374,21 @@ paths:
                                   properties:
                                     rate:
                                       description: The tax rate in percent
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 8.1
                                     amount:
                                       description: The tax amount
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 50.5
                                 customTax2:
                                   description: The second custom tax rate
-                                  type: object
-                                  nullable: true
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
                                   required:
                                   - rate
@@ -1365,13 +1396,15 @@ paths:
                                   properties:
                                     rate:
                                       description: The tax rate in percent
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 10
                                     amount:
                                       description: The tax amount
-                                      type: number
-                                      nullable: true
+                                      type:
+                                      - number
+                                      - 'null'
                                       example: 50.5
                             bookingText:
                               description: header booking text
@@ -1387,18 +1420,19 @@ paths:
                               properties:
                                 dueDate:
                                   description: The due date of the payment
-                                  type: string
-                                  nullable: true
+                                  type:
+                                  - string
+                                  - 'null'
                                   example: '2020-01-15'
                                 earlyPaymentDate:
                                   description: The date when the early payment discount is valid
-                                  type: string
-                                  nullable: true
+                                  type:
+                                  - string
+                                  - 'null'
                                   example: '2020-01-10'
                                 earlyPaymentDiscount:
                                   description: The discount for early payment
                                   type: number
-                                  nullable: false
                                   example: 2.5
                             payment:
                               description: Information about the payment
@@ -1413,22 +1447,20 @@ paths:
                                 methodName:
                                   description: Name of the used payment method
                                   type: string
-                                  nullable: false
                                   example: invoice
                                 paidAmount:
                                   description: The amount that was paid already
                                   type: number
-                                  nullable: false
                                   example: 1234.56
                                 paidOnDate:
                                   description: The date when the latest payment was made
-                                  type: string
-                                  nullable: true
+                                  type:
+                                  - string
+                                  - 'null'
                                   example: '2020-01-12'
                                 discountReceived:
                                   description: The discount that was received from the supplier
                                   type: number
-                                  nullable: false
                                   example: 12.34
                             bank:
                               type: object
@@ -1449,13 +1481,11 @@ paths:
                               properties:
                                 amount:
                                   type: string
-                                  nullable: false
                                   format: float
                                   example: '14.56'
                                   x-description-missing: true
                                 currency:
                                   type: string
-                                  nullable: false
                                   example: EUR
                                   x-description-missing: true
                             remainingSum:
@@ -1468,13 +1498,11 @@ paths:
                               properties:
                                 amount:
                                   type: string
-                                  nullable: false
                                   format: float
                                   example: '10.00'
                                   x-description-missing: true
                                 currency:
                                   type: string
-                                  nullable: false
                                   example: EUR
                                   x-description-missing: true
                             totalAmount:
@@ -1487,22 +1515,21 @@ paths:
                               properties:
                                 amount:
                                   type: string
-                                  nullable: false
                                   format: float
                                   example: '20.00'
                                   x-description-missing: true
                                 currency:
                                   type: string
-                                  nullable: false
                                   example: EUR
                                   x-description-missing: true
                         purchaseOrder:
                           description: The purchase order associated with the liability
                           example:
                             id: '123'
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -1765,10 +1792,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1978,8 +2006,9 @@ paths:
                         description: Resource identifier.
                       documentNumber:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: LB-100001
                       date:
                         x-description-missing: true
@@ -1988,17 +2017,19 @@ paths:
                         example: '2020-01-15'
                       createdAt:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         format: date-time
                         example: '2020-01-01 12:00:00+02:00'
                       createdBy:
                         x-description-missing: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - name
-                        nullable: true
                         properties:
                           name:
                             type: string
@@ -2007,7 +2038,6 @@ paths:
                       updatedAt:
                         x-description-missing: true
                         type: string
-                        nullable: false
                         format: date-time
                         example: '2020-01-01 13:00:00+02:00'
                       supplierInvoice:
@@ -2016,21 +2046,24 @@ paths:
                         example: INV-12345
                       receiptDate:
                         description: The date when the supplier invoice was received by the recipient
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date-time
-                        nullable: true
                         example: '2020-01-01T12:00:00Z'
                       serviceDate:
                         description: The date on which the service was provided
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         example: '2020-01-01'
                       deliveryDate:
                         description: The date on which the goods where shipped or the services where rendered
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         example: '2020-01-01'
                       status:
                         type: string
@@ -2042,9 +2075,10 @@ paths:
                         description: Status of liability
                         example: PENDING
                       supplier:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         properties:
                           id:
                             type: string
@@ -2224,9 +2258,10 @@ paths:
                             additionalProperties: false
                             properties:
                               normalTax:
-                                type: object
+                                type:
+                                - object
+                                - 'null'
                                 additionalProperties: false
-                                nullable: true
                                 properties:
                                   rate:
                                     type: number
@@ -2236,9 +2271,10 @@ paths:
                                     format: float
                                     description: absolut amount
                               reducedTax:
-                                type: object
+                                type:
+                                - object
+                                - 'null'
                                 additionalProperties: false
-                                nullable: true
                                 properties:
                                   rate:
                                     type: number
@@ -2248,9 +2284,10 @@ paths:
                                     format: float
                                     description: absolut amount
                               customTax1:
-                                type: object
+                                type:
+                                - object
+                                - 'null'
                                 additionalProperties: false
-                                nullable: true
                                 properties:
                                   rate:
                                     type: number
@@ -2260,9 +2297,10 @@ paths:
                                     format: float
                                     description: absolut amount
                               customTax2:
-                                type: object
+                                type:
+                                - object
+                                - 'null'
                                 additionalProperties: false
-                                nullable: true
                                 properties:
                                   rate:
                                     type: number
@@ -2277,13 +2315,15 @@ paths:
                             additionalProperties: false
                             properties:
                               dueDate:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: date
-                                nullable: true
                               earlyPaymentDate:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: date
-                                nullable: true
                               earlyPaymentDiscount:
                                 type: number
                                 format: float
@@ -2304,25 +2344,29 @@ paths:
                                 type: number
                                 format: float
                               paidOnDate:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: date
-                                nullable: true
                               discountReceived:
                                 type: number
                                 format: float
                             description: payment information
                           glAccount:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: ledger account
                           costCenter:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: cost center
                       purchaseOrder:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         description: global connected purchase order
                         example:
                           id: '123456'
@@ -2483,9 +2527,10 @@ paths:
                             number:
                               type: string
                             purchaseOrder:
-                              type: object
+                              type:
+                              - object
+                              - 'null'
                               additionalProperties: false
-                              nullable: true
                               properties:
                                 id:
                                   type: string
@@ -2505,9 +2550,10 @@ paths:
                                   type: string
                             deliveryDate:
                               description: The date the position was delivered
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: date
-                              nullable: true
                             quantity:
                               description: The quantity of the position
                               type: number
@@ -2583,15 +2629,18 @@ paths:
                                   type: string
                                 rate:
                                   description: Tax rate in percent
-                                  type: number
+                                  type:
+                                  - number
+                                  - 'null'
                                   format: float
-                                  nullable: true
                                 taxText:
-                                  type: string
-                                  nullable: true
+                                  type:
+                                  - string
+                                  - 'null'
                       purpose:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: The purpose
                         example: Test purpose
                     example:
@@ -2710,10 +2759,11 @@ paths:
         content:
           '*/*':
             schema:
-              type: string
+              type:
+              - string
+              - 'null'
               enum:
               - ''
-              nullable: true
             examples:
               example:
                 value: ''
@@ -2975,11 +3025,13 @@ paths:
               - keyword
               properties:
                 title:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 description:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 keyword:
                   type: string
                   enum:
@@ -3018,10 +3070,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:

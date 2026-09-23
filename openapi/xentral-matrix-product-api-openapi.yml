@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Matrixproduct API
+  title: Xentral Matrixproduct API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -21,13 +21,13 @@ servers:
 security:
 - BearerAuth: []
 tags:
-- name: Matrixproduct
+- name: Matrix Product
   description: Manage options for products.
 paths:
   /api/v1/products/{id}/options:
     get:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.listOptions
       summary: List product options
       description: Returns a list of product's options
@@ -189,7 +189,7 @@ paths:
           description: Too many API calls made.
     post:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.createOption
       summary: Create product option
       description: Creates new option for a product.
@@ -235,10 +235,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -410,7 +411,7 @@ paths:
           description: Too many API calls made.
     patch:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.updateMultipleOptions
       summary: Update multiple product options
       description: Updates multiple options of a product.
@@ -627,7 +628,7 @@ paths:
           description: Too many API calls made.
     delete:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.deleteMultipleOptions
       summary: Delete multiple product options
       description: Deletes multiple options of a product.
@@ -830,7 +831,7 @@ paths:
   /api/v1/products/{productId}/options/{id}:
     patch:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.updateOption
       summary: Update product option
       description: Updates a single option of a matrix product.
@@ -1042,7 +1043,7 @@ paths:
   /api/v1/products/{productId}/options/{optionId}/values/{id}:
     get:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.viewValue
       summary: View product option value
       description: Returns details of a single value from an option of a matrix product.
@@ -1137,7 +1138,7 @@ paths:
           description: Too many API calls made.
     patch:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.updateValue
       summary: Update product option value
       description: Updates a single value from an option of a matrix product.
@@ -1416,7 +1417,7 @@ paths:
           description: Too many API calls made.
     delete:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.deleteValue
       summary: Delete product option value
       description: Deletes a single value from an option of a matrix product.
@@ -1623,7 +1624,7 @@ paths:
   /api/v1/products/{productId}/options/{id}/values:
     get:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.listValues
       summary: List product option values
       description: Lists all values from an option of a matrix product.
@@ -1697,7 +1698,7 @@ paths:
           description: Too many API calls made.
     delete:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.deleteMultipleValues
       summary: Delete multiple product option values
       description: Deletes multiple values from an option of a matrix product.
@@ -1967,7 +1968,7 @@ paths:
           description: Too many API calls made.
     post:
       tags:
-      - Matrixproduct
+      - Matrix Product
       operationId: product.createMultipleValues
       summary: Create multiple product option values
       description: Creates multiple values for an option of a matrix product.

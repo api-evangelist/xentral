@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Shipments API
+  title: Xentral Shipments API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -62,9 +62,10 @@ paths:
                     id: '1337'
                 shippingMethod:
                   description: Nullable reference to another resource
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
-                  nullable: true
                   required:
                   - id
                   properties:
@@ -78,27 +79,33 @@ paths:
                 trackingNumber:
                   type: string
                 trackingLink:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 parcelCount:
-                  type: integer
-                  nullable: true
+                  type:
+                  - integer
+                  - 'null'
                 weight:
-                  type: number
-                  nullable: true
+                  type:
+                  - number
+                  - 'null'
                 sentAt:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   description: The date of shipment sent.
                   example: '2024-01-01T00:00:00+00:00'
-                  nullable: true
                 sendTrackingMail:
-                  type: boolean
+                  type:
+                  - boolean
+                  - 'null'
                   description: Send Tracking mail if true, if not set, project settings will be used
-                  nullable: true
                 updateDeliveryNoteShippingMethod:
-                  type: boolean
+                  type:
+                  - boolean
+                  - 'null'
                   description: Change shipping method of delivery note to given one (if not given shipping method will be updated)
-                  nullable: true
             examples:
               Create tracking information with infos from delivery notes:
                 value:

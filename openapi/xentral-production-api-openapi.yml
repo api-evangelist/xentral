@@ -1,12 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Production API
-  version: v0.1
-  description: Xentral is an ERP platform.
-  contact:
-    name: Xentral
-    url: https://xentral.com
-    email: api@xentral.com
+  title: Xentral Production API
+  version: '1.0'
+  description: 'Operations tagged Production across 2 of this provider''s published API definitions: xentral-api-openapi-original.json, xentral-documents-api-openapi-original.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{xentralId}.xentral.biz
   description: Your Xentral Instance
@@ -193,27 +189,31 @@ paths:
                           description: Production Date
                           example: '2024-09-18'
                         dateDelivery:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           description: Production Delivery Date
                           example: '2024-09-25'
                         dateProvision:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           description: Provision Date
                           example: '2024-09-20'
                         dateProduction:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           description: Production Date
                           example: '2024-09-21'
                         dateProductionEnd:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           description: Production End Date
                           example: '2024-09-22'
                         status:
@@ -221,38 +221,41 @@ paths:
                           description: Production Status
                           example: In Progress
                         customer:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           properties:
                             id:
                               type: string
                               pattern: \d+
                               example: '17'
                               description: Resource identifier.
-                          nullable: true
                           description: Customer of the production
                           example:
                             id: '17'
                         project:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           properties:
                             id:
                               type: string
                               pattern: \d+
                               example: '17'
                               description: Resource identifier.
-                          nullable: true
                           description: Project of the production
                           example:
                             id: '17'
                         salesOrder:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           properties:
                             id:
                               type: string
                               pattern: \d+
                               example: '17'
                               description: Resource identifier.
-                          nullable: true
                           description: Sales Order of the production
                           example:
                             id: '17'
@@ -261,20 +264,22 @@ paths:
                           description: Internal Designation of the production
                           example: Batch A-123
                         preferredWarehouse:
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           properties:
                             id:
                               type: string
                               pattern: \d+
                               example: '17'
                               description: Resource identifier.
-                          nullable: true
                           description: Preferred Warehouse of the production
                           example:
                             id: '17'
                         reservationType:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Reservation Type of the production
                           example: Standard
                         retrievalType:
@@ -826,6 +831,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/productions/{id}:
     get:
       tags:
@@ -912,27 +928,31 @@ paths:
                         description: Production Date
                         example: '2024-09-18'
                       dateDelivery:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Production Delivery Date
                         example: '2024-09-25'
                       dateProvision:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Provision Date
                         example: '2024-09-20'
                       dateProduction:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Production Date
                         example: '2024-09-21'
                       dateProductionEnd:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Production End Date
                         example: '2024-09-22'
                       status:
@@ -940,45 +960,49 @@ paths:
                         description: Production Status
                         example: In Progress
                       customer:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         properties:
                           id:
                             type: string
                             pattern: \d+
                             example: '17'
                             description: Resource identifier.
-                        nullable: true
                         description: Customer of the production
                         example:
                           id: '17'
                       project:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         properties:
                           id:
                             type: string
                             pattern: \d+
                             example: '17'
                             description: Resource identifier.
-                        nullable: true
                         description: Project of the production
                         example:
                           id: '17'
                       salesOrder:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         properties:
                           id:
                             type: string
                             pattern: \d+
                             example: '17'
                             description: Resource identifier.
-                        nullable: true
                         description: Sales Order of the production
                         example:
                           id: '17'
                       batch:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         description: Batch of the production
-                        nullable: true
                         example: BATCH-001
                       internalDesignation:
                         type: string
@@ -1057,8 +1081,9 @@ paths:
                               description: Remark for the product
                               example: test
                             billOfMaterialLevel:
-                              type: integer
-                              nullable: true
+                              type:
+                              - integer
+                              - 'null'
                               description: Bill of Material Level of the product
                               example: 10
                             hasChildren:
@@ -1066,14 +1091,15 @@ paths:
                               description: Indicates if the product has children
                               example: false
                             parent:
-                              type: object
+                              type:
+                              - object
+                              - 'null'
                               properties:
                                 id:
                                   type: string
                                   pattern: \d+
                                   example: '17'
                                   description: Resource identifier.
-                              nullable: true
                               description: Parent ID of the product
                             createdAt:
                               type: string
@@ -1187,14 +1213,15 @@ paths:
                           createdAt: '2025-06-05 00:00:00'
                           updatedAt: '2025-06-06 00:00:00'
                       preferredWarehouse:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         properties:
                           id:
                             type: string
                             pattern: \d+
                             example: '17'
                             description: Resource identifier.
-                        nullable: true
                         description: Preferred Warehouse of the production
                         example:
                           id: '17'
@@ -1735,6 +1762,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/productions/{id}/actions/release:
     patch:
       tags:
@@ -1835,6 +1873,17 @@ paths:
                               type: string
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/productions/{id}/actions/cancel:
     patch:
       tags:
@@ -1935,6 +1984,17 @@ paths:
                               type: string
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v3/productions:
     get:
       tags:
@@ -3040,6 +3100,19 @@ paths:
       x-beta: true
       x-scopes:
       - production:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}:
     get:
       tags:
@@ -3501,6 +3574,19 @@ paths:
                 type: object
       x-scopes:
       - production:delete
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}/actions/logActivity:
     patch:
       tags:
@@ -3574,6 +3660,19 @@ paths:
                 type: object
       x-scopes:
       - production:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}/actions/release:
     patch:
       tags:
@@ -3631,6 +3730,19 @@ paths:
                 type: object
       x-scopes:
       - production:release
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}/actions/start:
     patch:
       tags:
@@ -3669,6 +3781,19 @@ paths:
                 type: object
       x-scopes:
       - production:start
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}/files:
     post:
       tags:
@@ -3784,6 +3909,19 @@ paths:
                 type: object
       x-scopes:
       - production:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/productions/{id}/files/{fileId}:
     delete:
       tags:
@@ -3923,11 +4061,27 @@ paths:
                 type: object
       x-scopes:
       - production:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-refined-from:
+- xentral-api-openapi-original.json
+- xentral-documents-api-openapi-original.json
 x-readme:
   samples-languages: []

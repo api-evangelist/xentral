@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Customer - Contact Person API
+  title: Xentral Customer - Contact Person API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -198,59 +198,67 @@ paths:
                               example: '17'
                               description: Resource identifier.
                         type:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           enum:
                           - company
                           - mr
                           - mrs
                           - other
-                          nullable: true
                           example: mr
                           description: Type of contact used later for salutations
                         name:
                           type: string
-                          nullable: false
                           example: Firstname Surname
                           description: Full name of the contact person
                         title:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Prof. Dr.
                           description: Additional information used for salutations
                         birthday:
                           description: Birthday of contact person in default format like 'YYYY-MM-DD
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           example: '2001-01-14'
                         birthdayShowInCalendar:
-                          type: boolean
-                          nullable: true
+                          type:
+                          - boolean
+                          - 'null'
                           example: true
                           description: Decides wether or not to show in birthday calendar
                         sendBirthdayCard:
-                          type: boolean
-                          nullable: true
+                          type:
+                          - boolean
+                          - 'null'
                           example: true
                           description: Decides wether or not to send birthday card via serial letter module
                         marketingBan:
-                          type: boolean
-                          nullable: true
+                          type:
+                          - boolean
+                          - 'null'
                           example: true
                           description: Decides wether or not to send serial letters to this contact
                         department:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: HR department
                           description: Department of contact if necessary and available
                         subDepartment:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Sub department
                           description: Sub-Department of contact if necessary and available
                         position:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: head of purchasing
                           description: Position or responsibility
                         createdAt:
@@ -264,8 +272,9 @@ paths:
                           description: Contact person last update date and time
                           example: '2024-09-18T14:30:00Z'
                         language:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
                           example: DE
                         address:
@@ -281,33 +290,39 @@ paths:
                             country: Deutschland
                           properties:
                             street:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: 2176 example street
                               description: Street + number of contact address
                             additionalStreet:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: 6th floor
                               description: Address suffix
                             zip:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: '12345'
                               description: ZIP code of contact address
                             city:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: city
                               description: City of contact address
                             state:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: Ohio
                               description: Federal state / district of contact address
                             country:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: DE
                               description: ISO 3166-1 (Alpha 2) Code of contact address country
                         contact:
@@ -322,29 +337,34 @@ paths:
                             email: email@test.com
                           properties:
                             phone:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: +49 330 12345667
                               description: Phone number of contact address
                             fax:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: +49 330 7654321
                               description: Fax number of contact address
                             mobile:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: +49 172 7654321
                               description: Mobile number of contact address
                             salutation:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: Dear Dr. Smith, Friend and Supporter
                               description: Specifies dedicated salutation
                             email:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: email
-                              nullable: true
                               example: contact-person@address-location.tld
                               description: E-mail address
                         groups:
@@ -359,13 +379,15 @@ paths:
                           - '17'
                           - '22'
                         comment:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: This is a internal comment
                           description: Internal comment for this contact
                         others:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: ''
                           description: Every other information you deem relevant
                       example:
@@ -456,13 +478,15 @@ paths:
                         description: Link to the current page of contact persons
                         example: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
                       next:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: Link to the next page of contact persons (null if no next page)
                         example: http://localhost/api/customers/123/contactPerson?page[number]=2&page[size]=10
                       prev:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: Link to the previous page of contact persons (null if no previous page)
                         example: http://localhost/api/customers/123/contactPerson?page[number]=1&page[size]=10
                       customer:
@@ -709,63 +733,72 @@ paths:
               - name
               properties:
                 type:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   enum:
                   - company
                   - mr
                   - mrs
                   - other
-                  nullable: true
                   example: mr
                   description: Type of contact used later for salutations
                 name:
                   type: string
-                  nullable: false
                   example: Firstname Surname
                   description: Full name of the contact person
                 title:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: Prof. Dr.
                   description: Additional information used for salutations
                 birthday:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date
-                  nullable: true
                   example: '2001-01-14'
                 birthdayShowInCalendar:
-                  type: boolean
-                  nullable: true
+                  type:
+                  - boolean
+                  - 'null'
                   example: true
                   description: Decides wether or not to show in birthday calendar
                 sendBirthdayCard:
-                  type: boolean
-                  nullable: true
+                  type:
+                  - boolean
+                  - 'null'
                   example: true
                   description: Decides wether or not to send birthday card via serial letter module
                 marketingBan:
-                  type: boolean
-                  nullable: true
+                  type:
+                  - boolean
+                  - 'null'
                   example: true
                   description: Decides wether or not to send serial letters to this contact
                 department:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: HR department
                   description: Department of contact if necessary and available
                 subDepartment:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: Sub department
                   description: Sub-Department of contact if necessary and available
                 position:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: ''
                   description: Position or responsibility
                 language:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
                   example: DE
                 address:
@@ -773,33 +806,39 @@ paths:
                   additionalProperties: false
                   properties:
                     street:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: 2176 example street
                       description: Street + number of contact address
                     additionalStreet:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: 6th floor
                       description: Address suffix
                     zip:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: '12345'
                       description: ZIP code of contact address
                     city:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: city
                       description: City of contact address
                     state:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: Ohio
                       description: Federal state / district of contact address
                     country:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: DE
                       description: ISO 3166-1 (Alpha 2) Code of contact address country
                 contact:
@@ -807,29 +846,34 @@ paths:
                   additionalProperties: false
                   properties:
                     phone:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 330 12345667
                       description: Phone number of contact address
                     fax:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 330 7654321
                       description: Fax number of contact address
                     mobile:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 172 7654321
                       description: Mobile number of contact address
                     salutation:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: Dear Dr. Smith, Friend and Supporter
                       description: Specifies dedicated salutation
                     email:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: email
-                      nullable: true
                       example: contact-person@address-location.tld
                       description: E-mail address
                 groups:
@@ -844,13 +888,15 @@ paths:
                   - '17'
                   - '22'
                 comment:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: This is a internal comment
                   description: Internal comment for this contact
                 others:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: ''
                   description: Every other information you deem relevant
             examples:
@@ -901,10 +947,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1111,58 +1158,59 @@ paths:
                   - mr
                   - mrs
                   - other
-                  nullable: false
                   example: mr
                   description: Type of contact used later for salutations
                 name:
                   type: string
                   minLength: 1
-                  nullable: false
                   example: Firstname Surname
                   description: Full name of the contact person
                 title:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: Prof. Dr.
                   description: Additional information used for salutations
                 birthday:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date
-                  nullable: true
                   example: '2001-01-14'
                 birthdayShowInCalendar:
                   type: boolean
-                  nullable: false
                   example: true
                   description: Decides wether or not to show in birthday calendar
                 sendBirthdayCard:
                   type: boolean
-                  nullable: false
                   example: true
                   description: Decides wether or not to send birthday card via serial letter module
                 marketingBan:
                   type: boolean
-                  nullable: false
                   example: true
                   description: Decides wether or not to send serial letters to this contact
                 department:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: HR department
                   description: Department of contact if necessary and available
                 subDepartment:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: Sub department
                   description: Sub-Department of contact if necessary and available
                 position:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: ''
                   description: Position or responsibility
                 language:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
                   example: DE
                 address:
@@ -1170,33 +1218,39 @@ paths:
                   additionalProperties: false
                   properties:
                     street:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: 2176 example street
                       description: Street + number of contact address
                     additionalStreet:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: 6th floor
                       description: Address suffix
                     zip:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: '12345'
                       description: ZIP code of contact address
                     city:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: city
                       description: City of contact address
                     state:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: Ohio
                       description: Federal state / district of contact address
                     country:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: DE
                       description: ISO 3166-1 (Alpha 2) Code of contact address country
                 contact:
@@ -1204,29 +1258,34 @@ paths:
                   additionalProperties: false
                   properties:
                     phone:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 330 12345667
                       description: Phone number of contact address
                     fax:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 330 7654321
                       description: Fax number of contact address
                     mobile:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: +49 172 7654321
                       description: Mobile number of contact address
                     salutation:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: Dear Dr. Smith, Friend and Supporter
                       description: Specifies dedicated salutation
                     email:
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: email
-                      nullable: true
                       example: contact-person@address-location.tld
                       description: E-mail address
                 groups:
@@ -1241,13 +1300,15 @@ paths:
                   - '17'
                   - '22'
                 comment:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: This is a internal comment
                   description: Internal comment for this contact
                 others:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: ''
                   description: Every other information you deem relevant
             examples:
@@ -1570,59 +1631,67 @@ paths:
                             example: '17'
                             description: Resource identifier.
                       type:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         enum:
                         - company
                         - mr
                         - mrs
                         - other
-                        nullable: true
                         example: mr
                         description: Type of contact used later for salutations
                       name:
                         type: string
-                        nullable: false
                         example: Firstname Surname
                         description: Full name of the contact person
                       title:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Prof. Dr.
                         description: Additional information used for salutations
                       birthday:
                         description: Birthday of contact person in default format like 'YYYY-MM-DD
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         example: '2001-01-14'
                       birthdayShowInCalendar:
-                        type: boolean
-                        nullable: true
+                        type:
+                        - boolean
+                        - 'null'
                         example: true
                         description: Decides wether or not to show in birthday calendar
                       sendBirthdayCard:
-                        type: boolean
-                        nullable: true
+                        type:
+                        - boolean
+                        - 'null'
                         example: true
                         description: Decides wether or not to send birthday card via serial letter module
                       marketingBan:
-                        type: boolean
-                        nullable: true
+                        type:
+                        - boolean
+                        - 'null'
                         example: true
                         description: Decides wether or not to send serial letters to this contact
                       department:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: HR department
                         description: Department of contact if necessary and available
                       subDepartment:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Sub department
                         description: Sub-Department of contact if necessary and available
                       position:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: head of purchasing
                         description: Position or responsibility
                       createdAt:
@@ -1636,8 +1705,9 @@ paths:
                         description: Contact person last update date and time
                         example: '2024-09-18T14:30:00Z'
                       language:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: Two-letter ISO 639-1 code (uppercase or lowercase allowed).
                         example: DE
                       address:
@@ -1653,33 +1723,39 @@ paths:
                           country: Deutschland
                         properties:
                           street:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: 2176 example street
                             description: Street + number of contact address
                           additionalStreet:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: 6th floor
                             description: Address suffix
                           zip:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: '12345'
                             description: ZIP code of contact address
                           city:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: city
                             description: City of contact address
                           state:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: Ohio
                             description: Federal state / district of contact address
                           country:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: DE
                             description: ISO 3166-1 (Alpha 2) Code of contact address country
                       contact:
@@ -1694,29 +1770,34 @@ paths:
                           email: email@test.com
                         properties:
                           phone:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: +49 330 12345667
                             description: Phone number of contact address
                           fax:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: +49 330 7654321
                             description: Fax number of contact address
                           mobile:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: +49 172 7654321
                             description: Mobile number of contact address
                           salutation:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: Dear Dr. Smith, Friend and Supporter
                             description: Specifies dedicated salutation
                           email:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: email
-                            nullable: true
                             example: contact-person@address-location.tld
                             description: E-mail address
                       groups:
@@ -1731,13 +1812,15 @@ paths:
                         - '17'
                         - '22'
                       comment:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: This is a internal comment
                         description: Internal comment for this contact
                       others:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: ''
                         description: Every other information you deem relevant
                     example:

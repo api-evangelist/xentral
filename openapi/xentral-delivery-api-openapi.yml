@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Delivery API
+  title: Xentral Delivery API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -165,9 +165,10 @@ paths:
                             number: '101010101010101'
                         deliveryNote:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -180,9 +181,10 @@ paths:
                             id: '1337'
                         salesOrder:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -195,9 +197,10 @@ paths:
                             id: '1337'
                         shippingMethod:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -209,20 +212,23 @@ paths:
                           example:
                             id: '1337'
                         sentAt:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date
-                          nullable: true
                           description: Date when the delivery was sent
                           example: '2022-01-07'
                         sentAtTimestamp:
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: datetime
-                          nullable: true
                           description: Timestamp when the delivery was sent
                           example: '2022-01-07 00:00:00'
                         label:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           required:
                           - fileType
                           - fileContent
@@ -256,27 +262,31 @@ paths:
                                 example: '17'
                                 description: Resource identifier.
                               trackingNumber:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: The tracking number for this parcel.
                                 additionalProperties: false
                                 example: ABC123123123
                               weight:
-                                type: number
+                                type:
+                                - number
+                                - 'null'
                                 format: float
-                                nullable: true
                                 description: Weight of the parcel
                                 example: 2.25
                               createdAt:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: datetime
-                                nullable: true
                                 description: Creation timestamp of the parcel record
                                 example: '2024-09-18T14:30:00Z'
                               updatedAt:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: datetime
-                                nullable: true
                                 description: Last update timestamp of the parcel record
                                 example: '2024-09-18T14:30:00Z'
                             description: Data representation of an additional parcel within a shipment
@@ -429,9 +439,10 @@ paths:
                           number: '101010101010101'
                       deliveryNote:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -444,9 +455,10 @@ paths:
                           id: '1337'
                       salesOrder:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -459,9 +471,10 @@ paths:
                           id: '1337'
                       shippingMethod:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -473,20 +486,23 @@ paths:
                         example:
                           id: '1337'
                       sentAt:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Date when the delivery was sent
                         example: '2022-01-07'
                       sentAtTimestamp:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: datetime
-                        nullable: true
                         description: Timestamp when the delivery was sent
                         example: '2022-01-07 00:00:00'
                       label:
-                        type: object
-                        nullable: true
+                        type:
+                        - object
+                        - 'null'
                         required:
                         - fileType
                         - fileContent
@@ -520,27 +536,31 @@ paths:
                               example: '17'
                               description: Resource identifier.
                             trackingNumber:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: The tracking number for this parcel.
                               additionalProperties: false
                               example: ABC123123123
                             weight:
-                              type: number
+                              type:
+                              - number
+                              - 'null'
                               format: float
-                              nullable: true
                               description: Weight of the parcel
                               example: 2.25
                             createdAt:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: datetime
-                              nullable: true
                               description: Creation timestamp of the parcel record
                               example: '2024-09-18T14:30:00Z'
                             updatedAt:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: datetime
-                              nullable: true
                               description: Last update timestamp of the parcel record
                               example: '2024-09-18T14:30:00Z'
                           description: Data representation of an additional parcel within a shipment
@@ -658,9 +678,10 @@ paths:
                           number: '101010101010101'
                       deliveryNote:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -673,9 +694,10 @@ paths:
                           id: '1337'
                       salesOrder:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -688,9 +710,10 @@ paths:
                           id: '1337'
                       shippingMethod:
                         description: Nullable reference to another resource
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         properties:
@@ -702,20 +725,23 @@ paths:
                         example:
                           id: '1337'
                       sentAt:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         description: Date when the delivery was sent
                         example: '2022-01-07'
                       sentAtTimestamp:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: datetime
-                        nullable: true
                         description: Timestamp when the delivery was sent
                         example: '2022-01-07 00:00:00'
                       label:
-                        type: object
-                        nullable: true
+                        type:
+                        - object
+                        - 'null'
                         required:
                         - fileType
                         - fileContent
@@ -749,27 +775,31 @@ paths:
                               example: '17'
                               description: Resource identifier.
                             trackingNumber:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: The tracking number for this parcel.
                               additionalProperties: false
                               example: ABC123123123
                             weight:
-                              type: number
+                              type:
+                              - number
+                              - 'null'
                               format: float
-                              nullable: true
                               description: Weight of the parcel
                               example: 2.25
                             createdAt:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: datetime
-                              nullable: true
                               description: Creation timestamp of the parcel record
                               example: '2024-09-18T14:30:00Z'
                             updatedAt:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: datetime
-                              nullable: true
                               description: Last update timestamp of the parcel record
                               example: '2024-09-18T14:30:00Z'
                           description: Data representation of an additional parcel within a shipment

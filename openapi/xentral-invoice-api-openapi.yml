@@ -1,12 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Invoice API
-  version: v0.1
-  description: Xentral is an ERP platform.
-  contact:
-    name: Xentral
-    url: https://xentral.com
-    email: api@xentral.com
+  title: Xentral Invoice API
+  version: '1.0'
+  description: 'Operations tagged Invoice across 2 of this provider''s published API definitions: xentral-api-openapi-original.json, xentral-documents-api-openapi-original.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{xentralId}.xentral.biz
   description: Your Xentral Instance
@@ -82,10 +78,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -457,8 +454,9 @@ paths:
                           description: Resource identifier.
                         number:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: 2022-400000
                         date:
                           x-description-missing: true
@@ -498,9 +496,10 @@ paths:
                             country: DE
                         project:
                           x-description-missing: true
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           - name
@@ -716,7 +715,6 @@ paths:
                           - date
                           - comment
                           - sent
-                          nullable: false
                           properties:
                             level:
                               type: string
@@ -969,6 +967,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}:
     get:
       tags:
@@ -1009,8 +1018,9 @@ paths:
                         description: Resource identifier.
                       documentNumber:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: '1200132'
                       documentDate:
                         x-description-missing: true
@@ -1019,8 +1029,9 @@ paths:
                         example: '2022-01-07T00:00:00+01:00'
                       log:
                         x-description-missing: true
-                        type: object
-                        nullable: true
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - createdAt
@@ -1034,27 +1045,30 @@ paths:
                             format: date-time
                             example: '2022-01-07T13:43:12+01:00'
                           createdBy:
-                            type: object
+                            type:
+                            - object
+                            - 'null'
                             additionalProperties: false
                             required:
                             - name
-                            nullable: true
                             properties:
                               name:
                                 type: string
                             example:
                               name: John Doe
                           sentAt:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                             example: '2022-01-07T13:43:12+01:00'
                           sentBy:
-                            type: object
+                            type:
+                            - object
+                            - 'null'
                             additionalProperties: false
                             required:
                             - name
-                            nullable: true
                             properties:
                               name:
                                 type: string
@@ -1100,9 +1114,10 @@ paths:
                         example: sent
                       project:
                         x-description-missing: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         required:
                         - id
                         - name
@@ -1123,12 +1138,13 @@ paths:
                           abbreviation: B2C-SW
                       customer:
                         description: An optional object with id and name
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - id
                         - name
-                        nullable: true
                         properties:
                           id:
                             type: string
@@ -1163,33 +1179,40 @@ paths:
                               description: 'Hexadecimal color value in 6-digit format without the leading # character.'
                       salesOrder:
                         x-description-missing: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
-                        nullable: true
                         properties:
                           id:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: number
-                            nullable: true
                           documentNumber:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: number
-                            nullable: true
                         example:
                           id: '147'
                           documentNumber: 2024-200135
                       externalOrderReference:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: '62720'
                       devCustomer:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: dev
                       billingAddress:
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         description: Billing address of the customer.
                         additionalProperties: false
                         required:
@@ -1202,7 +1225,6 @@ paths:
                         - city
                         - zipCode
                         - country
-                        nullable: true
                         properties:
                           id:
                             type: string
@@ -1214,16 +1236,19 @@ paths:
                           contactPerson:
                             type: string
                           department:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                           subdivision:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                           street:
                             type: string
                           additionalDetails:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                           city:
                             type: string
                           zipCode:
@@ -1232,8 +1257,9 @@ paths:
                             type: string
                             pattern: '[A-Z]{2}'
                           email:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                         example:
                           id: '1'
                           name: John Doe
@@ -1247,22 +1273,25 @@ paths:
                           country: DE
                       paymentTerms:
                         x-description-missing: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - dueDate
                         - earlyPaymentDate
                         - earlyPaymentDiscount
-                        nullable: true
                         properties:
                           dueDate:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                           earlyPaymentDate:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date-time
-                            nullable: true
                           earlyPaymentDiscount:
                             type: number
                             format: float
@@ -1289,25 +1318,28 @@ paths:
                         example: pending
                       dunning:
                         description: 'Deprecated: use `dunningSettings.level` field instead'
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: zahlungserinnerung
                       dunningDate:
                         description: 'Deprecated: use `dunningSettings.date` field instead'
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: date
-                        nullable: true
                         example: '2022-08-10'
                       dunningSettings:
                         description: Dunning setting for document
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - level
                         - date
                         - comment
                         - sent
-                        nullable: true
                         properties:
                           level:
                             type: string
@@ -1337,14 +1369,15 @@ paths:
                           sent: true
                       dunningManualSettings:
                         description: 'Expert mode: The payment settings can be set manually with this check mark. Note: This tick overrides the automatic calculation of the incoming payment. This means that the invoice is NOT included in the dunning process. If you use the incoming payment via the account statements, this checkmark should only be used for manual adjustments, because these settings are usually set automatically via the incoming payment.'
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         required:
                         - paymentStatus
                         - paidAt
                         - actualAmount
                         - discountGiven
-                        nullable: true
                         properties:
                           paymentStatus:
                             type: string
@@ -1361,9 +1394,10 @@ paths:
                             example: pending
                           paidAt:
                             description: Date of the payment
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             format: date
-                            nullable: true
                             example: '2022-08-10'
                           actualAmount:
                             description: Amount of the payment
@@ -1382,8 +1416,9 @@ paths:
                           discountGiven: 2
                       gln:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: '12345'
                       taxation:
                         x-description-missing: true
@@ -1400,12 +1435,14 @@ paths:
                             position:
                               type: number
                             salesOrderId:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               format: number
-                              nullable: true
                             saleOrderPositionId:
-                              type: number
-                              nullable: true
+                              type:
+                              - number
+                              - 'null'
                             createdAt:
                               type: string
                               format: date-time
@@ -1765,9 +1802,10 @@ paths:
                               type: number
                               format: float
                             discount:
-                              type: number
+                              type:
+                              - number
+                              - 'null'
                               format: float
-                              nullable: true
                           example:
                             id: 1
                             position: 1
@@ -2123,9 +2161,10 @@ paths:
                   type: string
                 project:
                   description: Nullable reference to another resource
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
-                  nullable: true
                   required:
                   - id
                   properties:
@@ -2138,9 +2177,10 @@ paths:
                     id: '1337'
                 customer:
                   description: Nullable reference to another resource
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
-                  nullable: true
                   required:
                   - id
                   properties:
@@ -2168,10 +2208,13 @@ paths:
                     example:
                       id: '1337'
                 devCustomer:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 billingAddress:
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   required:
                   - name
@@ -2183,23 +2226,25 @@ paths:
                   - city
                   - zipCode
                   - country
-                  nullable: true
                   properties:
                     name:
                       type: string
                     contactPerson:
                       type: string
                     department:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                     subdivision:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                     street:
                       type: string
                     additionalDetails:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                     city:
                       type: string
                     zipCode:
@@ -2210,21 +2255,23 @@ paths:
                 paymentMethodName:
                   type: string
                 gln:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 taxation:
                   type: string
                   pattern: \d+
                 dunningSettings:
                   description: Dunning setting for document
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   required:
                   - level
                   - date
                   - comment
                   - sent
-                  nullable: true
                   properties:
                     level:
                       type: string
@@ -2254,14 +2301,15 @@ paths:
                     sent: true
                 dunningManualSettings:
                   description: 'Expert mode: The payment settings can be set manually with this check mark. Note: This tick overrides the automatic calculation of the incoming payment. This means that the invoice is NOT included in the dunning process. If you use the incoming payment via the account statements, this checkmark should only be used for manual adjustments, because these settings are usually set automatically via the incoming payment.'
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   required:
                   - paymentStatus
                   - paidAt
                   - actualAmount
                   - discountGiven
-                  nullable: true
                   properties:
                     paymentStatus:
                       type: string
@@ -2278,9 +2326,10 @@ paths:
                       example: pending
                     paidAt:
                       description: Date of the payment
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       format: date
-                      nullable: true
                       example: '2022-08-10'
                     actualAmount:
                       description: Amount of the payment
@@ -2505,6 +2554,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}/balance:
     get:
       tags:
@@ -2709,9 +2769,10 @@ paths:
                               properties:
                                 invoice:
                                   description: Nullable reference to another resource
-                                  type: object
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
-                                  nullable: true
                                   required:
                                   - id
                                   properties:
@@ -2724,9 +2785,10 @@ paths:
                                     id: '1337'
                                 creditNote:
                                   description: Nullable reference to another resource
-                                  type: object
+                                  type:
+                                  - object
+                                  - 'null'
                                   additionalProperties: false
-                                  nullable: true
                                   required:
                                   - id
                                   properties:
@@ -2751,7 +2813,6 @@ paths:
                                   enum:
                                   - incoming
                                   - outgoing
-                                  nullable: false
                                 statementId:
                                   type: string
                                 accountName:
@@ -3142,6 +3203,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}/documents:
     get:
       tags:
@@ -3509,6 +3581,17 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}/positions:
     post:
       tags:
@@ -3538,9 +3621,10 @@ paths:
                 properties:
                   salesOrderPosition:
                     description: Nullable reference to another resource
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     required:
                     - id
                     properties:
@@ -3639,9 +3723,10 @@ paths:
                     properties:
                       totalPercent:
                         description: The percentage discount applied to position
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: float
-                        nullable: true
                         example: '38.45'
                     example:
                       totalPercent: '38.45'
@@ -3669,10 +3754,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -3842,6 +3928,17 @@ paths:
           description: Resource representation send in the request is not supported.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}/send:
     patch:
       deprecated: true
@@ -3849,7 +3946,6 @@ paths:
       - Invoice
       operationId: invoice.send
       summary: Send invoice
-      description: Send invoice
       parameters:
       - in: path
         name: id
@@ -3883,14 +3979,16 @@ paths:
                           type: string
                           format: email
                       cc:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                           format: email
                       bcc:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                           format: email
@@ -4099,13 +4197,23 @@ paths:
           description: Requested resource representation does not exist.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/invoices/{id}/status:
     patch:
       tags:
       - Invoice
       operationId: invoice.status
       summary: Update status for single invoice
-      description: Update status for single invoice
       parameters:
       - in: path
         name: id
@@ -4320,6 +4428,17 @@ paths:
                 value:
                   status: sent
                   paymentStatus: paid
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v2/invoices/{id}/actions/send:
     patch:
       tags:
@@ -4357,14 +4476,16 @@ paths:
                         type: string
                         format: email
                       cc:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                           format: email
                       bcc:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                           format: email
@@ -4577,6 +4698,17 @@ paths:
           description: Resource was not found or not enough access privileges
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v3/invoices:
     get:
       tags:
@@ -10828,6 +10960,19 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/actions/createFromDeliveryNote:
     post:
       tags:
@@ -12220,6 +12365,19 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/actions/createFromSalesOrder:
     post:
       tags:
@@ -13614,6 +13772,19 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}:
     get:
       tags:
@@ -16822,6 +16993,19 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/actions/logActivity:
     patch:
       tags:
@@ -16895,6 +17079,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/actions/release:
     patch:
       tags:
@@ -16984,6 +17181,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:release
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/actions/removeWriteProtection:
     patch:
       tags:
@@ -17037,6 +17247,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:removeWriteProtection
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/actions/send:
     patch:
       tags:
@@ -17165,6 +17388,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:send
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/actions/setWriteProtection:
     patch:
       tags:
@@ -17218,6 +17454,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:setWriteProtection
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/files:
     post:
       tags:
@@ -17333,6 +17582,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/files/{fileId}:
     delete:
       tags:
@@ -17472,6 +17734,19 @@ paths:
                 type: object
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/lineItems:
     post:
       tags:
@@ -18028,6 +18303,19 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/invoices/{id}/lineItems/{lineItemId}:
     get:
       tags:
@@ -19041,11 +19329,27 @@ paths:
       x-beta: true
       x-scopes:
       - invoice:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-refined-from:
+- xentral-api-openapi-original.json
+- xentral-documents-api-openapi-original.json
 x-readme:
   samples-languages: []

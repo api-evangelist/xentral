@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Payment Terms Group API
+  title: Xentral Payment Terms Group API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -33,7 +33,7 @@ paths:
       description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
 
 
-        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our handbook article.'
       parameters:
       - name: filter
         in: query
@@ -157,26 +157,31 @@ paths:
                           example: true
                         comment:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: This is a payment terms group.
                         paymentTerms:
                           x-description-missing: true
-                          nullable: true
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           properties:
                             basicDiscount:
-                              type: number
+                              type:
+                              - number
+                              - 'null'
                               example: 5
-                              nullable: true
                             paymentTargetDays:
-                              type: integer
+                              type:
+                              - integer
+                              - 'null'
                               example: 30
-                              nullable: true
                             earlyPaymentDiscount:
-                              nullable: true
-                              type: object
+                              type:
+                              - object
+                              - 'null'
                               additionalProperties: false
                               properties:
                                 value:
@@ -186,8 +191,9 @@ paths:
                                   type: integer
                                   example: 7
                             postageFreeFrom:
-                              nullable: true
-                              type: number
+                              type:
+                              - number
+                              - 'null'
                               example: 99.99
                               description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
                           example:
@@ -199,8 +205,9 @@ paths:
                             postageFreeFrom: 99.99
                         project:
                           x-description-missing: true
-                          nullable: true
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           properties:
                             id:
@@ -212,8 +219,9 @@ paths:
                             id: '1'
                         category:
                           x-description-missing: true
-                          nullable: true
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           properties:
                             id:
@@ -354,7 +362,7 @@ paths:
       description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
 
 
-        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our handbook article.'
       parameters: []
       requestBody:
         description: Request to create a new paymentTermsGroup.
@@ -379,32 +387,37 @@ paths:
                   maxLength: 512
                   example: Customer Discount 10.5%
                 comment:
-                  nullable: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 64000
                   example: Customers in this group get 10.5% discount on all orders. And free shipping if the order value is at least 99.99 EUR.
                 isActive:
                   type: boolean
                   default: true
                 paymentTerms:
-                  nullable: true
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   minProperties: 1
                   properties:
                     basicDiscount:
-                      nullable: true
-                      type: number
+                      type:
+                      - number
+                      - 'null'
                       example: 5.5
                     paymentTargetDays:
-                      nullable: true
-                      type: integer
+                      type:
+                      - integer
+                      - 'null'
                       example: 30
                       description: 'default: 14 days'
                       default: 14
                     earlyPaymentDiscount:
-                      nullable: true
-                      type: object
+                      type:
+                      - object
+                      - 'null'
                       additionalProperties: false
                       properties:
                         value:
@@ -414,15 +427,17 @@ paths:
                           type: integer
                           example: 7
                     postageFreeFrom:
-                      nullable: true
-                      type: number
+                      type:
+                      - number
+                      - 'null'
                       example: 99.99
                       default: null
                       description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
                 project:
                   x-description-missing: true
-                  nullable: true
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     id:
@@ -434,8 +449,9 @@ paths:
                     id: '1'
                 category:
                   x-description-missing: true
-                  nullable: true
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     id:
@@ -475,10 +491,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -638,7 +655,7 @@ paths:
       description: 'This endpoint is only available as early access version and will introduce breaking changes without further notice or versioning.
 
 
-        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our <a href="https://help.xentral.com/hc/en-us/articles/360016722000-Groups">handbook article</a>.'
+        PaymentTermsGroups can be used to group customers with identical payment terms such as different discounts, payment targets, and free postage options. For more details about the group feature have a look at our handbook article.'
       parameters:
       - in: path
         name: id
@@ -682,26 +699,31 @@ paths:
                         example: true
                       comment:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: This is a payment terms group.
                       paymentTerms:
                         x-description-missing: true
-                        nullable: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         properties:
                           basicDiscount:
-                            type: number
+                            type:
+                            - number
+                            - 'null'
                             example: 5
-                            nullable: true
                           paymentTargetDays:
-                            type: integer
+                            type:
+                            - integer
+                            - 'null'
                             example: 30
-                            nullable: true
                           earlyPaymentDiscount:
-                            nullable: true
-                            type: object
+                            type:
+                            - object
+                            - 'null'
                             additionalProperties: false
                             properties:
                               value:
@@ -711,8 +733,9 @@ paths:
                                 type: integer
                                 example: 7
                           postageFreeFrom:
-                            nullable: true
-                            type: number
+                            type:
+                            - number
+                            - 'null'
                             example: 99.99
                             description: null = no free shipping; 0 = free shipping for all orders; > 0 = free shipping for orders with a value of at least this value
                         example:
@@ -724,8 +747,9 @@ paths:
                           postageFreeFrom: 99.99
                       project:
                         x-description-missing: true
-                        nullable: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         properties:
                           id:
@@ -737,8 +761,9 @@ paths:
                           id: '1'
                       category:
                         x-description-missing: true
-                        nullable: true
-                        type: object
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         properties:
                           id:

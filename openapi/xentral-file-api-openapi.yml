@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account File API
+  title: Xentral File API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -148,17 +148,21 @@ paths:
                           example: 1234
                         title:
                           description: A human-readable title for the file.
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Invoice Document
                         description:
                           description: A detailed explanation or note about the file’s purpose or content.
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Document for invoice 1234
                         keyword:
                           description: A keyword or tag to help categorize or search for the document.
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           enum:
                           - attachment
                           - coverPage
@@ -167,7 +171,6 @@ paths:
                           - receipt
                           - otherFile
                           - ''
-                          nullable: true
                           example: attachment
                         sort:
                           description: An integer used to define the order in which files are sorted.
@@ -188,10 +191,11 @@ paths:
                               description: The version of the file
                               example: 4
                             remark:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               description: An internal note/remark for the file
                               example: Please process this quickly
-                              nullable: true
                             filename:
                               type: string
                               example: document-2024-1234.pdf
@@ -522,17 +526,21 @@ paths:
                         example: 1234
                       title:
                         description: A human-readable title for the file.
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Invoice Document
                       description:
                         description: A detailed explanation or note about the file’s purpose or content.
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Document for invoice 1234
                       keyword:
                         description: A keyword or tag to help categorize or search for the document.
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         enum:
                         - attachment
                         - coverPage
@@ -541,7 +549,6 @@ paths:
                         - receipt
                         - otherFile
                         - ''
-                        nullable: true
                         example: attachment
                       sort:
                         description: An integer used to define the order in which files are sorted.
@@ -565,10 +572,11 @@ paths:
                               description: The version of the file
                               example: 4
                             remark:
-                              type: string
+                              type:
+                              - string
+                              - 'null'
                               description: An internal note/remark for the file
                               example: Please process this quickly
-                              nullable: true
                             filename:
                               type: string
                               example: document-2024-1234.pdf
@@ -619,10 +627,11 @@ paths:
                             description: The version of the file
                             example: 4
                           remark:
-                            type: string
+                            type:
+                            - string
+                            - 'null'
                             description: An internal note/remark for the file
                             example: Please process this quickly
-                            nullable: true
                           filename:
                             type: string
                             example: document-2024-1234.pdf

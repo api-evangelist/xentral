@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Project API
+  title: Xentral Project API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -194,8 +194,9 @@ paths:
                           - twoLevel
                           example: invoiceMail
                         defaultCustomerPaymentMethod:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Default payment method used for customers in this project
                           example:
                             id: '13'
@@ -216,8 +217,9 @@ paths:
                               description: Name of the payment method
                               example: Paypal
                         defaultSupplierPaymentMethod:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Default payment method used for suppliers in this project
                           example:
                             id: '13'
@@ -238,8 +240,9 @@ paths:
                               description: Name of the payment method
                               example: Paypal
                         defaultShippingMethod:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Default shipping method used for this project
                           example:
                             id: '10'
@@ -260,8 +263,9 @@ paths:
                               description: Name of the shipping method
                               example: GO!
                         freeFields:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: object
                             properties:
@@ -685,9 +689,10 @@ paths:
                         example: true
                       ownVatId:
                         x-description-missing: true
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: float
-                        nullable: true
                         example: VAT12345678
                     example:
                       storageProcess: Automated Storage

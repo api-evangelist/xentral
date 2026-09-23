@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Storage Location API
+  title: Xentral Storage Location API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -94,8 +94,9 @@ paths:
                   - pallet
                   - shelf
                 abcCategory:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   enum:
                   - A
                   - B
@@ -130,10 +131,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -430,9 +432,10 @@ paths:
                           example: Primary storage location
                         project:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -745,8 +748,9 @@ paths:
                   description: Human-readable name or label for the storage location.
                   example: Cold Storage Zone A
                 address:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   description: Reference to the address entity associated with this location.
                   additionalProperties: false
                   properties:
@@ -776,8 +780,9 @@ paths:
                   description: Indicates if the location is used as POS location.
                   example: false
                 dimensions:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   description: defines the dimensions of the storage location
                   additionalProperties: false
                   properties:
@@ -797,16 +802,18 @@ paths:
                       description: Height of the location in meters, with up to 2 decimal places.
                       example: 3.25
                 locationType:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   enum:
                   - pallet
                   - shelf
                   description: Type of storage location, such as pallet or shelf.
                   example: pallet
                 abcCategory:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   enum:
                   - A
                   - B
@@ -1265,7 +1272,12 @@ paths:
       - Storage Location
       operationId: storageLocations.setTotalStock
       summary: Set total stock on storage locations
-      description: 'This endpoint sets the total stock for one or more storage locations.<br>The stock data provided in the payload, including quality control attributes (batch, best-before date, and serial number), will be taken over as the new stock for the specified storage location(s).<br><br><strong>CAUTION: Any stock that was previously present in the storage location and is not specified in the payload will be removed from the storage location. This also includes the quality control attributes.</strong>'
+      description: 'This endpoint sets the total stock for one or more storage locations.
+
+        The stock data provided in the payload, including quality control attributes (batch, best-before date, and serial number), will be taken over as the new stock for the specified storage location(s).
+
+
+        CAUTION: Any stock that was previously present in the storage location and is not specified in the payload will be removed from the storage location. This also includes the quality control attributes.'
       requestBody:
         description: Overwrite stock for given products and storage Location
         content:

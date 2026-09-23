@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Warehouse API
+  title: Xentral Warehouse API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -107,8 +107,9 @@ paths:
                           required:
                           - id
                           description: Information for the project used by a Warehouse
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           properties:
                             id:
                               type: string
@@ -359,12 +360,12 @@ paths:
               properties:
                 designation:
                   type: string
-                  nullable: false
                   description: Name of the warehouse
                   example: Returns
                 project:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   required:
                   - id
                   description: Information for the project used by a Warehouse
@@ -377,8 +378,9 @@ paths:
                   example:
                     id: '1'
                 address:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   required:
                   - id
                   description: Information for the address used by a warehouse
@@ -410,10 +412,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -642,7 +645,6 @@ paths:
       - Warehouse
       operationId: warehouse.update
       summary: Update warehouse
-      description: Update warehouse
       parameters:
       - in: path
         name: id
@@ -663,15 +665,15 @@ paths:
               properties:
                 designation:
                   type: string
-                  nullable: false
                   description: Name of the warehouse
                   example: Returns
                 project:
                   required:
                   - id
                   description: Information for the project used by a Warehouse
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   properties:
                     id:
                       type: string
@@ -684,8 +686,9 @@ paths:
                   required:
                   - id
                   description: Information for the address used by a warehouse
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   properties:
                     id:
                       type: string
@@ -877,7 +880,6 @@ paths:
       - Warehouse
       operationId: warehouse.delete
       summary: Delete warehouse
-      description: Delete warehouse
       parameters:
       - in: path
         name: id

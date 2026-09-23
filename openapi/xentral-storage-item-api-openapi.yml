@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Storage Item API
+  title: Xentral Storage Item API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -574,10 +574,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '201':
           description: Resource successfully created response
           headers:
@@ -589,10 +590,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1089,13 +1091,15 @@ paths:
                                 type: number
                                 description: Quantity of the item to stock to storage location
                               batch:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Batch of the item
                               bestBeforeDate:
-                                type: string
+                                type:
+                                - string
+                                - 'null'
                                 format: date
-                                nullable: true
                                 description: Best before date of the item
                               serialNumbers:
                                 type: array

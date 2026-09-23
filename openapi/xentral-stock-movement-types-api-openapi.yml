@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Stock Movement Types API
+  title: Xentral Stock Movement Types API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -45,22 +45,20 @@ paths:
               properties:
                 name:
                   type: string
-                  nullable: false
                   example: TestName
                   description: Name of stock movement type
                 direction:
                   type: string
-                  nullable: false
                   example: relocation
                   description: Direction of stock movement type
                 active:
                   type: boolean
-                  nullable: false
                   example: true
                   description: Only active stock movement types can be used
                 doctypeReference:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                   example: salesOrder
                   description: Related document type
             examples:
@@ -82,10 +80,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:

@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Payment Service Provider API
+  title: Xentral Payment Service Provider API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -75,18 +75,21 @@ paths:
                           description: Unique identifier of the transaction in the payment service provider's system
                           example: txn_123
                         externalParentId:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Identifier of the parent transaction if this is a child transaction
                           example: parent_123
                         externalReferenceNumber:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Reference number associated with the transaction
                           example: ref_123
                         externalMerchantId:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Identifier of the merchant in the payment service provider's system
                           example: merchant_123
                         externalCreatedAt:
@@ -179,8 +182,9 @@ paths:
                           description: Human-readable description of the transaction
                           example: Test transaction
                         feeType:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Type of fee associated with the transaction
                           example: processing_fee
                         feeAmount:
@@ -241,18 +245,21 @@ paths:
                               description: Currency matches one of currency values as specified in ISO-4217.
                               example: PLN
                         paymentMethodType:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Type of payment method used for the transaction
                           example: credit_card
                         payoutId:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Identifier of the associated payout
                           example: payout_123
                         payerInfo:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Information about the payer of the transaction
                           example:
                             accountId: payer_123
@@ -262,33 +269,39 @@ paths:
                             countryCode: DE
                           properties:
                             accountId:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Identifier of the payer's account
                               example: payer_123
                             email:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Email address of the payer
                               example: payer@example.com
                             firstName:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: First name of the payer
                               example: John
                             lastName:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Last name of the payer
                               example: Doe
                             countryCode:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Country code of the payer's location
                               example: DE
                         shippingInfo:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Shipping information for the transaction
                           example:
                             recipientName: Jane Doe
@@ -299,38 +312,45 @@ paths:
                             countryCode: DE
                           properties:
                             recipientName:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Name of the shipping recipient
                               example: Jane Doe
                             addressLine1:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: First line of the shipping address
                               example: 123 Main St
                             addressLine2:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Second line of the shipping address
                               example: Apt 4B
                             city:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: City of the shipping address
                               example: Berlin
                             zipCode:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Postal code of the shipping address
                               example: '10001'
                             countryCode:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Country code of the shipping address
                               example: DE
                         bankView:
-                          type: object
-                          nullable: true
+                          type:
+                          - object
+                          - 'null'
                           description: Banking information associated with the transaction
                           example:
                             iban: DE89370400440532013000
@@ -339,23 +359,27 @@ paths:
                             bankName: Test Bank
                           properties:
                             iban:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: International Bank Account Number
                               example: DE89370400440532013000
                             accountNumber:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Bank account number
                               example: '123456789'
                             bic:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Bank Identification Code (BIC)
                               example: BIC12345678
                             bankName:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               description: Name of the bank
                               example: Test Bank
                         createdAt:
@@ -671,23 +695,27 @@ paths:
                             - mollie
                             example: paypal
                           parentId:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Identifier of the parent transaction if this is a child transaction
                           referenceNumber:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Reference number associated with the transaction
                           merchantId:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Identifier of the merchant in the payment service provider's system
                           type:
                             type: string
                             description: Type of the transaction
                           feeType:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Type of fee associated with the transaction
                           createdAt:
                             type: string
@@ -718,8 +746,9 @@ paths:
                             type: string
                             description: Human-readable description of the transaction
                           feeAmount:
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               amount:
                                 type: string
@@ -730,84 +759,104 @@ paths:
                                 maxLength: 3
                                 description: Currency matches one of currency values as specified in ISO-4217.
                           paymentMethodType:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Type of payment method used for the transaction
                           payoutId:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Identifier of the associated payout
                           payerInfo:
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               accountId:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Identifier of the payer's account
                               email:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Email address of the payer
                               firstName:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: First name of the payer
                               lastName:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Last name of the payer
                               countryCode:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Country code of the payer's location
                           shippingInfo:
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               recipientName:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Name of the shipping recipient
                               addressLine1:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: First line of the shipping address
                               addressLine2:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Second line of the shipping address
                               city:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: City of the shipping address
                               zipCode:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Postal code of the shipping address
                               countryCode:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Country code of the shipping address
                           bankView:
-                            type: object
-                            nullable: true
+                            type:
+                            - object
+                            - 'null'
                             properties:
                               iban:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: International Bank Account Number
                               accountNumber:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Bank account number
                               bic:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Bank Identification Code (BIC)
                               bankName:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                                 description: Name of the bank
             examples:
               Create payment service provider transactions:

@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Point Of Sale API
+  title: Xentral Point Of Sale API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -62,13 +62,15 @@ paths:
                           description: Resource identifier.
                         name:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Kassierer SW
                         number:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: '1001'
                         project:
                           description: Reference to another resource
@@ -86,8 +88,9 @@ paths:
                             id: '1337'
                         permissionLevel:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: '0'
                       example:
                         id: '1'
@@ -185,11 +188,9 @@ paths:
               properties:
                 pin:
                   type: string
-                  nullable: false
                   pattern: \d{4}
                 project:
                   type: string
-                  nullable: false
                   pattern: \d
             examples:
               Verify PIN:
@@ -220,7 +221,6 @@ paths:
                       name:
                         x-description-missing: true
                         type: string
-                        nullable: false
                         example: Kassierer SW
                       project:
                         description: Reference to another resource
@@ -240,7 +240,6 @@ paths:
                         x-description-missing: true
                         type: string
                         pattern: \d
-                        nullable: false
                         example: '0'
                     example:
                       id: '1'
@@ -453,12 +452,10 @@ paths:
                       openingBalance:
                         x-description-missing: true
                         type: string
-                        nullable: false
                         example: 1,236.61
                       targetAmount:
                         x-description-missing: true
                         type: string
-                        nullable: false
                         example: 1,236.61
                     example:
                       openingBalance: 1,236.61
@@ -752,9 +749,10 @@ paths:
                           description: Resource identifier.
                         date:
                           x-description-missing: true
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
-                          nullable: true
                           example: '2020-09-23T14:20:08+02:00'
                         projectId:
                           type: string
@@ -832,25 +830,29 @@ paths:
                           example: John Doe
                         businessTransactionType:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: TODO
                         qrString:
                           x-description-missing: true
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: null
                         fiscalDocumentReference:
                           description: This field represents an object with dynamic structure
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: true
-                          nullable: true
                           example: {}
                         salesOrder:
                           x-description-missing: true
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           - number
@@ -1014,15 +1016,12 @@ paths:
                   properties:
                     type:
                       type: string
-                      nullable: false
                     text:
                       type: string
-                      nullable: false
                 entry:
                   oneOf:
                   - type: object
                     additionalProperties: false
-                    nullable: false
                     required:
                     - type
                     - timestamp
@@ -1033,7 +1032,6 @@ paths:
                         enum:
                         - invoice
                         - credit_note
-                        nullable: false
                       timestamp:
                         description: a atom formatted date time
                         type: string
@@ -1057,7 +1055,6 @@ paths:
                         additionalProperties: false
                   - type: object
                     additionalProperties: false
-                    nullable: false
                     required:
                     - type
                     - timestamp
@@ -1069,11 +1066,9 @@ paths:
                         - cash_in
                         - cash_out
                         - cash_difference
-                        nullable: false
                       timestamp:
                         type: string
                         format: date-time
-                        nullable: false
                       amount:
                         type: object
                         description: 'Mandatory field when `entry.type` has one of the values: `cash_in`, `cash_out`, `cash_difference`.'
@@ -1098,7 +1093,6 @@ paths:
                 payment:
                   type: object
                   additionalProperties: false
-                  nullable: false
                   required:
                   - type
                   properties:
@@ -1109,12 +1103,12 @@ paths:
                       - ec
                       - credit
                       - ec_card
-                      nullable: false
                 fiscalDocumentReference:
                   description: This field represents an object with dynamic structure
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: true
-                  nullable: true
             examples:
               Add journal entry:
                 value:
@@ -1145,10 +1139,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1370,15 +1365,14 @@ paths:
                     id: '1337'
                 comment:
                   type: string
-                  nullable: false
                 difference:
                   type: number
                   format: float
-                  nullable: false
                 cashQuantity:
-                  type: object
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
-                  nullable: true
                   required:
                   - eur500
                   - eur200
@@ -1399,63 +1393,48 @@ paths:
                     eur500:
                       type: integer
                       format: int64
-                      nullable: false
                     eur200:
                       type: integer
                       format: int64
-                      nullable: false
                     eur100:
                       type: integer
                       format: int64
-                      nullable: false
                     eur50:
                       type: integer
                       format: int64
-                      nullable: false
                     eur20:
                       type: integer
                       format: int64
-                      nullable: false
                     eur10:
                       type: integer
                       format: int64
-                      nullable: false
                     eur5:
                       type: integer
                       format: int64
-                      nullable: false
                     eur2:
                       type: integer
                       format: int64
-                      nullable: false
                     eur1:
                       type: integer
                       format: int64
-                      nullable: false
                     eur05:
                       type: integer
                       format: int64
-                      nullable: false
                     eur02:
                       type: integer
                       format: int64
-                      nullable: false
                     eur01:
                       type: integer
                       format: int64
-                      nullable: false
                     eur005:
                       type: integer
                       format: int64
-                      nullable: false
                     eur002:
                       type: integer
                       format: int64
-                      nullable: false
                     eur001:
                       type: integer
                       format: int64
-                      nullable: false
             examples:
               Add cash count:
                 value:
@@ -1493,10 +1472,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -1688,11 +1668,9 @@ paths:
               properties:
                 documentNumber:
                   type: string
-                  nullable: false
                   example: '400000'
                 eventType:
                   type: string
-                  nullable: false
                   example: SALE, REFUND
                 timeSignature:
                   description: a atom formatted date time
@@ -1701,13 +1679,10 @@ paths:
                   example: '2023-08-13T14:45:36+02:00'
                 cashRegisterSerialNumber:
                   type: string
-                  nullable: false
                 externalReceiptNumber:
                   type: string
-                  nullable: false
                 qrCodeData:
                   type: string
-                  nullable: false
             examples:
               Add qr code data to a document:
                 value:

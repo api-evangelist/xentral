@@ -1,12 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Supplier API
-  version: v0.1
-  description: Xentral is an ERP platform.
-  contact:
-    name: Xentral
-    url: https://xentral.com
-    email: api@xentral.com
+  title: Xentral Supplier API
+  version: '1.0'
+  description: 'Operations tagged Supplier across 2 of this provider''s published API definitions: xentral-api-openapi-original.json, xentral-documents-api-openapi-original.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{xentralId}.xentral.biz
   description: Your Xentral Instance
@@ -194,12 +190,13 @@ paths:
                           example: Regular supplier
                         project:
                           description: An optional object with id and name
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
                           required:
                           - id
                           - name
-                          nullable: true
                           properties:
                             id:
                               type: string
@@ -222,11 +219,13 @@ paths:
                             number:
                               type: string
                             fax:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                             mobile:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                             department:
                               type: string
                             subdivision:
@@ -234,8 +233,9 @@ paths:
                             vatNumber:
                               type: string
                             taxNumber:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                             gln:
                               type: string
                             employeeNumber:
@@ -247,8 +247,9 @@ paths:
                             name:
                               type: string
                             birthday:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               format: date
                             tags:
                               description: A list of tags
@@ -274,8 +275,9 @@ paths:
                             supplierNumber:
                               type: string
                             phone:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                             email:
                               type: string
                             address:
@@ -296,8 +298,9 @@ paths:
                                 city:
                                   type: string
                                 state:
-                                  type: string
-                                  nullable: true
+                                  type:
+                                  - string
+                                  - 'null'
                                 country:
                                   type: string
                                 note:
@@ -786,6 +789,17 @@ paths:
                           type: string
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v1/suppliers/{id}:
     get:
       tags:
@@ -871,8 +885,9 @@ paths:
                               city:
                                 type: string
                               state:
-                                type: string
-                                nullable: true
+                                type:
+                                - string
+                                - 'null'
                               country:
                                 type: string
                               note:
@@ -1352,6 +1367,17 @@ paths:
           description: Resource representation send in the request is not supported.
         '429':
           description: Too many API calls made.
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your Xentral Instance
+      variables:
+        xentralId:
+          default: xentral
+    - url: https://{domain}
+      description: Xentral at a custom domain
+      variables:
+        domain:
+          default: xentral.com
   /api/v3/suppliers:
     get:
       tags:
@@ -4509,6 +4535,19 @@ paths:
       x-beta: true
       x-scopes:
       - supplier:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/suppliers/{id}:
     get:
       tags:
@@ -7633,6 +7672,19 @@ paths:
       x-beta: true
       x-scopes:
       - supplier:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/suppliers/{supplierId}/contactPersons:
     get:
       tags:
@@ -8409,6 +8461,19 @@ paths:
       x-beta: true
       x-scopes:
       - supplier:create
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
   /api/v3/suppliers/{supplierId}/contactPersons/{contactPersonId}:
     get:
       tags:
@@ -9121,11 +9186,27 @@ paths:
       x-beta: true
       x-scopes:
       - supplier:update
+    servers:
+    - url: https://{xentralId}.xentral.biz
+      description: Your xentral instance
+      variables:
+        xentralId:
+          default: my-company
+          description: Your Xentral instance ID
+    - url: https://{domain}
+      description: Xentral with a custom domain
+      variables:
+        domain:
+          default: demo.xentral.com
+          description: Your Xentral custom domain
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
+x-refined-from:
+- xentral-api-openapi-original.json
+- xentral-documents-api-openapi-original.json
 x-readme:
   samples-languages: []

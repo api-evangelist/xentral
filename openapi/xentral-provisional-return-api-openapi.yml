@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Provisional Return API
+  title: Xentral Provisional Return API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -137,9 +137,10 @@ paths:
                             number: '101010101010101'
                         deliveryNote:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:
@@ -152,9 +153,10 @@ paths:
                             id: '1337'
                         salesOrder:
                           description: Nullable reference to another resource
-                          type: object
+                          type:
+                          - object
+                          - 'null'
                           additionalProperties: false
-                          nullable: true
                           required:
                           - id
                           properties:

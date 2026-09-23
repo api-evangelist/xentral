@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Report API
+  title: Xentral Report API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -43,8 +43,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -143,8 +144,9 @@ paths:
                                 format: date-time
                                 description: Last update time
                         parameters:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: object
                             additionalProperties: false
@@ -431,8 +433,9 @@ paths:
                       description: ID of the collection the report belongs to
                       example: 1
                     parameters:
-                      type: array
-                      nullable: true
+                      type:
+                      - array
+                      - 'null'
                       items:
                         type: object
                         additionalProperties: false
@@ -505,8 +508,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -605,8 +609,9 @@ paths:
                                 format: date-time
                                 description: Last update time
                         parameters:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: object
                             additionalProperties: false
@@ -727,8 +732,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -827,8 +833,9 @@ paths:
                                 format: date-time
                                 description: Last update time
                         parameters:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: object
                             additionalProperties: false
@@ -1125,8 +1132,9 @@ paths:
                       description: ID of the collection the report belongs to
                       example: 1
                     parameters:
-                      type: array
-                      nullable: true
+                      type:
+                      - array
+                      - 'null'
                       items:
                         type: object
                         additionalProperties: false
@@ -1199,8 +1207,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -1299,8 +1308,9 @@ paths:
                                 format: date-time
                                 description: Last update time
                         parameters:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: object
                             additionalProperties: false
@@ -1607,8 +1617,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -1853,8 +1864,9 @@ paths:
                   defaultValue: '2021-01-01'
               properties:
                 parameters:
-                  type: array
-                  nullable: true
+                  type:
+                  - array
+                  - 'null'
                   items:
                     type: object
                     additionalProperties: false
@@ -1900,8 +1912,9 @@ paths:
                         - label: Option 2
                           value: option2
                 settings:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     delimiter:
@@ -1960,8 +1973,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -2221,8 +2235,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -2328,8 +2343,9 @@ paths:
                   defaultValue: '2021-01-01'
               properties:
                 parameters:
-                  type: array
-                  nullable: true
+                  type:
+                  - array
+                  - 'null'
                   items:
                     type: object
                     additionalProperties: false
@@ -2375,8 +2391,9 @@ paths:
                         - label: Option 2
                           value: option2
                 settings:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     delimiter:
@@ -2459,8 +2476,9 @@ paths:
                 properties:
                   data:
                     description: Generic result response for a query in a table-like structure.
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
                     required:
                     - header
@@ -2487,9 +2505,10 @@ paths:
                         - Bob
                   meta:
                     description: Query meta information.
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     example:
                       query: SELECT * FROM users
                       executionTime: 0.123
@@ -2499,8 +2518,9 @@ paths:
                       - string
                     properties:
                       columnTypes:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                         description: Derived column types for each column in the result table.
@@ -2510,17 +2530,18 @@ paths:
                       executionTime:
                         description: Execution time of the query in seconds.
                         example: 0.123
-                        type: number
-                        nullable: true
+                        type:
+                        - number
+                        - 'null'
                       query:
                         description: SQL query that was executed.
                         type: string
-                        nullable: false
                         example: SELECT * FROM users
                       totalResults:
                         description: Total number of rows og the result (the returned result is always limited).
-                        type: number
-                        nullable: true
+                        type:
+                        - number
+                        - 'null'
                         example: 2
         '400':
           description: Error response with message
@@ -2592,8 +2613,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -2866,8 +2888,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -3295,8 +3318,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -3355,10 +3379,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -3559,8 +3584,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -3600,8 +3626,9 @@ paths:
                             description: List of email addresses to send the report to
                         senderAccountId:
                           example: 5
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: ID of the email account to use for sending
                         uuid:
                           example: 123e4567-e89b-12d3-a456-426614174000
@@ -3610,9 +3637,10 @@ paths:
                           description: UUID of the report schedule
                         lastExecution:
                           example: '2023-01-01T00:00:00+00:00'
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
-                          nullable: true
                           description: Last execution time
                         nextExecution:
                           example: '2023-01-01T00:00:00+00:00'
@@ -3630,8 +3658,9 @@ paths:
                           format: date-time
                           description: Last update time
                         reportTitle:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Title of the report
                           example: Sales Report
         '400':
@@ -3884,8 +3913,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -3925,8 +3955,9 @@ paths:
                             description: List of email addresses to send the report to
                         senderAccountId:
                           example: 5
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: ID of the email account to use for sending
                         uuid:
                           example: 123e4567-e89b-12d3-a456-426614174000
@@ -3935,9 +3966,10 @@ paths:
                           description: UUID of the report schedule
                         lastExecution:
                           example: '2023-01-01T00:00:00+00:00'
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
-                          nullable: true
                           description: Last execution time
                         nextExecution:
                           example: '2023-01-01T00:00:00+00:00'
@@ -3955,8 +3987,9 @@ paths:
                           format: date-time
                           description: Last update time
                         reportTitle:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Title of the report
                           example: Sales Report
         '400':
@@ -4385,8 +4418,9 @@ paths:
                         description: Email address
                     senderAccountId:
                       example: 5
-                      type: integer
-                      nullable: true
+                      type:
+                      - integer
+                      - 'null'
                       description: ID of the email account to use for sending
             examples:
               example:
@@ -4412,8 +4446,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -4453,8 +4488,9 @@ paths:
                             description: List of email addresses to send the report to
                         senderAccountId:
                           example: 5
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: ID of the email account to use for sending
                         uuid:
                           example: 123e4567-e89b-12d3-a456-426614174000
@@ -4463,9 +4499,10 @@ paths:
                           description: UUID of the report schedule
                         lastExecution:
                           example: '2023-01-01T00:00:00+00:00'
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
-                          nullable: true
                           description: Last execution time
                         nextExecution:
                           example: '2023-01-01T00:00:00+00:00'
@@ -4483,8 +4520,9 @@ paths:
                           format: date-time
                           description: Last update time
                         reportTitle:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Title of the report
                           example: Sales Report
         '400':
@@ -4673,8 +4711,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -4714,8 +4753,9 @@ paths:
                             description: List of email addresses to send the report to
                         senderAccountId:
                           example: 5
-                          type: integer
-                          nullable: true
+                          type:
+                          - integer
+                          - 'null'
                           description: ID of the email account to use for sending
                         uuid:
                           example: 123e4567-e89b-12d3-a456-426614174000
@@ -4724,9 +4764,10 @@ paths:
                           description: UUID of the report schedule
                         lastExecution:
                           example: '2023-01-01T00:00:00+00:00'
-                          type: string
+                          type:
+                          - string
+                          - 'null'
                           format: date-time
-                          nullable: true
                           description: Last execution time
                         nextExecution:
                           example: '2023-01-01T00:00:00+00:00'
@@ -4744,8 +4785,9 @@ paths:
                           format: date-time
                           description: Last update time
                         reportTitle:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: Title of the report
                           example: Sales Report
         '400':

@@ -1,23 +1,28 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Customer Delivery Address API
-  version: v0.1
-  description: Xentral is an ERP platform.
+  title: Xentral Business Documents API v3 Customer Delivery Address…
+  description: '**This is a preliminary version of the Xentral Business Documents API v3.**
+
+
+    It is not yet complete, specifications may change without prior notice. Please use it with caution and report any issues you find'
   contact:
-    name: Xentral
+    name: API Support
     url: https://xentral.com
     email: api@xentral.com
+  version: 0.2.0
 servers:
 - url: https://{xentralId}.xentral.biz
-  description: Your Xentral Instance
+  description: Your xentral instance
   variables:
     xentralId:
-      default: xentral
+      default: my-company
+      description: Your Xentral instance ID
 - url: https://{domain}
-  description: Xentral at a custom domain
+  description: Xentral with a custom domain
   variables:
     domain:
-      default: xentral.com
+      default: demo.xentral.com
+      description: Your Xentral custom domain
 security:
 - BearerAuth: []
 tags:
@@ -1440,6 +1445,3 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: Bearer token obtained in POST /tokens endpoint or pregenerated in the system.
-x-readme:
-  samples-languages: []

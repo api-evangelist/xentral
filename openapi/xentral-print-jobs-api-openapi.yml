@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Print Jobs API
+  title: Xentral Print Jobs API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -62,9 +62,10 @@ paths:
                   properties:
                     name:
                       description: 'Name of the file to print. If not provided in payload use the following default: “api_{currentUser}_{currentTimestamp}.pdf”'
-                      type: string
+                      type:
+                      - string
+                      - 'null'
                       maxLength: 255
-                      nullable: true
                       example: print-job-1
                     type:
                       description: Type of the file to print.
@@ -78,8 +79,9 @@ paths:
                       example: JVBERi0xLjQKJeLjz9MKMSAwIG9iago8==
                 quantity:
                   description: Number of copies to print. Defaults to 1 if not provided.
-                  type: integer
-                  nullable: true
+                  type:
+                  - integer
+                  - 'null'
             examples:
               default:
                 value:
@@ -102,10 +104,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:

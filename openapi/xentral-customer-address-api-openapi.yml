@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Customer Address API
+  title: Xentral Customer Address API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -52,39 +52,38 @@ paths:
                 properties:
                   type:
                     type: string
-                    nullable: false
                     enum:
                     - masterdata
                     example: masterdata
                     description: Type of customer address, must be 'masterdata'
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + Housenumber of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                 required:
@@ -97,85 +96,90 @@ paths:
                 properties:
                   type:
                     type: string
-                    nullable: false
                     enum:
                     - billingaddress
                     example: billingaddress
                     description: Type of customer address, must be 'billingaddress'
                   name:
                     type: string
-                    nullable: false
                     example: Max Mustermann
                     description: Full name for billing address
                   salutation:
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - mr
                     - mrs
                     - company
                     - other
-                    nullable: true
                     example: mr
                     description: Abbreviation for salutation
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + House number of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                   department:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Sales
                     description: Name of department
                   subDepartment:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Online Sales
                     description: Name of sub-department
                   contactDetails:
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     properties:
                       phone:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 0800 546372
                         description: Phone number
                       email:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: m.m@somedomain.tpl
                         description: Email address
                       gln:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: number
-                        nullable: true
                         minLength: 13
                         maxLength: 13
                         example: '1234567890123'
@@ -191,64 +195,65 @@ paths:
                 properties:
                   type:
                     type: string
-                    nullable: false
                     enum:
                     - deliveryaddress
                     example: deliveryaddress
                     description: Type of customer address, must be 'deliveryaddress'
                   name:
                     type: string
-                    nullable: false
                     example: Max Mustermann
                     description: Full name for billing address
                   salutation:
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - mr
                     - mrs
                     - company
                     - other
-                    nullable: true
                     example: mr
                     description: Abbreviation for salutation
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + House number of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                   department:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Sales
                     description: Name of department
                   subDepartment:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Online Sales
                     description: Name of sub-department
                   contactDetails:
@@ -256,40 +261,46 @@ paths:
                     additionalProperties: false
                     properties:
                       phone:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 0800 546372
                         description: Phone number
                       email:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: m.m@esomedomain.tpl
                         description: Email address
                       gln:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: number
-                        nullable: true
                         minLength: 13
                         maxLength: 13
                         example: '1234567890123'
                         description: Global Location Number - key to identify physical/digital location globally
                   deliveryDetails:
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     properties:
                       defaultDeliveryAddress:
                         type: boolean
                         example: true
                         description: Set TRUE makes this address to default delivery address
                       termsOfDelivery:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: Terms of delivery associated with this address
                         example: Some terms here
                       vatId:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: DE124345-23445
                         description: VAT Id if different from masterdata
                       taxType:
@@ -299,17 +310,18 @@ paths:
                         - eu-delivery
                         - export
                         - free
-                        nullable: false
                         example: domestic
                         description: Taxation type
                       internalComment:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: some text
                         description: Internal Comments
                       note:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: more text
                         description: General Notes
                 required:
@@ -381,10 +393,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -717,18 +730,21 @@ paths:
                           example: 1234 street
                           description: Street and house number.
                         addressSupplement:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: 5th floor
                           description: Optional second address line.
                         department:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Financial & Accounting
                           description: Department.
                         subDepartment:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Purchase accounting
                           description: Sub-department.
                         zip:
@@ -790,22 +806,22 @@ paths:
                     properties:
                       self:
                         type: string
-                        nullable: false
                         description: The URI of the current page.
                         example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=2&page%5Bsize%5D=10
                       next:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: The path of the next page. If value is null, this is the last page.
                         example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=3&page%5Bsize%5D=10
                       prev:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         description: The path of the previous page. If value is null, this is the first page.
                         example: /api/v2/customers/1234/addresses?page%5Bnumber%5D=1&page%5Bsize%5D=10
                       customer:
                         type: string
-                        nullable: false
                         description: The path of the customer resource.
                         example: /api/v2/customers/1234
                     example:
@@ -1055,48 +1071,57 @@ paths:
                         example: masterdata
                         description: Type of customer address
                       name:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Firstname Surname
                         description: Full name of the customer
                       street:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 1234 Main Street
                         description: Street name and house number
                       addressSupplement:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 6. floor
                         description: Additional address information, such as floor or unit
                       zip:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: '12345'
                         description: Postal code for the address
                       city:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Sampletown
                         description: City of the address
                       country:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: DE
                         description: Country code in ISO 3166-1 alpha-2 format
                       state:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: BY
                         description: State or region code in ISO format, if applicable
                       department:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: HR department
                         description: Department of customer if necessary and available
                       subDepartment:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Sub department
                         description: Sub-Department of customer if necessary and available
                       contactDetails:
@@ -1105,18 +1130,21 @@ paths:
                         description: Contact information of a customer
                         properties:
                           phone:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Phone number of a customer
                             example: +49(30)12093756
                           email:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Email address of a customer
                             example: customer@domain.tpl
                           gln:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Global Location Number (GLN) of the company
                             example: '1234567890123'
                             pattern: ^[0-9]{13}$
@@ -1125,8 +1153,9 @@ paths:
                           phone: +49(0) 174406668
                           gln: '1234567890123'
                       deliveryDetails:
-                        type: object
-                        nullable: true
+                        type:
+                        - object
+                        - 'null'
                         additionalProperties: false
                         description: Details about the customer's delivery address
                         properties:
@@ -1135,18 +1164,21 @@ paths:
                             description: Indicates whether this is the default delivery address. Only one delivery address can be set as default.
                             example: true
                           termsOfDelivery:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Terms of delivery associated with this address
                             example: Some terms here
                           vatId:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: VAT ID associated with the delivery address. Can be empty.
                             example: DE123456789
                           taxType:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             enum:
                             - domestic
                             - eu-delivery
@@ -1155,13 +1187,15 @@ paths:
                             description: 'Tax type associated with the delivery address. Can be one of: domestic, eu-delivery, export, free.'
                             example: domestic
                           internalComment:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Internal comment about the delivery address
                             example: Some internal remarks here
                           note:
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             description: Additional note regarding the delivery address
                             example: Some additional notes here
                         example:
@@ -1420,42 +1454,42 @@ paths:
                 properties:
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + Housenumber of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
                     type: string
-                    nullable: false
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                   department:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Sales
                     description: Name of deptartment
                   subDepartment:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Online Sales
                     description: Name of sub-department
               - type: object
@@ -1463,57 +1497,57 @@ paths:
                 properties:
                   name:
                     type: string
-                    nullable: false
                     example: Max Mustermann
                     description: Full name for billing address
                   salutation:
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - mr
                     - mrs
                     - company
                     - other
-                    nullable: true
                     example: mr
                     description: Abbreviation for salutation
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + Housenumber of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
                     type: string
-                    nullable: false
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                   department:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Sales
                     description: Name of deptartment
                   subDepartment:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Online Sales
                     description: Name of sub-department
                   contactDetails:
@@ -1521,19 +1555,22 @@ paths:
                     additionalProperties: false
                     properties:
                       phone:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 0800 546372
                         description: Phone number
                       email:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: m.m@ somedomain.tpl
                         description: Email address
                       gln:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: number
-                        nullable: true
                         minLength: 13
                         maxLength: 13
                         example: '1234567890123'
@@ -1542,100 +1579,109 @@ paths:
                 additionalProperties: false
                 properties:
                   name:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Max Mustermann
                     description: Full name for billing address
                   salutation:
-                    type: string
+                    type:
+                    - string
+                    - 'null'
                     enum:
                     - mr
                     - mrs
                     - company
                     - other
-                    nullable: true
                     example: mr
                     description: Abbreviation for salutation
                   street:
                     type: string
-                    nullable: false
                     example: 1234 main street
                     description: Street name + Housenumber of the address
                   addressSupplement:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: 6th floor
                     description: Additional supplement for address
                   zip:
                     type: string
-                    nullable: false
                     example: '12345'
                     description: ZIP code of address
                   city:
                     type: string
-                    nullable: false
                     example: sample town
                     description: Name of city
                   country:
                     type: string
-                    nullable: false
                     example: DE
                     description: ISO code (ISO 3166-1 alpha-2) of country
                   state:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: BY
                     description: ISO code (ISO 3166-2 without country part) of state/province
                   department:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Sales
                     description: Name of deptartment
                   subDepartment:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Online Sales
                     description: Name of sub-department
                   contactDetails:
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     properties:
                       phone:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: 0800 546372
                         description: Phone number
                       email:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: m.m@ somedomain.tpl
                         description: Email address
                       gln:
-                        type: string
+                        type:
+                        - string
+                        - 'null'
                         format: number
-                        nullable: true
                         minLength: 13
                         maxLength: 13
                         example: '1234567890123'
                         description: Global Location Number - key to identify physical/digital location globally
                   deliveryDetails:
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     properties:
                       defaultDeliveryAddress:
                         type: boolean
                         example: true
                         description: Set TRUE makes this address to default delivery address
                       termsOfDelivery:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: free shipment
                         description: Terms of delivery
                       vatId:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: DE124345-23445
                         description: VAT Id if different from masterdata
                       taxType:
@@ -1645,17 +1691,18 @@ paths:
                         - eu-delivery
                         - export
                         - free
-                        nullable: false
                         example: domestic
                         description: Taxation type
                       internalComment:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: some text
                         description: Internal Comments
                       note:
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: more text
                         description: General Notes
             examples:

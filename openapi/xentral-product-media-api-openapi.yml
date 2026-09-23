@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Product Media API
+  title: Xentral Product Media API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -53,11 +53,13 @@ paths:
                   example:
                     id: '1337'
                 title:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 description:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 keyword:
                   type: string
                   enum:
@@ -93,10 +95,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -443,13 +446,15 @@ paths:
                     example:
                       id: '1337'
                   title:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Vitra Eames Plastic Chair
                     description: The title of the media
                   description:
-                    type: string
-                    nullable: true
+                    type:
+                    - string
+                    - 'null'
                     example: Front picture of the Vitra Eames Plastic Chair
                     description: The description of the media
                   keyword:
@@ -463,8 +468,9 @@ paths:
                     example: defaultImage
                   sort:
                     x-description-missing: true
-                    type: integer
-                    nullable: true
+                    type:
+                    - integer
+                    - 'null'
                     example: 1
             examples:
               Update multiple product media:
@@ -1236,14 +1242,16 @@ paths:
                           example:
                             id: '1337'
                         title:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           description: The title of the media
                           example: Vitra Eames Plastic Chair
                         description:
                           description: The description of the media
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           example: Front picture of the Vitra Eames Plastic Chair
                         keyword:
                           x-description-missing: true
@@ -1289,8 +1297,9 @@ paths:
                               example: /api/productMedia/5/versions/3
                             remark:
                               x-description-missing: true
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: Initial Version
                             filename:
                               x-description-missing: true
@@ -1633,13 +1642,15 @@ paths:
                           id: '1337'
                       title:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Vitra Eames Plastic Chair
                       description:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Front picture of the Vitra Eames Plastic Chair
                       keyword:
                         x-description-missing: true
@@ -1687,8 +1698,9 @@ paths:
                               example: /api/productMedia/5/versions/3
                             remark:
                               x-description-missing: true
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                               example: Initial Version
                             filename:
                               x-description-missing: true
@@ -1731,8 +1743,9 @@ paths:
                             example: /api/productMedia/5/versions/3
                           remark:
                             x-description-missing: true
-                            type: string
-                            nullable: true
+                            type:
+                            - string
+                            - 'null'
                             example: Initial Version
                           filename:
                             x-description-missing: true
@@ -2011,11 +2024,13 @@ paths:
               type: object
               properties:
                 name:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 remark:
-                  type: string
-                  nullable: true
+                  type:
+                  - string
+                  - 'null'
                 fileName:
                   type: string
                 fileContent:
@@ -2051,10 +2066,11 @@ paths:
           content:
             text/html:
               schema:
-                type: string
+                type:
+                - string
+                - 'null'
                 enum:
                 - ''
-                nullable: true
         '400':
           description: IETF RFC 9457 Problem API compliant response
           content:
@@ -2425,8 +2441,9 @@ paths:
                         example: /api/productMedia/5/versions/3
                       remark:
                         x-description-missing: true
-                        type: string
-                        nullable: true
+                        type:
+                        - string
+                        - 'null'
                         example: Initial Version
                       filename:
                         x-description-missing: true
@@ -2693,15 +2710,18 @@ paths:
               properties:
                 forceCurrentVersion:
                   oneOf:
-                  - type: boolean
-                    nullable: true
-                  - type: number
-                    nullable: true
+                  - type:
+                    - boolean
+                    - 'null'
+                  - type:
+                    - number
+                    - 'null'
                     enum:
                     - 0
                     - 1
-                  - type: string
-                    nullable: true
+                  - type:
+                    - string
+                    - 'null'
                     enum:
                     - 'true'
                     - 'false'

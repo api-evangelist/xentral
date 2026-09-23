@@ -1,6 +1,6 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Xentral Account Query API
+  title: Xentral Query API
   version: v0.1
   description: Xentral is an ERP platform.
   contact:
@@ -55,8 +55,9 @@ paths:
                   description: SQL query to execute
                   example: SELECT * FROM users
                 settings:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     delimiter:
@@ -96,8 +97,9 @@ paths:
                       - raw
                       default: raw
                 parameters:
-                  type: array
-                  nullable: true
+                  type:
+                  - array
+                  - 'null'
                   items:
                     type: object
                     additionalProperties: false
@@ -178,8 +180,9 @@ paths:
                 properties:
                   data:
                     description: Generic result response for a query in a table-like structure.
-                    type: object
-                    nullable: true
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
                     required:
                     - header
@@ -206,9 +209,10 @@ paths:
                         - Bob
                   meta:
                     description: Query meta information.
-                    type: object
+                    type:
+                    - object
+                    - 'null'
                     additionalProperties: false
-                    nullable: true
                     example:
                       query: SELECT * FROM users
                       executionTime: 0.123
@@ -218,8 +222,9 @@ paths:
                       - string
                     properties:
                       columnTypes:
-                        type: array
-                        nullable: true
+                        type:
+                        - array
+                        - 'null'
                         items:
                           type: string
                         description: Derived column types for each column in the result table.
@@ -229,17 +234,18 @@ paths:
                       executionTime:
                         description: Execution time of the query in seconds.
                         example: 0.123
-                        type: number
-                        nullable: true
+                        type:
+                        - number
+                        - 'null'
                       query:
                         description: SQL query that was executed.
                         type: string
-                        nullable: false
                         example: SELECT * FROM users
                       totalResults:
                         description: Total number of rows og the result (the returned result is always limited).
-                        type: number
-                        nullable: true
+                        type:
+                        - number
+                        - 'null'
                         example: 2
         '400':
           description: Error response with message
@@ -313,8 +319,9 @@ paths:
                   description: SQL query to execute
                   example: SELECT * FROM users
                 settings:
-                  type: object
-                  nullable: true
+                  type:
+                  - object
+                  - 'null'
                   additionalProperties: false
                   properties:
                     delimiter:
@@ -354,8 +361,9 @@ paths:
                       - raw
                       default: raw
                 parameters:
-                  type: array
-                  nullable: true
+                  type:
+                  - array
+                  - 'null'
                   items:
                     type: object
                     additionalProperties: false
@@ -421,8 +429,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -530,8 +539,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
@@ -646,8 +656,9 @@ paths:
                 - data
                 properties:
                   data:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       additionalProperties: false
