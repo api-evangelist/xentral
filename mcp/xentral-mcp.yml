@@ -18,33 +18,1328 @@ server:
     plugin: xentral-connector
     install: /plugin marketplace add xentral/agent-library && /plugin install xentral-connector@xentral
 tools:
+- name: xentral_agent_jobs
+  description: 'Job CRUD + single-job inspection / editing / approve on the agent-hub-labs jobs system.
+
+
+    QUEUE OPS:
+
+    - `list_pending` — jobs that need human attention (status: requires_intervention, waiting, ready).
+    Use this when the user asks ''wo muss ich noch handeln'' / ''welche Jobs sind offen''. Newest first.
+    All filters (`agent`, `category`, `min_confidence`, `max_confidence`, `since`, `until`) are optional
+    — only pass when the user explicitly asks. `agent` matches a single agent name exactly; `category`
+    covers ALL agents in that bucket at once (e.g. ''customer_service'' covers every CS-Sub-Agent — Refund-Return,
+    Order-Management, Inquiry, …). Both can be combined.
+
+    - `create` — create a manual job (mirrors ''Neue Aufgabe erstellen''). Required: `content` (natural-language
+    description). Optional: `title`, `agent` (from `xentral_agents` action=''list''). Customer/article
+    references are extracted automatically from `content` by the agent.
+
+    - `complete` — mark a job done. Pure status flip with optional audit `note`. Does NOT send any emails
+    — run EmailAccount `sendEmail` via `xentral_erp_core` first if you also want to email the customer.
+
+
+    INSPECT A SINGLE JOB (require `job_id`):
+
+    - `get_email` — original customer email (body, subject, sender, received-at), incl. `originalRequest`
+    envelope and attachments. Use when the user asks ''wie sah die Mail aus'' / ''was hat der Kunde geschrieben''.
+
+    - `get_response` — the AI''s suggested response that would be sent on approve (plus locale translations
+    + the `info` summary).
+
+    - `get_steps` — planned tool steps with positional indices. The indices are what you pass to update_step
+    / delete_step / insert_step.
+
+
+    EDIT BEFORE APPROVE (require `job_id`):
+
+    - `update_response` — overwrite the suggested response. Required: `suggested_response`.
+
+    - `update_step` — change a step''s name / description / parameters / actionable. Required: `step_index`
+    + at least one of `step_name`, `step_description`, `step_parameters`, `step_actionable`.
+
+    - `delete_step` — remove a step. Required: `step_index`.
+
+    - `insert_step` — insert a new step AFTER `step_index` (pass `-1` to append at the end). Optional:
+    `step_name`, `step_description`, `step_parameters`, `step_actionable` (defaults: ''custom_step'',
+    ''Manuell hinzugefügter Schritt'', {}, true).
+
+
+    EXECUTE (real side effects — confirm with user before invoking!):
+
+    - `approve` — heavyweight Approve flow: persist edits, send the reply email (Xentral/Zendesk depending
+    on `originalTicketSource`), optionally run the planned steps against the ERP, then close. Required:
+    `job_id`. Switches: `send_email` (default true), `close_job` (default true), `execute_steps` (default
+    FALSE — set true only when the user explicitly wants the planned ERP actions to be performed). Edited-content
+    overrides: `edited_email_content`, `edited_subject`, `edited_to`, `edited_cc`, `edited_bcc`. THIS
+    IS THE ONLY ACTION THAT SENDS MAIL / TOUCHES THE ERP — never trigger it without explicit user confirmation.'
 - name: xentral_agents
-  description: Pick, configure, and schedule AI workers (agents) inside a Xentral instance, including
-    cadence/trigger setup and public form/chat shares.
+  description: "For domain context, constraints and recipes: call `action='help'` first. For machine-readable\
+    \ agent-type metadata (semantic guidance for picking the right `cadence`): call `action='agent_types'`.\n\
+    \nAgents available in the instance + their custom-agent calendar (when each agent runs). Actions:\n\
+    - `help` — Markdown manual (domain semantics, pitfalls, recipes). Pass `locale='de'` for German, otherwise\
+    \ English.\n- `agent_types` — structured JSON catalogue of every supported `cadence` value with id,\
+    \ label, plain-language description, `when_required` flag and example use-cases. **Call this BEFORE\
+    \ `custom_agent_add` when the user describes intent in plain words** (e.g. 'a form that the supplier\
+    \ fills in', 'a chat bot for the helpdesk', 'daily morning briefing') — it's the canonical mapping\
+    \ from intent to cadence and prevents picking the wrong trigger.\n- `list` — agents enabled in the\
+    \ instance. Use this when the user asks which agents are available, or before `xentral_agent_jobs`\
+    \ action='create' if you want to assign the new job to a specific agent.\n- `custom_agent_list` —\
+    \ all custom-agent slots, optionally filtered by `cadence`. Response includes `slots`, `by_cadence`,\
+    \ `counts`, `total`.\n- `custom_agent_schedule` — slim schedule view: per slot only `cadence`, `when`,\
+    \ `enabled`, `next_run_at`, `last_run_at`, `last_status`. Sorted by `next_run_at` ascending; manual/event/chat\
+    \ slots appear at the end with `next_run_at: null`. First choice for the question \"who runs next?\"\
+    .\n- `custom_agent_add` — create a new slot. Required: `cadence`, `when`, `agent`, `area`, `note`.\n\
+    - `custom_agent_update` — change slot fields by `slot_id`. The id always changes after a successful\
+    \ update (it's a hash of content) — use the new id in subsequent calls.\n- `custom_agent_remove` —\
+    \ delete the slot identified by `slot_id`.\n- `custom_agent_move` — convenience for drag-drop: pass\
+    \ `slot_id` and one or both of `new_cadence` / `new_when`.\n- `erp_event` — manage the ERP webhook\
+    \ behind a `cadence='event'` slot (requires `slot_id`). `erp_event_op`: `get` (default) | `activate`\
+    \ (needs `event`) | `deactivate`. **Creating an event slot subscribes nothing.** The scheduler skips\
+    \ the `event` cadence by design, so a slot stays inert until you activate it here — do not report\
+    \ an event agent as live before `get` shows `erp_event_active: true`.\n\n## Agent-Type-Guide (which\
+    \ `cadence` to pick)\nCadence is NOT just a scheduler enum — it's the **agent trigger type**. Each\
+    \ value below is a different kind of agent. Pick by user intent, not by 'how often it runs'. When\
+    \ in doubt, call `action='agent_types'` for the full JSON catalogue.\n\nUSER-TRIGGERED — these have\
+    \ no time, `when` stays empty:\n  `manual`  Quick task — user clicks 'run now' in the Schedule view.\
+    \ Ad-hoc job on demand.\n  `form`    Form agent — you send a recipient a LINK, they open it, FILL\
+    \ IN a structured form, agent processes the submission. **Pick this when the user wants someone to\
+    \ enter data and have the agent react.** Examples: return registration, supplier onboarding questionnaire,\
+    \ master-data update from customer, product-data capture.\n  `chat`    Chat-bot — user TYPES INTO\
+    \ A CHAT surface, agent replies in turn. Interactive Q&A. NOT for structured data entry — use `form`\
+    \ for that. Examples: internal FAQ-bot, helpdesk-bot.\n\nSYSTEM-TRIGGERED — `when` carries a match\
+    \ expression, NOT a time:\n  `email`   Inbox agent — fires on every incoming mail that matches. `when`\
+    \ = match hint (e.g. `subject:invoice`).\n  `event`   ERP event — fires on a data change (new sales-order,\
+    \ delivery status flip). `when` = AsyncAPI event name. Adding the slot does NOT subscribe it: finish\
+    \ with `action='erp_event'`, `erp_event_op='activate'`, or the agent silently never runs.\n\nTIME-BASED\
+    \ — `when` is required and follows the cadence's format:\n  `appointment`  one-off ISO date/time;\
+    \ disables itself after the run.\n  `daily`        `HH:MM`           (e.g. `09:00`)\n  `weekly`  \
+    \     `MON|TUE|WED|THU|FRI|SAT|SUN HH:MM`  (e.g. `MON 08:00`)\n  `monthly`      `<1-31>. HH:MM`  \
+    \ (e.g. `1. 09:00`)\n  `quarterly`    `Q1|Q2|Q3|Q4`     (first day of the quarter, 09:00)\n  `yearly`\
+    \       `DD.MM. [HH:MM]`  (e.g. `01.07. 09:00`)\n\nAll times are Europe/Berlin local.\n\n## Full configuration\
+    \ surface (everything the UI exposes is also a tool param)\nEvery field the user can edit in the Agent-Konfiguration\
+    \ UI can be set via `custom_agent_add` or `custom_agent_update`. Don't tell the user 'you have to\
+    \ do this in the UI' — pass the right param.\n\nCore (all cadences):\n  `prompt`        Anweisungen\
+    \ / system prompt. Plain text, can include numbered steps. Same field as the 'Anweisungen'-Box in\
+    \ the UI.\n  `tools`         array of **MCP-tool slugs** the agent may use at runtime. Pass the FULL\
+    \ slug exactly as it appears in this server's `tools/list` — do NOT abbreviate. Pickable values (any\
+    \ with `annotations.agent_pickable=true`):\n                    `xentral_copilot` (ERP-Co-Pilot —\
+    \ read & write Belege)\n                    `xentral_agent_jobs` (Jobs für andere Agenten)\n     \
+    \               `xentral_decisions` (Entscheidungen-Liste)\n                    `xentral_agents` (Agenten\
+    \ anlegen/ändern)\n                    `xentral_schedules` (Cron-Schedules)\n                    `xentral_business_model`\
+    \ (Plan-Seiten lesen/schreiben)\n                    `xentral_groups` (Agenten gruppieren)\n     \
+    \               `xentral_dashboards` (Dashboards anlegen/editieren)\n                    `xentral_kpi`\
+    \ (KPIs verwalten)\n                    `xentral_reports` (Analytics-Reports)\n                  \
+    \  `xentral_pdf_templates` (PDF-Vorlagen anpassen)\n                    `xentral_connections` (Integrationen\
+    \ prüfen)\n                    `xentral_erp_core` (ERP-Daten & -Konfiguration — Records lesen/schreiben,\
+    \ Settings-Entities wie Warehouse/TaxRate/PaymentMethod)\n                    `xentral_fileshare`\
+    \ (Files lesen/ablegen — CSVs, Verträge, Reports)\n                    `xentral_knowledge_base` (Faustregeln\
+    \ & gelerntes Wissen)\n                  Common recipes:\n                  - Form-Agent, der eine\
+    \ CSV erzeugt → `['xentral_copilot', 'xentral_fileshare']` (Co-Pilot zieht die Daten aus dem ERP,\
+    \ Fileshare legt die CSV ab).\n                  - Chat-Agent für Kundenservice-Anfragen → `['xentral_copilot',\
+    \ 'xentral_erp_core', 'xentral_knowledge_base']`.\n                  - Briefing-Agent für Dashboard-Werte\
+    \ → `['xentral_copilot', 'xentral_kpi', 'xentral_decisions']`.\n                  Slugs that do NOT\
+    \ match a registered MCP tool are silently dropped at run time; the slot's job timeline will list\
+    \ them under `missing`.\n  `model`         OpenAI model id, e.g. `gpt-5.1`, `gpt-4o`, `gpt-4o-mini`.\
+    \ Default applies if omitted.\n  `temperature`   creativity 0.0 – 2.0 (UI 'Kreativität'-slider). Typical\
+    \ values: 0.2 for strict factual flows, 0.7 for balanced (UI default), 1.0+ for creative drafting.\n\
+    \nCadence-specific (`form` slots):\n  `form_meta` = {\n    audience: 'external' | 'internal'   # extern\
+    \ = public link, intern = login required\n    fields: [                            # ordered list,\
+    \ max 50\n      { id, label, type, placeholder?, required? },\n      ...\n    ]\n  }\n  field types:\
+    \ text, textarea, number, email, url, select, checkbox, date, file\n  → For a 6-field product-data\
+    \ form: pass 6 entries in `fields` in one call. The slot is fully configured after `custom_agent_add`\
+    \ returns — no UI step needed.\n\nCadence-specific (`chat` slots):\n  `chat_meta` = { header_name,\
+    \ header_color, subtitle, welcome, bubble_teaser, position: 'bottom-left'|'bottom-right', embed_enabled:\
+    \ bool, starters: [string, ...] (max 12) }\n\nCadence-specific (`email` slots):\n  `email_meta` =\
+    \ { auto_reply: bool, match_criteria: string }\n  `when` for email cadence carries the inbox filter\
+    \ expression, NOT a time.\n\n## Embedding slots inside a dashboard\nSlots are not only reachable as\
+    \ standalone surfaces — every `form` / `chat` / `manual` slot can ALSO be embedded inline in a dashboard\
+    \ via the `xentral_dashboards` widget catalogue's `Agent` widget. Add an `Agent`-widget to the dashboard\
+    \ with `config.agents[]` referencing the slot's `agent_name`; the widget renders form-shape / chat-shape\
+    \ / button-shape automatically based on the referenced slot's `cadence`. So the answer to \"can I\
+    \ add a form to my dashboard?\" is YES — create the form slot here, then attach it via `xentral_dashboards`.\
+    \ See the dashboards help (`action='help'`) section 'Interactive — let the user trigger an agent from\
+    \ the dashboard' for the widget-config shape.\n\n## Naming custom agents (the `agent` field)\nWhen\
+    \ `custom_agent_add` creates a NEW agent (the slot defines it via `prompt`, not just schedules an\
+    \ existing one), the `agent` field is the display title shown in the sidebar, schedule view and slot\
+    \ list. Use a short, capitalised, human-readable label in the user's language — e.g. `Produktdaten\
+    \ erfassen`, `Lieferanten-Onboarding`, `Tägliches Verkaufs-Briefing`. NEVER pass `snake_case`, `kebab-case`,\
+    \ lowercase slugs or technical ids here (e.g. NOT `product_data_capture`, NOT `daily-sales-briefing`).\
+    \ The UI renders the string verbatim. Only use slug form when assigning a slot to a BUILT-IN agent\
+    \ listed by `action='list'` — then the slug must match exactly.\n\n## Anti-patterns to avoid\n- Don't\
+    \ create a `manual` slot when the user wants a form — use `form` + `form_meta.fields`.\n- Don't pass\
+    \ `agent='product_data_capture'`-style slugs when creating a custom agent — use a proper title like\
+    \ `Produktdaten erfassen`.\n- Don't tell the user 'fields must be configured in the UI' — pass `form_meta={fields:[…]}`\
+    \ directly on `custom_agent_add`.\n- Don't drop a CSV into Fileshare and call it a 'form template'\
+    \ — Fileshare is file storage, not a UI. For real recipient-fillable forms, create a `form` cadence\
+    \ agent with `form_meta`.\n- Don't conflate `chat` (interactive Q&A) with `form` (structured one-shot\
+    \ submission).\n\n## What is NOT (yet) configurable via this tool\n- Knowledge attachments (UI: 'Wissen\
+    \ — Dateien direkt als Wissen anhängen'). Use `xentral_fileshare` to upload + `xentral_knowledge_base`\
+    \ to register facts. Slot-level knowledge-file binding is a UI-only feature today.\n- Form share-link\
+    \ / form color (UI: 'Teilen-Link', 'Farbe' on form agents). The link is auto-generated; color is a\
+    \ UI-only convenience and not currently persisted in `form_meta`.\n\nSlot data lives in its own storage\
+    \ namespace `custom_agents/<license>/agents.*` and is decoupled from the business model."
   source: skills/xentral-agents.md
 - name: xentral_business_model
-  description: Read and maintain the instance Business Model profile (model, sales channels, fulfillment,
-    automation, target market, pain points).
+  description: 'For domain context, section semantics, profile enum values and recipes: call `action=''help''`
+    first.
+
+
+    Manage the instance''s business plan (Notion-style markdown editor) and the top-level Unternehmensprofil.
+    Actions:
+
+    - `help` — Markdown manual. Pass `locale=''de''` for German, otherwise English.
+
+    - `read` — without `slug`: list all sections with metadata (title, group, exists, lastModified). With
+    `slug`: return that one section''s full markdown plus metadata.
+
+    - `write` — write or append to one section. `mode=''replace''` (default) overwrites the entire section
+    markdown. `mode=''append''` adds to the end of the existing content. The frontend editor live-updates
+    via the filesystem watcher — no manual refresh needed. Always `read` the section first before a `replace`
+    so you don''t clobber existing structure.
+
+    - `apply_template` — apply a starter template that pre-fills sections with a focused skeleton. Without
+    `template`: returns the list of available templates so you can present them to the user. With `template`:
+    writes the skeletons to disk. `overwrite=false` (default) preserves any section the user already edited;
+    pass `true` to wipe-and-replace.
+
+    - `profile_get` — read the Unternehmensprofil (6-dimension classification: Geschäftsmodell, Vertrieb,
+    Fulfillment, Automatisierung, Größe, Komplexität) plus a compact summary string.
+
+    - `profile_set` — set one or more profile dimensions. By default (`merge=true`) only the explicitly
+    passed fields are updated; the rest stay as they were. Pass an empty value to clear a field. The 6
+    fields are strict enums — invalid values are rejected. The profile lives as the regular `profile`
+    section in the plan, so a markdown `read`/`write` still works, but `profile_set` is the only path
+    that enforces the enum contract.'
   source: skills/xentral-business-model.md
+- name: xentral_connections
+  description: 'Connector catalog + live instance connection state + official Xentral API/Webhook documentation
+    pointers.
+
+
+    Connections is the **only** instance-data feature without per-instance storage on our side — the actual
+    connection state (which Shopify shop, which DHL account) lives in Xentral itself. The library (Shopify,
+    Shopware, DHL, Stripe, …) lives as JSON under ``backend/connections/library/data/`` so the list can
+    be extended without a code deploy.
+
+
+    Actions:
+
+    - `help` — Markdown manual. Pass `locale=''de''` for German.
+
+    - `list_library` — full library (97+ providers) plus the category-label map. Use this first when the
+    user asks "welche Schnittstellen unterstützt Xentral?".
+
+    - `get_card` — one provider''s full record (id, name, category, description, source URL on marketplace.xentral.com).
+    Requires `card_id` (e.g. `shopify`, `dhl`, `datev`).
+
+    - `list_active` — **live** state from Xentral: which connectors the instance has active, account count,
+    account details. 5-min cache; pass `refresh=true` to bypass after the user just connected something.
+
+    - `docs` — pointers to the official REST API spec, Webhook spec, and 3PL/generic integration patterns.
+    Pass `topic=''rest_api''|''webhooks''|''3pl''` for a single section, or omit for the whole map. Use
+    this when the user asks how to build their own integration.'
+- name: xentral_copilot
+  description: 'Primary tool for any question that touches ERP data — call this FIRST. The Co-Pilot can
+    search and create customers, suppliers, sales orders, products, invoices, delivery notes, returns
+    and more, plus run analytics (revenue, margin, top-N, trends, period summaries). Pass the user''s
+    question through largely unchanged. Only fall back to your own reasoning when the Co-Pilot returns
+    no data.
+
+
+    If you don''t already know the target instance, call `xentral_instances` action=''instances'' first.
+
+
+    ANALYTICS-CO-PILOT FALLBACK — Wenn die Antwort des Tools mit dem Satz „Pass auf, leider ist der Analytics-Co-Pilot
+    gerade nicht erreichbar …" beginnt, ist das Reporting-Add-on aktuell nicht verfügbar. Gib diese Meldung
+    dem User wörtlich weiter (sie enthält bereits den Hinweis auf das Customer-Success-Team) und biete
+    an, die Frage stattdessen mit den übrigen ERP-Tools so weit möglich zu beantworten.'
 - name: xentral_dashboards
-  description: Build and edit per-instance dashboards of widgets visualizing live business and operations
-    data, wired to KPIs.
+  description: 'Dashboards — library reads + per-instance CRUD. Built-in cards ship as YAML in the repo;
+    instances are instance-owned copies the user has materialised.
+
+
+    Library actions:
+
+    - `help` — Markdown manual. Pass `locale=''de''` for German, otherwise English.
+
+    - `list_library` — discover the built-in dashboard cards
+
+    - `get_card` — full card (title, description, icon, category)
+
+    - `check` — dry-run the config self-check on a `widgets` + `layout` draft WITHOUT saving; returns
+    `{ok, summary, findings}`. Run this before `update_instance` to catch config footguns (wrong keys,
+    dangling / orphan layout refs, empty widgets).
+
+
+    Instance actions (instance-scoped, write):
+
+    - `list_instances` — all custom dashboards the instance has created
+
+    - `read_instance` — full envelope (widgets, layout, audit fields)
+
+    - `create_instance` — copy a built-in card into the instance store; a unique slug is generated server-side
+
+    - `update_instance` — patch title / description / icon / category / enabled / widgets / layout (only
+    supplied fields change)
+
+    - `delete_instance` — remove a custom dashboard from the instance store
+
+
+    `create_instance` / `update_instance` responses carry an advisory `_findings` array when the saved
+    config has issues (never blocks the save) — read it and fix, or `check` the draft first.
+
+
+    Cache refresh (chart widgets only):
+
+    - `refresh_widget` — re-run a single chart widget''s underlying SQL and update its cache (Redis for
+    ''cached'' mode, S3 for ''snapshot'' mode). Requires `slug` + `widget_id`. Use after an upstream ETL
+    so a snapshot-mode chart picks up the new numbers without a human click.
+
+    - `refresh_all_widgets` — same, but for every chart widget in a dashboard. Skips widgets without a
+    saved Xentral report.
+
+
+    Always discover with `list_library` or `list_instances` first. For the widget-type catalogue (TableTabs,
+    KpiGrid, HeroStats, Charts, AgentWidget, …) and the supported `TableTabs.view` values, call `action=''help''`.
+
+
+    **Custom-entity tables — the one explicit consumption path from the foundation layer**: a `TableTabs`
+    widget with `view=''entity''` + `entity_key=''<key>''` is the ONLY place where a raw `entity_key`
+    from `xentral_erp_core` `list` is consumed by another tool. Use this for embedding tables of entities
+    that have no first-class view (e.g. cost centres, instance-extended custom entities). Standard entities
+    (`customers`, `products`, `supplier_invoices`, `inbox`, …) go through their named `view` values —
+    do NOT route them through `view=''entity''`.'
   source: skills/xentral-dashboards.md
+- name: xentral_datasets
+  description: 'The customer''s own managed data — organised as SETS OF TABLES (''lite datatables''),
+    isolated per tenant in a dedicated Postgres. A DataSet groups several tables (like a Supabase project).
+    Use this to create sets and tables, evolve columns, and read/write rows. NOT ERP master data (customers/orders/products/invoices)
+    — for those use `xentral_erp_core`.
+
+
+    Tables are REAL typed Postgres relations (text/integer/number/boolean/date/datetime/uuid/json/select
+    + reference=FK), so you can also run read-only SQL with the `query` action.
+
+
+    Datasets have a lifecycle: you build a DRAFT, a human activates it. As an agent you may create/edit
+    and ARCHIVE only your own drafts — you cannot hard-delete or purge, and cannot touch an active dataset.
+
+
+    Actions: `list_sets`, `create_set`, `describe_set`, `archive_set`, `create_table`, `describe_table`,
+    `archive_table`, `add_column`, `rename_column`, `drop_column`, `rows`, `insert`, `update`, `delete`,
+    `query`, `rows_bulk`, `import_session`, `import_analyze`, `import`, `import_status`, `import_sessions`,
+    `session_cleanup`, `help`. Call `help` for the full parameter guide.
+
+
+    Got a CSV from the customer? Have them upload it via `xentral_fileshare`, then `import_analyze` it
+    and show the warnings BEFORE importing — a structurally shifted file parses perfectly and loads into
+    the wrong columns.'
+- name: xentral_decisions
+  description: 'For the full manual (categories, what belongs / doesn''t belong, good decision-text patterns,
+    lifecycle states): call `action=''help''` first — pass `locale=''de''` for German.
+
+
+    Manage the decisions list (''Entscheidungen'') — the cross-area surface where humans and agents see
+    every running operational item, what the agents are waiting for, who owns each decision, and what
+    the agent''s suggested next step is. Stored as a Notion-style markdown checklist with extended sub-bullet
+    metadata (owner, status, money, due date, linked job ids, suggested actions). The Decisions board
+    frontend renders the same data.
+
+
+    WHAT BELONGS HERE:
+
+    - Human-only setup steps (Logo hochladen, IBAN bestätigen, Training mit Vertrieb)
+
+    - Strategic / awareness items the CEO or team-lead must see (''Forderungen über 30 Tage'', ''Lieferant
+    XY ausgefallen'')
+
+    - One-off action items that get checked off when done
+
+    - Reminders for a person — the value is the nudge, not the data
+
+
+    WHAT DOES NOT BELONG (use the right tool instead):
+
+    - Business entities (customers, orders, products, invoices) → `xentral_copilot`
+
+    - Agent jobs or running decisions → `xentral_agent_jobs`, not this list
+
+    - Knowledge, routing rules, recurring patterns the agent should recall → `xentral_knowledge_base`
+
+    - Long-form text or documents → `xentral_business_model` action=''write''
+
+    - Anything an agent can do automatically — automate it, don''t park it as a manual decision
+
+    - Sensitive data (passwords, tokens, full IBANs) — the list is plain markdown and visible to all instance
+    users
+
+
+    Tasks are bucketed by `category`. Six categories:
+
+    - `onboarding` — Go-Live preparations (Logo, IBAN, training, …)
+
+    - `dashboard` — strategic / cross-instance items (CEO board)
+
+    - `customer_service` — CS-team backlog
+
+    - `procurement` — Einkauf-team backlog
+
+    - `logistics` — Logistik-team backlog
+
+    - `finance` — Finanz-team backlog
+
+
+    WRITING GOOD DECISION TEXT (for `add`):
+
+    - One decision per item — split ''X und Y'' into two `add` calls.
+
+    - Start with an emoji for the dashboard icon: 🔥 critical, ⚠ warning/risk, 📦 logistics, ⏱ deadline,
+    € financial.
+
+    - Bold the headline, em-dash, then a 1-line meta with concrete numbers. Example: ''🔥 **Forderungen
+    über 30 Tage offen** — 14 Kunden · 4 in juristischer Prüfung''.
+
+    - Single line, no nested checklists, no multi-paragraph text.
+
+    - Use stable wording — `complete`/`remove` match fuzzy on `text`, so throwaway phrasings break later
+    updates.
+
+    - ALWAYS `list` the target `category` before `add` to avoid duplicates — the list is shared across
+    all agents and users.
+
+
+    FIELD = LENGTH (a decision is a scannable card, not a document).
+
+    Only `description` may be long and multi-paragraph — it is the ONLY field rendered as multi-line Markdown/HTML,
+    in the card''s expandable body. Every other field is a single plain-text line the layout truncates.
+    Put a daily briefing, a multi-point analysis, run results etc. in `description`; keep the rest tight.
+    Over-budget fields are REJECTED — fix the call, don''t retry the same text. Budgets:
+
+    - `text` (headline): ≤ 160 chars, single line, no line breaks.
+
+    - `value` (right figure): ≤ 24 chars, e.g. ''84 k €''.
+
+    - `label` (caption under value): ≤ 48 chars.
+
+    - `question` (agent-asks callout): ≤ 600 chars.
+
+    - `description` (the long body): ≤ 6000 chars, Markdown/HTML.
+
+    So a daily-briefing decision is: a short `text` headline (e.g. ''📊 **Daily Briefing Lena & Tim** —
+    Umsatz €0, 3 offene Bestellungen'') with ALL the numbered findings in `description`.
+
+
+    Actions:
+
+    - `list` — open decisions. `category` filters one bucket. `only_open=false` returns done decisions
+    too. The response always includes `byCategory` with per-bucket counts.
+
+    - `add` — append a new open decision. `text` required. `category` decides which bucket; defaults to
+    `onboarding`.
+
+    - `complete` — mark the first decision matching `text` as done. Fuzzy substring match (case-insensitive).
+    `category` restricts the search if multiple decisions could match.
+
+    - `reopen` — flip a done decision back to open.
+
+    - `remove` — delete the first decision matching `text`. Permanent, no undo — prefer `complete` unless
+    the decision was created in error.'
+- name: xentral_erp_core
+  description: 'Operate the ERP directly — day-to-day back-office work AND configuration, through one
+    tool: find, read, create, update and delete business records (customers, products, sales orders, invoices,
+    suppliers, …) as well as configuration/settings records (cost centers, warehouses, payment methods,
+    custom entities, …), and trigger business actions and process steps (ship an order, book an invoice,
+    …).
+
+
+    Whatever the user wants done IN the ERP, this is the tool: `list` shows which entities exist on this
+    instance, `describe` shows an entity''s fields, filters and available actions, then `records`/`get`/`create`/`update`/`delete`/`run`
+    work on live data. Responses are the core''s own payloads returned verbatim (the same implementation
+    a workflow `business-entity` node resolves).
+
+
+    NOT this tool: dashboards (`xentral_dashboards`), KPIs (`xentral_kpi`), building agents (`xentral_agents`),
+    free-form analytical questions (`xentral_copilot`).
+
+
+    Metadata:
+
+    - `help` — Markdown guide (`locale=''de''` for German), followed by the active core''s own **playbook**
+    when it ships one: the entities, actions, statuses and filters that matter for everyday work, and
+    — crucially — which declared capabilities that core cannot execute. Read it before planning a workflow;
+    it saves a `list` plus a round of speculative `describe` calls. Pass `core` to read another activated
+    core''s playbook.
+
+    - `list` — full catalogue `{source, categories, entities:[…]}` plus `primaryCore` (the instance''s
+    active core), `secondaryCores` (activated browse-only cores) and `activeCore` (the core this payload
+    was composed for).
+
+    - `describe` — one entity''s fields (`key`): typed, with writability (`access`/`creatable`/`updatable`)
+    and queryability (`filterable`/`sortable`/`searchable`, plus select `options`); a flat `query` contract
+    lists the exact keys `records` filters/sorts/searches on; plus `operations`, `actions` and `processSteps`
+    — each action / step command with its `command` param schema, destructive/bulk flags and verified
+    status, ready to feed `run`.
+
+    - `events` — which events this ERP core can PUSH, live from the instance: `{events:[{id, group, label,
+    schema}], core:{supportsEvents,…}}`. READ `schema` BEFORE writing a trigger reference: it is the JSON
+    Schema of the whole delivery, so an event field sits at `schema.properties.body.properties.<name>`
+    and is read as `{{ trigger.body.body.<name> }}` — `trigger.body` is the envelope and carries only
+    `type` and `body`. The id field is named per entity (`salesOrderId`, `deliveryNoteId`) and cannot
+    be guessed. `schema: null`, or a `body` with `additionalProperties: true` and no `properties`, means
+    the fields are NOT described — not that there are none. This is the only way to enumerate them; the
+    ids are per-installation and per-version, so never reuse one you have not seen in this response. Feed
+    an `id` verbatim as the `event` when activating an ERP-event trigger (`xentral_workflows action=''erp_event''`).
+    A core that cannot push events answers `supportsEvents: false` with an empty list — a valid answer,
+    not a failure.
+
+
+    Platform API reference (Xentral''s published OpenAPI documents — the same data for every instance,
+    no core needed; for building a customizing integration or checking what the HTTP API offers beyond
+    the core. To read or change data on THIS instance, use the entity actions above instead):
+
+    - `api_search` — find endpoints by keyword (`query`, optionally `spec`/`method`, `per_page` caps the
+    rows). Without `query`: the catalogue of available specs.
+
+    - `api_endpoint` — one operation in full, incl. parameters and request body: `op` (an `operation_id`
+    from `api_search`) or `path` (+ `method`).
+
+    - `api_schema` — a component schema by name (`query`), `$ref`s inlined two levels; a fragment lists
+    the matching names.
+
+
+    Data (need `key`; returns `{status, body}` verbatim):
+
+    - `records` — list records (`page`, `per_page`, `filters`, `sort`). `sort` is a field key from `describe`''s
+    `query.sortable`, prefix `-` for descending (e.g. `-createdAt` for newest first).
+
+    - `get` — one record (`handle`).
+
+    - `create` — new record (`body`).
+
+    - `update` — change a record (`handle` + `body`).
+
+    - `delete` — remove a record (`handle`).
+
+    - `run` — run an action / process step (`op` = an action key or a process-step command key from `describe`,
+    never the group key; target via `handle` or `ids`; `command` per the entry''s schema). Writes/actions
+    hit the live ERP — a rejected op returns the core''s status + reason.
+
+
+    Bulk import (many records via a Fileshare journal — see the ERP bulk-import guide):
+
+    - `bulk_template` — envelope + how to build payloads for `key`.
+
+    - `bulk_validate` — dryRun-check a journal (`import_id`); no ERP writes.
+
+    - `bulk_run` — create records under a wall-clock `time_budget_s` (default 45s, under the ~60s prod
+    wall): it measures the real per-item time and processes as many as fit, so heavy payloads auto-yield
+    fewer per call. Re-invoke until remaining=0 (`chunk_size` ≤ 200 optional hard cap, `concurrency` ≤
+    8, `retry_failed`). Progress is persisted as it goes, so it resumes and never runs one long request.
+
+    - `bulk_status` — progress snapshot of a journal (`import_id`), no writes.
+
+    - `bulk_stop` — durably stop a run (`import_id`): every later `bulk_run` no-ops until one is called
+    with `resume=true`. Stop takes effect at the next chunk boundary.
+
+    Create OR update: set the journal `meta.op` to ''create'' (default) or ''update''; update items add
+    a `handle` (the record id) and a payload of just the fields to change. Same validate/run/stop/resume
+    flow.
+
+
+    Multi-core: `list` returns `primaryCore`, `secondaryCores` (activated cores) and `connections` (`{core_id:
+    [{id, label, primary}]}` for cores with own credentials). Pass `core=<id>` on any action to target
+    an activated core without switching the instance (reads AND writes — activation is the gate), and
+    `connection=<id>` to target one of that core''s connections instead of its primary (e.g. a second
+    Odoo database). Omit both for the instance''s primary core + primary connection.'
+- name: xentral_feedback
+  description: 'Record a user''s verdict on a tool action the agent just performed (a thumbs up/down with
+    a category and optional comment). Recording only — never touches ERP data.
+
+
+    Ask **at most once per task**, and only after a successful high-value action (create · update · send
+    · workflow/automation creation · PDF/template creation · destructive/high-impact). Never after reads
+    or routine look-ups; never re-ask if ignored; skip for automated runs.
+
+
+    Actions:
+
+    - `help` — this manual.
+
+    - `record` — store one feedback event. Requires `source_tool`, `source_action`, `rating`, `category`.
+    High-signal feedback (negative, or bug/wrong_result/confusing_ux, or `request_report=true`) is relayed
+    to the team Slack; positive/neutral is stored quietly.
+
+
+    Pass references (entity ids), not document/email contents, and don''t paraphrase sensitive data into
+    `comment`.'
+- name: xentral_fileshare
+  description: 'Per-instance working-file storage (Datenaustausch / Fileshare) — uploaded CSVs, price
+    lists, contracts, generated reports, and anything else the team or agents drop here. NOT ERP master
+    data: for customers / orders / products / invoices use `xentral_copilot` or the dedicated ERP tools.
+    These are transient documents that act as input or output for agent workflows.
+
+
+    NOT a form-builder. If the user wants someone to fill in data and have an agent react to the submission,
+    that is a `cadence=''form''` agent — use `xentral_agents` (action=''agent_types'') and then `custom_agent_add`
+    with `cadence=''form''`. Dropping a CSV template here is only the right call when the user wants to
+    download an empty file, fill it in offline, and re-upload it (rare).
+
+
+    Actions:
+
+    - `list` — newest-first list of files for the instance, with metadata only (no contents). Optional
+    `source` / `tags` / `limit` filters.
+
+    - `metadata` — full metadata for one file by `file_key`.
+
+    - `read` — read the file''s contents. Text-MIME files return inline UTF-8; binary files return base64
+    if small (<100 KB). A text file too big to return whole is read in WINDOWS: pass `offset` (1-based
+    line) and `limit` (lines, default 200) and continue from the reported `to_line`. The response always
+    says whether more follows — never report a window as the file.
+
+    - `find` — search a text file line by line without loading it: `pattern` (substring, or `regex=true`),
+    optional `ignore_case`, `context` (lines around each hit, max 5), `max_hits` (default 50). Returns
+    line numbers you can feed back as `read`''s `offset`. This is how you locate something in a file too
+    large to read.
+
+    - `upload` — create a new file. Pass exactly one of `content` (plain text body) or `content_b64` (base64-encoded
+    binary), plus `filename` (required), `mime_type` / `description` / `tags` (optional).
+
+    - `update` — change a stored TEXT file in place, keeping its `file_key`: `content` replaces the whole
+    body, `old_string` + `new_string` patches exactly one occurrence (ambiguous or missing anchors are
+    refused, never guessed). Irreversible — there is no version history. Allowed without ceremony only
+    on files YOU uploaded; an inbound email attachment is never overwritten; for anything else prefer
+    `upload` under a new name, and pass `confirmed=true` only when the user explicitly asked to overwrite
+    that file.
+
+    - `delete` — remove one file by `file_key`.
+
+    - `help` — return the Fileshare agent guide (when, how, constraints, common flows). Pass `locale=''de''`
+    for German.'
+- name: xentral_groups
+  description: 'Groups — instance-owned bundles that tag Business Skills, Agenten, Workflows, Connections,
+    PDF-Vorlagen, Studio-Apps and Dashboards under one named umbrella (e.g. ''3PL'', ''Belege Steuerberater'').
+    Use when the user wants to plan / structure a coherent process directly instead of going through the
+    onboarding-coach. Members keep their identity — a group is just a view and a tag.
+
+
+    Call `action=''help''` first for the full domain guide (member roles, ownership semantics, conflict
+    resolution modes, recipes).
+
+
+    Actions:
+
+    - `help` — Markdown guide. Pass `locale=''de''` for German.
+
+    - `list` / `read` — overview or full envelope.
+
+    - `create` / `update` / `delete` — manage the group.
+
+    - `add_member` / `remove_member` — wire items in or out. Needs `member_type` + `ref_id`; optional
+    `mode` resolves cross-group role conflicts (see `help`).'
+- name: xentral_instances
+  description: 'List the agent-hub-labs instances (Xentral instances) the calling user has access to,
+    and manage per-instance access consents.
+
+
+    Every other Xentral tool requires an active consent for the target instance before it will execute.
+    Consent is per-user x per-instance and persists until revoked. On first contact with an unconfirmed
+    instance, the server pushes a confirmation banner to the user''s open agent.xentral.com tab; the user
+    grants access by clicking "Erlauben" there. Calling this tool with `action="confirm_access"` fires
+    that same banner on demand.
+
+
+    Actions:
+
+    - `list` (default) -- directory of available instances
+
+    - `list_consents` -- which instances the user has consented to
+
+    - `confirm_access` (requires `instance_id`) -- fire the consent banner so the user can grant access
+
+    - `revoke_access` (requires `instance_id`) -- drop a consent
+
+    - `revoke_all_access` -- drop every consent for the caller'
+- name: xentral_integrations
+  description: 'External agent-tool catalog (Gmail, Slack, Google Drive, …) connectable via managed OAuth,
+    plus live per-instance connection state. This is the **new Integrations Hub** (`/app/integrations`)
+    — distinct from `xentral_connections`, which covers the old Xentral-marketplace connectors (Shopify,
+    DHL, Datev, …).
+
+
+    Connections + OAuth tokens live with the managed connection service, not on our side — we never store
+    credentials. Connections are keyed per (instance, user).
+
+
+    Actions:
+
+    - `help` — Markdown manual. Pass `locale=''de''` for German.
+
+    - `list_catalog` — full catalog of connectable integrations plus the category-label map and ''popular''
+    ids. Filter with `category` for sub-questions. Use first when the user asks "which external tools
+    can the agent connect?".
+
+    - `get_card` — one integration''s card metadata (id, name, category, description, auth scheme, connectable).
+    Actions/triggers are not in the card (loaded live in the hub dialog). Requires `card_id` via `template_id`
+    (e.g. `gmail`, `slack`).
+
+    - `list_actions` — one toolkit''s **live, curated** action + trigger schemas (same set the hub dialog
+    shows). Requires `template_id`. Returns empty when integrations are not configured.
+
+    - `list_connected` — **live** connection state: which integrations the current (instance, user) has
+    authorized. Returns empty when integrations are not configured.
+
+    - `search_catalog` — search **every** toolkit our provider offers (a superset of the curated catalog)
+    by name or slug via `query`. Each match flags `in_catalog`/`connectable`. Use this to find the exact
+    slug before `request_interest` for something not in `list_catalog`.
+
+    - `request_interest` — record an instance''s interest in an integration that can''t be connected yet,
+    via `template_id` (a catalog id OR any real toolkit name/slug); optional `note`. A curated ''Coming
+    soon'' card joins its waitlist; a real-but-uncurated toolkit is logged as demand. An already-connectable
+    one is rejected (just connect it); something no real toolkit matches is rejected (don''t guess — `search_catalog`
+    first). The instance is always recorded; the requester''s email is included when it''s a real person,
+    else attributed to the automated agent.'
+- name: xentral_inventory
+  description: 'Single-call discovery of every named, openable thing the user has in their instance —
+    Workflows, Dashboards, KPIs, custom Agents, PDF templates, Connections and Studio apps.
+
+
+    Use this when the user names something to open (''öffne Bene Formular'', ''gehe in CEO-Cockpit zum
+    bearbeiten'', ''show me KPI Umsatz'') and you don''t yet know which category that name belongs to.
+    One inventory call returns everything; match the user''s name (fuzzy / case-insensitive) against the
+    items, then call `xentral_user_context` action=`open_entity` with the matched `entity_type` and `id`.
+    Faster and more reliable than probing the per-domain list tools one by one.
+
+
+    Each item has shape `{id, name, entity_type, ...}` where `entity_type` is exactly the string `open_entity`
+    expects (`workflow`, `dashboard`, `kpi`, `custom_agent`, `pdf_template`, `integration`, `studio_app`).
+    A `counts` block reports how many items per category.
+
+
+    Action:
+
+    - `list` (default) — return the full inventory.'
 - name: xentral_kpi
-  description: Register, update, and read instance business metrics in the central KPI store, including
-    push vs derived (SQL/prompt) KPIs and value history.
+  description: 'Instance-scoped KPI store. One stable identifier per metric, multilingual labels, unit,
+    value-type, optional group, plus an append-only history of every value ever written. KPI cards across
+    the product read from here so the same number never lives in two places.
+
+
+    Lifecycle: `init` registers a KPI once. `set_value` writes a new value (the previous one is archived
+    to history automatically). Prefer `set_active=false` for KPIs that shouldn''t appear in default lists
+    but whose history you want to keep. Use `delete` only when the KPI was created in error and its historical
+    data is worthless — it wipes envelope + every history shard.
+
+
+    Actions:
+
+    - `help` — Markdown manual. Pass `locale=''de''` for German, otherwise English.
+
+    - `list` — all KPIs for the instance. Filter by `group` or `active_only=false`.
+
+    - `get` — full envelope for one KPI. Pass `include_history=N` to attach the last N rows.
+
+    - `init` — register a new KPI. Requires `key`, `labels`, `value_type`. `unit` is optional (leave empty
+    for dimensionless tallies). Optional `group`, `initial_value`. Fails if `key` already exists.
+
+    - `set_value` — write a new value to an existing KPI. Requires `key`, `value`. Optional `as_of` (ISO-8601
+    UTC, default now), `note` (locale → descriptive sub-line), `tone` (`positive | warn | negative`).
+    Fails if KPI is missing or inactive.
+
+    - `set_active` — toggle the visibility flag. Requires `key`, `active`.
+
+    - `set_track_history` — turn persistent history-recording on/off for a live/cached KPI. Requires `key`,
+    `enabled` (bool). When enabled, every value change observed by the live resolver is appended to the
+    same monthly history shards that push KPIs use (deduped: a row is only written when the resolved value
+    differs from the previous history entry, so unchanged reads don''t spam). Off by default — live KPIs
+    otherwise only expose the current value with no timeline. Reject on push KPIs (they always write history
+    on `set_value`).
+
+    - `history` — return historical values, oldest first. Optional `last_n`. Works for push KPIs (always
+    populated) and live/cached KPIs that have `track_history=true` enabled. Returns an empty list when
+    nothing has been recorded yet.
+
+    - `delete` — hard-delete envelope + history + index entry. Requires `key`.
+
+
+    ALWAYS call `init` before `set_value` on a new metric. Don''t rename keys — KPI cards pin to the key.
+
+
+    **Trends for live/cached KPIs.** By default a derived KPI (`value_source` in `live`/`cached`) only
+    stores the current value — every read recomputes it from the linked Xentral report. If you need a
+    sparkline or a queryable timeline (e.g. to show ''open orders over the last 30 days''), call `set_track_history`
+    with `enabled=true`. From that point on, every distinct value the resolver observes is appended to
+    the history shards, and `history` / `get include_history=N` start returning rows. Toggling off stops
+    new appends but keeps everything already recorded.'
   source: skills/xentral-kpi.md
+- name: xentral_knowledge_base
+  description: 'Knowledge Base CRUD — the instance''s evolving knowledge base, agent routing rules, organisation
+    facts, automations and response templates. Use this whenever the user shares a fact worth remembering
+    (''merk dir, X ist immer dringlich'') or asks about what''s stored (''wie wird X gerouted'', ''was
+    wissen wir über Y'', ''welche Automatisierungen laufen'').
+
+
+    NOT for API mechanics. Endpoints, field names, HTTP verbs and ''this does not work'' claims are refused
+    on write: they belong in the entity core (as a capability or a `wish`), where they are versioned and
+    tested, not in a tenant store where they never expire. Entries stored before that rule carry `unverified_mechanics`
+    on read — treat those as hearsay and re-check against the core.
+
+
+    Actions:
+
+    - `read` — without `entry_id`: paged list filtered by `entry_types` / `agent`. With `entry_id`: full
+    single entry (only routing/automation rows are looked up by id; knowledge-scope ids are PG-side).
+
+    - `write` — create a new entry. `entry_type` must match the data: `knowledge` (Q&A), `routing` (email→agent),
+    `organization` (company info), `automation` (mini-agent prompt + tools), `template` (response template).
+    Knowledge / organization / template go to AI Platform PG; routing / automation stay in SQLite. `agent`
+    defaults to ''*'' (instance-global). For automation: `tools_list` are the tool names the mini-agent
+    can call; `triggers` are events that fire it.
+
+    - `update` — edit fields by `entry_id`. Pass only fields you want to change. The id shape decides
+    storage: numeric → PG (only `question`, `answer`, `entry_type` editable); UUID → SQLite (all fields).
+
+    - `delete` — by `entry_id`. Same id-shape routing as `update`.'
+- name: xentral_onboarding_coach
+  description: 'Xentral Onboarding-Methode — lädt die schlanke Onboarding-Disziplin für eine neue Instanz.
+    KEIN Skript, keine festen Phasen: Geschäft konkret verstehen, konkret vorschlagen, einen Plan entwerfen,
+    den der Nutzer selbst ausführt (du planst, der Nutzer führt aus).
+
+
+    **Wann aufrufen**: Sobald der User Einrichtungs-Intent signalisiert — Begriffe wie ``Xentral einrichten``,
+    ``Onboarding starten``, ``zu Xentral wechseln``, ``Geschäftsmodell erstellen``, ``Hilf mir bei der
+    Erst-Einrichtung``. Auch wenn der User allgemein um Hilfe beim Aufsetzen bittet und die Instanz noch
+    leer ist.
+
+
+    Actions:
+
+    - ``start`` (default) — lädt die Methode (kurzes Markdown). Du wendest sie in deiner eigenen Advisor-Stimme
+    an — nicht rezitieren, kein Intake-Menü, überspring was der User schon gesagt hat. Akzeptiert ``locale=''de''|''en''``.
+
+    - ``help`` — kurzer Überblick (was die Methode ist, wann starten). Aufrufen wenn der User fragt was
+    du anbieten kannst, OHNE das Onboarding zu starten.
+
+    - ``version_check`` — vergleicht ``current_version`` gegen die Server-Version. Returns ``{server_version,
+    is_outdated, download_url, changelog_since, user_message_de}``.
+
+
+    Für die eigentliche Umsetzung nutzt du die anderen ``xentral_*`` Tools (business_model, agents, dashboards,
+    connections, pdf_templates, onboarding_plan).'
+- name: xentral_onboarding_plan
+  description: 'Per-instance onboarding roadmap: which templates (blocks, agents, dashboards, connections,
+    pdf) the instance should set up, plus human-tasks and test-runs. Each item''s status is **resolved
+    live** against the matching backend (block instances, agent slots, …) — no drift between the plan
+    and the real state.
+
+
+    Two distinct concerns:
+
+    - **Catalog mapping** — items reference templates from the 5 feature catalogs via `kind` (`block`/`agent`/`dashboard`/`connection`/`pdf`)
+    + `template_id`. When an instance for that template exists, the resolver flips status from `planned`
+    → `active` automatically.
+
+    - **Manual items** — `human_task` (logo, IBAN, training) and `test_run` (verification scenarios) have
+    no template; they wait on the user, status flips via `mark_done`.
+
+
+    ALWAYS call `action=''help''` first to get the full standard (coverage, sequencing, parallelism, test-orders).
+    Without the guide you''ll produce a sloppy plan.
+
+
+    **Client-side regenerate flow (PREFERRED when an LLM is driving this tool):** Use `get_context` →
+    reason locally → `propose_items` in small chunks. This avoids the long blocking call of `generate`
+    and keeps each tool round-trip fast. Use `generate` only in headless / scheduled contexts where no
+    client LLM is reasoning over the response.
+
+
+    Actions:
+
+    - `help` — Markdown standard for what a good onboarding plan looks like. Pass `locale=''de''` for
+    German.
+
+    - `read` — resolved plan: envelope + items annotated with live `status` and `instance_id` + summary
+    roll-up. Use this every turn before adding more — items may have transitioned to `active` since your
+    last call.
+
+    - `get_context` — snapshot for the client-side flow: `{business_model, libraries, existing, allow_list}`.
+    Returns everything needed to propose a fresh plan without a server- side LLM call. `allow_list` lists
+    the legal `card_id` slugs per kind — only those slugs survive validation in `propose_items`.
+
+    - `propose_items` — append a batch of items (chunks of 5–10 keep the argument payload small). Server
+    validates each item against the library (drops hallucinated `card_id`s), checks `source_kind`/`source_card_id`
+    against the catalog (blanks invalid attribution, keeps item), and enforces Stufe-2 (`human_task` titles
+    must match the source card''s declared `human_inputs`). Reports drops so the LLM can self-correct.
+    Set `replace_first=true` on the FIRST chunk when regenerating from scratch — wipes the plan, then
+    appends.
+
+    - `add_item` — append a single item. Required: `kind`, `phase`, `title`. `template_id` only for non-manual
+    kinds. `metadata` carries kind-specific extras (e.g. `min_count` + `description` for `test_run`).
+    Unlike `propose_items` this is unvalidated — use `propose_items` whenever possible.
+
+    - `remove_item` — drop an item by `item_id`.
+
+    - `dismiss_item` — user-override: "don''t need this". Item stays in the plan but the resolver returns
+    `status=dismissed`.
+
+    - `mark_done` — user-override: "completed". Only meaningful for `human_task` / `test_run` (template-backed
+    items get `active` automatically once an instance exists).
+
+    - `reopen_item` — clear the user override so the live resolver takes over again.
+
+    - `set_test_status` — Prüfprotokoll auf einem `test_run`-Item schreiben. Required: `item_id`, `test_status`
+    (one of `not_checked|passed|failed|blocked`). Optional: `notes` (free-text), `linked_order_ids` (list
+    of Xentral SO IDs the user actually placed for this permutation), `failure_reason` (only meaningful
+    when `test_status=''failed''`). Writes into `metadata.test_status` + `metadata.tested_at` + the other
+    audit fields. Orthogonal to `mark_done` / `dismiss_item` — those gate whether the user cares about
+    the item at all; this one records the prüflauf-outcome.
+
+    - `discard` — wipe the entire plan. Use before a full regenerate when you want a truly clean slate
+    (or pass `replace_first=true` to `propose_items` instead).
+
+    - `generate` — SERVER-side LLM regenerate from BP + catalogs. Long-running (20–90s) — only use in
+    headless / scheduled contexts. For interactive use prefer `get_context` + `propose_items`. Requires
+    ANTHROPIC_API_KEY.'
 - name: xentral_pdf_templates
-  description: Create, check, and render Xentral PDF business document templates (invoices, delivery notes,
-    offers, credit notes) with a Jinja2 + HTML/CSS model.
+  description: "Vague or compliance-sensitive request (e.g. 'invoice for authorities', 'in all languages')?\
+    \ Call `action='survey'` first. If `create` returns `status='needs_clarification'`, ask the user those\
+    \ questions before creating — do not guess a compliance profile.\n\nFor industry-specific rules (food\
+    \ = batch + MHD, B2C = always show alternate shipping address, etc.), engine semantics and pre-flight\
+    \ checks: call `action='help'` first.\n\nManage PDF-Vorlagen (Lieferschein, Rechnung, Auftragsbestaetigung,\
+    \ Angebot, generic letter, eigene Custom-Vorlagen). Reuses the same storage as the in-app Templates\
+    \ UI — anything created or updated via this tool shows up in the user's library, anything deleted\
+    \ is removed.\n\nActions:\n- `help`   → Markdown manual. Pass `locale='de'` for German, otherwise\
+    \ English.\n- `survey` → read-only inventory of what the instance ALREADY has: which document types,\
+    \ languages and compliance tags exist across their templates (+ `intent='invoice'` lists spec e-invoice\
+    \ formats NOT yet present). Plus an optional demand-side usage analysis (see `analyze`). Nothing is\
+    \ written. Use before creating on a vague request. Add `analyze=true` (+ optional `window_months`,\
+    \ default 12) to also get a `usage` block — what the instance's REAL documents needed (languages,\
+    \ countries, currency, derived locale/translations), sourced via the Co-Pilot with an explicit `basis`/`confidence`.\
+    \ New instances with no history degrade to company-config/defaults, never a guess.\n- `list`   → built-in\
+    \ + instance-custom templates as JSON summary\n- `get`    → full template (html, css, example_data,\
+    \ schema, ...)\n- `check`  → read-only hygiene report for ONE template (name required): empty-printing/untranslated\
+    \ variables (per language), unformatted date/amount fields (missing | date / | money), missing assets,\
+    \ an uploaded-but-unused font, number/date locale sanity, e-invoice tag without a configured policy,\
+    \ structural gaps. No render, no writes — safe to run anytime. Returns findings by severity. Pass\
+    \ `live=true` (optionally `sample_doc_id`) to ALSO render a real Beleg and judge the actual output\
+    \ (ISO dates, identifiers absent from the page).\n- `render` → render the PDF. `output='image'` returns\
+    \ PNG page previews you can SEE (use it to verify layout after visual edits); `output='url'`/'metadata'/'base64'\
+    \ give the PDF, which the model cannot view.\n- `create` → new custom template (name + title + html\
+    \ required)\n- `update` → patch existing custom template\n  On create/update, `global_fields` lists\
+    \ the top-level `example_data` keys that are ISSUER-GLOBAL — constant across every document the instance\
+    \ issues (e.g. `['company']`). ONLY those fall back into a REAL document when the live payload omits\
+    \ them; everything else in example_data is preview-only. Omit it (or pass `[]`) and nothing falls\
+    \ back — so a build-time sample number/date/recipient can never print on a customer's PDF.\n- `delete`\
+    \ → remove custom template (built-ins cannot be deleted)\n- `set_translation` → merge UI strings for\
+    \ ONE language (`lang` + `translations={key: value}`). Strings render as `{{ L.key }}`; values may\
+    \ be strings, nested dicts (L.sec.x) or lists of pairs. Mirrors the sidebar's Übersetzungen table.\n\
+    - `set_debug_capture` → turn the ephemeral payload capture on/off for this template (`enabled`, default\
+    \ true). Persistent per template, independent of any public share. Everything the editor's 'Letzte\
+    \ Payload'-box does is available here.\n- `last_payload` → the most recent data dict that was rendered\
+    \ (debug aid). Needs capture enabled (see `set_debug_capture`); captured from the in-editor live preview\
+    \ OR a public-share call. Ephemeral (Redis, ~10 min, latest only); shows source (internal/GET/POST),\
+    \ doc id, render_ok/error.\n- `clear_payload` → delete the captured payload immediately (the flag\
+    \ stays as-is). Use after inspecting sensitive data.\n- `list_infoboxes` → the template's placeable\
+    \ text blocks\n- `set_infobox` → create/update ONE box by `infobox_key` (`placement` = intro_top|outro_bottom|footer_all|header_all,\
+    \ `content`/`box_title` = {lang: text}, `enabled`). Box content may use Jinja ({{ data.* }}). Validate-or-reject\
+    \ with rollback.\n- `delete_infobox` → remove ONE box by `infobox_key`\n\nEFFICIENCY (each call is\
+    \ a round-trip — pick the SMALLEST tool):\n- Smallest-tool order: `set_style` (font/column tokens)\
+    \ → `set_block`   (one region, e.g. footer/items) → `update` with css ONLY (html   untouched) → full\
+    \ `update` of html only as the last resort. Re-sending   the whole template on every tweak is the\
+    \ main reason edits feel slow.\n- Verify with `render` + `output='metadata'` — it only confirms the\
+    \   template still renders (returns {filename, size_bytes}). Use   `output='url'` (a visual render)\
+    \ ONLY when the change is visual and you   must check the optics. NEVER `output='base64'` to 'look'\
+    \ — it streams   50-150KB through the context for nothing.\n- Batch related edits, THEN render once\
+    \ — not after every micro-step.\n- Do NOT `get` a template you just wrote; you already know its content.\n\
+    \nTECH STACK (relevant for HTML/CSS you generate):\n- Templating engine: **Jinja2 3.x** with `ChainableUndefined`\
+    \   (so `data.foo.bar` returns Undefined silently if `foo` is missing —   no need to guard every chain,\
+    \ but use `| default(...)` for values   you actually format).\n- PDF renderer: HTML templates render\
+    \ via **Gotenberg/Chromium** by   default (fast). The service falls back to **WeasyPrint** ONLY for\
+    \ the   *tagged* variants — PDF/UA-1 and the PDF/A-*a levels (e.g. pdf/a-3a) —   and for templates\
+    \ using a custom `@font-face`. PDF/A-*b (incl. pdf/a-3b   ZUGFeRD/Factur-X) stays on **Gotenberg/Chromium**;\
+    \ the PDF/A container   conversion runs downstream via LibreOffice, so such files carry a   LibreOffice\
+    \ 'Producer' — that is expected, NOT a WeasyPrint render.   Build your CSS against the engine the\
+    \ variant actually uses.\n  A4 + margins + per-page headers/footers come from `_base/base.css`   via\
+    \ `@page` and work on BOTH engines. Do NOT add `@page` in your CSS.\n- Rules that hold on BOTH engines:\n\
+    \    * No JavaScript — pure HTML/CSS rendering\n    * Flexbox supported, CSS Grid supported\n    *\
+    \ A footer/header on EVERY page → ALWAYS `@page` margin boxes       (`@bottom-left/center/right`),\
+    \ NEVER `position: fixed/sticky`,       and NEVER `position: running()` / `content: element()`   \
+    \    (WeasyPrint-only syntax, ignored by the default renderer)\n    * `font-family` falls back to\
+    \ DejaVu/Helvetica in container;       avoid `@font-face` (no internet in render context)\n    * Use\
+    \ `mm` / `pt` for print dimensions, `em`/`px` for typography\n    * Tables: `border-collapse: collapse`,\
+    \ `table-layout: fixed`       with `<col>` widths is most reliable\n    * For tabular numbers use\
+    \ `font-variant-numeric: tabular-nums`\nIMAGES & LOGOS: NEVER paste a base64 `data:` URI into `html`/`css`.\
+    \ Add the image once via `set_asset('logo', <data-uri-or-url>)` and reference it as `{{ assets.logo\
+    \ }}`. Inline base64 bloats the template so every later get/update/render round-trips a large blob\
+    \ through the model context; assets are stored separately and keep edits fast. When creating, write\
+    \ `{{ assets.logo }}` in the HTML and supply the image via a follow-up `set_asset` call.\n- Accessibility:\
+    \ the PDF/UA fallback emits **tagged PDF (PDF/UA-1)**   when the template uses semantic HTML. Therefore:\
+    \ exactly one `<h1>`,   proper heading hierarchy, `<th scope=\"col\">` on table headers,   `<address>`\
+    \ for postal addresses, `alt=\"\"` for decorative images.\n- Money formatting: V3 sends amounts as\
+    \ STRINGS (\"249.00000000\").   Parse with `| float`, then `| format`, then `| replace('.', ',')`\
+    \   for German notation. VAT breakdown: use Jinja2 `groupby` over   `lineItems` by `effectiveTaxRate`\
+    \ with `namespace(s=0.0)` to sum.\n\nDATA SCHEMA (Xentral V3 with `?include=all`):\n- data.documentNumber,\
+    \ data.documentDate, data.customerNumber\n- data.documentAddress = {name, street, zipCode, city, country}\n\
+    - data.effectiveAddresses.{soldTo,shipTo} = same shape\n- data.lineItems[] with .number, .name, .description,\
+    \ .quantity, .unit, .effectiveTaxRate, .price.net.amount (string), .lineItemRevenue.net.amount (string)\n\
+    - data.totals.net.amount, data.totals.gross.amount (strings)\n- data.financials.tax.taxRates ({standard:19,\
+    \ reduced:7})\n- data.financials.paymentTerms.paymentTargetDays (invoices)\n- data.payment.{iban,bic,bankName}\
+    \ (invoices, instance-side)\n- data.company.{name, address, vatId, taxId, ceo, letterheadText, officeLines[],\
+    \ bankLines[], identityLines[], legalLines[]} — sender/footer info, NOT in V3 response. Declare `global_fields=['company']`\
+    \ so it falls back from example_data on REAL documents (without that, missing company fields print\
+    \ empty).\n\nHOW TO BUILD A NEW TEMPLATE — two steps. Think STRUCTURE first, then LOOK.\nSTEP 1 —\
+    \ CLASSIFY the document and clone a structure starter:\n  - Line-item document (invoice, order, delivery\
+    \ note, offer, credit note — anything with a positions table) -> clone `document_blank`.\n  - Free-form\
+    \ letter (cover letter, reminder, notice — no positions) -> clone `letter_blank`.\n  Clone = `action='get'`\
+    \ the starter, then `action='create'` with its html as your starting point. The starter already wires\
+    \ up the full STRUCTURE (regions, partials, data binding, translations) — do NOT re-derive it.\n \
+    \ (Tweaking an instance's EXISTING template instead? `get` that template and edit it — skip step 1.)\n\
+    STEP 2 — SKIN it: design the look ONLY in the template's `css` (it cascades after base.css and overrides\
+    \ every default). A new look = new css. Do NOT copy a fully-styled built-in's css — start from the\
+    \ starter's neutral skin and restyle. Set design tokens in `:root` (--fs-*, --col-*) first, then add\
+    \ per-region rules.\n\nSTRUCTURE CONTRACT (what the starters give you — reference it, don't reinvent\
+    \ it):\n- Inherit the page frame: `{% extends \"_base/base.html.j2\" %}` (header/logo, @page margins,\
+    \ per-page footer boxes). Fill `{% block content %}`; override `{% block footer %}` only for a custom\
+    \ in-body footer.\n- Regions are <section> elements carrying `data-box=\"<key>\"` and a `.box-<key>`\
+    \ class (base.css styles them; your css restyles them). Keys: recipient, info, subject, intro, items,\
+    \ totals, payment, notes, signature, shipping, contact-person, ship-to, body.\n- Reusable partials\
+    \ via `{% with ... %}{% include \"_base/_partials/<p>.html.j2\" %}{% endwith %}`:\n    * items.html.j2\
+    \ — positions table. Pass `items`, `labels=L`, `columns=[...]`. Column keys: pos|sku|article|qty|unit|unit_price|vat|total\
+    \ (order matters; the 6-col set matches base.css default widths).\n    * recipient.html.j2 — address\
+    \ block. Pass `buyer`, `title`, optional `sender_line`.\n    * totals.html.j2 — net / VAT-breakdown\
+    \ / gross. Pass `items`, `totals`, `labels=L`.\n    * ship_to.html.j2, contact_person.html.j2 — optional\
+    \ blocks.\n- Text is `{{ L.key }}`; maintain strings with `set_translation` (per language), NOT an\
+    \ inline `_ALL_LANG` dict. The `L` map is injected from the template's translations at render time."
   source: skills/xentral-pdf-templates.md
+- name: xentral_reports
+  description: 'Direct access to Xentral Analytics — SQL reports grouped into collections (folders), per
+    instance. Use this when the user wants to explore, run or create analytics queries directly. For dashboard
+    widgets that visualise a report, use `xentral_dashboards` instead.
+
+
+    Always discover with `list_collections` before drilling in.
+
+
+    Actions:
+
+    - `help` — full Markdown guide (collection model, parameter shapes, schema-budget, recipes). Pass
+    `locale=''de''`.
+
+    - `list_collections` — folders for the instance.
+
+    - `get_collection` — reports inside a collection.
+
+    - `get_report` / `run_report` — read or execute one report.
+
+    - `run_sql` — execute ad-hoc read-only SQL directly (no report is created); row count is capped upstream.
+
+    - `create_report` / `delete_report` — manage reports.
+
+    - `create_collection` — new folder.
+
+    - `get_schema` — data-model catalog (`table` filter recommended; raw dump is ~700 KB).'
+- name: xentral_schedules
+  description: 'Cron schedules for the current license — list / create / update / delete plus an `audit`
+    mode that joins the schedule service with its owning entities (agent slots, KPIs, dashboard widgets).
+
+
+    Actions:
+
+    - `help` — Markdown guide with cadence formats, audit semantics, recipes. Pass `locale=''de''` for
+    German.
+
+    - `list` — schedules for the instance (filterable by `category` / `enabled`).
+
+    - `create` — needs `category`, `resource_id`, `schedule={cadence, when, timezone?}`. See `help` for
+    `when` formats per cadence (`daily` → `HH:mm`, `weekly` → `MON HH:mm`, …).
+
+    - `update` — change schedule by `id`; pass only fields you want to change.
+
+    - `delete` — idempotent.
+
+    - `audit` — find overdue / orphaned / missing / duplicate schedules. First call when a customer reports
+    ''nothing is refreshing''.'
+- name: xentral_shiplabel
+  description: 'Create carrier-agnostic shipping labels (DHL, DPD, UPS, FedEx, GLS, Sendcloud, Shipcloud,
+    DHL Return). Build one canonical shipment request and get a tracking number plus a base64 label back,
+    regardless of carrier. Carrier-direct — no Xentral instance involved.
+
+
+    Actions:
+
+    - `carriers` — list available carrier codes.
+
+    - `describe` — the request shape; with `carrier`, its config keys, supported services and output formats.
+    Ask this first to learn what to pass.
+
+    - `create_label` — needs `request` (a canonical shipment request as JSON: `carrier.code`, `sender`,
+    `recipient`, `parcels[]`), optionally `carrier` to override the code and `config` with the carrier
+    credentials (else the backend env is used).'
 - name: xentral_studio
-  description: Build per-instance Studio apps (mobile/desktop screens, forms, tables) bound to business
-    entities and KPIs, with buttons wired to screens, dialogs, or MCP tools.
+  description: 'Instance-scoped Studio app store. A Studio App is a composed surface — your own screens
+    and components (forms, tables, buttons) on top of the global Business-Entity catalogue, running as
+    a Mobile or Desktop app. Apps are persisted per instance, exactly like Dashboards and Agents.
+
+
+    Use Studio when the user needs a custom operational screen the standard ERP UI doesn''t offer (a warehouse
+    scan view, a field-sales order pad, a commission-run desk). For automated step sequences use `xentral_workflows`;
+    for content-dependent decisions use `xentral_agents`.
+
+
+    ALWAYS call `help` first when building an app — it returns the full app/screen/component schema, the
+    component-type catalogue and the valid `linked_entities`. Pass `locale=''de''` for German.
+
+
+    Actions:
+
+    - `help` — Markdown manual (app anatomy, component types, examples). Read this before authoring.
+
+    - `list_library` — built-in app templates (bestellvorschlag, lager, pick, aussendienst, provisionsabrechnung).
+
+    - `get_library` — one template''s full payload. Requires `template_id` (the template slug).
+
+    - `list_entities` — the global Business-Entity catalogue an app may reference via `linked_entities`.
+
+    - `list` — all custom apps of the instance.
+
+    - `get` — full payload for one app. Requires `slug`.
+
+    - `create` — either clone a template (pass `template_id`) or build a blank/custom app directly (pass
+    `slug` + `name`, plus `form`, `platform`, `linked_entities`, …). New apps start as drafts (`enabled=false`).
+
+    - `update` — patch semantics; only passed fields overwrite. Requires `slug`.
+
+    - `set_enabled` — activate/deactivate an app. Requires `slug` and `enabled`.
+
+    - `link` — return the public preview URL for the app (the same token link the designer''s QR uses).
+    Requires `slug`. Render it as a QR so it opens on a phone; sign the device into the instance for live
+    data and executable buttons.
+
+    - `delete` — hard-delete a custom app. Requires `slug`.
+
+    - `compose_ui` — natural-language screen authoring. Pass `slug` and `request` (one complete instruction,
+    in the user''s language). A validated composer rewrites the app''s screens (dropping any hallucinated
+    component/binding) and persists them. PREFER this over hand-writing `form` JSON when editing the open
+    app — the user''s IDE refreshes automatically.
+
+    - `write_file` / `delete_file` — edit one Python code file of the app. Requires `slug` + `path` (+
+    `content`, `lang` for write).
+
+    - `upsert_tool` / `delete_tool` — create/update/remove one MCP tool of the app (callable from buttons
+    via `tool:<name>`). Requires `slug` + `tool_name` (+ `tool_description`, `params`, `entrypoint` for
+    upsert). `entrypoint` is the path of an existing code file.
+
+
+    AUTHORING CONTRACT: your job is the app DEFINITION — the screen/component tree and which global entities
+    it binds to. The `form.screens[].components[]` tree is what renders. Wire buttons that NAVIGATE with
+    `props.action` = `screen:<id>` | `dialog:<id>`. Wire buttons that DO something with `props.binding`
+    = { kind:''steps'', steps:[…] } — an entity `action` (mark picked, print Paketmarke), a `workflow`
+    step (shared webhook, get its `shareId` from `xentral_workflows` share), `setfields`, or `api`. `props.action=''tool:<name>''`
+    only shows a toast (no execution) — prefer `binding`. When editing the OPEN app (focus `entity_type=studio_app`),
+    use `compose_ui` for UI and `write_file`/`upsert_tool` for logic — do not re-send the whole `form`.
+    `slug` is snake_case (^[a-z][a-z0-9_-]{2,127}$), unique per instance, and must not collide with a
+    built-in template slug. Validation is advisory; writes are never blocked (same as the designer UI).'
   source: skills/xentral-studio.md
+- name: xentral_user_context
+  description: "Read where the user is currently looking in the Xentral app, or push a UI command to their\
+    \ browser via the live SSE channel.\n\nUse this BEFORE other tools when the user's request is location-dependent\
+    \ — e.g. 'open the customer I'm on', 'show me the letterhead', 'create a return for this order'. The\
+    \ context tells you which entity_id / entity_type to act on without having to ask the user.\n\nActions:\n\
+    - `get_context` — return the user's current page, route, and active entity. Cheap to call. Returns\
+    \ 'no active focus' when the user is not in the app or their session has expired (120 s TTL after\
+    \ the last frontend heartbeat).\n- `set_view` — switch the app to a top-level overview page. Requires\
+    \ `view`. Use this ONLY for 'geh zur Agenten-Übersicht', 'open the Dashboards overview', etc. When\
+    \ the user names a specific item ('öffne X', 'gehe in X', 'X bearbeiten', etc.), use `open_entity`\
+    \ INSTEAD — the optional `entity_id` parameter on `set_view` only scrolls/highlights the card, it\
+    \ does NOT open the editor. Pass the id exactly — shortened keys land in a generic fallback. Known\
+    \ views: `dashboard` (cockpit), `jobs`, `groups`, `learning-loop`, `decisions-admin`, `business-model`,\
+    \ `onboarding`, `agents-overview`, `workflows-overview`, `dashboards`, `kpis`, `integrations-hub`,\
+    \ `templates`, `schedules`, `files`, `business-entities`, `studio` (Studio app overview), `marketplace`,\
+    \ `settings`, `create-agent`, `create-workflow`, plus the workspace tables `workspace-customers`,\
+    \ `workspace-suppliers`, `workspace-returns`, `workspace-products`, `workspace-purchase-orders`, `workspace-inbox`,\
+    \ `workspace-procurement-inbox`, and individual dashboards via `workspace-dashboard-<slug>`. Optional\
+    \ `entity_id` highlights/scrolls to a specific item once mounted.\n- `open_entity` — open a SPECIFIC\
+    \ item by type + id. Requires `entity_type` and `entity_id`. Use this for 'öffne den Workflow X',\
+    \ 'show me KPI Y', etc.\n  MANDATORY SEQUENCE for any 'öffne X' request — execute in this exact order,\
+    \ never skip step 3:\n    1. Call `xentral_inventory` action=`list` if you don't already know `entity_type`\
+    \ + `entity_id`.\n    2. Fuzzy-match the user's name against the items.\n    3. CALL `open_entity`\
+    \ with the matched pair. This is the step that actually opens the page. The tool returns a confirmation;\
+    \ only after seeing 'Done — open_entity … pushed' may you tell the user it's open.\n    4. If the\
+    \ tool returns 'no app tab open' or '0 subscribers', say so plainly — never claim success.\n  NEVER\
+    \ respond with 'X ist offen' / 'X is open' without having actually called `open_entity` in this same\
+    \ turn. Types: URL-routed (`sales_order`, `customer`, `product`, `invoice`, `return`), document (`pdf_template`,\
+    \ `letterhead`), and workspace items that each open their editor inside the matching overview (`workflow`\
+    \ → wf.id; `dashboard` → slug; `kpi` → key; `custom_agent` → agent_name incl. `slot:` prefix; `integration`\
+    \ → id like 'shopify', 'slack', 'dhl'; `studio_app` → app slug (opens the Studio app IDE); `job` →\
+    \ job id; `business_model_section` → section slug).\n- `navigate` — open a literal `/app/...` URL.\
+    \ Almost never needed — prefer `set_view` or `open_entity`. The route MUST start with `/app/`; anything\
+    \ else is rejected by the frontend (non-`/app/` paths bounce the user to the public landing page).\n\
+    - `show_toast` — non-modal hint at top of screen. Requires `message`; optional `level` (info|success|warn|error).\n\
+    \nWhen a push action reports 0 subscribers, the user does not have the app open in any tab — your\
+    \ action was a no-op. Tell them to open it or fall back to plain text."
+- name: xentral_workflow_debug
+  description: 'Debug a designer workflow hands-on, like an engineer with API access. START with `runs`
+    when the complaint is that a workflow did not do its job: it lists what the workflow ACTUALLY did
+    in the last 24h, and `trace` opens one run down to the node that failed. An unattended workflow that
+    never fired and one that fired and failed look identical from the graph — only this tells them apart,
+    so read it before theorising about triggers or subscriptions. Then: read the definition (`overview`)
+    and its compiled Python (`python`), test hypotheses against the live Xentral API with throwaway Python
+    probes in the workflow sandbox (`run_script`, which runs behind the same runtime prelude a workflow
+    gets, so `business_entity_op` / `xentral_request` resolve exactly as they do in a Code node and a
+    probe finding transfers to the graph), test ONE node in isolation against the live instance (`run_node`)
+    — the cheapest way to confirm a read/source node''s endpoint resolves and returns the expected data
+    before running the whole graph — reproduce failures with a real run (`run_workflow`), then FIX the
+    workflow yourself via `apply_patch` and verify — don''t hand the user a manual edit. Call action=''help''
+    FIRST for the working loop, the script environment (auth env vars, page[size] trap, id-vs-uuid trap)
+    and the patch format. To exercise a write workflow safely, pass `dry_run=True` to `run_workflow`/`run_node`:
+    the graph runs but every mutating call is suppressed and logged instead of performed, with a structured
+    node/method/entity/id/body trace. Use `test_scenarios` for deterministic fixtures: every Business
+    Entity read must have an `Entity:id` or `Entity:list` fixture, all other live reads are blocked, and
+    `expect.writes` is compared one-to-one with the suppressed writes. To test a workflow whose input
+    comes from the caller (webhook / integration-event triggers), pass `trigger_payload` — the live trigger
+    envelope (a webhook delivers `{method, query, headers, body}`, so a POST body reads as `{{ trigger.body.x
+    }}`); without it `{{ trigger.* }}` is empty and the run is not representative. Warning to surface
+    to the user before the first side-effecting step: a REAL `run_workflow`/`run_node` (dry_run off) executes
+    real emails/ERP writes and `apply_patch` edits the saved workflow — recommend full auto-debugging
+    only on sandbox/test instances.'
 - name: xentral_workflows
-  description: Build, edit, and debug node-based workflow automations from the template library, including
-    triggers, schedules, and run debugging.
+  description: "Instance-scoped workflow store. Each workflow is a directed graph: a trigger fires, then\
+    \ action nodes execute in the order defined by the edges. A workflow may carry SEVERAL start nodes\
+    \ so one flow is reachable more than one way (manual + schedule + ERP event), under two rules: at\
+    \ most one start of each kind, and every start wired into the same first step — the flow is emitted\
+    \ once and shared, only the start that fired runs. Breaking either is reported as `duplicate_trigger_kind`\
+    \ or `trigger_flows_diverge`. Workflows are explicit step lists — deterministic, idempotent, ideal\
+    \ for routine operations (dunning, prepayment cleanup, return-to-credit-note, low-stock reordering).\
+    \ Structured content-dependent decisions belong in deterministic condition/loop/entity nodes; use\
+    \ `xentral_agents` only for genuinely unstructured reasoning.\n\nLifecycle: `init` (or `init_from_template`)\
+    \ registers a new workflow once. `update` merges patch-style changes. `delete` hard-removes the envelope\
+    \ and index entry.\n\nThe workflow library ships several ERP-classic templates (prepayment cancellation,\
+    \ dunning escalation, return → credit note, daily OPOS digest, auto-release paid orders, low-stock\
+    \ reorder proposal, invoice after shipment). Use `list_library` to discover them and `init_from_template`\
+    \ to clone one into the instance.\n\nActions:\n- `help` — Markdown manual. Pass `locale='de'` for\
+    \ German.\n- `list` — slim overview of every workflow (id, name, description, trigger_type, enabled,\
+    \ scheduled, node/edge counts, timestamps), newest first. Does NOT include the graph — call `get`\
+    \ for the full nodes/edges of a specific workflow.\n- `get` — full envelope for one workflow. Requires\
+    \ `id`.\n- `preflight` — read-only capability check for `build_contract` against the authenticated\
+    \ tenant's active core; reads metadata/events only.\n- `validate` — read-only verdict on a graph's\
+    \ well-formedness and buildability. Pass `nodes` (+optional `edges`, `trigger_type`) to pre-flight\
+    \ a graph before `init`, or `id` to check a stored workflow. Returns `{valid, errors, warnings, checked}`.\
+    \ `init`/`init_from_template`/`update` also attach this report under `validation`. Most findings are\
+    \ advisory, but a write is REJECTED (nothing saved) when the payload can never render or run: an unknown\
+    \ node `typeId`, or an edge wired out of a terminal node (`output`, `human-task`) / into a trigger\
+    \ or note. The error lists what to fix — correct the payload and resend.\n- `check` — read-only post-build\
+    \ health check, similar to the PDF-template check: runs `validate` plus agent-learned workflow hygiene\
+    \ rules (visible business-entity/fileshare modelling, operation handle integrity, anti-code/xentral-action\
+    \ warnings, printer/file binding checks, and whether a dry-run is recommended). It does NOT execute\
+    \ the workflow; use `xentral_workflow_debug` for node probes or dry-runs.\n- `init` — create a new\
+    \ workflow. Requires `id`, `name`. Optional `description`, `trigger_type`, `nodes`, `edges`, `enabled`,\
+    \ `orientation`. Duplicate id → 409-style error.\n- `init_from_template` — clone a library template\
+    \ into the instance. Requires `id` (new workflow id, unique per instance) and `template_id`. Optional\
+    \ overrides for `name`, `description`, `trigger_type`, `nodes`, `edges`, `enabled`.\n- `update` —\
+    \ patch semantics. Only passed fields overwrite. `id` and `created_at` are protected.\n- `delete`\
+    \ — hard-delete envelope + index entry.\n- `share` — manage the public webhook Share (requires `id`).\
+    \ `share_op`: `get` (current share + public_url), `save` (create/activate, optional `share_token`,\
+    \ `share_active`), `rotate` (new share_id, old URL dies), `delete`. This is what makes a `trigger-webhook`\
+    \ workflow callable at `/wh/{share_id}`.\n- `erp_event` — manage the Xentral subscription behind a\
+    \ `trigger-erp-event` workflow (requires `id`). `erp_event_op`: `get`, `activate` (needs `event`),\
+    \ `deactivate`. REQUIRED after building an `in-erp` workflow: saving the graph does not subscribe\
+    \ anything, so without `activate` Xentral pushes no events and the workflow never fires — while `validate`\
+    \ and `check` still look clean.\n- `list_library` — list shippable ERP-classic templates, localised\
+    \ to the requested `locale`.\n- `get_library` — one library template, localised. Requires `template_id`.\n\
+    \nCALLING A WORKFLOW VIA API (webhook request/response):\nA `trigger-webhook` workflow is a request→response\
+    \ endpoint. Shape it as trigger → processing → an `output` node (terminal; `config.value` is a template\
+    \ field that becomes the return value). The incoming request reaches the graph as a fixed envelope:\
+    \ the POST body is `{{ trigger.body.<field> }}` (NOT flat `{{ trigger.<field> }}`), plus `{{ trigger.query.<key>\
+    \ }}`, `{{ trigger.headers.<key> }}`, `{{ trigger.method }}`. The workflow only becomes reachable\
+    \ once a Share (share_id + optional token) is minted — mint it here with `action='share', share_op='save'`\
+    \ (returns the `public_url`), or in the designer's webhook inspector. Callers then `POST /wh/{share_id}?token=…`:\
+    \ with `?wait=1` the call is synchronous and returns `{status, run_id, output}` (the `output` node's\
+    \ value); without it the call returns `202 {accepted, run_id}` immediately (fire-and-forget). Because\
+    \ the input comes from the caller, test such a workflow with `xentral_workflow_debug.run_workflow(trigger_payload=…)`,\
+    \ not the ERP-read probe loop.\n\nAUTHORING CONTRACT (read before you build a workflow):\nYour job\
+    \ is the workflow GRAPH — pick the right node types and wire their input/output ports correctly. Code\
+    \ is allowed for genuine program logic, but not as an escape hatch for unclear modelling. Fixed ERP\
+    \ reads/writes and business decisions belong on the canvas. A Code node may contain complex calculations,\
+    \ data reshaping, aggregation, dynamic traversal, or glue code over visible upstream data. Every Code\
+    \ node MUST include `config.description` written for a CEO/business owner, not for a developer: start\
+    \ with the business purpose, state what data comes in, what decision or reshaping happens, and what\
+    \ the next step receives. Avoid API/Python terms and raw field names in prose; when a field matters,\
+    \ name the business meaning first and put the technical field in parentheses only when useful. Non-trivial\
+    \ Code MUST include `config.algorithm` with 3-6 business steps or a small ASCII sketch, not implementation\
+    \ details. Python comments inside Code nodes MUST be in English and explain important loops, branches,\
+    \ aggregations, reshaping or side effects. If the logic would only be possible as an opaque Code box,\
+    \ stop and name the missing prerequisite instead: missing Business Entity field, missing action, missing\
+    \ transform/filter node, missing runtime probe, or missing business rule.\n\nNODE-TYPE PRIORITY (compose\
+    \ with deterministic primitives first; `agent` and `code` are last resorts):\nUse the deterministic\
+    \ native node types BEFORE reaching for an `agent` (LLM step) or `code` (Python) node. The deterministic\
+    \ primitives keep the graph readable in the designer, are cheap and predictable at runtime, give the\
+    \ engine introspection (per-step status, retries, replay), and don't depend on someone else writing\
+    \ Python afterwards. Default order:\n  1. `business-entity` (list/read/create/update/delete on a Xentral\
+    \ entity) for any ERP read or write — including filtered list retrieval, single-record lookup, and\
+    \ updates by id. List enumeration is THIS node, not an agent. Its OUTPUT IS THE RECORD as `describe`\
+    \ shows it — a list for `list`: loop over `{{ orders }}`, read `{{ order.id }}`, bind `path: \"id\"\
+    `, and in a Code box `order['items']`. It used to hand back a `{status, headers, body}` hull; a reference\
+    \ still written as `{{ order.body.data.x }}` resolves to nothing and the step runs green on empty\
+    \ data, so it is rejected as `entity_ref_uses_stale_envelope`.\n  2. `condition` for yes/no branches\
+    \ — expression goes in the config, two outgoing edges via `sourceHandle: a|b` (a = Yes, b = No — \"\
+    yes\"/\"no\" are rejected).\n  3. `loop` for for-each over a list — anything per-item downstream attaches\
+    \ to the loop's output.\n  4. `integration-action` for ANY third-party service the instance integrates\
+    \ with (shop / marketplace / CRM / mail / messaging — e.g. Shopify, HubSpot, Slack): it runs one action\
+    \ of that integration via the provider-neutral connector registry. Author it EVEN WHEN the integration\
+    \ is not connected yet (provisional node, empty `connection_id`) — NEVER fall back to an `http-request`\
+    \ against the vendor's REST API for a service that has an integration.\n  5. `shiplabel` for a carrier\
+    \ / parcel label (DHL, DPD, UPS, GLS, …) — the ONE way to create a shipping label in a workflow. Never\
+    \ model a carrier label as `http-request`, a `business-entity` action, `xentral-api` or `code`; there\
+    \ is no shipping-label ERP action.\n  6. `http-request`, `delay`, `web-search` for the specialised\
+    \ remaining cases. `http-request` is a RAW escape hatch for a plain REST endpoint with NO integration\
+    \ behind it — it is NOT the way to talk to Shopify or any known SaaS (use `integration-action`), and\
+    \ NEVER a way to reach Xentral.\n  NOT AVAILABLE: `xentral-api`, and `xentral_request` / `xentral_op`\
+    \ / `xentral_action` / bare `requests` inside a Code box. Every Xentral read and write goes through\
+    \ the entity core, so a graph carrying one is reported as `raw_erp_access_forbidden`. When the core\
+    \ cannot express what you need, say so and STOP — the gap is reported automatically so the core can\
+    \ gain the capability, which is the fix that also helps the next tenant. Routing around it produces\
+    \ a workflow that looks finished and quietly does the wrong thing.\n  7. `agent` ONLY when the step\
+    \ genuinely needs natural-language reasoning that no deterministic primitive can express: free-text\
+    \ classification, intent detection in customer prose, ambiguous extraction from an unstructured email\
+    \ body, drafting a reply. Filtering structured Xentral data, picking records that match a rule, computing\
+    \ a threshold, mapping fields between entities — NONE of these are agent jobs; they are `business-entity`\
+    \ + `condition` + `loop`.\n  8. `code` ONLY when (a) the data transform genuinely doesn't fit a chain\
+    \ of the above, or (b) the topology is not a flat DAG of the native primitives (recursion, dynamic\
+    \ graph shape, intricate aggregation across loop iterations). Even then it must stay reviewable: max\
+    \ 500 non-empty lines, no semicolon compression, clear helper function names, English comments for\
+    \ important sections, and no fixed ERP reads/writes hidden inside code.\nRecognising the boundary\
+    \ is a judgment call — if a designer-user could draw the flow as condition + loop + entity nodes,\
+    \ that is the correct implementation, even if an agent or single code-node would be shorter JSON.\n\
+    Anti-patterns: (i) collapsing the whole workflow into one big `code` node because it's faster to write;\
+    \ (ii) using an `agent` step to \"figure out\" which records to act on when an entity-list + condition\
+    \ would do the same job deterministically. The graph must stay legible to a non-technical user opening\
+    \ the canvas.\n\nMCP BUILD LOOP:\nBefore building, express ERP dependencies in `build_contract` and\
+    \ call `preflight`; discover the available template, entity, field, action and process-step surface;\
+    \ do not guess. A failed preflight may be saved only as a disabled draft. Add contract fixture tests\
+    \ for at least the positive write case and every important no-write branch; enabled writes auto-run\
+    \ these tests. After every `init` or `update`, run `check`. Treat errors as not done, fix the graph,\
+    \ and check again; for reachable writes use or recommend `xentral_workflow_debug.run_workflow(dry_run=true)`\
+    \ before a real run. If you get stuck, distinguish local instance issues from generic platform gaps.\
+    \ Do NOT report one-off issues such as missing instance data, missing mail account, or an absent tag\
+    \ as product feedback. If the workflow would be cleanly buildable only with a generally useful missing\
+    \ Business Skill — e.g. a central Business Entity field, an ERP action exposed as an entity action,\
+    \ a standard transform/filter/aggregation node, or a new check rule — record that via `xentral_feedback`\
+    \ with `category='feature_request'` or `category='bug'` and `request_report=true`. Keep the feedback\
+    \ general and avoid customer/document/email contents. Then tell the user the workflow is blocked by\
+    \ that missing general capability instead of hiding the gap inside a complex Code node.\n\nTITLES\
+    \ & DESCRIPTION (mandatory, business-readable):\nEvery node gets a `config.title` written for a business\
+    \ reader — a CEO must be able to follow the flow from the titles alone. Actions: verb + object ('Load\
+    \ all products from Xentral', 'Cancel the unpaid order'). Conditions: a full question ('Is the product\
+    \ a bill of materials?'). Loops: 'For each <item>: <purpose>'. Never identifier-style titles like\
+    \ `pid` or `ekObjekt`. Nodes referenced via `{{ }}` or in expressions additionally pin their identifier\
+    \ with `config.varName` (short camelCase, e.g. `openOrders`) so retitling never breaks references.\
+    \ The workflow `description` is markdown and must explain — so a business reader understands it without\
+    \ opening the canvas — what the workflow does (plain opening paragraph, no markup; it doubles as the\
+    \ card teaser), how the algorithm works (optionally a small ASCII flow sketch in a ``` fence for branch/loop/recursion\
+    \ shapes), what happens step by step (numbered list mirroring the node titles), what it changes in\
+    \ Xentral (bullets; name every write or state that nothing is changed), and its prerequisites/limits\
+    \ (bullets). Bold section headings, not `#`."
   source: skills/xentral-workflows.md
 related_servers:
 - name: shiplabel-mcp
@@ -97,3 +1392,4 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools_count: 27
